@@ -1,0 +1,45 @@
+﻿  buffer.cpp
+  client.cpp
+  clientManager.cpp
+  connectionManager.cpp
+  customEvent.cpp
+  dataBase.cpp
+m:\transfer\out\mark_franklin\rdlpim\rdlpluginmanager\rdlpluginmanager\rdlpluginmanager\database.cpp(23): warning C4244: 'return': conversion from '__int64' to 'int', possible loss of data
+  job.cpp
+  portPool.cpp
+  RDL.cpp
+m:\transfer\out\mark_franklin\rdlpim\rdlpluginmanager\rdlpluginmanager\rdlpluginmanager\rdl.cpp(105): warning C4477: 'printf' : format string '%p' requires an argument of type 'void *', but variadic argument 1 has type 'INT_PTR'
+m:\transfer\out\mark_franklin\rdlpim\rdlpluginmanager\rdlpluginmanager\rdlpluginmanager\rdl.cpp(131): warning C4477: 'printf' : format string '%p' requires an argument of type 'void *', but variadic argument 1 has type 'INT_PTR'
+m:\transfer\out\mark_franklin\rdlpim\rdlpluginmanager\rdlpluginmanager\rdlpluginmanager\rdl.cpp(156): warning C4477: 'printf' : format string '%p' requires an argument of type 'void *', but variadic argument 1 has type 'INT_PTR'
+m:\transfer\out\mark_franklin\rdlpim\rdlpluginmanager\rdlpluginmanager\rdlpluginmanager\rdl.cpp(195): warning C4311: 'type cast': pointer truncation from 'void *' to 'long'
+m:\transfer\out\mark_franklin\rdlpim\rdlpluginmanager\rdlpluginmanager\rdlpluginmanager\rdl.cpp(195): warning C4302: 'type cast': truncation from 'void *' to 'long'
+m:\transfer\out\mark_franklin\rdlpim\rdlpluginmanager\rdlpluginmanager\rdlpluginmanager\rdl.cpp(227): warning C4309: '=': truncation of constant value
+  rdlData.cpp
+m:\transfer\out\mark_franklin\rdlpim\rdlpluginmanager\rdlpluginmanager\rdlpluginmanager\rdldata.cpp(75): warning C4311: 'type cast': pointer truncation from 'void *' to 'long'
+m:\transfer\out\mark_franklin\rdlpim\rdlpluginmanager\rdlpluginmanager\rdlpluginmanager\rdldata.cpp(75): warning C4302: 'type cast': truncation from 'void *' to 'long'
+m:\transfer\out\mark_franklin\rdlpim\rdlpluginmanager\rdlpluginmanager\rdlpluginmanager\rdldata.cpp(132): warning C4477: 'printf' : format string '%p' requires an argument of type 'void *', but variadic argument 1 has type 'INT_PTR'
+  RDLPIM.cpp
+  dataElement.cpp
+m:\transfer\out\mark_franklin\rdlpim\rdlpluginmanager\rdlpluginmanager\rdlpluginmanager\dataelement.cpp(36): warning C4244: 'return': conversion from '__int64' to 'int', possible loss of data
+  reqElement.cpp
+  requestHandler.cpp
+  socketConnection.cpp
+m:\transfer\out\mark_franklin\rdlpim\rdlpluginmanager\rdlpluginmanager\rdlpluginmanager\socketconnection.cpp(229): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+m:\transfer\out\mark_franklin\rdlpim\rdlpluginmanager\rdlpluginmanager\rdlpluginmanager\socketconnection.cpp(257): warning C4101: 'sBytes': unreferenced local variable
+m:\transfer\out\mark_franklin\rdlpim\rdlpluginmanager\rdlpluginmanager\rdlpluginmanager\socketconnection.cpp(258): warning C4101: 'rBytes': unreferenced local variable
+m:\transfer\out\mark_franklin\rdlpim\rdlpluginmanager\rdlpluginmanager\rdlpluginmanager\socketconnection.cpp(306): warning C4553: '==': result of expression not used; did you intend '='?
+  subscription.cpp
+  Generating Code...
+RDL.obj : error LNK2019: unresolved external symbol __imp_mdd_open referenced in function "public: long __cdecl RDL::plcGetVarAddress(char *)" (?plcGetVarAddress@RDL@@QEAAJPEAD@Z)
+rdlData.obj : error LNK2001: unresolved external symbol __imp_mdd_open
+RDL.obj : error LNK2019: unresolved external symbol __imp_mdd_close referenced in function "public: long __cdecl RDL::plcGetVarAddress(char *)" (?plcGetVarAddress@RDL@@QEAAJPEAD@Z)
+rdlData.obj : error LNK2001: unresolved external symbol __imp_mdd_close
+RDL.obj : error LNK2019: unresolved external symbol __imp_DbmPidNew referenced in function "public: long __cdecl RDL::plcGetVarAddress(char *)" (?plcGetVarAddress@RDL@@QEAAJPEAD@Z)
+rdlData.obj : error LNK2001: unresolved external symbol __imp_DbmPidNew
+RDL.obj : error LNK2001: unresolved external symbol __imp_number_shared_globals
+rdlData.obj : error LNK2001: unresolved external symbol __imp_number_shared_globals
+RDL.obj : error LNK2001: unresolved external symbol __imp_share_global_table
+rdlData.obj : error LNK2001: unresolved external symbol __imp_share_global_table
+S:\Simexec\bin\ia32\s3dll.lib : warning LNK4272: library machine type 'x86' conflicts with target machine type 'x64'
+S:\Simulator\mstG.lib : warning LNK4272: library machine type 'x86' conflicts with target machine type 'x64'
+M:\Transfer\Out\Mark_Franklin\RDLPIM\RDLPluginManager\rdlPlugInManager\x64\Debug\rdlPlugInManager.exe : fatal error LNK1120: 5 unresolved externals

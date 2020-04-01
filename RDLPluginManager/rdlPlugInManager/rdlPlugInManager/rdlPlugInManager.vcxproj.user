@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LocalDebuggerWorkingDirectory>S:\</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerEnvironment>path=S:\Simexec\bin\ia32;S:\Simulator;$(path)
+S3BASE=S:\SimExec
+S3BIN=S:\SimExec\bin\ia32
+S3_BIN=S:\SimExec\bin\ia32
+S3_HOME=S:\Simulator
+S3_ENV=S:\Simulator\s3env
+S3_ODS=S:\Simulator\ods
+S3_IOMAP=S:\Simulator\iom\SoftPanelDir
+PLCIO_HOME=S:\Simulator</LocalDebuggerEnvironment>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LocalDebuggerWorkingDirectory>S:\</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerEnvironment>path=S:\Simexec\bin\ia32;S:\Simulator;$(path)
+S3BASE=S:\SimExec
+S3BIN=S:\SimExec\bin\ia32
+S3_BIN=S:\SimExec\bin\ia32
+S3_HOME=S:\Simulator
+S3_ENV=S:\Simulator\s3env
+S3_ODS=S:\Simulator\ods
+S3_IOMAP=S:\Simulator\iom\SoftPanelDir
+PLCIO_HOME=S:\Simulator</LocalDebuggerEnvironment>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerMergeEnvironment>true</LocalDebuggerMergeEnvironment>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LocalDebuggerEnvironment>path=S:\Simexec\bin\ia32;S:\Simulator;$(path)
+S3BASE=S:\SimExec
+S3BIN=S:\SimExec\bin\ia32
+S3_BIN=S:\SimExec\bin\ia32
+S3_HOME=S:\Simulator
+S3_ENV=S:\Simulator\s3env
+S3_ODS=S:\Simulator\ods
+S3_IOMAP=S:\Simulator\iom\SoftPanelDir
+PLCIO_HOME=S:\Simulator</LocalDebuggerEnvironment>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerWorkingDirectory>S:\</LocalDebuggerWorkingDirectory>
+  </PropertyGroup>
+</Project>

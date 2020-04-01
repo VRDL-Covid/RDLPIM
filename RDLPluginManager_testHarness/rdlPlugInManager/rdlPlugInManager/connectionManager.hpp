@@ -1,0 +1,21 @@
+#pragma once
+#include"connectionOptions.h"
+#include"socketConnection.hpp"
+#include"portPool.hpp"
+#include"buffer.hpp"
+#include"client.hpp"
+
+class connectionManager
+{
+
+private:
+	connectionObject listener;
+	portPool ports;
+
+public:	
+	void connectToClient();
+	void disconnectClient(client* user);
+	connectionManager();
+	~connectionManager();
+
+};

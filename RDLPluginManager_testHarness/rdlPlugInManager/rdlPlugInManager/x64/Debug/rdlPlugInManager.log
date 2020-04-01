@@ -1,0 +1,17 @@
+﻿  RDL.cpp
+m:\vrdl\vr_project\guy\rdlpluginmanager\rdlpluginmanager\rdlpluginmanager\rdl.cpp(101): warning C4477: 'printf' : format string '%p' requires an argument of type 'void *', but variadic argument 1 has type 'INT_PTR'
+m:\vrdl\vr_project\guy\rdlpluginmanager\rdlpluginmanager\rdlpluginmanager\rdl.cpp(127): warning C4477: 'printf' : format string '%p' requires an argument of type 'void *', but variadic argument 1 has type 'INT_PTR'
+m:\vrdl\vr_project\guy\rdlpluginmanager\rdlpluginmanager\rdlpluginmanager\rdl.cpp(152): warning C4477: 'printf' : format string '%p' requires an argument of type 'void *', but variadic argument 1 has type 'INT_PTR'
+m:\vrdl\vr_project\guy\rdlpluginmanager\rdlpluginmanager\rdlpluginmanager\rdl.cpp(191): warning C4311: 'type cast': pointer truncation from 'void *' to 'long'
+m:\vrdl\vr_project\guy\rdlpluginmanager\rdlpluginmanager\rdlpluginmanager\rdl.cpp(191): warning C4302: 'type cast': truncation from 'void *' to 'long'
+m:\vrdl\vr_project\guy\rdlpluginmanager\rdlpluginmanager\rdlpluginmanager\rdl.cpp(222): warning C4309: '=': truncation of constant value
+  RDLPIM.cpp
+  Generating Code...
+RDL.obj : error LNK2019: unresolved external symbol __imp_mdd_open referenced in function "public: long __cdecl RDL::plcGetVarAddress(char *)" (?plcGetVarAddress@RDL@@QEAAJPEAD@Z)
+RDL.obj : error LNK2019: unresolved external symbol __imp_mdd_close referenced in function "public: long __cdecl RDL::plcGetVarAddress(char *)" (?plcGetVarAddress@RDL@@QEAAJPEAD@Z)
+RDL.obj : error LNK2019: unresolved external symbol __imp_DbmPidNew referenced in function "public: long __cdecl RDL::plcGetVarAddress(char *)" (?plcGetVarAddress@RDL@@QEAAJPEAD@Z)
+RDL.obj : error LNK2001: unresolved external symbol __imp_number_shared_globals
+RDL.obj : error LNK2001: unresolved external symbol __imp_share_global_table
+S:\Simexec\bin\ia32\s3dll.lib : warning LNK4272: library machine type 'x86' conflicts with target machine type 'x64'
+S:\Simulator\mstG.lib : warning LNK4272: library machine type 'x86' conflicts with target machine type 'x64'
+M:\VRdl\VR_Project\Guy\RDLPluginManager\rdlPlugInManager\x64\Debug\rdlPlugInManager.exe : fatal error LNK1120: 5 unresolved externals
