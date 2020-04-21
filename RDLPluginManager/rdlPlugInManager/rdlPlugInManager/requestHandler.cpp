@@ -125,7 +125,7 @@ void requestHandler::worker(std::mutex* jobVector)
 		//Todo:gwc - check subscribed data for changes and send to subscribed clients if it has...
 		//check subscribed data  for changes.
 
-		checkSubscribedData();
+		//checkSubscribedData();
 	}
 }
 
