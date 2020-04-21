@@ -195,7 +195,8 @@ int testHarner()
 
 	testClient* clPtr = &client1;
 
-	std::thread senderThread(sender, &outBuff, toSendPtr, &stdStream);
+	//std::thread senderThread(sender, &outBuff, toSendPtr, &stdStream);
+	std::thread senderThread(sendDebugMSGs, &outBuff, toSendPtr);
 
 
 	while (true) {
