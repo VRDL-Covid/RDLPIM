@@ -13,7 +13,7 @@ enum commands { INVALID, DEBUG, ERR, rdlPush, rdlPull, rdlSubscribe, push, pull,
 
 void sendDebugMSGs(buffer &outBuff, bool* send)
 {
-	while (true) {
+	//while (true) {
 		char userIn[1024];
 		int bytes = 0;
 		char CBytes[4];
@@ -44,7 +44,7 @@ void sendDebugMSGs(buffer &outBuff, bool* send)
 
 		//output bit from thread to send
 		*send = true;
-	}
+	//}
 }
 
 void sendRDLPull(buffer* outBuff, bool* send)
@@ -149,7 +149,8 @@ void sender(buffer* outBuff, bool* send, std::mutex* stdStream)
 {
 	while (true) {
 		stdStream->lock();
-		sendRDLSubcribe(outBuff, send);
+		//sendRDLSubcribe(outBuff, send);
+		sendDebugMSGs(*outBuff, send);
 		stdStream->unlock();
 		Sleep(200);
 	}
@@ -181,7 +182,7 @@ int testHarner()
 	//connectionObject client(8000, "10.106.94.39");
 	std::mutex stdStream;
 
-	testClient client1;
+	testClient client1("127.0.0.1",8000);
 	client1.getConnectionData();
 	client1.connection.setPort(client1.port);
 
@@ -195,8 +196,8 @@ int testHarner()
 
 	testClient* clPtr = &client1;
 
-	//std::thread senderThread(sender, &outBuff, toSendPtr, &stdStream);
-	std::thread senderThread(sendDebugMSGs, &outBuff, toSendPtr);
+	std::thread senderThread(sender, &outBuff, toSendPtr, &stdStream);
+	
 
 
 	while (true) {
@@ -224,6 +225,9 @@ int testHarner()
 				inBuff.fullPrint();
 				std::cout << std::endl;
 			default:
+				std::cout << "unknown Function, message: ";
+				inBuff.fullPrint();
+				std::cout << std::endl;
 				break;
 			}
 

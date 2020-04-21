@@ -83,7 +83,15 @@ void testClient::connectToHost()
 testClient::testClient()
 {
 	connection.setPort(8000);
-	connection.setIP("10.106.94.39");
+	connection.setIP("127.0.0.1");
+
+	connection.init();
+}
+
+testClient::testClient(const char* IP,int port)
+{
+	connection.setPort(port);
+	connection.setIP(IP);
 
 	connection.init();
 }

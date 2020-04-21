@@ -11,6 +11,7 @@ public:
 	void connectToHost();
 
 	testClient();
+	testClient(const char* IP, int port);
 	~testClient();
 };
 

@@ -86,6 +86,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <ProgramDataBaseFileName>$(TEMP)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>M:\VRdl\VR_Project\Guy\RDLPluginManager\rdlPlugInManager\rdlPlugInManager\depLibs</AdditionalLibraryDirectories>
@@ -111,6 +112,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <ProgramDataBaseFileName>$(TEMP)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
