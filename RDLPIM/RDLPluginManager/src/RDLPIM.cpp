@@ -1,8 +1,8 @@
-#include"connectionManager.hpp"
-#include"clientManager.hpp"
-#include"RDL.hpp"
-#include"rdlData.hpp"
-#include"dataBase.hpp"
+#include"ConnectionManager/connectionManager.hpp"
+#include"ClientManager/clientManager.hpp"
+#include"RDL/RDL.hpp"
+#include"RDL/rdlData.hpp"
+#include"RequestHandler/dataBase.hpp"
 #include<thread>
 #include<mutex>
 

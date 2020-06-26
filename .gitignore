@@ -4,3 +4,8 @@ Debug
 x64
 =======
 >>>>>>> 2b5deb8358363edc9bb75740d507845f60ddad24
+bin
+bin-int
+/RDLPIM/RDLPluginManager/*.vcxproj
+/RDLPIM/RDLPluginManager/*.user
+/RDLPIM/*.sln
