@@ -137,30 +137,30 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\RDL.hpp" />
+    <ClInclude Include="src\RDL\RDL.hpp" />
     <ClInclude Include="src\buffer.hpp" />
-    <ClInclude Include="src\client.hpp" />
-    <ClInclude Include="src\connectionManager.hpp" />
-    <ClInclude Include="src\connectionOptions.h" />
-    <ClInclude Include="src\dataArray.hpp" />
-    <ClInclude Include="src\portPool.hpp" />
-    <ClInclude Include="src\rdlData.hpp" />
-    <ClInclude Include="src\reqElement.hpp" />
-    <ClInclude Include="src\s3Includes.hpp" />
-    <ClInclude Include="src\socketConnection.hpp" />
+    <ClInclude Include="src\ClientManager\client.hpp" />
+    <ClInclude Include="src\ConnectionManager\connectionManager.hpp" />
+    <ClInclude Include="src\ConnectionManager\connectionOptions.h" />
+    <ClInclude Include="src\RequestHandler\dataArray.hpp" />
+    <ClInclude Include="src\ConnectionManager\portPool.hpp" />
+    <ClInclude Include="src\RDL\rdlData.hpp" />
+    <ClInclude Include="src\RequestHandler\reqElement.hpp" />
+    <ClInclude Include="src\RDL\s3Includes.hpp" />
+    <ClInclude Include="src\ConnectionManager\socketConnection.hpp" />
     <ClInclude Include="src\testClient.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\RDL.cpp" />
+    <ClCompile Include="src\RDL\RDL.cpp" />
     <ClCompile Include="src\RDLPIM.cpp" />
     <ClCompile Include="src\buffer.cpp" />
-    <ClCompile Include="src\client.cpp" />
-    <ClCompile Include="src\connectionManager.cpp" />
-    <ClCompile Include="src\dataArray.cpp" />
-    <ClCompile Include="src\portPool.cpp" />
-    <ClCompile Include="src\rdlData.cpp" />
-    <ClCompile Include="src\reqElement.cpp" />
-    <ClCompile Include="src\socketConnection.cpp" />
+    <ClCompile Include="src\ClientManager\client.cpp" />
+    <ClCompile Include="src\ConnectionManager\connectionManager.cpp" />
+    <ClCompile Include="src\RequestHandler\dataArray.cpp" />
+    <ClCompile Include="src\ConnectionManager\portPool.cpp" />
+    <ClCompile Include="src\RDL\rdlData.cpp" />
+    <ClCompile Include="src\RequestHandler\reqElement.cpp" />
+    <ClCompile Include="src\ConnectionManager\socketConnection.cpp" />
     <ClCompile Include="src\testClient.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

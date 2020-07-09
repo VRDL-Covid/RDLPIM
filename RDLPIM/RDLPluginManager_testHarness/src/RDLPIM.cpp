@@ -1,12 +1,12 @@
 #include<stdio.h>
 #include<iostream>
-#include"socketConnection.hpp"
-#include"reqElement.hpp"
-#include"client.hpp"
-#include"connectionManager.hpp"
+#include"ConnectionManager/socketConnection.hpp"
+#include"RequestHandler/reqElement.hpp"
+#include"ClientManager/client.hpp"
+#include"ConnectionManager/connectionManager.hpp"
 #include<thread>
 #include<mutex>
-#include"dataArray.hpp"
+#include"RequestHandler/dataArray.hpp"
 
 #include"testClient.hpp"
 enum commands { INVALID, DEBUG, ERR, rdlPush, rdlPull, rdlSubscribe, push, pull, subscribe, chat, VOIP, DATA };

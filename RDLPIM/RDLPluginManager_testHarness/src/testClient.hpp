@@ -1,5 +1,5 @@
 #pragma once
-#include"socketConnection.hpp"
+#include"ConnectionManager/socketConnection.hpp"
 class testClient
 {
 public:

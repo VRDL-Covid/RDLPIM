@@ -2,12 +2,10 @@
 #ifndef S3Includes
 #define S3Includes
 
-#pragma comment(lib, "S:\\Simexec\\bin\\ia32\\s3dll.lib")
-#pragma comment(lib, "S:\\Simulator\\mstG.lib")
-
-typedef struct {
-	char	*name;
-	void	*base;
+typedef struct
+{
+	char* name;
+	void* base;
 	int	size;
 	int   type;
 } GLOBAL_TABLE;
