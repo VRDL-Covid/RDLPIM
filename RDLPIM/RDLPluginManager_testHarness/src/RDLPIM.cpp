@@ -47,6 +47,43 @@ void sendDebugMSGs(buffer &outBuff, bool* send)
 	//}
 }
 
+
+void sendChatMSGs(buffer& outBuff, bool* send)
+{
+	//while (true) {
+	char userIn[1024];
+	int bytes = 0;
+	char CBytes[4];
+
+	//get user input
+	std::cin.getline(userIn, sizeof(userIn));
+	buffer userInData(userIn);
+
+	//build bytes data
+	bytes = userInData.size;
+	memcpy(&CBytes, &userInData.size, 4);
+	buffer bytesData(CBytes, 4);
+
+	//build command data
+	char cmd[4];
+	char* cmdPtr = &cmd[0];
+	buffer commandSend;
+	commands chat = commands::chat;
+	memcpy(cmd, &chat, 4);
+	commandSend.set(cmdPtr, 4);
+
+	//build raw job buffer
+	outBuff.set("CMD=");
+	outBuff.append(commandSend);
+	outBuff.append("=DATA=");
+	outBuff.append(bytesData);
+	outBuff.append(userInData);
+
+	//output bit from thread to send
+	*send = true;
+	//}
+}
+
 void sendRDLPull(buffer* outBuff, bool* send)
 {
 		char userIn[1024];
@@ -150,7 +187,7 @@ void sender(buffer* outBuff, bool* send, std::mutex* stdStream)
 	while (true) {
 		stdStream->lock();
 		//sendRDLSubcribe(outBuff, send);
-		sendDebugMSGs(*outBuff, send);
+		sendChatMSGs(*outBuff, send);
 		stdStream->unlock();
 		Sleep(200);
 	}
@@ -224,6 +261,11 @@ int testHarner()
 				std::cout << "ERROR message: ";
 				inBuff.fullPrint();
 				std::cout << std::endl;
+				break;
+			case chat:
+				inBuff.fullPrint();
+				std::cout << std::endl;
+				break;
 			default:
 				std::cout << "unknown Function, message: ";
 				inBuff.fullPrint();

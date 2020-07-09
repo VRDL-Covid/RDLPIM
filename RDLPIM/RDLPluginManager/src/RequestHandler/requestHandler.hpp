@@ -18,7 +18,9 @@ private:
 	void checkSubscribedData();
 	void terminateJob();
 
+	//job handlers
 	void handleDEBUG();
+	void handleChat();
 	void handleRDLPull();
 	void handleRDLSubscribe();
 

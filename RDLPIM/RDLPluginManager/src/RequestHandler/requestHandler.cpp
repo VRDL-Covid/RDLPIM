@@ -47,6 +47,7 @@ void requestHandler::processNextJob()
 	case subscribe:
 		break;
 	case chat:
+		handleChat();
 		break;
 	case DEBUG:
 		handleDEBUG();
@@ -133,6 +134,26 @@ void requestHandler::handleDEBUG()
 {
 	//todo:gwc - need to include a command when not in debug.
 	buffer message("ID-");
+	message.append(std::to_string(jobs[0]->ID).c_str());
+	message.append(":");
+	message.append(jobs[0]->data);
+	message.nullTerminate();
+
+	clientManager::publishMessage(jobs[0]->ID, message);
+	terminateJob();
+}
+
+void requestHandler::handleChat()
+{
+	//todo:gwc - need to include a command when not in debug.
+	char cmd[4];
+	char* cmdPtr = &cmd[0];
+	commands chat = commands::chat;
+	memcpy(cmd, &chat, 4);
+
+	buffer message;
+	message.set(&cmd, 4);
+	message.append("=ID-");
 	message.append(std::to_string(jobs[0]->ID).c_str());
 	message.append(":");
 	message.append(jobs[0]->data);
