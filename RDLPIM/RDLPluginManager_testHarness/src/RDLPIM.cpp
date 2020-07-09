@@ -214,7 +214,7 @@ void handleDataPacket(const buffer& inBuff)
 	}
 }
 
-int testHarner()
+int testHarness()
 {
 	//connectionObject client(8000, "10.106.94.39");
 	std::mutex stdStream;
@@ -297,5 +297,5 @@ int testHarner()
 
 int main()
 {
-	return testHarner();
+	return testHarness();
 }
