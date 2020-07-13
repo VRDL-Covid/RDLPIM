@@ -1,6 +1,4 @@
 #pragma once
-#include<stdio.h>
-#include<iostream>
 // Author: Guy Collins
 // Date: 20/01/2020
 // Description: A class to contain buffer data to be sent via sockets
@@ -80,6 +78,11 @@ public:
 	//copy assignment overload
 	buffer& operator=(const buffer& other);
 
+	//move operator
+	buffer& operator=(buffer&&);
+
+	//input overload
+	friend std::istream& operator >>(std::istream& in, buffer& buf);
 
 	~buffer();
 };

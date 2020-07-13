@@ -1,3 +1,4 @@
+#include "rdlpch.h"
 #include "reqElement.hpp"
 
 // type to convert types prior to sending over TCP/IP using char array buffer.

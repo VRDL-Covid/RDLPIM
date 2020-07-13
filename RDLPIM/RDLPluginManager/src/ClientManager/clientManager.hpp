@@ -1,10 +1,7 @@
 #pragma once
 #include"client.hpp"
-#include <stdio.h>
-#include <iostream>
 #include"buffer.hpp"
 #include"RequestHandler/requestHandler.hpp"
-#include<mutex>
 
 
 class clientManager

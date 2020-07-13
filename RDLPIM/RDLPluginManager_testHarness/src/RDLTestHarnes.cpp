@@ -1,11 +1,8 @@
-#include<stdio.h>
-#include<iostream>
+#include "rdlpch.h"
 #include"ConnectionManager/socketConnection.hpp"
 #include"RequestHandler/reqElement.hpp"
 #include"ClientManager/client.hpp"
 #include"ConnectionManager/connectionManager.hpp"
-#include<thread>
-#include<mutex>
 #include"RequestHandler/dataArray.hpp"
 
 #include"testClient.hpp"
@@ -46,7 +43,6 @@ void sendDebugMSGs(buffer &outBuff, bool* send)
 		*send = true;
 	//}
 }
-
 
 void sendChatMSGs(buffer& outBuff, bool* send)
 {
@@ -181,13 +177,34 @@ void sendRDLSubcribe(buffer* outBuff, bool* send)
 
 }
 
+void SendPushInt(buffer& outBuffer, bool* send)
+{
+	//get variable name
+	buffer name;
+	buffer serialised;
+	int value;
 
-void sender(buffer* outBuff, bool* send, std::mutex* stdStream)
+	//get var name
+	std::cout << "variable Name:" << std::endl;
+	std::cin >> name;
+
+	//get value
+	std::cout << "Value:" <<std::endl;
+	std::cin >> value;
+
+	reqElement request(name);
+	request.set(value);
+	request.serialise(&serialised);
+	serialised.fullPrint();
+
+}
+
+void sender(buffer& outBuff, bool* send, std::mutex* stdStream)
 {
 	while (true) {
 		stdStream->lock();
 		//sendRDLSubcribe(outBuff, send);
-		sendChatMSGs(*outBuff, send);
+		SendPushInt(outBuff, send);
 		stdStream->unlock();
 		Sleep(200);
 	}
@@ -233,7 +250,7 @@ int testHarness()
 
 	testClient* clPtr = &client1;
 
-	std::thread senderThread(sender, &outBuff, toSendPtr, &stdStream);
+	std::thread senderThread(sender, std::ref(outBuff), toSendPtr, &stdStream);
 	
 
 

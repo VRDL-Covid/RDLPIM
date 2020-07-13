@@ -1,3 +1,4 @@
+#include "rdlpch.h"
 #include "portPool.hpp"
 
 portStatus * portPool::pool = new portStatus[MAX_CONNECTED_CLIENTS];

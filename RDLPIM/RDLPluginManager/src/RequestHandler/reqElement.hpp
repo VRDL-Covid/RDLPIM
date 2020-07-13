@@ -1,7 +1,4 @@
 #pragma once
-#include<stdio.h>
-#include<iostream>
-#include<string>
 #include"buffer.hpp"
 #include"RDL/rdlData.hpp"
 
@@ -28,14 +25,14 @@ public:
 	// Author: Guy Collins
 	// Date: 20/01/2020
 	// Description: Set methods overloaded to types required for trasnfer. 
-	void set(bool in);
-	void set(int in);
-	void set(float in);
-	void set(double in);
-	int set(char* in, int size);
-	int set(buffer* in);
-	int set(const buffer &in);
-	void set(const rdlData& data);
+	void set(bool in); //bool
+	void set(int in); //bool
+	void set(float in); //bool
+	void set(double in); //bool
+	int set(char* in, int size); //blob
+	int set(buffer* in); //bool
+	int set(const buffer &in); //bool
+	void set(const rdlData& data); //bool
 
 	// Author: Guy Collins
 	// Date: 20/01/2020

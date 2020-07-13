@@ -1,10 +1,10 @@
+#include "rdlpch.h"
 #include"ConnectionManager/connectionManager.hpp"
 #include"ClientManager/clientManager.hpp"
 #include"RDL/RDL.hpp"
 #include"RDL/rdlData.hpp"
 #include"RequestHandler/dataBase.hpp"
-#include<thread>
-#include<mutex>
+
 
 #include"customEvent.hpp"
 
@@ -17,7 +17,7 @@ int exePluginManager()
 	WSACleanup();
 
 	//create a mutex to manage shared memory between clientManager and requestHandler
-	std::mutex jobVector;
+	std::mutex jobVectorMutex;
 
 	//instantiate high level objects
 	connectionManager connectionManagerObj;
@@ -27,8 +27,8 @@ int exePluginManager()
 
 	//start threads to get the objects "working"
 	std::thread connectionManagerThread(&connectionManager::worker, &connectionManagerObj);
-	std::thread clientManagerThread(&clientManager::worker, &clientManagerObj, &jobVector);
-	std::thread reqFactoryThread(&requestHandler::worker, &reqFactory, &jobVector);
+	std::thread clientManagerThread(&clientManager::worker, &clientManagerObj, &jobVectorMutex);
+	std::thread reqFactoryThread(&requestHandler::worker, &reqFactory, &jobVectorMutex);
 
 
 	//join threads on exit

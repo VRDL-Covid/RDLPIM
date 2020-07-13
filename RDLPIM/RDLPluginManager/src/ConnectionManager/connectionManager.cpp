@@ -1,3 +1,4 @@
+#include "rdlpch.h"
 #include "connectionManager.hpp"
 
 void connectionManager::buildConnectionDetails(buffer* connectionReq)

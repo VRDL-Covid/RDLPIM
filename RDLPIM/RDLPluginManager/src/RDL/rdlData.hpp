@@ -3,8 +3,6 @@
 #include<windows.h>
 #include<tlhelp32.h>
 #include"s3Includes.hpp"
-#include<stdio.h>
-#include<iostream>
 
 // type to convert types prior to sending over TCP/IP using char array buffer.
 
