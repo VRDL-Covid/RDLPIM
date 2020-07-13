@@ -1,10 +1,10 @@
+#include "rdlpch.h"
 #include "clientManager.hpp"
-#include<string>
 
 std::mutex clientManager::clientDB_lock;
 std::vector<client*> clientManager::clients;
 
-void clientManager::worker(std::mutex* jobVector)
+void clientManager::worker(std::mutex* jobVectorMutex)
 {
 	
 	buffer inbuff;
@@ -43,9 +43,9 @@ void clientManager::worker(std::mutex* jobVector)
 
 					IDdata.set("ID=");
 					inbuff.prepend(IDdata);
-					jobVector->lock();
+					jobVectorMutex->lock();
 					requestHandler::addToQue(inbuff);
-					jobVector->unlock();
+					jobVectorMutex->unlock();
 				}
 			}
 		}

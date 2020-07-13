@@ -76,7 +76,8 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>rdlpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <AdditionalIncludeDirectories>src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
@@ -93,7 +94,8 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>rdlpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <AdditionalIncludeDirectories>src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
@@ -114,7 +116,8 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|Win32'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>rdlpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <AdditionalIncludeDirectories>src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
@@ -137,30 +140,34 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\RDL\RDL.hpp" />
-    <ClInclude Include="src\buffer.hpp" />
     <ClInclude Include="src\ClientManager\client.hpp" />
     <ClInclude Include="src\ConnectionManager\connectionManager.hpp" />
     <ClInclude Include="src\ConnectionManager\connectionOptions.h" />
-    <ClInclude Include="src\RequestHandler\dataArray.hpp" />
     <ClInclude Include="src\ConnectionManager\portPool.hpp" />
-    <ClInclude Include="src\RDL\rdlData.hpp" />
-    <ClInclude Include="src\RequestHandler\reqElement.hpp" />
-    <ClInclude Include="src\RDL\s3Includes.hpp" />
     <ClInclude Include="src\ConnectionManager\socketConnection.hpp" />
+    <ClInclude Include="src\RDL\RDL.hpp" />
+    <ClInclude Include="src\RDL\rdlData.hpp" />
+    <ClInclude Include="src\RDL\s3Includes.hpp" />
+    <ClInclude Include="src\RequestHandler\dataArray.hpp" />
+    <ClInclude Include="src\RequestHandler\reqElement.hpp" />
+    <ClInclude Include="src\buffer.hpp" />
+    <ClInclude Include="src\rdlpch.h" />
     <ClInclude Include="src\testClient.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\RDL\RDL.cpp" />
-    <ClCompile Include="src\RDLPIM.cpp" />
-    <ClCompile Include="src\buffer.cpp" />
     <ClCompile Include="src\ClientManager\client.cpp" />
     <ClCompile Include="src\ConnectionManager\connectionManager.cpp" />
-    <ClCompile Include="src\RequestHandler\dataArray.cpp" />
     <ClCompile Include="src\ConnectionManager\portPool.cpp" />
-    <ClCompile Include="src\RDL\rdlData.cpp" />
-    <ClCompile Include="src\RequestHandler\reqElement.cpp" />
     <ClCompile Include="src\ConnectionManager\socketConnection.cpp" />
+    <ClCompile Include="src\RDL\RDL.cpp" />
+    <ClCompile Include="src\RDL\rdlData.cpp" />
+    <ClCompile Include="src\RDLTestHarnes.cpp" />
+    <ClCompile Include="src\RequestHandler\dataArray.cpp" />
+    <ClCompile Include="src\RequestHandler\reqElement.cpp" />
+    <ClCompile Include="src\buffer.cpp" />
+    <ClCompile Include="src\rdlpch.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\testClient.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

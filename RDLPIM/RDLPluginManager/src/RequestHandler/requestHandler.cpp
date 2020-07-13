@@ -1,3 +1,4 @@
+#include "rdlpch.h"
 #include "requestHandler.hpp"
 
 std::vector<job*> requestHandler::jobs;
@@ -110,16 +111,16 @@ void requestHandler::checkSubscribedData()
 	}
 }
 
-void requestHandler::worker(std::mutex* jobVector)
+void requestHandler::worker(std::mutex* jobVectorMutex)
 {
 	while (true) {
 		//handle next request
 		if (clientManager::clientDB_lock.try_lock()) {
-			jobVector->lock();
+			jobVectorMutex->lock();
 			if (requestHandler::noJobs > 0) {
 				processNextJob();
 			}
-			jobVector->unlock();
+			jobVectorMutex->unlock();
 			clientManager::clientDB_lock.unlock();
 		}
 
@@ -132,7 +133,6 @@ void requestHandler::worker(std::mutex* jobVector)
 
 void requestHandler::handleDEBUG()
 {
-	//todo:gwc - need to include a command when not in debug.
 	buffer message("ID-");
 	message.append(std::to_string(jobs[0]->ID).c_str());
 	message.append(":");
@@ -145,7 +145,6 @@ void requestHandler::handleDEBUG()
 
 void requestHandler::handleChat()
 {
-	//todo:gwc - need to include a command when not in debug.
 	char cmd[4];
 	char* cmdPtr = &cmd[0];
 	commands chat = commands::chat;

@@ -25,8 +25,8 @@ project "RDLPluginManager"
 	targetdir("bin/" .. outputDir .. "/%{prj.name}")
 	objdir("bin-int/" .. outputDir .. "/%{prj.name}")
 
-	--pchheader "rdlpch.h"
-	--pchsource "gwcEngine/src/rdlpch.cpp"
+	pchheader "rdlpch.h"
+	pchsource "RDLPluginManager/src/rdlpch.cpp"
 	
 	files
 	{
@@ -65,10 +65,12 @@ project "RDLPluginManager"
 		symbols "on"
 
 	filter "configurations:Release"
+		defines{"NDEBUG"}
 		runtime "Release"
 		optimize "on"
 
 	filter "configurations:Dist"
+		defines{"NDEBUG"}
 		runtime "Release"
 		optimize "on"
 
@@ -88,8 +90,8 @@ project "RDLPluginManager"
 	targetdir("bin/" .. outputDir .. "/%{prj.name}")
 	objdir("bin-int/" .. outputDir .. "/%{prj.name}")
 
-	--pchheader "rdlpch.h"
-	--pchsource "gwcEngine/src/rdlpch.cpp"
+	pchheader "rdlpch.h"
+	pchsource "RDLPluginManager_testHarness/src/rdlpch.cpp"
 	
 	files
 	{

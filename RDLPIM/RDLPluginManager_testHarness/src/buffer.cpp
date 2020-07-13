@@ -1,3 +1,4 @@
+#include "rdlpch.h"
 #include "buffer.hpp"
 
 buffer::~buffer()
@@ -473,4 +474,19 @@ buffer& buffer::operator=(const buffer& other)
 	}
 
 	return *this;
+}
+
+buffer& buffer::operator=(buffer&& other)
+{
+	size = other.size;
+	contents = other.contents;
+	return *this;
+}
+
+std::istream& operator>> (std::istream& in, buffer& buf)
+{
+	std::string temp;
+	in >> temp;
+	buf.set(temp.c_str());
+	return in;
 }

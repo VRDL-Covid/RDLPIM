@@ -1,3 +1,4 @@
+#include "rdlpch.h"
 #include "client.hpp"
 
 //std::vector<client*> client::clients;

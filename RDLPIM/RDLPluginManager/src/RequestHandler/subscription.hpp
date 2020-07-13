@@ -1,7 +1,4 @@
 #pragma once
-#include<stdio.h>
-#include<iostream>
-#include<chrono>
 class subscription
 {
 

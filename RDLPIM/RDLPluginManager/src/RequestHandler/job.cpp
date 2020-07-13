@@ -1,3 +1,4 @@
+#include "rdlpch.h"
 #include "job.hpp"
 
 commands job::getCommand(buffer* rawJob)

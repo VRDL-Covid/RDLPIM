@@ -1,6 +1,4 @@
 #pragma once
-#include<iostream>
-#include<stdio.h>
 #include"buffer.hpp"
 #include<WS2tcpip.h>
 #include"connectionOptions.h"

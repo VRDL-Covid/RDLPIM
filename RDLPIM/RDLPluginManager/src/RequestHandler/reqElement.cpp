@@ -1,3 +1,4 @@
+#include "rdlpch.h"
 #include "reqElement.hpp"
 
 // type to convert types prior to sending over TCP/IP using char array buffer.
@@ -212,13 +213,15 @@ int reqElement::deserialise(buffer* in)
 	}
 
 	//get variable name
-	while (in->contents[itt] != '=' && itt <in->size) {
+	while (in->contents[itt] != '=' && itt < in->size) {
 		itt++;
 	}
 
+	//if no '=' found its not properly formatted
 	if (itt == 0 || itt >= in->size) {
 		return -1;
 	}
+
 	else {
 		nameSize = itt;
 		itt = 0;

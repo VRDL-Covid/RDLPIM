@@ -1,3 +1,4 @@
+#include "rdlpch.h"
 #include "rdlData.hpp"
 // Import DLLs required to read RDL global memory.
 // this is required in order to determine the memory allocation during
