@@ -3,7 +3,7 @@
 class dataArray
 {
 public:
-	std::vector<reqElement*> data;
+	std::vector<responceElement*> data;
 
 	int nElements;
 	void deserialise(const buffer& rawInput);

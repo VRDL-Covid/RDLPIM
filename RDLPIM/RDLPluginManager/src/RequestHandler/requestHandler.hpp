@@ -18,6 +18,7 @@ private:
 	void handleChat();
 	void handleRDLPull();
 	void handleRDLSubscribe();
+	void handlePush();
 
 public:
 	static std::vector<job*> jobs;

@@ -10,7 +10,7 @@ union convertable {
 	bool Bool;
 };
 
-reqElement::reqElement()
+responceElement::responceElement()
 {
 	//varName.set("");
 	//type.set("");
@@ -18,7 +18,7 @@ reqElement::reqElement()
 	data = nullptr;
 }
 
-reqElement::reqElement(const char* var)
+responceElement::responceElement(const char* var)
 {
 	buffer temp(var);
 	temp.nullTerminate();
@@ -28,7 +28,7 @@ reqElement::reqElement(const char* var)
 	data = nullptr;
 }
 
-reqElement::reqElement(std::string var)
+responceElement::responceElement(std::string var)
 {
 	varName.set(var.c_str());
 	type.set("");
@@ -36,7 +36,7 @@ reqElement::reqElement(std::string var)
 	data = nullptr;
 }
 
-reqElement::reqElement(const buffer& var)
+responceElement::responceElement(const buffer& var)
 {
 	varName = var;
 	type.set("");
@@ -44,7 +44,7 @@ reqElement::reqElement(const buffer& var)
 	data = nullptr;
 }
 
-reqElement::reqElement(buffer* var)
+responceElement::responceElement(buffer* var)
 {
 	varName = *var;
 	type.set("");
@@ -54,14 +54,14 @@ reqElement::reqElement(buffer* var)
 
 
 
-reqElement::~reqElement()
+responceElement::~responceElement()
 {
 	if (data != nullptr) {
 		free(data);
 	}
 }
 
-int reqElement::appendData(char* dst, int dSize, char* src, int sSize)
+int responceElement::appendData(char* dst, int dSize, char* src, int sSize)
 {
 	int end = dSize - 1;
 	int i = 0;
@@ -83,7 +83,7 @@ int reqElement::appendData(char* dst, int dSize, char* src, int sSize)
 	return 0;
 }
 
-int reqElement::appendValueData(char* dst, int dSize, char* src, int sSize)
+int responceElement::appendValueData(char* dst, int dSize, char* src, int sSize)
 {
 	int end = dSize - 1;
 	int i = 0;
@@ -103,35 +103,35 @@ int reqElement::appendValueData(char* dst, int dSize, char* src, int sSize)
 	return 0;
 }
 
-void reqElement::set(bool in)
+void responceElement::set(bool in)
 {
 	sizeData(sizeof(bool));
 	memcpy(data, &in, sizeof(bool));
 	bytes = sizeof(bool);
 	type.set("bool");
 }
-void reqElement::set(int in)
+void responceElement::set(int in)
 {
 	sizeData(sizeof(int));
 	memcpy(data, &in, sizeof(int));
 	bytes = sizeof(int);
 	type.set("int");
 }
-void reqElement::set(float in)
+void responceElement::set(float in)
 {
 	sizeData(sizeof(float));
 	memcpy(data, &in, sizeof(float));
 	bytes = sizeof(float);
 	type.set("float");
 }
-void reqElement::set(double in)
+void responceElement::set(double in)
 {
 	sizeData(sizeof(double));
 	memcpy(data, &in, sizeof(double));
 	bytes = sizeof(double);
 	type.set("double");
 }
-int reqElement::set(char* in, int size)
+int responceElement::set(char* in, int size)
 {
 	sizeData(size);
 	memset(data, '\0', size);
@@ -143,7 +143,7 @@ int reqElement::set(char* in, int size)
 	bytes = size;
 	return 0;
 }
-int reqElement::set(buffer* in)
+int responceElement::set(buffer* in)
 {
 	sizeData(in->size);
 	memset(data, '\0', in->size);
@@ -155,7 +155,7 @@ int reqElement::set(buffer* in)
 	bytes = in->size;
 	return 0;
 }
-int reqElement::set(const buffer &in)
+int responceElement::set(const buffer &in)
 {
 	sizeData(in.size);
 	memset(data, '\0', in.size);
@@ -167,7 +167,7 @@ int reqElement::set(const buffer &in)
 	bytes = in.size;
 	return 0;
 }
-void reqElement::set(const rdlData& rdldata)
+void responceElement::set(const rdlData& rdldata)
 {
 	//set name
 	varName.set(rdldata.name);
@@ -200,7 +200,7 @@ void reqElement::set(const rdlData& rdldata)
 	}
 }
 
-int reqElement::deserialise(buffer* in)
+int responceElement::deserialise(buffer* in)
 {
 	int nameSize = 0;
 	int typeSize = 0;
@@ -274,7 +274,7 @@ int reqElement::deserialise(buffer* in)
 
 }
 
-void reqElement::serialise(buffer* output)
+void responceElement::serialise(buffer* output)
 {
 	int tempSize;
 	if (bytes < 4) {
@@ -303,11 +303,54 @@ void reqElement::serialise(buffer* output)
 	//build data
 	buffer dataData(data, bytes);
 	output->append(dataData);
-
+	output->prepend("{");
+	output->append("}");
 	free(temp);
 }
 
-void reqElement::sizeData(int sBytes){
+
+buffer responceElement::serialise()
+{
+	buffer output;
+	int tempSize;
+	if (bytes < 4) {
+		tempSize = 8;
+	}
+	else {
+		tempSize = bytes;
+	}
+
+	char* temp = (char*)malloc(sizeof(char) * tempSize);
+
+	//build varname
+	output.set(varName.contents, varName.size);
+
+	//build type
+	output.append("=");
+	output.append(type);
+
+	//build bytes
+	std::memcpy(temp, &bytes, sizeof(int));
+
+	output.append("=");
+	buffer bytesData(temp, 4);
+	output.append(bytesData);
+
+	//build data
+	buffer dataData(data, bytes);
+	output.append("=");
+	output.append(dataData);
+
+	output.prepend("{");
+	output.append("}");
+
+	free(temp);
+
+	return output;
+}
+
+
+void responceElement::sizeData(int sBytes){
 	if (data == nullptr) {
 		data = (char*)malloc(sBytes);
 	}
@@ -317,7 +360,7 @@ void reqElement::sizeData(int sBytes){
 }
 
 //copy constructors
-reqElement::reqElement(const reqElement& other)
+responceElement::responceElement(const responceElement& other)
 {
 	varName = other.varName;
 	type = other.type;
@@ -331,7 +374,7 @@ reqElement::reqElement(const reqElement& other)
 }
 
 
-reqElement& reqElement::operator=(const reqElement& other)
+responceElement& responceElement::operator=(const responceElement& other)
 {
 	varName = other.varName;
 	type = other.type;

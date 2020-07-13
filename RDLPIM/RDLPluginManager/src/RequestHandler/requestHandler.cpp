@@ -42,6 +42,7 @@ void requestHandler::processNextJob()
 		handleRDLSubscribe();
 		break;
 	case push:
+		handlePush();
 		break;
 	case pull:
 		break;
@@ -187,7 +188,7 @@ void requestHandler::handleRDLPull()
 
 
 	//build vector of pull requests
-	std::vector<reqElement*> reqs;
+	std::vector<responceElement*> reqs;
 
 	//null terminate the raw request data.
 	jobs[0]->data.nullTerminate();
@@ -203,7 +204,7 @@ void requestHandler::handleRDLPull()
 		nameSize = it;
 		tempName.set(&(jobs[0]->data.contents[gap]), nameSize);
 
-		reqElement* newRequest = new reqElement(&tempName);
+		responceElement* newRequest = new responceElement(&tempName);
 		reqs.push_back(newRequest);
 		gap += nameSize + 1;
 	}
@@ -224,12 +225,9 @@ void requestHandler::handleRDLPull()
 		rdlData RDLDATA;
 		RDLDATA.init(reqs[i]->varName);
 
-		reqElement tempReq;
+		responceElement tempReq;
 		tempReq.set(RDLDATA);
-		buffer serialised;
-		tempReq.serialise(&serialised);
-
-		message.append(serialised);	
+		message.append(tempReq.serialise());
 	}
 
 	clientManager::sendMessage(jobs[0]->ID, message);
@@ -354,6 +352,13 @@ void requestHandler::handleRDLSubscribe()
 	//remove completed job
 	terminateJob();
 }
+
+void requestHandler::handlePush()
+{
+	jobs[0]->data.fullPrint();
+	terminateJob();
+}
+
 
 requestHandler::requestHandler()
 {

@@ -13,7 +13,7 @@ void dataArray::deserialise(const buffer& rawInput)
 	char* temp = nullptr;
 
 	while (rawInputCpy.size > 0) {
-		reqElement* nextReq = new reqElement;
+		responceElement* nextReq = new responceElement;
 
 		//consume name
 		while (rawInputCpy.contents[it] != '=') {

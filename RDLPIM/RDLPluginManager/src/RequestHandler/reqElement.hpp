@@ -9,7 +9,7 @@
 // Description: A class to handle a single request string from a client formatting:
 //				"VarName=VarType=Bytes=Value"
 //				passed to request handle objects.
-class reqElement
+class responceElement
 {
 private:
 	void sizeData(int sBytes);
@@ -45,6 +45,7 @@ public:
 	// Description: Method to serialise the contents of a request packet into a correctly formatted character array 
 	//				"VarName=VarType=Bytes=Value"
 	void serialise(buffer* output);
+	buffer serialise();
 
 
 	// Author: Guy Collins
@@ -60,20 +61,20 @@ public:
 	// Author: Guy Collins
 	// Date: 20/01/2020
 	// Description: Constructor and destructor methods, overloaded to initialise variable name from a string or buffer object.
-	reqElement();
-	reqElement(std::string var);
-	reqElement(const buffer& var);
-	reqElement(buffer* var);
-	reqElement(const char* var);
-	~reqElement();
+	responceElement();
+	responceElement(std::string var);
+	responceElement(const buffer& var);
+	responceElement(buffer* var);
+	responceElement(const char* var);
+	~responceElement();
 
 	//copy constructors
 
 	//copy constructor
-	reqElement(const reqElement& other);
+	responceElement(const responceElement& other);
 
 	//copy assignment overload
-	reqElement& operator=(const reqElement& other);
+	responceElement& operator=(const responceElement& other);
 
 
 

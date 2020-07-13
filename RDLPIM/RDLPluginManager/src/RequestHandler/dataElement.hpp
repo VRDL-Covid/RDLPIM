@@ -12,7 +12,7 @@ private:
 
 public:
 	buffer varName;
-	reqElement data;
+	responceElement data;
 	sourceTypes source;
 	std::vector<subscription> subscriptions;
 

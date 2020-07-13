@@ -43,9 +43,10 @@ void clientManager::worker(std::mutex* jobVectorMutex)
 
 					IDdata.set("ID=");
 					inbuff.prepend(IDdata);
-					jobVectorMutex->lock();
+					std::lock_guard<std::mutex>(*jobVectorMutex);
+					//jobVectorMutex->lock();
 					requestHandler::addToQue(inbuff);
-					jobVectorMutex->unlock();
+					//jobVectorMutex->unlock();
 				}
 			}
 		}

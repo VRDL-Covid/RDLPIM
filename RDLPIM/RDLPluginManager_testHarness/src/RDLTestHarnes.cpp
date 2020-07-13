@@ -80,7 +80,7 @@ void sendChatMSGs(buffer& outBuff, bool* send)
 	//}
 }
 
-void sendRDLPull(buffer* outBuff, bool* send)
+void sendRDLPull(buffer& outBuff, bool* send)
 {
 		char userIn[1024];
 		int bytes = 0;
@@ -104,18 +104,18 @@ void sendRDLPull(buffer* outBuff, bool* send)
 		commandSend.set(cmdPtr, 4);
 
 		//build raw job buffer
-		outBuff->set("CMD=");
-		outBuff->append(commandSend);
-		outBuff->append("=DATA=");
-		outBuff->append(bytesData);
-		outBuff->append(userInData);
+		outBuff.set("CMD=");
+		outBuff.append(commandSend);
+		outBuff.append("=DATA=");
+		outBuff.append(bytesData);
+		outBuff.append(userInData);
 
 		//output bit from thread to send
 		*send = true;
 
 }
 
-void sendRDLSubcribe(buffer* outBuff, bool* send)
+void sendRDLSubcribe(buffer& outBuff, bool* send)
 {
 	char userIn[1024];
 	int bytes = 0;
@@ -153,26 +153,26 @@ void sendRDLSubcribe(buffer* outBuff, bool* send)
 	buffer bytesData(CBytes, 4);
 
 	//build raw job buffer
-	outBuff->set("CMD=");
-	outBuff->append(commandSend);
-	outBuff->append("=DATA=");
-	outBuff->append(bytesData);
-	outBuff->append(userInData);
-	outBuff->append("=Tol=");
-	outBuff->append(tolData);
-	outBuff->append("=Del=");
-	outBuff->append(delData);
-	outBuff->append("=");
-	outBuff->append("GI_GDS_FT205");
-	outBuff->append("=Tol=");
-	outBuff->append(tolData);
-	outBuff->append("=Del=");
-	outBuff->append(delData);
+	outBuff.set("CMD=");
+	outBuff.append(commandSend);
+	outBuff.append("=DATA=");
+	outBuff.append(bytesData);
+	outBuff.append(userInData);
+	outBuff.append("=Tol=");
+	outBuff.append(tolData);
+	outBuff.append("=Del=");
+	outBuff.append(delData);
+	outBuff.append("=");
+	outBuff.append("GI_GDS_FT205");
+	outBuff.append("=Tol=");
+	outBuff.append(tolData);
+	outBuff.append("=Del=");
+	outBuff.append(delData);
 
 
 
 	//output bit from thread to send
-	outBuff->fullPrint();
+	outBuff.fullPrint();
 	*send = true;
 
 }
@@ -184,28 +184,46 @@ void SendPushInt(buffer& outBuffer, bool* send)
 	buffer serialised;
 	int value;
 
-	//get var name
+	std::vector<std::shared_ptr<responceElement>> requests;
+
+	std::cout << "set name = '!' to end pushInt stack" << std::endl << std::endl;
+
 	std::cout << "variable Name:" << std::endl;
 	std::cin >> name;
+	while (name != "!") {
 
-	//get value
-	std::cout << "Value:" <<std::endl;
-	std::cin >> value;
+		//get value
+		std::cout << "Value:" << std::endl;
+		std::cin >> value;
 
-	reqElement request(name);
-	request.set(value);
-	request.serialise(&serialised);
-	serialised.fullPrint();
+		auto request = std::make_shared<responceElement>(name);
+		request->set(value);
+		requests.emplace_back(request);
 
+		std::cout << "variable Name:" << std::endl;
+		std::cin >> name;
+	}
+
+	outBuffer.set("CMD=");
+	int tCmd = commands::push;
+	buffer bcmd((char*)&tCmd, 4);
+
+	outBuffer.append(bcmd);
+
+	for (auto element : requests) {
+		outBuffer.append(element->serialise());
+	}
+
+	*send = true;
 }
 
 void sender(buffer& outBuff, bool* send, std::mutex* stdStream)
 {
 	while (true) {
 		stdStream->lock();
-		//sendRDLSubcribe(outBuff, send);
 		SendPushInt(outBuff, send);
 		stdStream->unlock();
+		//todo: Sleep needs to go, why did i need it?
 		Sleep(200);
 	}
 }
@@ -251,8 +269,6 @@ int testHarness()
 	testClient* clPtr = &client1;
 
 	std::thread senderThread(sender, std::ref(outBuff), toSendPtr, &stdStream);
-	
-
 
 	while (true) {
 
@@ -290,13 +306,12 @@ int testHarness()
 				break;
 			}
 
-
-
 		}
 		else {
 
 			if (toSend && client1.connection.canSend()) {
 				stdStream.lock();
+				outBuff.fullPrint();
 				client1.connection.Send(outBuff);
 				stdStream.unlock();
 				toSend = false;

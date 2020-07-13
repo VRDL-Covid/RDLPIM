@@ -65,7 +65,7 @@ public:
 	void stripTail(int N);
 	void stripTail(char seperator);
 
-	// Author: Guy Collins
+	// Author: Guy Collinso
 	// Date: 20/01/2020
 	// Description: Constructors and destructors.
 	buffer();
