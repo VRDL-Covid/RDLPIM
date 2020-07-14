@@ -15,6 +15,9 @@ public:
 	void SetCommand(const Commands& command);
 	void SetSize(const uint32_t& bytes);
 
+	void ProcessHeader(buffer& data);
+
+	const Commands& GetCommand() const { return m_command; }
 
 private:
 

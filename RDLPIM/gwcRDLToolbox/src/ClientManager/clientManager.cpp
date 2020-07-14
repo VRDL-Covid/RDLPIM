@@ -32,8 +32,7 @@ void clientManager::worker(std::mutex* jobVectorMutex)
 			}
 			else {
 				if (bytes > 0) {
-					buffer IDdata("=");
-					inbuff.prepend(IDdata);
+					buffer IDdata;
 
 					char temp[4];
 					memcpy(temp, &((*it)->ID), sizeof(int));
@@ -41,17 +40,12 @@ void clientManager::worker(std::mutex* jobVectorMutex)
 					IDdata.set(temp, sizeof(int));
 					inbuff.prepend(IDdata);
 
-					IDdata.set("ID=");
-					inbuff.prepend(IDdata);
 					std::lock_guard<std::mutex>(*jobVectorMutex);
-					//jobVectorMutex->lock();
 					requestHandler::addToQue(inbuff);
-					//jobVectorMutex->unlock();
 				}
 			}
 		}
 		clientManager::clientDB_lock.unlock();
-		//Sleep(1);
 	}
 }
 

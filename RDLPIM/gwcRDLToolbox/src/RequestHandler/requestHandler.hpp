@@ -5,6 +5,7 @@
 #include"reqElement.hpp"
 #include"RDL/rdlData.hpp"
 #include"RequestHandler/dataBase.hpp"
+#include "RequestHeader.h"
 
 class requestHandler
 {
@@ -19,6 +20,7 @@ private:
 	void handleRDLPull();
 	void handleRDLSubscribe();
 	void handlePush();
+	void handelError();
 
 public:
 	static std::vector<job*> jobs;

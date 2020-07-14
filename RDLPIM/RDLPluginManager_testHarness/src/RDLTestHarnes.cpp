@@ -40,40 +40,30 @@ void sendDebugMSGs(buffer &outBuff, bool* send)
 	//}
 }
 
+
 void sendChatMSGs(buffer& outBuff, bool* send)
 {
-	//while (true) {
 	char userIn[1024];
-	int bytes = 0;
-	char CBytes[4];
+	uint32_t bytes = 0;
+	RequestHeader reqHeader;
 
 	//get user input
 	std::cin.getline(userIn, sizeof(userIn));
 	buffer userInData(userIn);
 
-	//build bytes data
+	//buildHeader
 	bytes = userInData.size;
-	memcpy(&CBytes, &userInData.size, 4);
-	buffer bytesData(CBytes, 4);
+	reqHeader.SetSize(bytes);
+	reqHeader.SetCommand((Commands)27);
 
-	//build command data
-	char cmd[4];
-	char* cmdPtr = &cmd[0];
-	buffer commandSend;
-	Commands chat = Commands::chat;
-	memcpy(cmd, &chat, 4);
-	commandSend.set(cmdPtr, 4);
+	outBuff = reqHeader.Serialise();
 
 	//build raw job buffer
-	outBuff.set("CMD=");
-	outBuff.append(commandSend);
-	outBuff.append("=DATA=");
-	outBuff.append(bytesData);
 	outBuff.append(userInData);
 
 	//output bit from thread to send
 	*send = true;
-	//}
+
 }
 
 void sendRDLPull(buffer& outBuff, bool* send)
@@ -177,13 +167,15 @@ void SendPushInt(buffer& outBuffer, bool* send)
 {
 	//get variable name
 	buffer name;
-	buffer serialised;
+	buffer data;
+	RequestHeader reqHeader;
 	int value;
 
+	
 	std::vector<std::shared_ptr<responceElement>> requests;
 
+	//get  test input stack
 	std::cout << "set name = '!' to end pushInt stack" << std::endl << std::endl;
-
 	std::cout << "variable Name:" << std::endl;
 	std::cin >> name;
 	while (name != "!") {
@@ -200,16 +192,17 @@ void SendPushInt(buffer& outBuffer, bool* send)
 		std::cin >> name;
 	}
 
-	outBuffer.set("CMD=");
-	int tCmd = Commands::push;
-	buffer bcmd((char*)&tCmd, 4);
-
-	outBuffer.append(bcmd);
-
+	//build data package
 	for (auto element : requests) {
-		outBuffer.append(element->serialise());
+		data.append(element->serialise());
 	}
 
+	//build header packet
+	reqHeader.SetCommand(Commands::push);
+	reqHeader.SetSize(data.size);
+	outBuffer = reqHeader.Serialise();
+
+	outBuffer.append(data);
 	*send = true;
 }
 
@@ -218,6 +211,7 @@ void sender(buffer& outBuff, bool* send, std::mutex* stdStream)
 	while (true) {
 		stdStream->lock();
 		//SendPushInt(outBuff, send);
+		outBuff.fullPrint();
 		sendChatMSGs(outBuff, send);
 		stdStream->unlock();
 		//todo: Sleep needs to go, why did i need it?
@@ -270,20 +264,16 @@ int testHarness()
 	while (true) {
 
 		if (client1.connection.canRead()) {
+			RequestHeader reqHead;
 
+			//recieve header and data
 			client1.connection.recieve(&inBuff);
 			
-			//get response type;
-			Commands recivedCommand;
-			char temp[4];
-			for (int i = 0; i < 4; i++) {
-				temp[i] = inBuff.contents[i];
-			}
-			memcpy(&recivedCommand, temp, sizeof(int));
-			inBuff.stripHead('=');
+			//process header
+			reqHead.ProcessHeader(inBuff);
 
 
-			switch (recivedCommand) {
+			switch (reqHead.GetCommand()) {
 			case DATA:
 				handleDataPacket(inBuff);
 				break;
@@ -308,7 +298,6 @@ int testHarness()
 
 			if (toSend && client1.connection.canSend()) {
 				stdStream.lock();
-				outBuff.fullPrint();
 				client1.connection.Send(outBuff);
 				stdStream.unlock();
 				toSend = false;
@@ -326,5 +315,8 @@ int testHarness()
 
 int main()
 {
+	//time to allow VS to start the RDLPIM before the test harness
+	Sleep(1000);
+
 	return testHarness();
 }

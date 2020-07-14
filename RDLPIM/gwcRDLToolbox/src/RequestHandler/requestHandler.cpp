@@ -28,7 +28,6 @@ void requestHandler::terminateJob()
 
 void requestHandler::processNextJob()
 {
-
 	switch (jobs[0]->command)
 	{
 	case INVALID:
@@ -57,6 +56,7 @@ void requestHandler::processNextJob()
 	case VOIP:
 		break;
 	default:
+		handelError();
 		break;
 	}
 }
@@ -359,6 +359,26 @@ void requestHandler::handlePush()
 	terminateJob();
 }
 
+
+void requestHandler::handelError()
+{
+	buffer errMessage;
+	buffer sendBuffer;
+	RequestHeader reqHed;
+
+	errMessage.set("invalid request code: ");
+	errMessage.append(std::to_string((int)jobs[0]->command).c_str());
+	errMessage.append("-- [hint: is your request header properly formatted [int][int](command, bytes of data)] -- job not processed");
+
+	reqHed.SetSize(errMessage.size);
+	reqHed.SetCommand(Commands::ERR);
+
+	sendBuffer = reqHed.Serialise();
+	sendBuffer.append(errMessage);
+
+	clientManager::sendMessage(jobs[0]->ID, sendBuffer);
+	terminateJob();
+}
 
 requestHandler::requestHandler()
 {

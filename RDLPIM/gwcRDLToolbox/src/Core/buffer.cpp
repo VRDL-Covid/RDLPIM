@@ -479,7 +479,13 @@ buffer& buffer::operator=(const buffer& other)
 buffer& buffer::operator=(buffer&& other)
 {
 	size = other.size;
-	contents = other.contents;
+
+	contents = (char*)realloc(contents,size);
+
+	for (int i = 0; i < size; i++) {
+		contents[i] = other.contents[i];
+	}
+
 	return *this;
 }
 
