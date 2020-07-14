@@ -1,12 +1,8 @@
-#include "rdlpch.h"
-#include"ConnectionManager/socketConnection.hpp"
-#include"RequestHandler/reqElement.hpp"
-#include"ClientManager/client.hpp"
-#include"ConnectionManager/connectionManager.hpp"
-#include"RequestHandler/dataArray.hpp"
+#include "gwcRDLToolBox.h"
+#include"dataArray.hpp"
 
 #include"testClient.hpp"
-enum Commands { INVALID, DEBUG, ERR, rdlPush, rdlPull, rdlSubscribe, push, pull, subscribe, chat, VOIP, DATA };
+
 
 void sendDebugMSGs(buffer &outBuff, bool* send)
 {
@@ -221,7 +217,8 @@ void sender(buffer& outBuff, bool* send, std::mutex* stdStream)
 {
 	while (true) {
 		stdStream->lock();
-		SendPushInt(outBuff, send);
+		//SendPushInt(outBuff, send);
+		sendChatMSGs(outBuff, send);
 		stdStream->unlock();
 		//todo: Sleep needs to go, why did i need it?
 		Sleep(200);
@@ -274,7 +271,7 @@ int testHarness()
 
 		if (client1.connection.canRead()) {
 
-			client1.connection.recieve(inBuff);
+			client1.connection.recieve(&inBuff);
 			
 			//get response type;
 			Commands recivedCommand;

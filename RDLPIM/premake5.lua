@@ -145,7 +145,7 @@ project "gwcRDLToolbox"
 	--postbuildcommands { "{COPY} %{wks.location}vendor/GSE/mstG.lib %{cfg.targetdir}",  "{COPY} %{wks.location}vendor/GSE/s3dll.lib %{cfg.targetdir}"}
 	postbuildcommands { "{COPY} C:/Users/gwc59/OneDrive/Desktop/RDLPIM2/RDLPIM/vendor/GSE/mstG.dll C:/Users/gwc59/OneDrive/Desktop/RDLPIM2/RDLPIM/1.dll*"}
 -------------------------------------------------------
---------- Test Harnes ---------------------------------
+--------- Test Harness ---------------------------------
 -------------------------------------------------------	
 	project "RDLPluginManager_testHarness"
 
@@ -159,8 +159,6 @@ project "gwcRDLToolbox"
 	targetdir("bin/" .. outputDir .. "/%{prj.name}")
 	objdir("bin-int/" .. outputDir .. "/%{prj.name}")
 
-	pchheader "rdlpch.h"
-	pchsource "RDLPluginManager_testHarness/src/rdlpch.cpp"
 	
 	files
 	{
@@ -172,18 +170,18 @@ project "gwcRDLToolbox"
 
 	includedirs
 	{
+		"gwcRDLToolbox/src",
 		"%{prj.name}/src"
 	}
 	
 	libdirs
 	{
-		"%{LibDirs.GSE}"
+
 	}
 	
 	links
 	{
-		"s3dll.lib",
-		"mstG.lib"
+		"gwcRDLToolbox"
 	}
 
 	filter "system:windows"
