@@ -84,5 +84,8 @@ public:
 	//input overload
 	friend std::istream& operator >>(std::istream& in, buffer& buf);
 
+	buffer PassChunk(char first, char second);
+	buffer PassChunk(char delimiter);
+
 	~buffer();
 };
