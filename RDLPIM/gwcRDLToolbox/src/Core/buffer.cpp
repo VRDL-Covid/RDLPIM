@@ -1,6 +1,47 @@
 #include "rdlpch.h"
 #include "buffer.hpp"
 
+buffer buffer::PassChunk(char first, char second)
+{
+	uint32_t start = 0;
+	uint32_t end = 0;
+	uint32_t bytes = 0;
+	buffer out;
+
+	//find firt delimiter
+	for (int i = 0; i < size; i++) {
+		if (contents[i] != first)
+			++start;
+		else
+			break;
+	}
+
+	//find second delimiter
+	for (int i = start + 1; i < size; i++) {
+		if (contents[i] == second) {
+			end = i;
+			break;
+		}
+			
+	}
+
+	bytes = end - start + 1;
+
+	char* temp = (char*)malloc(bytes);
+
+	for (int i = 0; i < bytes; i++) {
+		temp[i] = contents[i + start];
+	}
+
+	out.set(temp, bytes);
+
+	free(temp);
+
+	stripHead((int)bytes);
+	return out;
+
+}
+
 buffer::~buffer()
 {
 	//free memory allocated to the contents buffer

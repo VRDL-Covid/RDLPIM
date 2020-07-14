@@ -1,5 +1,6 @@
 #pragma once
 #include "rdlpch.h"
+#include "Core.h"
 //todo put somewhere else
 #define BIND_EVENT_FN0(x) std::bind(&x, this)
 #define BIND_EVENT_FN1(x) std::bind(&x, this, std::placeholders::_1)
@@ -36,25 +37,7 @@
 #define BIND_EVENT_GFNO5(x,y) std::bind(x, &y, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5)
 #define BIND_EVENT_GFNO6(x,y) std::bind(x, &y, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5, std::placeholders::_6)
 
-	//reference definition
-template<typename T>
-using Ref = std::shared_ptr<T>;
 
-template<typename T, typename ... Args>
-constexpr Ref<T> CreateRef(Args&& ... args)
-{
-	return std::make_shared<T>(std::forward<Args>(args)...);
-}
-
-//scoped reference definition
-template<typename T>
-using Scope = std::unique_ptr<T>;
-
-template<typename T, typename ... Args>
-constexpr Scope<T> CreateScope(Args&& ... args)
-{
-	return std::make_unique<T>(std::forward<Args>(args)...);
-}
 
 class IEventCallback
 {

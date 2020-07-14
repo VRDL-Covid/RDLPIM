@@ -1,9 +1,12 @@
 #include "gwcRDLToolBox.h"
-#include"dataArray.hpp"
-
 #include"testClient.hpp"
 
-
+class a
+{
+public:
+	a() = default;
+	~a() { std::cout << "out of scope" << std::endl; }
+};
 void sendDebugMSGs(buffer &outBuff, bool* send)
 {
 	//while (true) {
@@ -40,8 +43,7 @@ void sendDebugMSGs(buffer &outBuff, bool* send)
 	//}
 }
 
-
-void sendChatMSGs(buffer& outBuff, bool* send)
+void sendChatMSGs(buffer& outBuff, bool* send, std::mutex& sockSend)
 {
 	char userIn[1024];
 	uint32_t bytes = 0;
@@ -49,12 +51,15 @@ void sendChatMSGs(buffer& outBuff, bool* send)
 
 	//get user input
 	std::cin.getline(userIn, sizeof(userIn));
+
+	std::lock_guard<std::mutex> lock(sockSend);
+
 	buffer userInData(userIn);
 
 	//buildHeader
 	bytes = userInData.size;
 	reqHeader.SetSize(bytes);
-	reqHeader.SetCommand((Commands)27);
+	reqHeader.SetCommand(Commands::chat);
 
 	outBuff = reqHeader.Serialise();
 
@@ -163,7 +168,7 @@ void sendRDLSubcribe(buffer& outBuff, bool* send)
 
 }
 
-void SendPushInt(buffer& outBuffer, bool* send)
+void SendPushInt(buffer& outBuffer, bool* send, std::mutex& sockSend)
 {
 	//get variable name
 	buffer name;
@@ -172,7 +177,7 @@ void SendPushInt(buffer& outBuffer, bool* send)
 	int value;
 
 	
-	std::vector<std::shared_ptr<responceElement>> requests;
+	std::vector<std::shared_ptr<DataElement>> requests;
 
 	//get  test input stack
 	std::cout << "set name = '!' to end pushInt stack" << std::endl << std::endl;
@@ -184,13 +189,14 @@ void SendPushInt(buffer& outBuffer, bool* send)
 		std::cout << "Value:" << std::endl;
 		std::cin >> value;
 
-		auto request = std::make_shared<responceElement>(name);
+		auto request = std::make_shared<DataElement>(name);
 		request->set(value);
 		requests.emplace_back(request);
 
 		std::cout << "variable Name:" << std::endl;
 		std::cin >> name;
 	}
+
 
 	//build data package
 	for (auto element : requests) {
@@ -200,20 +206,20 @@ void SendPushInt(buffer& outBuffer, bool* send)
 	//build header packet
 	reqHeader.SetCommand(Commands::push);
 	reqHeader.SetSize(data.size);
-	outBuffer = reqHeader.Serialise();
 
+	std::lock_guard<std::mutex> lock(sockSend);
+
+	outBuffer = reqHeader.Serialise();
 	outBuffer.append(data);
 	*send = true;
 }
 
-void sender(buffer& outBuff, bool* send, std::mutex* stdStream)
+void sender(buffer& outBuff, bool* send, std::mutex& sockSend)
 {
 	while (true) {
-		stdStream->lock();
-		//SendPushInt(outBuff, send);
+
 		outBuff.fullPrint();
-		sendChatMSGs(outBuff, send);
-		stdStream->unlock();
+		SendPushInt(outBuff, send, sockSend);
 		//todo: Sleep needs to go, why did i need it?
 		Sleep(200);
 	}
@@ -221,29 +227,13 @@ void sender(buffer& outBuff, bool* send, std::mutex* stdStream)
 
 void handleDataPacket(const buffer& inBuff)
 {
-	dataArray responce;
-	responce.deserialise(inBuff);
-	for (int i = 0; i < responce.nElements; i++) {
-		std::cout << std::endl << responce.data[i]->varName << ":" << std::endl << responce.data[i]->type << std::endl << responce.data[i]->bytes << std::endl;
-		if (!strncmp(responce.data[i]->type.contents, "double",6)) {
-			std::cout << "value:" << *(double*)responce.data[i]->data << std::endl;
-		}
 
-		if (responce.data[i]->type.contents[0] == 'I' && responce.data[i]->bytes == 4) {
-			std::cout << "value:" << *(int*)responce.data[i]->data << std::endl;
-		}
-
-		if (responce.data[i]->type.contents[0] == 'L' && responce.data[i]->bytes == 1) {
-			std::cout << "value:" << (*(bool*)responce.data[i]->data ? "true" : "false") << std::endl;
-		}
-		std::cout << std::endl;
-	}
 }
 
 int testHarness()
 {
 	//connectionObject client(8000, "10.106.94.39");
-	std::mutex stdStream;
+	std::mutex sockSend;
 
 	testClient client1("127.0.0.1",8000);
 	client1.getConnectionData();
@@ -259,7 +249,7 @@ int testHarness()
 
 	testClient* clPtr = &client1;
 
-	std::thread senderThread(sender, std::ref(outBuff), toSendPtr, &stdStream);
+	std::thread senderThread(sender, std::ref(outBuff), toSendPtr, std::ref(sockSend));
 
 	while (true) {
 
@@ -297,10 +287,11 @@ int testHarness()
 		else {
 
 			if (toSend && client1.connection.canSend()) {
-				stdStream.lock();
+				
+				std::lock_guard<std::mutex> lock(sockSend);
 				client1.connection.Send(outBuff);
-				stdStream.unlock();
 				toSend = false;
+
 			}
 		}
 

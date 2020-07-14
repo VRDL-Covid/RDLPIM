@@ -9,16 +9,16 @@
 // Description: A class to handle a single request string from a client formatting:
 //				"VarName=VarType=Bytes=Value"
 //				passed to request handle objects.
-class responceElement
+class DataElement
 {
 private:
 	void sizeData(int sBytes);
 public:
 	//members
-	buffer varName;
-	buffer type;
-	int bytes;
-	char* data;
+	buffer m_VarName;
+	buffer m_Type;
+	int m_Bytes;
+	char* m_data;
 
 	//methods 
 
@@ -38,13 +38,12 @@ public:
 	// Date: 20/01/2020
 	// Description: Method to initialise the contents of a request packet from a correctly formatted character array 
 	//				"VarName=VarType=Bytes=Value"
-	int deserialise(buffer* in);
+	int deserialise(const buffer& in);
 
 	// Author: Guy Collins
 	// Date: 20/01/2020
 	// Description: Method to serialise the contents of a request packet into a correctly formatted character array 
 	//				"VarName=VarType=Bytes=Value"
-	void serialise(buffer* output);
 	buffer serialise();
 
 
@@ -61,20 +60,20 @@ public:
 	// Author: Guy Collins
 	// Date: 20/01/2020
 	// Description: Constructor and destructor methods, overloaded to initialise variable name from a string or buffer object.
-	responceElement();
-	responceElement(std::string var);
-	responceElement(const buffer& var);
-	responceElement(buffer* var);
-	responceElement(const char* var);
-	~responceElement();
+	DataElement();
+	DataElement(std::string var);
+	DataElement(const buffer& var);
+	DataElement(buffer* var);
+	DataElement(const char* var);
+	~DataElement();
 
 	//copy constructors
 
 	//copy constructor
-	responceElement(const responceElement& other);
+	DataElement(const DataElement& other);
 
 	//copy assignment overload
-	responceElement& operator=(const responceElement& other);
+	DataElement& operator=(const DataElement& other);
 
 
 
