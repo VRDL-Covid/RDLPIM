@@ -1,7 +1,7 @@
 #pragma once
 #include<windows.h>
 #include<tlhelp32.h>
-#include"buffer.hpp"
+#include"Core/buffer.hpp"
 #include"s3Includes.hpp"
 
 //buff length and port

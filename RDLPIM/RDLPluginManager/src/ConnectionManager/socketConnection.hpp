@@ -1,5 +1,5 @@
 #pragma once
-#include"buffer.hpp"
+#include"Core/buffer.hpp"
 #include<WS2tcpip.h>
 #include"connectionOptions.h"
 

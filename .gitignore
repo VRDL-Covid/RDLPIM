@@ -9,3 +9,5 @@ bin-int
 /RDLPIM/RDLPluginManager/*.vcxproj
 /RDLPIM/RDLPluginManager/*.user
 /RDLPIM/*.sln
+/RDLPIM/RDLPluginManager_testHarness/*.filters
+/RDLPIM/RDLPluginManager/*.filters

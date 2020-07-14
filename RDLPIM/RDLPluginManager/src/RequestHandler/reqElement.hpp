@@ -1,5 +1,5 @@
 #pragma once
-#include"buffer.hpp"
+#include"Core/buffer.hpp"
 #include"RDL/rdlData.hpp"
 
 #define MAXDATASIZE 4096
