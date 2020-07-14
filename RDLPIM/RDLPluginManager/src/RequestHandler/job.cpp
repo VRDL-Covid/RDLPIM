@@ -1,10 +1,10 @@
 #include "rdlpch.h"
 #include "job.hpp"
 
-commands job::getCommand(buffer* rawJob)
+Commands job::getCommand(buffer* rawJob)
 {
 	int position = 0;
-	commands Tcommand = commands::INVALID;
+	Commands Tcommand = Commands::INVALID;
 
 	while ((position < rawJob->size) && !(((rawJob->contents[position + 0] == 'C') || (rawJob->contents[position + 0] == 'c'))
 		&& ((rawJob->contents[position + 1] == 'M') || (rawJob->contents[position + 1] == 'M'))
@@ -15,7 +15,7 @@ commands job::getCommand(buffer* rawJob)
 	position += sizeof("CMD");;
 
 	if (position >= rawJob->size) {
-		command = commands::INVALID;
+		command = Commands::INVALID;
 		return command;
 	}
 
@@ -79,7 +79,7 @@ void job::getData(buffer* rawJob)
 job::job()
 {
 	ID = -1;
-	command = commands::INVALID;
+	command = Commands::INVALID;
 	data = nullptr;
 }
 

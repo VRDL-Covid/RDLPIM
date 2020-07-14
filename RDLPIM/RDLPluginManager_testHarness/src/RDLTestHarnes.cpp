@@ -6,7 +6,7 @@
 #include"RequestHandler/dataArray.hpp"
 
 #include"testClient.hpp"
-enum commands { INVALID, DEBUG, ERR, rdlPush, rdlPull, rdlSubscribe, push, pull, subscribe, chat, VOIP, DATA };
+enum Commands { INVALID, DEBUG, ERR, rdlPush, rdlPull, rdlSubscribe, push, pull, subscribe, chat, VOIP, DATA };
 
 void sendDebugMSGs(buffer &outBuff, bool* send)
 {
@@ -28,7 +28,7 @@ void sendDebugMSGs(buffer &outBuff, bool* send)
 		char cmd[4];
 		char* cmdPtr = &cmd[0];
 		buffer commandSend;
-		commands chat = commands::DEBUG;
+		Commands chat = Commands::DEBUG;
 		memcpy(cmd, &chat, 4);
 		commandSend.set(cmdPtr, 4);
 
@@ -64,7 +64,7 @@ void sendChatMSGs(buffer& outBuff, bool* send)
 	char cmd[4];
 	char* cmdPtr = &cmd[0];
 	buffer commandSend;
-	commands chat = commands::chat;
+	Commands chat = Commands::chat;
 	memcpy(cmd, &chat, 4);
 	commandSend.set(cmdPtr, 4);
 
@@ -99,7 +99,7 @@ void sendRDLPull(buffer& outBuff, bool* send)
 		char cmd[4];
 		char* cmdPtr = &cmd[0];
 		buffer commandSend;
-		commands chat = commands::rdlPull;
+		Commands chat = Commands::rdlPull;
 		memcpy(cmd, &chat, 4);
 		commandSend.set(cmdPtr, 4);
 
@@ -129,7 +129,7 @@ void sendRDLSubcribe(buffer& outBuff, bool* send)
 	char cmd[4];
 	char* cmdPtr = &cmd[0];
 	buffer commandSend;
-	commands Cmd = rdlSubscribe;
+	Commands Cmd = rdlSubscribe;
 	memcpy(cmd, &Cmd, 4);
 	commandSend.set(cmdPtr, 4);
 
@@ -205,7 +205,7 @@ void SendPushInt(buffer& outBuffer, bool* send)
 	}
 
 	outBuffer.set("CMD=");
-	int tCmd = commands::push;
+	int tCmd = Commands::push;
 	buffer bcmd((char*)&tCmd, 4);
 
 	outBuffer.append(bcmd);
@@ -277,7 +277,7 @@ int testHarness()
 			client1.connection.recieve(inBuff);
 			
 			//get response type;
-			commands recivedCommand;
+			Commands recivedCommand;
 			char temp[4];
 			for (int i = 0; i < 4; i++) {
 				temp[i] = inBuff.contents[i];

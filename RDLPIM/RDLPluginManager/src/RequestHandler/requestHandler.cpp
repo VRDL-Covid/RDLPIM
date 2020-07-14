@@ -80,7 +80,7 @@ void requestHandler::checkSubscribedData()
 
 	for (CL_it; CL_it != clientManager::clients.end(); CL_it++) {
 		buffer message;
-		commands command = DATA;
+		Commands command = DATA;
 		message.set(&command, sizeof(command));
 
 		buffer stacker;
@@ -148,7 +148,7 @@ void requestHandler::handleChat()
 {
 	char cmd[4];
 	char* cmdPtr = &cmd[0];
-	commands chat = commands::chat;
+	Commands chat = Commands::chat;
 	memcpy(cmd, &chat, 4);
 
 	buffer message;
@@ -212,8 +212,8 @@ void requestHandler::handleRDLPull()
 	//set message command flag to datagram
 	buffer message;
 	char TcommandRaw[sizeof(int)];
-	commands Tcommand;
-	Tcommand = commands::DATA;
+	Commands Tcommand;
+	Tcommand = Commands::DATA;
 	memcpy(TcommandRaw, &Tcommand, 4);
 	message.set(TcommandRaw, sizeof(int));
 	message.append("=");
@@ -294,11 +294,11 @@ void requestHandler::handleRDLSubscribe()
 			//return error, variable not available for subscription
 			buffer message;
 			buffer temp;
-			commands command = ERR;
+			Commands command = ERR;
 			message.set(&command, 4);
 
 			message.append("=");
-			command = commands::rdlSubscribe;
+			command = Commands::rdlSubscribe;
 			temp.set(&command, 4);
 
 			message.append(temp);

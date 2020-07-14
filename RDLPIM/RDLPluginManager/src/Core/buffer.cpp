@@ -27,7 +27,7 @@ buffer::buffer(const char* src)
 	}
 
 	//allocate memory to the contents buffer
-	contents = (char*)malloc(sizeof(char)*size);
+	contents = (char*)malloc(sizeof(char) * size);
 
 	//copy the source to the contents buffer except the final null terminator.
 	for (int i = 0; i < size; i++) {
@@ -41,7 +41,7 @@ buffer::buffer(char* src, int sSize)
 	size = sSize;
 
 	//allocate memore to the contents buffer
-	contents = (char*)malloc(sizeof(char)*size);
+	contents = (char*)malloc(sizeof(char) * size);
 
 	//copy the source to the contents buffer
 	for (int i = 0; i < size; i++) {
@@ -73,10 +73,10 @@ void buffer::set(void* src, int iSize)
 
 	//resize the memory allocated to the contents buffer
 	if (contents == nullptr) {
-		contents = (char*)malloc(sizeof(char)*size);
+		contents = (char*)malloc(sizeof(char) * size);
 	}
 	else {
-		contents = (char*)realloc(contents, sizeof(char)*size);
+		contents = (char*)realloc(contents, sizeof(char) * size);
 	}
 
 	//copy the contents of the src to the contents buffer
@@ -97,10 +97,10 @@ void buffer::set(const char* src)
 
 	//resize the memory allocated to the contents buffer
 	if (contents == nullptr) {
-		contents = (char*)malloc(sizeof(char)*size);
+		contents = (char*)malloc(sizeof(char) * size);
 	}
 	else {
-		contents = (char*)realloc(contents, sizeof(char)*size);
+		contents = (char*)realloc(contents, sizeof(char) * size);
 	}
 
 	//copy the contents of the src to the contents buffer
@@ -116,17 +116,16 @@ void buffer::set(char* src, int iSize)
 
 	//resize the memory allocated to the contents buffer
 	if (contents == nullptr) {
-		contents = (char*)malloc(sizeof(char)*size);
+		contents = (char*)malloc(sizeof(char) * size);
 	}
 	else {
-		contents = (char*)realloc(contents, sizeof(char)*size);
+		contents = (char*)realloc(contents, sizeof(char) * size);
 	}
 
 	//copy the contents of the src to the contents buffer
 	for (int i = 0; i < size; i++) {
 		contents[i] = src[i];
 	}
-
 
 }
 
@@ -185,7 +184,7 @@ int buffer::diff(buffer* buf1, const buffer* buf2)
 	return dif;
 }
 
-bool buffer::operator==(const buffer &buf1)
+bool buffer::operator==(const buffer& buf1)
 {
 	bool state1, state2;
 	state1 = size == buf1.size;
@@ -194,7 +193,7 @@ bool buffer::operator==(const buffer &buf1)
 
 }
 
-bool buffer::operator!=(const buffer &buf1)
+bool buffer::operator!=(const buffer& buf1)
 {
 	bool state1, state2;
 	state1 = size == buf1.size;
@@ -202,13 +201,22 @@ bool buffer::operator!=(const buffer &buf1)
 	return!((state1) && (state2));
 }
 
-void buffer::append(const buffer &tail)
+std::ostream& operator<< (std::ostream& out, const buffer& c)
+{
+	buffer temp = c;
+	temp.nullTerminate();
+
+	out << temp.contents;
+	return out;
+}
+
+void buffer::append(const buffer& tail)
 {
 	//calculate new size
 	int newSize = size + tail.size;
 
 	//copy head packet to temporary buffer
-	char* tempBuffer = (char*)malloc(sizeof(char)*newSize);
+	char* tempBuffer = (char*)malloc(sizeof(char) * newSize);
 	for (int i = 0; i < size; i++) {
 		tempBuffer[i] = contents[i];
 	}
@@ -221,10 +229,10 @@ void buffer::append(const buffer &tail)
 	//realocate contents size
 	size = newSize;
 	if (contents == nullptr) {
-		contents = (char*)malloc(sizeof(char)*size);
+		contents = (char*)malloc(sizeof(char) * size);
 	}
 	else {
-		contents = (char*)realloc(contents, sizeof(char)*size);
+		contents = (char*)realloc(contents, sizeof(char) * size);
 	}
 
 	//temp buffer to contents.
@@ -248,7 +256,7 @@ void buffer::append(const char* tail)
 	int newSize = size + srcSize;
 
 	//copy head packet to temporary buffer
-	char* tempBuffer = (char*)malloc(sizeof(char)*newSize);
+	char* tempBuffer = (char*)malloc(sizeof(char) * newSize);
 	for (int i = 0; i < size; i++) {
 		tempBuffer[i] = contents[i];
 	}
@@ -261,10 +269,10 @@ void buffer::append(const char* tail)
 	//realocate contents size
 	size = newSize;
 	if (contents == nullptr) {
-		contents = (char*)malloc(sizeof(char)*size);
+		contents = (char*)malloc(sizeof(char) * size);
 	}
 	else {
-		contents = (char*)realloc(contents, sizeof(char)*size);
+		contents = (char*)realloc(contents, sizeof(char) * size);
 	}
 
 	//temp buffer to contents.
@@ -276,13 +284,13 @@ void buffer::append(const char* tail)
 	free(tempBuffer);
 }
 
-void buffer::prepend(const buffer &head)
+void buffer::prepend(const buffer& head)
 {
 	//Calculate new size
 	int newSize = head.size + size;
 
 	//copy head to temporary buffer
-	char* temporaryBuff = (char*)malloc(sizeof(char)*newSize);
+	char* temporaryBuff = (char*)malloc(sizeof(char) * newSize);
 
 	for (int i = 0; i < head.size; i++) {
 		temporaryBuff[i] = head.contents[i];
@@ -296,10 +304,10 @@ void buffer::prepend(const buffer &head)
 	//reallocate memory assigned to contents buffer
 	size = newSize;
 	if (contents == nullptr) {
-		contents = (char*)malloc(sizeof(char)*size);
+		contents = (char*)malloc(sizeof(char) * size);
 	}
 	else {
-		contents = (char*)realloc(contents, sizeof(char)*size);
+		contents = (char*)realloc(contents, sizeof(char) * size);
 	}
 
 	//copy temporary buffer to contents buffer
@@ -323,7 +331,7 @@ void buffer::prepend(const char* head)
 	int newSize = headSize + size;
 
 	//copy head buffer to temporary buffer
-	char* tempBuff = (char*)malloc(sizeof(char)*newSize);
+	char* tempBuff = (char*)malloc(sizeof(char) * newSize);
 	for (int i = 0; i < headSize; i++) {
 		tempBuff[i] = head[i];
 	}
@@ -336,10 +344,10 @@ void buffer::prepend(const char* head)
 	//reallocate memory assigned to contents buffer
 	size = newSize;
 	if (contents == nullptr) {
-		contents = (char*)malloc(sizeof(char)*size);
+		contents = (char*)malloc(sizeof(char) * size);
 	}
 	else {
-		contents = (char*)realloc(contents, sizeof(char)*size);
+		contents = (char*)realloc(contents, sizeof(char) * size);
 	}
 
 	//copy temporary buffer to contents buffer
@@ -364,7 +372,7 @@ void buffer::nullTerminate()
 
 	size = newSize;
 
-	contents = (char*)realloc(contents, sizeof(char)*size);
+	contents = (char*)realloc(contents, sizeof(char) * size);
 
 	for (int i = 0; i < size; i++) {
 		contents[i] = temp[i];
@@ -407,7 +415,7 @@ void buffer::stripHead(char seperator)
 {
 	int it = 0;
 
-	while ((contents[it] != seperator) && (it<size)) {
+	while ((contents[it] != seperator) && (it < size)) {
 		it++;
 	}
 
@@ -443,7 +451,7 @@ void buffer::stripTail(char seperator)
 {
 	int it = 0;
 
-	while ((contents[size-1-it] != seperator) && (it < (size-1))) {
+	while ((contents[size - 1 - it] != seperator) && (it < (size - 1))) {
 		it++;
 	}
 
@@ -466,4 +474,19 @@ buffer& buffer::operator=(const buffer& other)
 	}
 
 	return *this;
+}
+
+buffer& buffer::operator=(buffer&& other)
+{
+	size = other.size;
+	contents = other.contents;
+	return *this;
+}
+
+std::istream& operator>> (std::istream& in, buffer& buf)
+{
+	std::string temp;
+	in >> temp;
+	buf.set(temp.c_str());
+	return in;
 }
