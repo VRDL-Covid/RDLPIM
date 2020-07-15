@@ -236,7 +236,7 @@ void requestHandler::handlePull()
 
 	//get data
 	for (auto var : requestVars) {
-		dataElement = DB->GetData(var);
+		dataElement = DB->GetData(var); // !!!!!!!!!!!!!!!!!!!!!!!! Error on this line.
 		Data.append(dataElement.serialise());
 	}
 
