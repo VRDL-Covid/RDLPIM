@@ -7,15 +7,15 @@ class job
 public:
 	int ID;
 	Commands command;
-	buffer data;
+	Buffer data;
 
-	Commands getCommand(buffer* rawJob);
-	int getClientID(buffer* thisJob);
-	void getData(buffer* rawJob);
+	Commands getCommand(Buffer* rawJob);
+	int getClientID(Buffer* thisJob);
+	void getData(Buffer* rawJob);
 
 
 	job();
-	job(buffer* rawJob);
+	job(Buffer* rawJob);
 
 
 	~job();

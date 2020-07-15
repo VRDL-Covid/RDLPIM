@@ -11,9 +11,9 @@ void requestHandler::printJobs()
 	//TODO:GWC - make method to print pending jobs.
 }
 
-void requestHandler::addToQue(const buffer &rawJob)
+void requestHandler::addToQue(const Buffer &rawJob)
 {
-	buffer rawJobCpy = rawJob;
+	Buffer rawJobCpy = rawJob;
 	job* newJob = new job(&rawJobCpy);
 	jobs.push_back(newJob);
 	noJobs++;
@@ -98,7 +98,7 @@ void requestHandler::worker(std::mutex* jobVectorMutex)
 
 void requestHandler::handleDEBUG()
 {
-	buffer message("ID-");
+	Buffer message("ID-");
 	message.append(std::to_string(jobs[0]->ID).c_str());
 	message.append(":");
 	message.append(jobs[0]->data);
@@ -111,8 +111,8 @@ void requestHandler::handleDEBUG()
 void requestHandler::handleChat()
 {
 	RequestHeader reqHead;
-	buffer OutBuf;
-	buffer data;
+	Buffer OutBuf;
+	Buffer data;
 
 	data.set("ID-");
 	data.append(std::to_string(jobs[0]->ID).c_str());
@@ -135,7 +135,7 @@ void requestHandler::handleRDLPull()
 	int nameSize = 0;
 	int gap = 0;
 	int numReqs = 0;
-	buffer tempName("h");
+	Buffer tempName("h");
 	int it = 0;
 
 	//End if there is no job data
@@ -177,7 +177,7 @@ void requestHandler::handleRDLPull()
 	}
 
 	//set message command flag to datagram
-	buffer message;
+	Buffer message;
 	char TcommandRaw[sizeof(int)];
 	Commands Tcommand;
 	Tcommand = Commands::DATA;
@@ -205,9 +205,15 @@ void requestHandler::handleRDLPull()
 void requestHandler::handlePush()
 {
 	dataArray PushDataArr;
+	DataBase* DB =  DataBase::GetInstance() ;
+
 	jobs[0]->data.fullPrint();
 	
 	PushDataArr.deserialise(jobs[0]->data);
+
+	for (auto element : PushDataArr){
+		DB->ModData(*element);
+	}
 
 	terminateJob();
 }
@@ -215,8 +221,8 @@ void requestHandler::handlePush()
 
 void requestHandler::handelError()
 {
-	buffer errMessage;
-	buffer sendBuffer;
+	Buffer errMessage;
+	Buffer sendBuffer;
 	RequestHeader reqHed;
 
 	errMessage.set("invalid request code: ");

@@ -63,10 +63,10 @@ public:
 	// Date: 21/01/2020
 	// Description: method to recieve incoming data into a char array or buffer object.
 	int recieve(char* out, int size);
-	int recieve(buffer* buff);
+	int recieve(Buffer* buff);
 
 	int Send(char* out, int size);
-	int Send(const buffer &inp);
+	int Send(const Buffer &inp);
 	int Send(const char* out);
 
 	// Author: Guy Collins

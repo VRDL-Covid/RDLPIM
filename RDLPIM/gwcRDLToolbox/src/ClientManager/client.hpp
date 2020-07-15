@@ -21,7 +21,7 @@ public:
 
 	void connect();
 
-	int Send(const buffer& output);
+	int Send(const Buffer& output);
 
 	Client(int iPort);
 	Client();

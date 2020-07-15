@@ -97,7 +97,7 @@ class RDL
 public:
 	DWORD pid;
 	RDL();
-	RDL(const buffer &ipid);
+	RDL(const Buffer &ipid);
 	RDL(const char* ipid);
 	RDL(char* ipid);
 	~RDL();

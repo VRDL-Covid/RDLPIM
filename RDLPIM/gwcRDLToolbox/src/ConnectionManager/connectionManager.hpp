@@ -29,7 +29,7 @@ private:
 	connectionManager();
 	connectionObject listener;
 	portPool ports;
-	void buildConnectionDetails(buffer* connectionReq);
+	void buildConnectionDetails(Buffer* connectionReq);
 	void sendConnectionDetails();
 
 	static connectionManager* s_Instance;

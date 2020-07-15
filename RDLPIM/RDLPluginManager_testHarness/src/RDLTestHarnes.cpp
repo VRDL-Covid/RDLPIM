@@ -1,7 +1,7 @@
 #include "gwcRDLToolBox.h"
 #include"testClient.hpp"
 
-void sendDebugMSGs(buffer &outBuff, bool* send)
+void sendDebugMSGs(Buffer &outBuff, bool* send)
 {
 	//while (true) {
 		char userIn[1024];
@@ -10,17 +10,17 @@ void sendDebugMSGs(buffer &outBuff, bool* send)
 
 		//get user input
 		std::cin.getline(userIn, sizeof(userIn));
-		buffer userInData(userIn);
+		Buffer userInData(userIn);
 
 		//build bytes data
 		bytes = userInData.size;
 		memcpy(&CBytes, &userInData.size, 4);
-		buffer bytesData(CBytes, 4);
+		Buffer bytesData(CBytes, 4);
 
 		//build command data
 		char cmd[4];
 		char* cmdPtr = &cmd[0];
-		buffer commandSend;
+		Buffer commandSend;
 		Commands chat = Commands::DEBUG;
 		memcpy(cmd, &chat, 4);
 		commandSend.set(cmdPtr, 4);
@@ -37,7 +37,7 @@ void sendDebugMSGs(buffer &outBuff, bool* send)
 	//}
 }
 
-void sendChatMSGs(buffer& outBuff, bool* send, std::mutex& sockSend)
+void sendChatMSGs(Buffer& outBuff, bool* send, std::mutex& sockSend)
 {
 	char userIn[1024];
 	uint32_t bytes = 0;
@@ -48,7 +48,7 @@ void sendChatMSGs(buffer& outBuff, bool* send, std::mutex& sockSend)
 
 	std::lock_guard<std::mutex> lock(sockSend);
 
-	buffer userInData(userIn);
+	Buffer userInData(userIn);
 
 	//buildHeader
 	bytes = userInData.size;
@@ -65,7 +65,7 @@ void sendChatMSGs(buffer& outBuff, bool* send, std::mutex& sockSend)
 
 }
 
-void sendRDLPull(buffer& outBuff, bool* send)
+void sendRDLPull(Buffer& outBuff, bool* send)
 {
 		char userIn[1024];
 		int bytes = 0;
@@ -73,17 +73,17 @@ void sendRDLPull(buffer& outBuff, bool* send)
 
 		//get user input
 		std::cin.getline(userIn, sizeof(userIn));
-		buffer userInData(userIn);
+		Buffer userInData(userIn);
 
 		//build bytes data
 		bytes = userInData.size;
 		memcpy(&CBytes, &userInData.size, 4);
-		buffer bytesData(CBytes, 4);
+		Buffer bytesData(CBytes, 4);
 
 		//build command data
 		char cmd[4];
 		char* cmdPtr = &cmd[0];
-		buffer commandSend;
+		Buffer commandSend;
 		Commands chat = Commands::rdlPull;
 		memcpy(cmd, &chat, 4);
 		commandSend.set(cmdPtr, 4);
@@ -100,7 +100,7 @@ void sendRDLPull(buffer& outBuff, bool* send)
 
 }
 
-void sendRDLSubcribe(buffer& outBuff, bool* send)
+void sendRDLSubcribe(Buffer& outBuff, bool* send)
 {
 	char userIn[1024];
 	int bytes = 0;
@@ -108,12 +108,12 @@ void sendRDLSubcribe(buffer& outBuff, bool* send)
 
 	//get user input
 	std::cin.getline(userIn, sizeof(userIn));
-	buffer userInData(userIn);
+	Buffer userInData(userIn);
 
 	//build command data
 	char cmd[4];
 	char* cmdPtr = &cmd[0];
-	buffer commandSend;
+	Buffer commandSend;
 	Commands Cmd = rdlSubscribe;
 	memcpy(cmd, &Cmd, 4);
 	commandSend.set(cmdPtr, 4);
@@ -122,20 +122,20 @@ void sendRDLSubcribe(buffer& outBuff, bool* send)
 	char tolChar[8];
 	double tol = 0.0;
 	memcpy(tolChar, &tol, sizeof(double));
-	buffer tolData;
+	Buffer tolData;
 	tolData.set(tolChar, sizeof(double));
 
 	//Build delay packet
 	char delChar[8];
 	double del = 0.5;
 	memcpy(delChar, &del, sizeof(double));
-	buffer delData;
+	Buffer delData;
 	delData.set(delChar, sizeof(double));
 
 	//build bytes data
 	bytes = (userInData.size) + 20 + 2*(tolData.size) + 2*(delData.size) + 13;
 	memcpy(&CBytes, &bytes, 4);
-	buffer bytesData(CBytes, 4);
+	Buffer bytesData(CBytes, 4);
 
 	//build raw job buffer
 	outBuff.set("CMD=");
@@ -162,11 +162,11 @@ void sendRDLSubcribe(buffer& outBuff, bool* send)
 
 }
 
-void SendPushInt(buffer& outBuffer, bool* send, std::mutex& sockSend)
+void SendPushInt(Buffer& outBuffer, bool* send, std::mutex& sockSend)
 {
 	//get variable name
-	buffer name;
-	buffer data;
+	Buffer name;
+	Buffer data;
 	RequestHeader reqHeader;
 	int value;
 
@@ -208,19 +208,18 @@ void SendPushInt(buffer& outBuffer, bool* send, std::mutex& sockSend)
 	*send = true;
 }
 
-void sender(buffer& outBuff, bool* send, std::mutex& sockSend)
+void sender(Buffer& outBuff, bool* send, std::mutex& sockSend)
 {
 	while (true) {
 
 		outBuff.fullPrint();
-		//SendPushInt(outBuff, send, sockSend);
-		sendChatMSGs(outBuff, send, sockSend);
+		SendPushInt(outBuff, send, sockSend);
 		//todo: Sleep needs to go, why did i need it?
 		Sleep(200);
 	}
 }
 
-void handleDataPacket(const buffer& inBuff)
+void handleDataPacket(const Buffer& inBuff)
 {
 
 }
@@ -236,8 +235,8 @@ int testHarness()
 
 	client1.connection.connectToServer();
 
-	buffer inBuff;
-	buffer outBuff;
+	Buffer inBuff;
+	Buffer outBuff;
 
 	bool toSend = false;
 	bool* toSendPtr = &toSend;

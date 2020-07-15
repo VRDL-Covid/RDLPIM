@@ -20,7 +20,7 @@ DataElement::DataElement()
 
 DataElement::DataElement(const char* var)
 {
-	buffer temp(var);
+	Buffer temp(var);
 	temp.nullTerminate();
 	m_VarName.set(var);
 	m_Type.set("");
@@ -36,7 +36,7 @@ DataElement::DataElement(std::string var)
 	m_data = nullptr;
 }
 
-DataElement::DataElement(const buffer& var)
+DataElement::DataElement(const Buffer& var)
 {
 	m_VarName = var;
 	m_Type.set("");
@@ -44,7 +44,7 @@ DataElement::DataElement(const buffer& var)
 	m_data = nullptr;
 }
 
-DataElement::DataElement(buffer* var)
+DataElement::DataElement(Buffer* var)
 {
 	m_VarName = *var;
 	m_Type.set("");
@@ -102,7 +102,7 @@ int DataElement::set(char* in, int size)
 	m_Bytes = size;
 	return 0;
 }
-int DataElement::set(buffer* in)
+int DataElement::set(Buffer* in)
 {
 	sizeData(in->size);
 	memset(m_data, '\0', in->size);
@@ -114,7 +114,7 @@ int DataElement::set(buffer* in)
 	m_Bytes = in->size;
 	return 0;
 }
-int DataElement::set(const buffer &in)
+int DataElement::set(const Buffer &in)
 {
 	sizeData(in.size);
 	memset(m_data, '\0', in.size);
@@ -159,13 +159,13 @@ void DataElement::set(const rdlData& rdldata)
 	}
 }
 
-int DataElement::deserialise(const buffer& in)
+int DataElement::deserialise(const Buffer& in)
 {
 	int nameSize = 0;
 	int typeSize = 0;
 	int itt = 0;
 	char* temp;
-	buffer incpy = in;
+	Buffer incpy = in;
 	incpy.stripHead('{');
 	incpy.stripTail('}');
 
@@ -236,9 +236,9 @@ int DataElement::deserialise(const buffer& in)
 
 }
 
-buffer DataElement::serialise()
+Buffer DataElement::serialise()
 {
-	buffer output;
+	Buffer output;
 	int tempSize;
 	if (m_Bytes < 4) {
 		tempSize = 8;
@@ -260,11 +260,11 @@ buffer DataElement::serialise()
 	std::memcpy(temp, &m_Bytes, sizeof(int));
 
 	output.append("=");
-	buffer bytesData(temp, 4);
+	Buffer bytesData(temp, 4);
 	output.append(bytesData);
 
 	//build data
-	buffer dataData(m_data, m_Bytes);
+	Buffer dataData(m_data, m_Bytes);
 	output.append("=");
 	output.append(dataData);
 
@@ -300,6 +300,17 @@ DataElement::DataElement(const DataElement& other)
 	}
 }
 
+//move constructors
+DataElement::DataElement(DataElement&& other)
+{
+	m_VarName = std::move(other.m_VarName);
+	m_Type = std::move(other.m_Type);
+	m_Bytes = std::move(other.m_Bytes);
+
+	m_data = std::move(other.m_data);
+
+}
+
 
 DataElement& DataElement::operator=(const DataElement& other)
 {
@@ -312,6 +323,17 @@ DataElement& DataElement::operator=(const DataElement& other)
 	for (int i = 0; i < m_Bytes; i++) {
 		m_data[i] = other.m_data[i];
 	}
+
+	return *this;
+}
+
+DataElement& DataElement::operator=(DataElement&& other)
+{
+	m_VarName = std::move(other.m_VarName);
+	m_Type =    std::move(other.m_Type);
+	m_Bytes =   std::move(other.m_Bytes);
+
+	m_data = std::move(other.m_data);
 
 	return *this;
 }

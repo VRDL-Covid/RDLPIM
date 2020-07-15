@@ -1,12 +1,12 @@
 #include "rdlpch.h"
 #include "buffer.hpp"
 
-buffer buffer::PassChunk(char first, char second)
+Buffer Buffer::PassChunk(char first, char second)
 {
 	uint32_t start = 0;
 	uint32_t end = 0;
 	uint32_t bytes = 0;
-	buffer out;
+	Buffer out;
 
 	//find firt delimiter
 	for (int i = 0; i < size; i++) {
@@ -42,7 +42,7 @@ buffer buffer::PassChunk(char first, char second)
 
 }
 
-buffer::~buffer()
+Buffer::~Buffer()
 {
 	//free memory allocated to the contents buffer
 	if (contents != nullptr) {
@@ -51,14 +51,14 @@ buffer::~buffer()
 
 }
 
-buffer::buffer()
+Buffer::Buffer()
 {
 	//initialise a null buffer
 	contents = nullptr;
 	size = 0;
 }
 
-buffer::buffer(const char* src)
+Buffer::Buffer(const char* src)
 {
 	//find size of src, treated as a null terminated string.
 	size = 0;
@@ -76,7 +76,7 @@ buffer::buffer(const char* src)
 	}
 }
 
-buffer::buffer(char* src, int sSize)
+Buffer::Buffer(char* src, int sSize)
 {
 	//initialise the size
 	size = sSize;
@@ -91,7 +91,7 @@ buffer::buffer(char* src, int sSize)
 
 }
 
-buffer::buffer(const buffer& other)
+Buffer::Buffer(const Buffer& other)
 {
 	size = other.size;
 	contents = (char*)malloc(size * sizeof(char));
@@ -103,7 +103,7 @@ buffer::buffer(const buffer& other)
 
 //public Methods
 
-void buffer::set(void* src, int iSize)
+void Buffer::set(void* src, int iSize)
 {
 	//redefine the size of the buffer
 	size = iSize;
@@ -128,7 +128,7 @@ void buffer::set(void* src, int iSize)
 	free(temp);
 }
 
-void buffer::set(const char* src)
+void Buffer::set(const char* src)
 {
 	//find the size of the source, treated as a null terminated string.
 	size = 0;
@@ -150,7 +150,7 @@ void buffer::set(const char* src)
 	}
 }
 
-void buffer::set(char* src, int iSize)
+void Buffer::set(char* src, int iSize)
 {
 	//redefine the size of the buffer
 	size = iSize;
@@ -171,7 +171,7 @@ void buffer::set(char* src, int iSize)
 }
 
 //TODO:GWC - This is broken, needs to be derefferenced
-int buffer::diff(buffer* buf1, buffer* buf2)
+int Buffer::diff(Buffer* buf1, Buffer* buf2)
 {
 	int size = 0;
 	int dif = 0;
@@ -198,7 +198,7 @@ int buffer::diff(buffer* buf1, buffer* buf2)
 	return dif;
 }
 
-int buffer::diff(buffer* buf1, const buffer* buf2)
+int Buffer::diff(Buffer* buf1, const Buffer* buf2)
 {
 	int size = 0;
 	int dif = 0;
@@ -225,33 +225,32 @@ int buffer::diff(buffer* buf1, const buffer* buf2)
 	return dif;
 }
 
-bool buffer::operator==(const buffer& buf1)
+bool Buffer::operator==(const Buffer& buf1)
 {
-	bool state1, state2;
-	state1 = size == buf1.size;
-	state2 = diff(this, &buf1) == 0;
-	return((state1) && (state2));
+	if (size != buf1.size)
+		return false;
 
+	return(!diff(this, &buf1));
 }
 
-bool buffer::operator!=(const buffer& buf1)
+bool Buffer::operator!=(const Buffer& buf1)
 {
-	bool state1, state2;
-	state1 = size == buf1.size;
-	state2 = diff(this, &buf1) == 0;
-	return!((state1) && (state2));
+	if (size != buf1.size)
+		return true;
+
+	return(diff(this, &buf1));
 }
 
-std::ostream& operator<< (std::ostream& out, const buffer& c)
+std::ostream& operator<< (std::ostream& out, const Buffer& c)
 {
-	buffer temp = c;
+	Buffer temp = c;
 	temp.nullTerminate();
 
 	out << temp.contents;
 	return out;
 }
 
-void buffer::append(const buffer& tail)
+void Buffer::append(const Buffer& tail)
 {
 	//calculate new size
 	int newSize = size + tail.size;
@@ -285,7 +284,7 @@ void buffer::append(const buffer& tail)
 	free(tempBuffer);
 }
 
-void buffer::append(const char* tail)
+void Buffer::append(const char* tail)
 {
 	//get size of src without null termination
 	int srcSize = 0;
@@ -325,7 +324,7 @@ void buffer::append(const char* tail)
 	free(tempBuffer);
 }
 
-void buffer::prepend(const buffer& head)
+void Buffer::prepend(const Buffer& head)
 {
 	//Calculate new size
 	int newSize = head.size + size;
@@ -360,7 +359,7 @@ void buffer::prepend(const buffer& head)
 	free(temporaryBuff);
 }
 
-void buffer::prepend(const char* head)
+void Buffer::prepend(const char* head)
 {
 	//get head size without null termination
 	int headSize = 0;
@@ -400,7 +399,7 @@ void buffer::prepend(const char* head)
 	free(tempBuff);
 }
 
-void buffer::nullTerminate()
+void Buffer::nullTerminate()
 {
 	char* temp = (char*)malloc(1 + sizeof(char) * size);
 	int newSize = size + 1;
@@ -422,7 +421,7 @@ void buffer::nullTerminate()
 	free(temp);
 }
 
-void buffer::fullPrint()
+void Buffer::fullPrint()
 {
 	for (int i = 0; i < size; i++) {
 		std::cout << contents[i];
@@ -431,7 +430,7 @@ void buffer::fullPrint()
 	std::cout << std::endl;
 }
 
-void buffer::stripHead(int N)
+void Buffer::stripHead(int N)
 {
 
 	if (N > size) {
@@ -452,7 +451,7 @@ void buffer::stripHead(int N)
 	set(temp, size - N);
 }
 
-void buffer::stripHead(char seperator)
+void Buffer::stripHead(char seperator)
 {
 	int it = 0;
 
@@ -467,7 +466,7 @@ void buffer::stripHead(char seperator)
 	stripHead((it + 1));
 }
 
-void buffer::stripTail(int N)
+void Buffer::stripTail(int N)
 {
 
 	if (N > size) {
@@ -488,7 +487,7 @@ void buffer::stripTail(int N)
 	set(temp, size - N);
 }
 
-void buffer::stripTail(char seperator)
+void Buffer::stripTail(char seperator)
 {
 	int it = 0;
 
@@ -503,8 +502,16 @@ void buffer::stripTail(char seperator)
 	stripTail(it + 1);
 }
 
+std::string Buffer::ToString()
+{
+	Buffer temp = *this;
+	temp.nullTerminate();
+	return std::string(temp.contents);
 
-buffer& buffer::operator=(const buffer& other)
+}
+
+
+Buffer& Buffer::operator=(const Buffer& other)
 {
 	size = other.size;
 
@@ -517,7 +524,7 @@ buffer& buffer::operator=(const buffer& other)
 	return *this;
 }
 
-buffer& buffer::operator=(buffer&& other)
+Buffer& Buffer::operator=(Buffer&& other)
 {
 	size = other.size;
 
@@ -530,7 +537,7 @@ buffer& buffer::operator=(buffer&& other)
 	return *this;
 }
 
-std::istream& operator>> (std::istream& in, buffer& buf)
+std::istream& operator>> (std::istream& in, Buffer& buf)
 {
 	std::string temp;
 	in >> temp;

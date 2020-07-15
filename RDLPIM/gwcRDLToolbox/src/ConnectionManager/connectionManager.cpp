@@ -3,7 +3,7 @@
 
 connectionManager* connectionManager::s_Instance = nullptr;
 
-void connectionManager::buildConnectionDetails(buffer* connectionReq)
+void connectionManager::buildConnectionDetails(Buffer* connectionReq)
 {
 	int nextPort = portPool::getPort();
 	processingClient =  CreateRef<Client>(nextPort);
@@ -37,7 +37,7 @@ void connectionManager::buildConnectionDetails(buffer* connectionReq)
 
 void connectionManager::sendConnectionDetails()
 {
-	buffer cDeets;
+	Buffer cDeets;
 	//send connection data packet to new client;
 	if (listener.canSend()) {
 		buildConnectionDetails(&cDeets);

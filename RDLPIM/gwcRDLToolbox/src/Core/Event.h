@@ -29,7 +29,7 @@ public:
 
 private:
 	std::vector<Ref<EventCallback<T...>>> callbacks;
-	int noCallbacks;
+	int noCallbacks =0;
 };
 
 template<typename... T>
@@ -95,7 +95,7 @@ void Event<T...>::raiseEvent(T&... mArgs)
 {
 	for (auto it = callbacks.begin(); it != callbacks.end(); it++) {
 		if ((*it)->GetFunction()(std::forward<T>(mArgs)...)) {
-			//GE_CORE_INFO("blocking event processed");
+			//terminate propagation of event
 			break;
 		}
 				

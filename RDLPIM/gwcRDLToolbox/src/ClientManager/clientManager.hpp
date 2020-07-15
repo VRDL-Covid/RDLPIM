@@ -19,14 +19,14 @@ public:
 	static std::mutex clientDB_lock;
 	static std::vector<Ref<Client>> clients;
 
-	static void publishMessage(int ID, const buffer& output);
-	static void sendMessage(int ID, const buffer& output);
-	static void broadCast(const buffer& output);
+	static void publishMessage(int ID, const Buffer& output);
+	static void sendMessage(int ID, const Buffer& output);
+	static void broadCast(const Buffer& output);
 	static bool AddClient(const Ref<Client>& newClient) { return GetInstance()->AddClient_impl(newClient); }
 	static bool RemoveClient(Ref<Client>& client) { return GetInstance()->RemoveClient_impl(client); }
 
-	int checkForIncoming(Ref<Client> client, buffer* output);
-	void publishMessage(Ref<Client> client, const buffer &output);
+	int checkForIncoming(Ref<Client> client, Buffer* output);
+	void publishMessage(Ref<Client> client, const Buffer &output);
 	void worker(std::mutex* jobVector);
 
 	~clientManager();

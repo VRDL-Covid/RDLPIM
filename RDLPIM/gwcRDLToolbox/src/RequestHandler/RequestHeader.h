@@ -8,14 +8,14 @@ public:
 	RequestHeader() = default;
 
 	~RequestHeader() = default;
-	buffer Serialise();
+	Buffer Serialise();
 
-	void Deserialise(const buffer& raw);
+	void Deserialise(const Buffer& raw);
 
 	void SetCommand(const Commands& command);
 	void SetSize(const uint32_t& bytes);
 
-	void ProcessHeader(buffer& data);
+	void ProcessHeader(Buffer& data);
 
 	const Commands& GetCommand() const { return m_command; }
 

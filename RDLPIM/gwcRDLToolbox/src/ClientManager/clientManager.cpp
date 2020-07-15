@@ -11,9 +11,9 @@ clientManager* clientManager::s_Instance = nullptr;
 void clientManager::worker(std::mutex* jobVectorMutex)
 {
 	
-	buffer inbuff;
+	Buffer inbuff;
 	int bytes = 0;
-	buffer test;
+	Buffer test;
 	
 
 	while (true) {
@@ -29,7 +29,7 @@ void clientManager::worker(std::mutex* jobVectorMutex)
 			}
 			else {
 				if (bytes > 0) {
-					buffer IDdata;
+					Buffer IDdata;
 
 					char temp[4];
 					memcpy(temp, &((*it)->ID), sizeof(int));
@@ -47,7 +47,7 @@ void clientManager::worker(std::mutex* jobVectorMutex)
 }
 
 
-int clientManager::checkForIncoming(Ref<Client> client, buffer* output)
+int clientManager::checkForIncoming(Ref<Client> client, Buffer* output)
 {
 	int bytes = 0;
 	if (client->checkStatus()) {
@@ -62,7 +62,7 @@ int clientManager::checkForIncoming(Ref<Client> client, buffer* output)
 	return bytes;
 }
 
-void clientManager::publishMessage(Ref<Client> iclient, const buffer &output)
+void clientManager::publishMessage(Ref<Client> iclient, const Buffer &output)
 {
 	std::vector<Ref<Client>>::iterator it = clients.begin();
 
@@ -74,7 +74,7 @@ void clientManager::publishMessage(Ref<Client> iclient, const buffer &output)
 	}
 }
 
-void clientManager::publishMessage(int ID, const buffer &output)
+void clientManager::publishMessage(int ID, const Buffer &output)
 {
 	std::vector<Ref<Client>>::iterator it = clients.begin();
 
@@ -86,7 +86,7 @@ void clientManager::publishMessage(int ID, const buffer &output)
 	}
 }
 
-void clientManager::sendMessage(int ID, const buffer &output)
+void clientManager::sendMessage(int ID, const Buffer &output)
 {
 	std::vector<Ref<Client>>::iterator it = clients.begin();
 
@@ -98,7 +98,7 @@ void clientManager::sendMessage(int ID, const buffer &output)
 	}
 }
 
-void clientManager::broadCast(const buffer &output)
+void clientManager::broadCast(const Buffer &output)
 {
 	std::vector<Ref<Client>>::iterator it = clients.begin();
 
@@ -121,9 +121,9 @@ bool clientManager::RemoveClient_impl(Ref<Client>& client)
 {
 	OnClientDisconnect.raiseEvent(client);
 	RequestHeader reqHead;
-	buffer outbuffer;
-	buffer data;
-	buffer ID(std::to_string(client->ID).c_str());
+	Buffer outbuffer;
+	Buffer data;
+	Buffer ID(std::to_string(client->ID).c_str());
 
 	data.set("Client:");
 	data.append(ID);
