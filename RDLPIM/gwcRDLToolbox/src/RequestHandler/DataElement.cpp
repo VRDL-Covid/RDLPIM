@@ -61,47 +61,6 @@ DataElement::~DataElement()
 	}
 }
 
-int DataElement::appendData(char* dst, int dSize, char* src, int sSize)
-{
-	int end = dSize - 1;
-	int i = 0;
-	while (dst[end] != '=') {
-		end--;
-	}
-	end++;
-
-	if (sSize > (dSize - end)) {
-		return 1;
-	}
-
-	while (i < sSize) {
-		dst[end + i] = src[i];
-		i++;
-	}
-
-	dst[end + i] = '=';
-	return 0;
-}
-
-int DataElement::appendValueData(char* dst, int dSize, char* src, int sSize)
-{
-	int end = dSize - 1;
-	int i = 0;
-	while (dst[end] != '=') {
-		end--;
-	}
-	end++;
-
-	if (sSize > (dSize - end)) {
-		return 1;
-	}
-
-	while (i < sSize) {
-		dst[end + i] = src[i];
-		i++;
-	}
-	return 0;
-}
 
 void DataElement::set(bool in)
 {

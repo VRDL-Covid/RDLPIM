@@ -2,7 +2,7 @@
 #include"ConnectionManager/socketConnection.hpp"
 
 
-class client
+class Client
 {
 private:
 	static int nextID;
@@ -21,10 +21,10 @@ public:
 
 	void connect();
 
-	void Send(const buffer& output);
+	int Send(const buffer& output);
 
-	client(int iPort);
-	client();
-	~client();
+	Client(int iPort);
+	Client();
+	~Client();
 };
 

@@ -9,15 +9,19 @@ int exePluginManager()
 	std::mutex jobVectorMutex;
 
 	//instantiate high level objects
-	connectionManager connectionManagerObj;
-	clientManager clientManagerObj;
-	requestHandler reqFactory;
+	connectionManager* connectionManagerObj = connectionManager::GetInstance();
+	clientManager* clientManagerObj = clientManager::GetInstance();
+	requestHandler* reqFactory = requestHandler::GetInstance();
 	RDL theRDL((const char*)"rtex10.exe");
 
+	//initialise Object
+	connectionManagerObj->Init();
+	clientManagerObj->Init();
+
 	//start threads to get the objects "working"
-	std::thread connectionManagerThread(&connectionManager::worker, &connectionManagerObj);
-	std::thread clientManagerThread(&clientManager::worker, &clientManagerObj, &jobVectorMutex);
-	std::thread reqFactoryThread(&requestHandler::worker, &reqFactory, &jobVectorMutex);
+	std::thread connectionManagerThread(&connectionManager::worker, connectionManagerObj);
+	std::thread clientManagerThread(&clientManager::worker, clientManagerObj, &jobVectorMutex);
+	std::thread reqFactoryThread(&requestHandler::worker, reqFactory, &jobVectorMutex);
 
 
 	//join threads on exit

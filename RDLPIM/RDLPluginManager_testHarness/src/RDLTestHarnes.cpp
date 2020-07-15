@@ -1,12 +1,6 @@
 #include "gwcRDLToolBox.h"
 #include"testClient.hpp"
 
-class a
-{
-public:
-	a() = default;
-	~a() { std::cout << "out of scope" << std::endl; }
-};
 void sendDebugMSGs(buffer &outBuff, bool* send)
 {
 	//while (true) {
@@ -219,7 +213,8 @@ void sender(buffer& outBuff, bool* send, std::mutex& sockSend)
 	while (true) {
 
 		outBuff.fullPrint();
-		SendPushInt(outBuff, send, sockSend);
+		//SendPushInt(outBuff, send, sockSend);
+		sendChatMSGs(outBuff, send, sockSend);
 		//todo: Sleep needs to go, why did i need it?
 		Sleep(200);
 	}
@@ -275,6 +270,10 @@ int testHarness()
 			case chat:
 				inBuff.fullPrint();
 				std::cout << std::endl;
+				break;
+			case Info:
+				std::cout << "Server Info: ";
+				inBuff.fullPrint();
 				break;
 			default:
 				std::cout << "unknown Function, message: ";

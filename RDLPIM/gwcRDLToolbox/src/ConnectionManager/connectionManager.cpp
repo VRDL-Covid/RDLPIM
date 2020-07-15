@@ -1,10 +1,12 @@
 #include "rdlpch.h"
 #include "connectionManager.hpp"
 
+connectionManager* connectionManager::s_Instance = nullptr;
+
 void connectionManager::buildConnectionDetails(buffer* connectionReq)
 {
 	int nextPort = portPool::getPort();
-	processingClient = new client(nextPort);
+	processingClient =  CreateRef<Client>(nextPort);
 
 	//Build command flag
 	char buff[MAXBUFFER];
@@ -45,9 +47,7 @@ void connectionManager::sendConnectionDetails()
 	processingClient->connection.acceptNewConnection();
 	processingClient->connection.setNonBlocking(true);
 
-	clientManager::clientDB_lock.lock();
-	clientManager::clients.push_back(processingClient);
-	clientManager::clientDB_lock.unlock();
+	onNewConnection.raiseEvent(processingClient);
 }
 
 
@@ -63,15 +63,13 @@ void connectionManager::connectToClient()
 	//TODO:GWC- send connection message to client and spool up and manage new client object.
 }
 
-void connectionManager::disconnectClient(client* user)
+bool connectionManager::ClientDisconnectCallback(const Ref<Client>& user)
 {
+	user->connection.closeSocket();
 	int port = user->port;
-	delete user;
 	portPool::releasePort(port);
+	return false;
 }
-
-
-
 
 
 void connectionManager::worker()
@@ -104,6 +102,13 @@ connectionManager::connectionManager()
 {
 	listener.setPort(BASE_PORT);
 	listener.init();
+
+	
+}
+
+void connectionManager::Init()
+{
+	clientManager::GetInstance()->OnClientDisconnect.subscribe(BIND_EVENT_FN1(connectionManager::ClientDisconnectCallback));
 }
 
 

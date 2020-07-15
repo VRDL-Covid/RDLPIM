@@ -8,7 +8,28 @@
 
 class requestHandler
 {
+public:
+	static requestHandler* GetInstance()
+	{
+		if (s_Instance == nullptr)
+			s_Instance = new requestHandler;
+		return s_Instance;
+	}
+
+	static std::vector<job*> jobs;
+	static int noJobs;
+
+	static void addToQue(const buffer& rawJob);
+
+	static void printJobs();
+	
+	void worker(std::mutex* jobVector);
+
+	~requestHandler();
+
 private:
+
+	requestHandler();
 	void processNextJob();
 
 	void terminateJob();
@@ -21,18 +42,6 @@ private:
 	void handlePush();
 	void handelError();
 
-public:
-	static std::vector<job*> jobs;
-	static int noJobs;
-
-	static void addToQue(const buffer& rawJob);
-
-	static void printJobs();
-	
-	void worker(std::mutex* jobVector);
-
-
-	requestHandler();
-	~requestHandler();
+	static requestHandler* s_Instance;
 };
 

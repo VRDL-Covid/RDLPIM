@@ -4,19 +4,19 @@
 //std::vector<client*> client::clients;
 //int client::headCount = 0;
 
-int client::nextID = 1000;
-void client::connect()
+int Client::nextID = 1000;
+void Client::connect()
 {
 	connection.acceptNewConnection();
 	connection.setNonBlocking(true);
 }
 
-client::client(int iPort)
+Client::Client(int iPort)
 {
 	port = iPort;
 
-	ID = client::nextID;
-	client::nextID++;
+	ID = Client::nextID;
+	Client::nextID++;
 
 	connection.setPort(port);
 	connection.init();
@@ -25,29 +25,32 @@ client::client(int iPort)
 
 
 
-bool client::checkStatus()
+bool Client::checkStatus()
 {
 	connected = connection.connected;
 	return connected;
 }
 
 
-client::client()
+Client::Client()
 {
 	port = -1;
-	ID = client::nextID;
-	client::nextID++;
+	ID = Client::nextID;
+	Client::nextID++;
 }
 
 
-void client::Send(const buffer& output)
+int Client::Send(const buffer& output)
 {
-	if (connection.Send(output) < 0) {
+	int bytes = connection.Send(output);
+	if (bytes == 0) {
 		connected = false;
 	}
+
+	return bytes;
 }
 
 
-client::~client()
+Client::~Client()
 {
 }

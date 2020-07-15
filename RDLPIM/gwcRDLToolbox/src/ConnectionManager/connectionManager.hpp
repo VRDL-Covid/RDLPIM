@@ -8,20 +8,31 @@
 
 class connectionManager
 {
+public:
+	void connectToClient();
+	bool ClientDisconnectCallback(const Ref<Client>& user);
+
+	void worker();
+	void Init();
+	~connectionManager();
+
+	static connectionManager* GetInstance()
+	{
+		if (s_Instance == nullptr)
+			s_Instance = new connectionManager;
+		return s_Instance;
+	}
+
+	Event<const Ref<Client>> onNewConnection;
 
 private:
+	connectionManager();
 	connectionObject listener;
 	portPool ports;
 	void buildConnectionDetails(buffer* connectionReq);
 	void sendConnectionDetails();
 
-	client* processingClient;
-public:	
-	void connectToClient();
-	void disconnectClient(client* user);
+	static connectionManager* s_Instance;
 
-	void worker();
-	connectionManager();
-	~connectionManager();
-
+	Ref<Client> processingClient;
 };

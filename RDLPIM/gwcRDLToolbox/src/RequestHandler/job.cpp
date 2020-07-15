@@ -33,7 +33,7 @@ void job::getData(buffer* rawJob)
 job::job()
 {
 	ID = -1;
-	command = Commands::INVALID;
+	command = Commands::None;
 	data = nullptr;
 }
 

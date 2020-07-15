@@ -2,8 +2,6 @@
 #include"Core/buffer.hpp"
 #include"RDL/rdlData.hpp"
 
-#define MAXDATASIZE 4096
-
 // Author: Guy Collins
 // Date: 20/01/2020
 // Description: A class to handle a single request string from a client formatting:
@@ -37,25 +35,14 @@ public:
 	// Author: Guy Collins
 	// Date: 20/01/2020
 	// Description: Method to initialise the contents of a request packet from a correctly formatted character array 
-	//				"VarName=VarType=Bytes=Value"
+	//				"{VarName=VarType=Bytes=Value}"
 	int deserialise(const buffer& in);
 
 	// Author: Guy Collins
 	// Date: 20/01/2020
 	// Description: Method to serialise the contents of a request packet into a correctly formatted character array 
-	//				"VarName=VarType=Bytes=Value"
+	//				"{VarName=VarType=Bytes=Value}"
 	buffer serialise();
-
-
-	// Author: Guy Collins
-	// Date: 20/01/2020
-	// Description: Method to stack build request element, leaves trailing '='
-	static int appendData(char* dst, int dSize, char* src, int sSize);
-
-	// Author: Guy Collins
-	// Date: 20/01/2020
-	// Description: Method to stack build request element, NO trailing '='
-	static int appendValueData(char* dst, int dSize, char* src, int sSize);
 
 	// Author: Guy Collins
 	// Date: 20/01/2020

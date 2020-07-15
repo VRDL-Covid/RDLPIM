@@ -3,7 +3,7 @@
 
 std::vector<job*> requestHandler::jobs;
 int requestHandler::noJobs = 0;
-
+requestHandler* requestHandler::s_Instance = nullptr;
 
 
 void requestHandler::printJobs()
@@ -30,7 +30,7 @@ void requestHandler::processNextJob()
 {
 	switch (jobs[0]->command)
 	{
-	case INVALID:
+	case Info:
 		terminateJob();
 		break;
 

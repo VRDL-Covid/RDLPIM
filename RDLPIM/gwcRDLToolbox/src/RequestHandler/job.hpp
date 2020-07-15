@@ -1,6 +1,6 @@
 #pragma once
 #include"Core/buffer.hpp"
-enum Commands { INVALID, DEBUG, ERR, rdlPush, rdlPull, rdlSubscribe, push, pull, subscribe, chat, VOIP, DATA };
+enum Commands { None, Info, DEBUG, ERR, rdlPush, rdlPull, rdlSubscribe, push, pull, subscribe, chat, VOIP, DATA };
 
 class job
 {

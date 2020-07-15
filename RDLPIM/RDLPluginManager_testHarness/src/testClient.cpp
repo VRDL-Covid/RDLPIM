@@ -100,4 +100,6 @@ testClient::testClient(const char* IP,int port)
 
 testClient::~testClient()
 {
+	connection.closeSocket();
+	connection.cleanUp();
 }

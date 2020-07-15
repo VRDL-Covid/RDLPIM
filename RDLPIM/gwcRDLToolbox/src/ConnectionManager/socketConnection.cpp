@@ -270,7 +270,8 @@ int connectionObject::Send(const buffer &inp)
 	}
 	else {
 		printf("Connection not valid to send message\n");
-		return -1;
+		//todo disconnect event here.
+		return 0;
 	}
 
 	return 0;

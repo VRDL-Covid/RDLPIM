@@ -1,8 +1,12 @@
 #include "rdlpch.h"
 #include "clientManager.hpp"
+#include"ConnectionManager/connectionManager.hpp"
+
 
 std::mutex clientManager::clientDB_lock;
-std::vector<client*> clientManager::clients;
+std::vector<Ref<Client>> clientManager::clients;
+
+clientManager* clientManager::s_Instance = nullptr;
 
 void clientManager::worker(std::mutex* jobVectorMutex)
 {
@@ -15,19 +19,12 @@ void clientManager::worker(std::mutex* jobVectorMutex)
 	while (true) {
 
 		clientManager::clientDB_lock.lock();
-		std::vector<client*>::iterator it = clientManager::clients.begin();
+		std::vector<Ref<Client>>::iterator it = clientManager::clients.begin();
 		
 		for (it; it != clients.end(); it++) {
 			if (!((bytes = checkForIncoming(*it, &inbuff)) >= 0)) {
-				std::cout << "client:" << (*it)->ID << " has disconnected" << std::endl;
 
-				buffer ID(std::to_string((*it)->ID).c_str());
-				ID.prepend("INFO|Client");
-				ID.append(":has disconnected");
-				publishMessage(*it, ID);
-
-
-				clients.erase(it);
+				RemoveClient_impl(*it);
 				break;
 			}
 			else {
@@ -50,7 +47,7 @@ void clientManager::worker(std::mutex* jobVectorMutex)
 }
 
 
-int clientManager::checkForIncoming(client* client, buffer* output)
+int clientManager::checkForIncoming(Ref<Client> client, buffer* output)
 {
 	int bytes = 0;
 	if (client->checkStatus()) {
@@ -65,57 +62,106 @@ int clientManager::checkForIncoming(client* client, buffer* output)
 	return bytes;
 }
 
-void clientManager::publishMessage(client* iclient, const buffer &output)
+void clientManager::publishMessage(Ref<Client> iclient, const buffer &output)
 {
-	std::vector<client*>::iterator it = clients.begin();
+	std::vector<Ref<Client>>::iterator it = clients.begin();
 
 	for (it; it != clients.end(); it++) {
 		if (iclient->ID != (*it)->ID) {
-			(*it)->connection.Send(output);
+			if (!(*it)->connection.Send(output))
+				RemoveClient(*it);
 		}
 	}
 }
 
 void clientManager::publishMessage(int ID, const buffer &output)
 {
-	std::vector<client*>::iterator it = clients.begin();
+	std::vector<Ref<Client>>::iterator it = clients.begin();
 
 	for (it; it != clients.end(); it++) {
 		if (ID != (*it)->ID) {
-			(*it)->connection.Send(output);
+			if (!(*it)->connection.Send(output))
+				RemoveClient(*it);
 		}
 	}
 }
 
 void clientManager::sendMessage(int ID, const buffer &output)
 {
-	std::vector<client*>::iterator it = clients.begin();
+	std::vector<Ref<Client>>::iterator it = clients.begin();
 
 	for (it; it != clients.end(); it++) {
 		if (ID == (*it)->ID) {
-
-			//TODO:GWC- TODAY!!!! make the send a method on the client which references the connection object within, the return from this can be used to set the status of the client and kill it when... dead....
-			(*it)->Send(output);
+			if (!(*it)->Send(output))
+				RemoveClient(*it);
 		}
 	}
 }
 
 void clientManager::broadCast(const buffer &output)
 {
-	std::vector<client*>::iterator it = clients.begin();
+	std::vector<Ref<Client>>::iterator it = clients.begin();
 
 	for (it; it != clients.end(); it++) {
-		(*it)->connection.Send(output);
+		if (!(*it)->connection.Send(output))
+			RemoveClient(*it);
 	}
 }
 
+bool clientManager::AddClient_impl(const Ref<Client>& newClient)
+{
+	clientDB_lock.lock();
+	clients.push_back(newClient);
+	clientDB_lock.unlock();
 
+	return PROPAGATE_EVENT;
+}
+
+bool clientManager::RemoveClient_impl(Ref<Client>& client)
+{
+	OnClientDisconnect.raiseEvent(client);
+	RequestHeader reqHead;
+	buffer outbuffer;
+	buffer data;
+	buffer ID(std::to_string(client->ID).c_str());
+
+	data.set("Client:");
+	data.append(ID);
+	data.append(" has disconnected");
+
+	reqHead.SetCommand(Commands::Info);
+	reqHead.SetSize(data.size);
+
+	outbuffer = reqHead.Serialise();
+	outbuffer.append(data);
+
+	std::cout << "client:" << client->ID << " has disconnected" << std::endl;
+
+	publishMessage(client, outbuffer);
+
+	std::vector<Ref<Client>>::iterator it = clients.begin();
+	for (; it != clients.end();it++) {
+		if ((*it)->ID == client->ID) {
+			clients.erase(it);
+			break;
+		}
+	}
+
+	return PROPAGATE_EVENT;
+}
 
 clientManager::clientManager()
 {
+	
 }
 
 
 clientManager::~clientManager()
 {
+
+}
+
+void clientManager::Init()
+{
+	connectionManager::GetInstance()->onNewConnection.subscribe(BIND_EVENT_FN1(clientManager::AddClient_impl));
 }
