@@ -21,5 +21,5 @@ private://members
 private://methods
 	DataBase();
 	
-	
+	std::mutex m_DBAccess;
 };

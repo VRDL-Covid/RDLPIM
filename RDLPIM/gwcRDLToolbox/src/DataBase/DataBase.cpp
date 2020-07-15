@@ -15,6 +15,7 @@ DataBase* DataBase::GetInstance()
 
 void DataBase::ModData(const DataElement& data)
 {
+	std::lock_guard<std::mutex> lock(m_DBAccess);
 	Buffer varname = data.m_VarName;
 
 	if (m_Data.find(varname.ToString()) == m_Data.end()) {
@@ -30,6 +31,7 @@ void DataBase::ModData(const DataElement& data)
 
 DataElement DataBase::GetData(const std::string& varName)
 {
+	std::lock_guard<std::mutex> lock(m_DBAccess);
 	if (m_Data.find(varName) == m_Data.end()) {
 		DataElement ret(varName);
 		ret.m_Type = Buffer("NOT_FOUND");

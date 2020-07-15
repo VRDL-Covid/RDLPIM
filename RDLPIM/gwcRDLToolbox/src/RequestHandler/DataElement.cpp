@@ -305,7 +305,9 @@ DataElement::DataElement(DataElement&& other)
 	m_Type = std::move(other.m_Type);
 	m_Bytes = std::move(other.m_Bytes);
 
-	m_data = std::move(other.m_data);
+	m_data = other.m_data;
+
+	other.m_data = nullptr;
 
 }
 
@@ -331,7 +333,9 @@ DataElement& DataElement::operator=(DataElement&& other)
 	m_Type =    std::move(other.m_Type);
 	m_Bytes =   std::move(other.m_Bytes);
 
-	m_data = std::move(other.m_data);
+	m_data = other.m_data;
+
+	other.m_data = nullptr;
 
 	return *this;
 }
