@@ -5,7 +5,7 @@
 class DBElement
 {
 public:
-	DBElement(DataElement de):m_Data(de){};
+	DBElement(const DataElement& de):m_Data(de){};
 	~DBElement() = default;;
 	Event<const DataElement> m_OnChanged;
 

@@ -78,8 +78,6 @@ project "gwcRDLToolbox"
 		runtime "Release"
 		optimize "on"
 
-	--postbuildcommands { "{COPY} %{wks.location}vendor/GSE/mstG.lib %{cfg.targetdir}",  "{COPY} %{wks.location}vendor/GSE/s3dll.lib %{cfg.targetdir}"}
-	postbuildcommands { "{COPY} C:/Users/gwc59/OneDrive/Desktop/RDLPIM2/RDLPIM/vendor/GSE/mstG.dll C:/Users/gwc59/OneDrive/Desktop/RDLPIM2/RDLPIM/1.dll*"}
 	
 -------------------------------------------------------
 --------- RDLPIM ---------------------------------
@@ -142,8 +140,8 @@ project "gwcRDLToolbox"
 		runtime "Release"
 		optimize "on"
 
-	--postbuildcommands { "{COPY} %{wks.location}vendor/GSE/mstG.lib %{cfg.targetdir}",  "{COPY} %{wks.location}vendor/GSE/s3dll.lib %{cfg.targetdir}"}
-	postbuildcommands { "{COPY} C:/Users/gwc59/OneDrive/Desktop/RDLPIM2/RDLPIM/vendor/GSE/mstG.dll C:/Users/gwc59/OneDrive/Desktop/RDLPIM2/RDLPIM/1.dll*"}
+
+	
 -------------------------------------------------------
 --------- Test Harness ---------------------------------
 -------------------------------------------------------	
@@ -204,5 +202,3 @@ project "gwcRDLToolbox"
 		runtime "Release"
 		optimize "on"
 
-	--postbuildcommands { "{COPY} %{wks.location}vendor/GSE/mstG.lib %{cfg.targetdir}",  "{COPY} %{wks.location}vendor/GSE/s3dll.lib %{cfg.targetdir}"}
-	postbuildcommands { "{COPY} C:/Users/gwc59/OneDrive/Desktop/RDLPIM2/RDLPIM/vendor/GSE/mstG.dll C:/Users/gwc59/OneDrive/Desktop/RDLPIM2/RDLPIM/1.dll*"}

@@ -529,12 +529,10 @@ Buffer& Buffer::operator=(const Buffer& other)
 Buffer& Buffer::operator=(Buffer&& other)
 {
 	size = other.size;
+	other.size = 0;
 
-	contents = (char*)realloc(contents,size);
-
-	for (int i = 0; i < size; i++) {
-		contents[i] = other.contents[i];
-	}
+	contents = other.contents;
+	other.contents = nullptr;
 
 	return *this;
 }
