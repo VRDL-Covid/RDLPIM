@@ -5,6 +5,7 @@
 #include "dataArray.hpp"
 #include"RDL/rdlData.hpp"
 #include "RequestHeader.h"
+#include "DataBase/DataBase.h"
 
 class requestHandler
 {
@@ -19,7 +20,7 @@ public:
 	static std::vector<job*> jobs;
 	static int noJobs;
 
-	static void addToQue(const buffer& rawJob);
+	static void addToQue(const Buffer& rawJob);
 
 	static void printJobs();
 	

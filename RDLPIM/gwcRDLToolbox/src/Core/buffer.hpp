@@ -2,7 +2,7 @@
 // Author: Guy Collins
 // Date: 20/01/2020
 // Description: A class to contain buffer data to be sent via sockets
-class buffer
+class Buffer
 {
 private:
 
@@ -25,26 +25,26 @@ public:
 	// Author: Guy Collins
 	// Date: 20/01/2020
 	// Description: methods to compare the contents of two buffers, returns the number of differences found.
-	static int diff(buffer* buf1, buffer* buf2);
-	static int diff(buffer* buf1, const buffer* buf2);
+	static int diff(Buffer* buf1, Buffer* buf2);
+	static int diff(Buffer* buf1, const Buffer* buf2);
 
 	// Author: Guy Collins
 	// Date: 20/01/2020
 	// Description: Overloaded equality and inequality operators to allow inline boolean evaluation
-	bool operator==(const buffer& buf1);
-	bool operator!=(const buffer& buf1);
-	friend std::ostream& operator<< (std::ostream& out, const buffer& c);
+	bool operator==(const Buffer& buf1);
+	bool operator!=(const Buffer& buf1);
+	friend std::ostream& operator<< (std::ostream& out, const Buffer& c);
 
 	//Author: Guy Collins
 	// Date: 28/01/2020
 	// Description: A method to append one buffer to another
-	void append(const buffer& tail);
+	void append(const Buffer& tail);
 	void append(const char* tail);
 
 	//Author: Guy Collins
 	// Date: 28/01/2020
 	// Description: A method to append one buffer to another
-	void prepend(const buffer& head);
+	void prepend(const Buffer& head);
 	void prepend(const char* head);
 
 	//Author: Guy Collins
@@ -55,7 +55,7 @@ public:
 	//Author:Guy Collins
 	//date: 04/02/2020
 	//method to fully print the contents of a buffer to the console for debugging, ignores null termination.
-	void fullPrint();
+	void fullPrint() const;
 
 	//Author:Guy Collins
 	//date: 07/02/2020
@@ -65,27 +65,33 @@ public:
 	void stripTail(int N);
 	void stripTail(char seperator);
 
+
+	//Author:Guy Collins
+	//14/05/2020
+	//Method to convert buffer to a string
+	std::string ToString();
+
 	// Author: Guy Collinso
 	// Date: 20/01/2020
 	// Description: Constructors and destructors.
-	buffer();
-	buffer(const char* string);
-	buffer(char* src, int sSize);
+	Buffer();
+	Buffer(const char* string);
+	Buffer(char* src, int sSize);
 
 	//copy constructor
-	buffer(const buffer& other);
+	Buffer(const Buffer& other);
 
 	//copy assignment overload
-	buffer& operator=(const buffer& other);
+	Buffer& operator=(const Buffer& other);
 
 	//move operator
-	buffer& operator=(buffer&&);
+	Buffer& operator=(Buffer&&);
 
 	//input overload
-	friend std::istream& operator >>(std::istream& in, buffer& buf);
+	friend std::istream& operator >>(std::istream& in, Buffer& buf);
 
-	buffer PassChunk(char first, char second);
-	buffer PassChunk(char delimiter);
+	Buffer PassChunk(char first, char second);
+	Buffer PassChunk(char delimiter);
 
-	~buffer();
+	~Buffer();
 };

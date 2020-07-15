@@ -40,7 +40,7 @@ Client::Client()
 }
 
 
-int Client::Send(const buffer& output)
+int Client::Send(const Buffer& output)
 {
 	int bytes = connection.Send(output);
 	if (bytes == 0) {

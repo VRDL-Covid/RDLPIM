@@ -139,7 +139,7 @@ void rdlData::read()
 
 }
 
-void rdlData::write(const buffer& newValue)
+void rdlData::write(const Buffer& newValue)
 {
 	if (newValue.size > bytes) {
 		std::cerr << "write overflow to RDL variable:" << name << std::endl;
@@ -204,9 +204,9 @@ rdlData::rdlData(const char* vName)
 	read();
 }
 
-rdlData::rdlData(const buffer& vName)
+rdlData::rdlData(const Buffer& vName)
 {
-	buffer cpy = vName;
+	Buffer cpy = vName;
 
 	cpy.nullTerminate();
 
@@ -220,9 +220,9 @@ rdlData::rdlData(const buffer& vName)
 	read();
 }
 
-void rdlData::init(const buffer& vName)
+void rdlData::init(const Buffer& vName)
 {
-	buffer cpy = vName;
+	Buffer cpy = vName;
 
 	cpy.nullTerminate();
 

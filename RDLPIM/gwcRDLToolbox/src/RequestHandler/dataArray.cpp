@@ -3,10 +3,10 @@
 
 
 
-void dataArray::deserialise(const buffer& rawInput)
+void dataArray::deserialise(const Buffer& rawInput)
 {
-	buffer input = rawInput;
-	buffer chunk;
+	Buffer input = rawInput;
+	Buffer chunk;
 
 	
 	while (input.size > 0) {

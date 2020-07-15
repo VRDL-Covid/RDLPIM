@@ -38,12 +38,12 @@ public:
 
 	
 	void read();
-	void write(const buffer& newValue);
-	void init(const buffer& vName);
+	void write(const Buffer& newValue);
+	void init(const Buffer& vName);
 	void init(const char* vName);
 
 	rdlData();
 	rdlData(const char* vName);
-	rdlData(const buffer& vName);
+	rdlData(const Buffer& vName);
 	~rdlData();
 };

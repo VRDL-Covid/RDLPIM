@@ -13,8 +13,8 @@ private:
 	void sizeData(int sBytes);
 public:
 	//members
-	buffer m_VarName;
-	buffer m_Type;
+	Buffer m_VarName;
+	Buffer m_Type;
 	int m_Bytes;
 	char* m_data;
 
@@ -28,29 +28,29 @@ public:
 	void set(float in); //bool
 	void set(double in); //bool
 	int set(char* in, int size); //blob
-	int set(buffer* in); //bool
-	int set(const buffer &in); //bool
+	int set(Buffer* in); //bool
+	int set(const Buffer &in); //bool
 	void set(const rdlData& data); //bool
 
 	// Author: Guy Collins
 	// Date: 20/01/2020
 	// Description: Method to initialise the contents of a request packet from a correctly formatted character array 
 	//				"{VarName=VarType=Bytes=Value}"
-	int deserialise(const buffer& in);
+	int deserialise(const Buffer& in);
 
 	// Author: Guy Collins
 	// Date: 20/01/2020
 	// Description: Method to serialise the contents of a request packet into a correctly formatted character array 
 	//				"{VarName=VarType=Bytes=Value}"
-	buffer serialise();
+	Buffer serialise();
 
 	// Author: Guy Collins
 	// Date: 20/01/2020
 	// Description: Constructor and destructor methods, overloaded to initialise variable name from a string or buffer object.
 	DataElement();
 	DataElement(std::string var);
-	DataElement(const buffer& var);
-	DataElement(buffer* var);
+	DataElement(const Buffer& var);
+	DataElement(Buffer* var);
 	DataElement(const char* var);
 	~DataElement();
 
@@ -59,8 +59,14 @@ public:
 	//copy constructor
 	DataElement(const DataElement& other);
 
+	//move Constructor
+	DataElement(DataElement&& other);
+
 	//copy assignment overload
 	DataElement& operator=(const DataElement& other);
+
+	//move assigment overload
+	DataElement& operator=(DataElement&& other);
 
 
 

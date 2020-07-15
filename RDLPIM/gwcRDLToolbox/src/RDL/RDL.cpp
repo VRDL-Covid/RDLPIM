@@ -66,7 +66,7 @@ RDL::RDL()
 {
 }
 
-RDL::RDL(const buffer &ipid)
+RDL::RDL(const Buffer &ipid)
 {
 	pid = GetPID(ipid.contents);
 }

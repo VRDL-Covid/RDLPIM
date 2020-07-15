@@ -172,7 +172,7 @@ int connectionObject::recieve(char* out, int size)
 	return bytesRec;
 }
 
-int connectionObject::recieve(buffer *buff)
+int connectionObject::recieve(Buffer *buff)
 {
 	//////////////////
 	//while loop recv
@@ -250,7 +250,7 @@ int connectionObject::Send(const char* out)
 	return 0;
 }
 
-int connectionObject::Send(const buffer &inp)
+int connectionObject::Send(const Buffer &inp)
 {
 
 	char _buff[MAXBUFFER];

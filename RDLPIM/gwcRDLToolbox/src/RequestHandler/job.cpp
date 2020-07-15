@@ -1,19 +1,19 @@
 #include "rdlpch.h"
 #include "job.hpp"
 
-Commands job::getCommand(buffer* rawJob)
+Commands job::getCommand(Buffer* rawJob)
 {
 	memcpy(&command, &rawJob->contents[4], sizeof(int));
 	return command;
 }
 
-int job::getClientID(buffer* rawJob)
+int job::getClientID(Buffer* rawJob)
 {
 	memcpy(&ID, &rawJob->contents[0], sizeof(int));
 	return ID;
 }
 
-void job::getData(buffer* rawJob)
+void job::getData(Buffer* rawJob)
 {
 	int bytes = 0;
 	memcpy(&bytes, &rawJob->contents[8], sizeof(int));
@@ -37,7 +37,7 @@ job::job()
 	data = nullptr;
 }
 
-job::job(buffer* rawJob)
+job::job(Buffer* rawJob)
 {
 	getClientID(rawJob);
 	getCommand(rawJob);
