@@ -51,6 +51,7 @@ void requestHandler::processNextJob()
 		break;
 
 	case pull:
+		handlePull();
 		terminateJob();
 		break;
 
@@ -214,6 +215,39 @@ void requestHandler::handlePush()
 	}
 
 	terminateJob();
+}
+
+void requestHandler::handlePull()
+{
+	//TODO TOMORROW - Lock failiure here.... this shold be a good one....
+	RequestHeader reqHeader;
+	DataElement dataElement;
+	Buffer SendBuffer;
+	Buffer Data;
+
+	DataBase* DB = DataBase::GetInstance();
+	Buffer jobData = jobs[0]->data;
+	std::vector<std::string> requestVars;
+
+	//build request array
+	while (jobData.size > 0) {
+		requestVars.push_back(jobData.PassChunk('{', '}').ToString());
+	}
+
+	//get data
+	for (auto var : requestVars) {
+		dataElement = DB->GetData(var);
+		Data.append(dataElement.serialise());
+	}
+
+	reqHeader.SetCommand(Commands::DATA);
+	reqHeader.SetSize(Data.size);
+
+	SendBuffer = reqHeader.Serialise();
+	SendBuffer.append(Data);
+
+	clientManager::sendMessage(jobs[0]->ID, SendBuffer);
+
 }
 
 

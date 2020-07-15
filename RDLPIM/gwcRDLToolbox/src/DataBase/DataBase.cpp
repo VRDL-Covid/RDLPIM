@@ -28,6 +28,18 @@ void DataBase::ModData(const DataElement& data)
 	m_Data[varname.ToString()]->m_OnChanged.raiseEvent(data);
 }
 
+DataElement DataBase::GetData(const std::string& varName)
+{
+	if (m_Data.find(varName) == m_Data.end()) {
+		DataElement ret(varName);
+		ret.m_Type = Buffer("NOT_FOUND");
+		return ret;
+	}
+	auto DBE = m_Data[varName];
+	return m_Data[varName]->GetData();
+}
+
+
 DataBase::DataBase()
 {
 	m_Data.rehash(512);

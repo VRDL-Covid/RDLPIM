@@ -208,12 +208,58 @@ void SendPushInt(Buffer& outBuffer, bool* send, std::mutex& sockSend)
 	*send = true;
 }
 
+
+void SendPullInt(Buffer& outBuffer, bool* send, std::mutex& sockSend)
+{
+	//get variable name
+	Buffer name;
+	Buffer data;
+	RequestHeader reqHeader;
+	int value;
+
+
+	std::vector<std::shared_ptr<DataElement>> requests;
+
+	//get  test input stack
+	std::cout << "set name = '!' to end pullInt stack" << std::endl << std::endl;
+	std::cout << "variable Name:" << std::endl;
+	std::cin >> name;
+	while (name != "!") {
+		name.prepend("{");
+		name.append("}");
+		data.append(name);
+		std::cin >> name;
+	}
+
+	//build header packet
+	reqHeader.SetCommand(Commands::pull);
+	reqHeader.SetSize(data.size);
+
+	std::lock_guard<std::mutex> lock(sockSend);
+	outBuffer = reqHeader.Serialise();
+	outBuffer.append(data);
+	*send = true;
+}
+
+
 void sender(Buffer& outBuff, bool* send, std::mutex& sockSend)
 {
+	int option;
 	while (true) {
 
-		outBuff.fullPrint();
-		SendPushInt(outBuff, send, sockSend);
+		std::cout << "Select a command" << std::endl;
+		std::cout << "1) pushIntStack" << std::endl;
+		std::cout << "2) pullIntStack" << std::endl;
+
+		std::cin >> option;
+
+		switch(option)
+		{
+		case 1: {SendPushInt(outBuff, send, sockSend); break; }
+		case 2: {SendPullInt(outBuff, send, sockSend); break; }
+		}
+		
+
 		//todo: Sleep needs to go, why did i need it?
 		Sleep(200);
 	}
@@ -221,7 +267,8 @@ void sender(Buffer& outBuff, bool* send, std::mutex& sockSend)
 
 void handleDataPacket(const Buffer& inBuff)
 {
-
+	std::cout << "pullStack:"<<std::endl;
+	inBuff.fullPrint();
 }
 
 int testHarness()

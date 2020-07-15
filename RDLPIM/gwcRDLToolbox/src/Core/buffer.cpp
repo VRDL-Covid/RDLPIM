@@ -38,6 +38,8 @@ Buffer Buffer::PassChunk(char first, char second)
 	free(temp);
 
 	stripHead((int)bytes);
+	out.stripHead('{');
+	out.stripTail('}');
 	return out;
 
 }

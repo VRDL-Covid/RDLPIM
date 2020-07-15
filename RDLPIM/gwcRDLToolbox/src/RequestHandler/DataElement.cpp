@@ -166,8 +166,6 @@ int DataElement::deserialise(const Buffer& in)
 	int itt = 0;
 	char* temp;
 	Buffer incpy = in;
-	incpy.stripHead('{');
-	incpy.stripTail('}');
 
 	//if no data to serialise return 0 elements deserialised
 	if (incpy.size == 0) {

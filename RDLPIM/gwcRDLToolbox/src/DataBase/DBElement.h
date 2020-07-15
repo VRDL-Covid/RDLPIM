@@ -9,7 +9,7 @@ public:
 	~DBElement() = default;;
 	Event<const DataElement> m_OnChanged;
 
-	const DataElement GetData()const { return m_Data; }
+	const DataElement& GetData()const { return m_Data; }
 	void SetData(const DataElement& data) { m_Data = data; }
 
 private:
