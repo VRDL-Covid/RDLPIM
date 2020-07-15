@@ -206,7 +206,7 @@ void requestHandler::handlePush()
 {
 	dataArray PushDataArr;
 	DataBase* DB =  DataBase::GetInstance() ;
-	
+
 	PushDataArr.deserialise(jobs[0]->data);
 
 	for (auto element : PushDataArr){
