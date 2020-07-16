@@ -208,6 +208,7 @@ void requestHandler::handlePush()
 
 	PushDataArr.deserialise(jobs[0]->data);
 
+	//todo parse dataArry within ModData function, this can then raise a single event for multiple data points.
 	for (auto& element : PushDataArr){
 		DB->ModData(*element);
 	}
