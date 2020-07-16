@@ -153,6 +153,7 @@ void connectionObject::cleanUp()
 
 int connectionObject::recieve(char* out, int size)
 {
+	std::lock_guard<std::mutex> lock(m_IOLock);
 	//////////////////
 //while loop recv
 	memset(out, '\0', size);
@@ -174,6 +175,7 @@ int connectionObject::recieve(char* out, int size)
 
 int connectionObject::recieve(Buffer *buff)
 {
+	std::lock_guard<std::mutex> lock(m_IOLock);
 	//////////////////
 	//while loop recv
 	if (clientSocket == INVALID_SOCKET) {
@@ -202,6 +204,7 @@ int connectionObject::recieve(Buffer *buff)
 
 int connectionObject::Send(char* out, int size)
 {
+	std::lock_guard<std::mutex> lock(m_IOLock);
 	char _buff[MAXBUFFER];
 	memset(_buff, '\0', MAXBUFFER);
 	int bytes;
@@ -227,6 +230,7 @@ int connectionObject::Send(char* out, int size)
 
 int connectionObject::Send(const char* out)
 {
+	std::lock_guard<std::mutex> lock(m_IOLock);
 	int size = strlen(out);
 	char _buff[MAXBUFFER];
 	memset(_buff, '\0', MAXBUFFER);
@@ -252,7 +256,7 @@ int connectionObject::Send(const char* out)
 
 int connectionObject::Send(const Buffer &inp)
 {
-
+	std::lock_guard<std::mutex> lock(m_IOLock);
 	char _buff[MAXBUFFER];
 	memset(_buff, '\0', MAXBUFFER);
 	int sBytes;

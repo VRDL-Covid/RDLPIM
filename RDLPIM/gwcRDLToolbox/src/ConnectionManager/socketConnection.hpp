@@ -15,25 +15,10 @@
 // Description: An object to handle asynchronus SOCKET comms.
 class connectionObject
 {
-private:
-	WSADATA wsData;
-	sockaddr_in serverHints, clientHints;
-	int sizeServerHints, sizeClientHints;
-	int port;
-	char ip[16];
-	SOCKET servSocket = INVALID_SOCKET;
-	SOCKET clientSocket = INVALID_SOCKET;
-
-	FD_SET readSet;
-	FD_SET writeSet;
 public:
 	bool connected;
 
-	//members
-
-
-
-
+	
 	// Author: Guy Collins
 	// Date: 21/01/2020
 	// Description: Method to initialise WSA
@@ -92,5 +77,20 @@ public:
 	connectionObject(int _port, const char* _ip);
 	connectionObject(int _port);
 	~connectionObject();
+
+private:
+	WSADATA wsData;
+	sockaddr_in serverHints, clientHints;
+	int sizeServerHints, sizeClientHints;
+	int port;
+	char ip[16];
+	SOCKET servSocket = INVALID_SOCKET;
+	SOCKET clientSocket = INVALID_SOCKET;
+
+	FD_SET readSet;
+	FD_SET writeSet;
+
+	std::mutex m_IOLock;
+	
 };
 

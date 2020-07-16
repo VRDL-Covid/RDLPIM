@@ -27,8 +27,8 @@ int exePluginManager()
 	//join threads on exit
 	//TODO:GWC - need to somehow tell the threads to cleanly exit.
 	reqFactoryThread.join();
-	connectionManagerThread.join();
 	clientManagerThread.join();
+	connectionManagerThread.join();
 	return 0;
 }
 
