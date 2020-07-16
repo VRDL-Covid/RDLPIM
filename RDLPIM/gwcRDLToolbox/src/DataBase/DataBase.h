@@ -13,6 +13,10 @@ public:
 	
 	DataElement GetData(const std::string& varname);
 
+	Event<const std::string>& GetOnNewEntry() { return OnNewEntry; }
+
+
+
 private://members
 	//std::unordered_map<Buffer, Ref<DBElement>> m_Data;
 	std::unordered_map<std::string, Ref<DBElement>> m_Data;
@@ -22,4 +26,6 @@ private://methods
 	DataBase();
 	
 	std::mutex m_DBAccess;
+
+	Event<const std::string> OnNewEntry;
 };

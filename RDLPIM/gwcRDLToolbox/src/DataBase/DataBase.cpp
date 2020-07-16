@@ -18,15 +18,18 @@ void DataBase::ModData(const DataElement& data)
 	std::lock_guard<std::mutex> lock(m_DBAccess);
 	Buffer varname = data.m_VarName;
 
-	if (m_Data.find(varname.ToString()) == m_Data.end()) {
-		m_Data[varname.ToString()] = std::move(CreateRef<DBElement>(data));
+	std::string varname_str = varname.ToString();
+
+	if (m_Data.find(varname_str) == m_Data.end()) {
+		m_Data[varname_str] = std::move(CreateRef<DBElement>(data));
+		OnNewEntry.raiseEvent(varname_str);
 	}
 	else {
-		m_Data[varname.ToString()]->SetData(data);
+		m_Data[varname_str]->SetData(data);
 	}
 
 
-	m_Data[varname.ToString()]->m_OnChanged.raiseEvent(data);
+	m_Data[varname_str]->m_OnChanged.raiseEvent(data);
 }
 
 DataElement DataBase::GetData(const std::string& varName)
@@ -44,5 +47,5 @@ DataElement DataBase::GetData(const std::string& varName)
 
 DataBase::DataBase()
 {
-	m_Data.rehash(512);
+	m_Data.rehash(2000);
 }

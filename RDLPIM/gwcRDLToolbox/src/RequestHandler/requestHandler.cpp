@@ -271,6 +271,15 @@ void requestHandler::handelError()
 
 requestHandler::requestHandler()
 {
+	//get onNewDataEvent
+	auto& newDataEvent = DataBase::GetInstance()->GetOnNewEntry();
+
+	//initialise callback object.
+	onNewDataEntry = CreateRef<EventCallback<const std::string>>();
+	onNewDataEntry->SetCallback(BIND_EVENT_FN1(requestHandler::NewDataEntryHandler));
+	
+	//subscribe to new data events;
+	newDataEvent.subscribe(onNewDataEntry);
 }
 
 requestHandler::~requestHandler()
