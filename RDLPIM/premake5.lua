@@ -94,8 +94,6 @@ project "gwcRDLToolbox"
 	targetdir("bin/" .. outputDir .. "/%{prj.name}")
 	objdir("bin-int/" .. outputDir .. "/%{prj.name}")
 
-	--pchheader "rdlpch.h"
-	--pchsource "RDLPluginManager/src/rdlpch.cpp"
 	
 	files
 	{
@@ -126,7 +124,12 @@ project "gwcRDLToolbox"
 	defines
 	{
 	}
-
+	
+	postbuildcommands
+	{
+		"{COPY} ../vendor/GSE/mstG.dll ../bin/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/%{prj.name}",
+		"{COPY} ../vendor/GSE/s3dll.dll ../bin/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/%{prj.name}",
+	}
 
 	filter "configurations:Debug"
 		runtime "Debug"
@@ -136,6 +139,7 @@ project "gwcRDLToolbox"
 		runtime "Release"
 		optimize "on"
 
+		
 	filter "configurations:Dist"
 		runtime "Release"
 		optimize "on"
@@ -188,17 +192,24 @@ project "gwcRDLToolbox"
 	defines
 	{
 	}
-
-
+	
+	postbuildcommands
+	{
+		"{COPY} ../vendor/GSE/mstG.dll ../bin/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/%{prj.name}",
+		"{COPY} ../vendor/GSE/s3dll.dll ../bin/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/%{prj.name}",
+	}
+	
 	filter "configurations:Debug"
 		runtime "Debug"
 		symbols "on"
+		
 
 	filter "configurations:Release"
 		runtime "Release"
 		optimize "on"
+		
 
 	filter "configurations:Dist"
 		runtime "Release"
 		optimize "on"
-
+		
