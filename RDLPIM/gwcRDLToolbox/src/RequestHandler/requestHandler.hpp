@@ -17,7 +17,7 @@ public:
 		return s_Instance;
 	}
 
-	static std::vector<job*> jobs;
+	static std::vector<Ref<job>> jobs;
 	static int noJobs;
 
 	static void addToQue(const Buffer& rawJob);

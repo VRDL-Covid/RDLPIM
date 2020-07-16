@@ -403,21 +403,24 @@ void Buffer::prepend(const char* head)
 
 void Buffer::nullTerminate()
 {
-	char* temp = (char*)malloc(1 + sizeof(char) * size);
-	int newSize = size + 1;
+	char* temp = (char*)malloc(sizeof(char) + sizeof(char) * this->size);
+	
+	
+	int newSize = this->size + 1;
 
-	for (int i = 0; i < size; i++) {
-		temp[i] = contents[i];
+	for (int i = 0; i < this->size; i++) {
+		temp[i] = this->contents[i];
 	}
 
 	temp[newSize - 1] = '\0';
 
-	size = newSize;
+	this->size = newSize;
 
-	contents = (char*)realloc(contents, sizeof(char) * size);
+	this->contents = (char*)realloc(this->contents, sizeof(char) * this->size);
 
-	for (int i = 0; i < size; i++) {
-		contents[i] = temp[i];
+
+	for (int i = 0; i < this->size; i++) {
+		this->contents[i] = temp[i];
 	}
 
 	free(temp);
@@ -451,6 +454,8 @@ void Buffer::stripHead(int N)
 	}
 
 	set(temp, size - N);
+
+	free(temp);
 }
 
 void Buffer::stripHead(char seperator)
@@ -487,6 +492,8 @@ void Buffer::stripTail(int N)
 	}
 
 	set(temp, size - N);
+
+	free(temp);
 }
 
 void Buffer::stripTail(char seperator)
@@ -504,7 +511,7 @@ void Buffer::stripTail(char seperator)
 	stripTail(it + 1);
 }
 
-std::string Buffer::ToString()
+std::string Buffer::ToString() const
 {
 	Buffer temp = *this;
 	temp.nullTerminate();
@@ -515,12 +522,17 @@ std::string Buffer::ToString()
 
 Buffer& Buffer::operator=(const Buffer& other)
 {
-	size = other.size;
+	this->size = other.size;
 
-	contents = (char*)malloc(size);
+	if (this->contents == nullptr) {
+		this->contents = (char*)malloc(sizeof(char) * other.size);
+	}
+	else {
+		this->contents = (char*)realloc(this->contents, sizeof(char) * other.size);
+	}
 
 	for (int i = 0; i < size; i++) {
-		contents[i] = other.contents[i];
+		this->contents[i] = other.contents[i];
 	}
 
 	return *this;

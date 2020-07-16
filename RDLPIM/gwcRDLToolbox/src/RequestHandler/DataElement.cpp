@@ -173,7 +173,7 @@ int DataElement::deserialise(const Buffer& in)
 	}
 
 	//get variable name
-	while (incpy.contents[itt] != '=' && itt < incpy.size) {
+	while ((incpy.contents[itt] != '=') && (itt < incpy.size)) {
 		itt++;
 	}
 
@@ -203,12 +203,15 @@ int DataElement::deserialise(const Buffer& in)
 	}
 
 	if (itt == 0 || itt >= incpy.size) {
+		free(temp);
 		return 1;
 	}
 	else {
 		typeSize = itt;
 		itt = 0;
 	}
+
+	temp = (char*)realloc(temp, nameSize + typeSize);
 
 	for (int i = 0; i < nameSize+typeSize; i++) {
 		temp[i] = incpy.contents[i+nameSize];
@@ -228,7 +231,7 @@ int DataElement::deserialise(const Buffer& in)
 	memcpy(m_data, &(incpy.contents[nameSize + typeSize]), m_Bytes);
 
 
-
+	free(temp);
 	return 4;
 
 

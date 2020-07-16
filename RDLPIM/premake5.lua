@@ -71,6 +71,7 @@ project "gwcRDLToolbox"
 	filter "configurations:Release"
 		defines{"NDEBUG"}
 		runtime "Release"
+		symbols "on"
 		optimize "on"
 
 	filter "configurations:Dist"
@@ -137,6 +138,7 @@ project "gwcRDLToolbox"
 
 	filter "configurations:Release"
 		runtime "Release"
+		symbols "on"
 		optimize "on"
 
 		
@@ -206,6 +208,7 @@ project "gwcRDLToolbox"
 
 	filter "configurations:Release"
 		runtime "Release"
+		symbols "on"
 		optimize "on"
 		
 

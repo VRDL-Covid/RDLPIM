@@ -9,13 +9,13 @@ public:
 	Commands command;
 	Buffer data;
 
-	Commands getCommand(Buffer* rawJob);
-	int getClientID(Buffer* thisJob);
-	void getData(Buffer* rawJob);
+	Commands getCommand(const Buffer& rawJob);
+	int getClientID(const Buffer& rawJob);
+	void getData(const Buffer& rawJob);
 
 
 	job();
-	job(Buffer* rawJob);
+	job(const Buffer& rawJob);
 
 
 	~job();

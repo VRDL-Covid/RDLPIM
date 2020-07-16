@@ -1,7 +1,7 @@
 #include "rdlpch.h"
 #include "requestHandler.hpp"
 
-std::vector<job*> requestHandler::jobs;
+std::vector<Ref<job>> requestHandler::jobs;
 int requestHandler::noJobs = 0;
 requestHandler* requestHandler::s_Instance = nullptr;
 
@@ -13,9 +13,7 @@ void requestHandler::printJobs()
 
 void requestHandler::addToQue(const Buffer &rawJob)
 {
-	Buffer rawJobCpy = rawJob;
-	job* newJob = new job(&rawJobCpy);
-	jobs.push_back(newJob);
+	jobs.push_back(CreateRef<job>(rawJob));
 	noJobs++;
 	printJobs();
 }
@@ -210,7 +208,7 @@ void requestHandler::handlePush()
 
 	PushDataArr.deserialise(jobs[0]->data);
 
-	for (auto element : PushDataArr){
+	for (auto& element : PushDataArr){
 		DB->ModData(*element);
 	}
 

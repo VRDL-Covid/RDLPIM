@@ -69,7 +69,7 @@ public:
 	//Author:Guy Collins
 	//14/05/2020
 	//Method to convert buffer to a string
-	std::string ToString();
+	std::string ToString() const;
 
 	// Author: Guy Collinso
 	// Date: 20/01/2020
