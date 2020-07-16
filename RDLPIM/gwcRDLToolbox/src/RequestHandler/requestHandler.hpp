@@ -28,6 +28,9 @@ public:
 
 	~requestHandler();
 
+	bool NewDataEntryHandler(const std::string& data) { std::cout << data << " has been added" << std::endl; return false; }
+	Ref<EventCallback<const std::string>> onNewDataEntry;
+
 private:
 
 	requestHandler();
@@ -45,5 +48,7 @@ private:
 	void handelError();
 
 	static requestHandler* s_Instance;
+
+	std::unordered_map<std::string, std::vector<int>> m_Subscriptions;
 };
 

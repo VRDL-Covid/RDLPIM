@@ -55,6 +55,16 @@ template<typename ...T>
 class EventCallback
 {
 public:
+	EventCallback()
+	{
+		m_ID = IEventCallback::GetNextID();
+	}
+
+	void SetCallback(std::function<bool(T...)> callbackFunction)
+	{
+		m_Callback = callbackFunction;
+	}
+
 	EventCallback(std::function<bool(T...)> callbackFunction)
 	{
 		m_ID = IEventCallback::GetNextID();
