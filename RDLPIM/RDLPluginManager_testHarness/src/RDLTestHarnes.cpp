@@ -7,6 +7,7 @@ void sendDebugMSGs(Buffer &outBuff, bool* send)
 		char userIn[1024];
 		int bytes = 0;
 		char CBytes[4];
+		std::cin.clear();
 
 		//get user input
 		std::cin.getline(userIn, sizeof(userIn));
@@ -42,13 +43,15 @@ void sendChatMSGs(Buffer& outBuff, bool* send, std::mutex& sockSend)
 	char userIn[1024];
 	uint32_t bytes = 0;
 	RequestHeader reqHeader;
+	Buffer userInData;
 
+	std::cout << "Broadcast message:";
 	//get user input
-	std::cin.getline(userIn, sizeof(userIn));
+
+	std::cin >> userInData;
 
 	std::lock_guard<std::mutex> lock(sockSend);
 
-	Buffer userInData(userIn);
 
 	//buildHeader
 	bytes = userInData.size;
@@ -246,17 +249,20 @@ void sender(Buffer& outBuff, bool* send, std::mutex& sockSend)
 {
 	int option;
 	while (true) {
+		option = 0;
 
 		std::cout << "Select a command" << std::endl;
 		std::cout << "1) pushIntStack" << std::endl;
 		std::cout << "2) pullIntStack" << std::endl;
+		std::cout << "3) Chat/string test" << std::endl;
 
 		std::cin >> option;
 
 		switch(option)
 		{
-		case 1: {SendPushInt(outBuff, send, sockSend); break; }
-		case 2: {SendPullInt(outBuff, send, sockSend); break; }
+		case 1: {std::cin.clear();SendPushInt(outBuff, send, sockSend); break; }
+		case 2: {std::cin.clear();SendPullInt(outBuff, send, sockSend); break; }
+		case 3: {std::cin.clear();sendChatMSGs(outBuff, send, sockSend); break; }
 		}
 		
 
