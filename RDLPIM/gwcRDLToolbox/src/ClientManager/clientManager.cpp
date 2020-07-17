@@ -115,6 +115,8 @@ bool clientManager::AddClient_impl(const Ref<Client>& newClient)
 	clients.push_back(newClient);
 	clientDB_lock.unlock();
 
+	OnNewClient.raiseEvent(newClient);
+
 	return PROPAGATE_EVENT;
 }
 

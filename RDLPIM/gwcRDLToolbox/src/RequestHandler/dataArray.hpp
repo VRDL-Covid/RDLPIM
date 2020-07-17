@@ -10,8 +10,8 @@ public:
 
 	void Deserialise(const Buffer& rawInput);
 	Buffer Serialise();
-
 	Buffer GetVarNames();
+	void ClearArray() { m_DataArry.clear(); }
 
 	std::vector<Ref<DataElement>>::iterator begin() { return m_DataArry.begin(); }
 	std::vector<Ref<DataElement>>::iterator end() { return m_DataArry.end(); }
