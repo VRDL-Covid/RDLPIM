@@ -556,3 +556,12 @@ std::istream& operator>> (std::istream& in, Buffer& buf)
 	buf.set(temp.c_str());
 	return in;
 }
+
+std::ostream& operator << (std::ostream& out, Buffer& buf)
+{
+	for (int i = 0; i < buf.size; i++) {
+		out << buf.contents[i];
+	}
+
+	return out;
+}

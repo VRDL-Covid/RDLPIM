@@ -88,7 +88,8 @@ public:
 	Buffer& operator=(Buffer&&);
 
 	//input overload
-	friend std::istream& operator >>(std::istream& in, Buffer& buf);
+	friend std::istream& operator>> (std::istream& in, Buffer& buf);
+	friend std::ostream& operator<< (std::ostream& out, Buffer& buf);
 
 	Buffer PassChunk(char first, char second);
 	Buffer PassChunk(char delimiter);

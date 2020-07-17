@@ -237,7 +237,7 @@ int DataElement::deserialise(const Buffer& in)
 
 }
 
-Buffer DataElement::serialise()
+Buffer DataElement::Serialise() const 
 {
 	Buffer output;
 	int tempSize;

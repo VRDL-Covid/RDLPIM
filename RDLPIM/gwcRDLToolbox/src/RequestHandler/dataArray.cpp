@@ -1,9 +1,19 @@
 #include "rdlpch.h"
 #include "dataArray.hpp"
 
+DataElementArray::DataElementArray()
+{
+
+}
 
 
-void dataArray::deserialise(const Buffer& rawInput)
+DataElementArray::~DataElementArray()
+{
+
+}
+
+
+void DataElementArray::Deserialise(const Buffer& rawInput)
 {
 	Buffer input = rawInput;
 	Buffer chunk;
@@ -19,13 +29,59 @@ void dataArray::deserialise(const Buffer& rawInput)
 	}
 }
 
-dataArray::dataArray()
+Buffer DataElementArray::Serialise()
 {
+	Buffer retBuff;
 
+	if (m_DataArry.size() > 0) {
+		for (auto& element : *this) {
+			retBuff.append(element->Serialise());
+		}
+	}
+	else {
+		retBuff.set("{}");
+	}
+
+	return retBuff;
 }
 
 
-dataArray::~dataArray()
+Buffer DataElementArray::GetVarNames()
 {
+	Buffer retBuff;
 
+	if (m_DataArry.size() > 0) {
+		for (auto& element : *this) {
+			retBuff.append("{");
+			retBuff.append(element->m_VarName);
+			retBuff.append("}");
+		}
+	} 
+	else {
+		retBuff.set("{}");
+	}
+
+	return retBuff;
+}
+
+//move operator
+DataElementArray& DataElementArray::operator=(DataElementArray&& other)
+{
+	this->m_DataArry = std::move(other.m_DataArry);
+
+	return *this;
+}
+
+//copy
+DataElementArray& DataElementArray::operator=(const DataElementArray& other)
+{
+	this->m_DataArry = other.m_DataArry;
+
+	return *this;
+}
+
+//copy
+DataElementArray::DataElementArray(const DataElementArray& other)
+{
+	this->m_DataArry = other.m_DataArry;
 }

@@ -68,103 +68,6 @@ void sendChatMSGs(Buffer& outBuff, bool* send, std::mutex& sockSend)
 
 }
 
-void sendRDLPull(Buffer& outBuff, bool* send)
-{
-		char userIn[1024];
-		int bytes = 0;
-		char CBytes[4];
-
-		//get user input
-		std::cin.getline(userIn, sizeof(userIn));
-		Buffer userInData(userIn);
-
-		//build bytes data
-		bytes = userInData.size;
-		memcpy(&CBytes, &userInData.size, 4);
-		Buffer bytesData(CBytes, 4);
-
-		//build command data
-		char cmd[4];
-		char* cmdPtr = &cmd[0];
-		Buffer commandSend;
-		Commands chat = Commands::rdlPull;
-		memcpy(cmd, &chat, 4);
-		commandSend.set(cmdPtr, 4);
-
-		//build raw job buffer
-		outBuff.set("CMD=");
-		outBuff.append(commandSend);
-		outBuff.append("=DATA=");
-		outBuff.append(bytesData);
-		outBuff.append(userInData);
-
-		//output bit from thread to send
-		*send = true;
-
-}
-
-void sendRDLSubcribe(Buffer& outBuff, bool* send)
-{
-	char userIn[1024];
-	int bytes = 0;
-	char CBytes[4];
-
-	//get user input
-	std::cin.getline(userIn, sizeof(userIn));
-	Buffer userInData(userIn);
-
-	//build command data
-	char cmd[4];
-	char* cmdPtr = &cmd[0];
-	Buffer commandSend;
-	Commands Cmd = rdlSubscribe;
-	memcpy(cmd, &Cmd, 4);
-	commandSend.set(cmdPtr, 4);
-
-	//Build Tollerance packet
-	char tolChar[8];
-	double tol = 0.0;
-	memcpy(tolChar, &tol, sizeof(double));
-	Buffer tolData;
-	tolData.set(tolChar, sizeof(double));
-
-	//Build delay packet
-	char delChar[8];
-	double del = 0.5;
-	memcpy(delChar, &del, sizeof(double));
-	Buffer delData;
-	delData.set(delChar, sizeof(double));
-
-	//build bytes data
-	bytes = (userInData.size) + 20 + 2*(tolData.size) + 2*(delData.size) + 13;
-	memcpy(&CBytes, &bytes, 4);
-	Buffer bytesData(CBytes, 4);
-
-	//build raw job buffer
-	outBuff.set("CMD=");
-	outBuff.append(commandSend);
-	outBuff.append("=DATA=");
-	outBuff.append(bytesData);
-	outBuff.append(userInData);
-	outBuff.append("=Tol=");
-	outBuff.append(tolData);
-	outBuff.append("=Del=");
-	outBuff.append(delData);
-	outBuff.append("=");
-	outBuff.append("GI_GDS_FT205");
-	outBuff.append("=Tol=");
-	outBuff.append(tolData);
-	outBuff.append("=Del=");
-	outBuff.append(delData);
-
-
-
-	//output bit from thread to send
-	outBuff.fullPrint();
-	*send = true;
-
-}
-
 void SendPushInt(Buffer& outBuffer, bool* send, std::mutex& sockSend)
 {
 	//get variable name
@@ -197,7 +100,7 @@ void SendPushInt(Buffer& outBuffer, bool* send, std::mutex& sockSend)
 
 	//build data package
 	for (auto element : requests) {
-		data.append(element->serialise());
+		data.append(element->Serialise());
 	}
 
 	//build header packet
@@ -210,7 +113,6 @@ void SendPushInt(Buffer& outBuffer, bool* send, std::mutex& sockSend)
 	outBuffer.append(data);
 	*send = true;
 }
-
 
 void SendPullInt(Buffer& outBuffer, bool* send, std::mutex& sockSend)
 {
@@ -244,6 +146,37 @@ void SendPullInt(Buffer& outBuffer, bool* send, std::mutex& sockSend)
 	*send = true;
 }
 
+void SentSubInt(Buffer& outBuffer, bool* send, std::mutex& sockSend)
+{
+	//get variable name
+	Buffer name;
+	Buffer data;
+	RequestHeader reqHeader;
+	int value;
+
+
+	std::vector<std::shared_ptr<DataElement>> requests;
+
+	//get  test input stack
+	std::cout << "set name = '!' to end Subscribe to Int stack" << std::endl << std::endl;
+	std::cout << "variable Name:" << std::endl;
+	std::cin >> name;
+	while (name != "!") {
+		name.prepend("{");
+		name.append("}");
+		data.append(name);
+		std::cin >> name;
+	}
+
+	//build header packet
+	reqHeader.SetCommand(Commands::subscribe);
+	reqHeader.SetSize(data.size);
+
+	std::lock_guard<std::mutex> lock(sockSend);
+	outBuffer = reqHeader.Serialise();
+	outBuffer.append(data);
+	*send = true;
+}
 
 void sender(Buffer& outBuff, bool* send, std::mutex& sockSend)
 {
@@ -252,17 +185,19 @@ void sender(Buffer& outBuff, bool* send, std::mutex& sockSend)
 		option = 0;
 
 		std::cout << "Select a command" << std::endl;
-		std::cout << "1) pushIntStack" << std::endl;
-		std::cout << "2) pullIntStack" << std::endl;
-		std::cout << "3) Chat/string test" << std::endl;
+		std::cout << "1) Chat/string test" << std::endl;
+		std::cout << "2) pushIntStack" << std::endl;
+		std::cout << "3) pullIntStack" << std::endl;
+		std::cout << "4) SubscribeInt" << std::endl;
 
 		std::cin >> option;
 
 		switch(option)
 		{
-		case 1: {std::cin.clear();SendPushInt(outBuff, send, sockSend); break; }
-		case 2: {std::cin.clear();SendPullInt(outBuff, send, sockSend); break; }
-		case 3: {std::cin.clear();sendChatMSGs(outBuff, send, sockSend); break; }
+		case 1: {std::cin.clear();sendChatMSGs(outBuff, send, sockSend); break; }
+		case 2: {std::cin.clear();SendPushInt(outBuff, send, sockSend); break; }
+		case 3: {std::cin.clear();SendPullInt(outBuff, send, sockSend); break; }
+		case 4: {std::cin.clear();SentSubInt(outBuff, send, sockSend); break; }
 		}
 		
 
@@ -273,7 +208,7 @@ void sender(Buffer& outBuff, bool* send, std::mutex& sockSend)
 
 void handleDataPacket(const Buffer& inBuff)
 {
-	std::cout << "pullStack:"<<std::endl;
+	std::cout << "Data Recieved:"<< std::endl;
 	inBuff.fullPrint();
 }
 
