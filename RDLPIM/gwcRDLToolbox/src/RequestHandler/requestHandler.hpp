@@ -42,6 +42,7 @@ private:
 
 	requestHandler();
 	void processNextJob();
+	void processSubscriptions();
 
 	void terminateJob();
 

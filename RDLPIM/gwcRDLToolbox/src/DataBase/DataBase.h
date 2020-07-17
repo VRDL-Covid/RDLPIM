@@ -14,8 +14,9 @@ public:
 	bool PointExists(const std::string& name);
 	//void RemoveData(const DataElement& data);
 	
+	
 	DataElement GetData(const std::string& varname);
-
+	Ref<DBElement>& GetEntry(const std::string& name) { return m_Data[name]; }
 	Event<const std::string>& GetOnNewEntry() { return OnNewEntry; }
 
 

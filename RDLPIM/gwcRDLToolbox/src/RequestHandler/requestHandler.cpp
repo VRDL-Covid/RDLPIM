@@ -26,69 +26,91 @@ void requestHandler::terminateJob()
 
 void requestHandler::processNextJob()
 {
-	switch (m_jobs[0]->command)
-	{
-	case Info:
-		break;
+	if (requestHandler::noJobs > 0) {
+		switch (m_jobs[0]->command) {
+		case Info:
+			break;
 
-	case rdlPush:
-		break;
+		case rdlPush:
+			break;
 
-	case rdlPull:
-		handleRDLPull();
-		break;
+		case rdlPull:
+			handleRDLPull();
+			break;
 
-	case rdlSubscribe:
-		break;
+		case rdlSubscribe:
+			break;
 
-	case push:
-		handlePush();
-		break;
+		case push:
+			handlePush();
+			break;
 
-	case pull:
-		handlePull();
-		break;
+		case pull:
+			handlePull();
+			break;
 
-	case subscribe:
-		handleSubscribe();
-		break;
+		case subscribe:
+			handleSubscribe();
+			break;
 
-	case chat:
-		handleChat();
-		break;
+		case chat:
+			handleChat();
+			break;
 
-	case DEBUG:
-		handleDEBUG();
-		break;
+		case DEBUG:
+			handleDEBUG();
+			break;
 
-	case VOIP:
-		break;
+		case VOIP:
+			break;
 
-	default:
-		handelError();
-		break;
+		default:
+			handelError();
+			break;
+		}
+
+		terminateJob();
 	}
-
-	terminateJob();
 }
 
+void requestHandler::processSubscriptions()
+{
+	RequestHeader reqHead;
+	reqHead.SetCommand(Commands::DATA);
+	Buffer OutBuf;
+
+	for (auto& sub : m_Subscriptions) {
+		int ID = sub.first;
+		auto subInfo = sub.second;
+		if (subInfo != nullptr) {
+			if (subInfo->IsMarkerForSending()) {
+				reqHead.SetSize(subInfo->GetOutData().size);
+
+				OutBuf = reqHead.Serialise();
+				OutBuf.append(subInfo->GetOutData());
+
+				clientManager::sendMessage(ID, OutBuf);
+				sub.second->Clear();
+			}
+		}
+	}
+}
 void requestHandler::worker(std::mutex* jobVectorMutex)
 {
 	while (true) {
 		//handle next request
 		if (clientManager::clientDB_lock.try_lock()) {
 			jobVectorMutex->lock();
-			if (requestHandler::noJobs > 0) {
-				processNextJob();
-			}
+			
+			processNextJob();
+		
+			processSubscriptions();
+
 			jobVectorMutex->unlock();
 			clientManager::clientDB_lock.unlock();
 		}
 
-		//Todo:gwc - check subscribed data for changes and send to subscribed clients if it has...
-		//check subscribed data  for changes.
 
-		//checkSubscribedData();
 	}
 }
 

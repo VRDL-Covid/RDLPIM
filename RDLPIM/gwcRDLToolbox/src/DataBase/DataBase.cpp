@@ -28,7 +28,8 @@ void DataBase::ModData(const DataElement& data)
 		m_Data[varname_str]->SetData(data);
 	}
 
-	m_Data[varname_str]->m_OnChanged.raiseEvent(data);
+	auto& changeEvent = m_Data[varname_str]->GetOnChangedEvent();
+	changeEvent.raiseEvent(data);
 
 	DataElementArray EventParam;
 	EventParam.Deserialise(data.Serialise());
@@ -52,7 +53,7 @@ void DataBase::ModData(const DataElementArray& dataArr)
 			m_Data[varname_str]->SetData(*element);
 		}
 
-		m_Data[varname_str]->m_OnChanged.raiseEvent(*element);
+		m_Data[varname_str]->GetOnChangedEvent().raiseEvent(*element);
 	}
 
 	OnUpdated.raiseEvent(dataArr);
