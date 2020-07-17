@@ -28,8 +28,35 @@ void DataBase::ModData(const DataElement& data)
 		m_Data[varname_str]->SetData(data);
 	}
 
-
 	m_Data[varname_str]->m_OnChanged.raiseEvent(data);
+
+	DataElementArray EventParam;
+	EventParam.Deserialise(data.Serialise());
+}
+
+void DataBase::ModData(const DataElementArray& dataArr)
+{
+	auto cpy = dataArr;
+
+	for (auto& element : cpy) {
+		std::lock_guard<std::mutex> lock(m_DBAccess);
+		Buffer varname = element->m_VarName;
+
+		std::string varname_str = varname.ToString();
+
+		if (m_Data.find(varname_str) == m_Data.end()) {
+			m_Data[varname_str] = std::move(CreateRef<DBElement>(*element));
+			OnNewEntry.raiseEvent(varname_str);
+		}
+		else {
+			m_Data[varname_str]->SetData(*element);
+		}
+
+		m_Data[varname_str]->m_OnChanged.raiseEvent(*element);
+	}
+
+	OnUpdated.raiseEvent(dataArr);
+
 }
 
 DataElement DataBase::GetData(const std::string& varName)

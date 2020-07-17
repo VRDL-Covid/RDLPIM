@@ -42,7 +42,7 @@ public:
 	// Date: 20/01/2020
 	// Description: Method to serialise the contents of a request packet into a correctly formatted character array 
 	//				"{VarName=VarType=Bytes=Value}"
-	Buffer serialise();
+	Buffer Serialise()const;
 
 	// Author: Guy Collins
 	// Date: 20/01/2020
@@ -67,11 +67,6 @@ public:
 
 	//move assigment overload
 	DataElement& operator=(DataElement&& other);
-
-
-
-
-
 
 };
 

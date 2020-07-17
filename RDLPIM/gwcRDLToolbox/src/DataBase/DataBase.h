@@ -1,6 +1,6 @@
 #pragma once
 #include"DBElement.h"
-
+#include"RequestHandler/dataArray.hpp"
 class DataBase
 {
 public:
@@ -9,6 +9,7 @@ public:
 	static DataBase* GetInstance();
 
 	void ModData(const DataElement& data);
+	void ModData(const DataElementArray& dataArr);
 	//void RemoveData(const DataElement& data);
 	
 	DataElement GetData(const std::string& varname);
@@ -28,4 +29,5 @@ private://methods
 	std::mutex m_DBAccess;
 
 	Event<const std::string> OnNewEntry;
+	Event<const DataElementArray&> OnUpdated;
 };

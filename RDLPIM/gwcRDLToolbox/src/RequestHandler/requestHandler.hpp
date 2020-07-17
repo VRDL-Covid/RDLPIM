@@ -45,6 +45,7 @@ private:
 
 	void handlePush();
 	void handlePull();
+	void handleSubscribe();
 	void handelError();
 
 	static requestHandler* s_Instance;

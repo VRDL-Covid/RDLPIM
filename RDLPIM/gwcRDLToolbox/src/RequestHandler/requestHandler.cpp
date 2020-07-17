@@ -29,11 +29,9 @@ void requestHandler::processNextJob()
 	switch (jobs[0]->command)
 	{
 	case Info:
-		terminateJob();
 		break;
 
 	case rdlPush:
-		terminateJob();
 		break;
 
 	case rdlPull:
@@ -41,7 +39,6 @@ void requestHandler::processNextJob()
 		break;
 
 	case rdlSubscribe:
-		terminateJob();
 		break;
 
 	case push:
@@ -50,11 +47,10 @@ void requestHandler::processNextJob()
 
 	case pull:
 		handlePull();
-		terminateJob();
 		break;
 
 	case subscribe:
-		terminateJob();
+		handleSubscribe();
 		break;
 
 	case chat:
@@ -66,13 +62,14 @@ void requestHandler::processNextJob()
 		break;
 
 	case VOIP:
-		terminateJob();
 		break;
 
 	default:
 		handelError();
 		break;
 	}
+
+	terminateJob();
 }
 
 void requestHandler::worker(std::mutex* jobVectorMutex)
@@ -104,7 +101,6 @@ void requestHandler::handleDEBUG()
 	message.nullTerminate();
 
 	clientManager::publishMessage(jobs[0]->ID, message);
-	terminateJob();
 }
 
 void requestHandler::handleChat()
@@ -126,7 +122,6 @@ void requestHandler::handleChat()
 	OutBuf.append(data);
 
 	clientManager::publishMessage(jobs[0]->ID, OutBuf);
-	terminateJob();
 }
 
 void requestHandler::handleRDLPull()
@@ -139,7 +134,6 @@ void requestHandler::handleRDLPull()
 
 	//End if there is no job data
 	if (jobs[0]->data.size <= 0) {
-		terminateJob();
 		return;
 	}
 
@@ -193,32 +187,29 @@ void requestHandler::handleRDLPull()
 
 		DataElement tempReq;
 		tempReq.set(RDLDATA);
-		message.append(tempReq.serialise());
+		message.append(tempReq.Serialise());
 	}
 
 	clientManager::sendMessage(jobs[0]->ID, message);
-	//delete the job
-	terminateJob();
 }
 
 void requestHandler::handlePush()
 {
-	dataArray PushDataArr;
-	DataBase* DB =  DataBase::GetInstance() ;
+	if (jobs[0]->data.size > 0) {
+		DataElementArray PushDataArr;
+		PushDataArr.Deserialise(jobs[0]->data);
 
-	PushDataArr.deserialise(jobs[0]->data);
+		DataBase* DB = DataBase::GetInstance();
 
-	//todo parse dataArry within ModData function, this can then raise a single event for multiple data points.
-	for (auto& element : PushDataArr){
-		DB->ModData(*element);
+		DB->ModData(PushDataArr);
 	}
-
-	terminateJob();
 }
 
 void requestHandler::handlePull()
 {
-	//TODO TOMORROW - Lock failiure here.... this shold be a good one....
+	if (jobs[0]->data.size <= 0)
+		return;
+
 	RequestHeader reqHeader;
 	DataElement dataElement;
 	Buffer SendBuffer;
@@ -235,8 +226,8 @@ void requestHandler::handlePull()
 
 	//get data
 	for (auto var : requestVars) {
-		dataElement = DB->GetData(var); // !!!!!!!!!!!!!!!!!!!!!!!! Error on this line.
-		Data.append(dataElement.serialise());
+		dataElement = DB->GetData(var); 
+		Data.append(dataElement.Serialise());
 	}
 
 	reqHeader.SetCommand(Commands::DATA);
@@ -249,6 +240,41 @@ void requestHandler::handlePull()
 
 }
 
+void requestHandler::handleSubscribe()
+{
+#pragma region Handle initial responce as a pull request
+	if (jobs[0]->data.size <= 0)
+		return;
+
+	RequestHeader reqHeader;
+	DataElement dataElement;
+	Buffer SendBuffer;
+	Buffer Data;
+
+	DataBase* DB = DataBase::GetInstance();
+	Buffer jobData = jobs[0]->data;
+	std::vector<std::string> requestVars;
+
+	//build request array
+	while (jobData.size > 0) {
+		requestVars.push_back(jobData.PassChunk('{', '}').ToString());
+	}
+
+	//get data
+	for (auto var : requestVars) {
+		dataElement = DB->GetData(var);
+		Data.append(dataElement.Serialise());
+	}
+
+	reqHeader.SetCommand(Commands::DATA);
+	reqHeader.SetSize(Data.size);
+
+	SendBuffer = reqHeader.Serialise();
+	SendBuffer.append(Data);
+
+	clientManager::sendMessage(jobs[0]->ID, SendBuffer);
+#pragma endregion
+}
 
 void requestHandler::handelError()
 {
@@ -267,7 +293,6 @@ void requestHandler::handelError()
 	sendBuffer.append(errMessage);
 
 	clientManager::sendMessage(jobs[0]->ID, sendBuffer);
-	terminateJob();
 }
 
 requestHandler::requestHandler()
