@@ -108,7 +108,7 @@ connectionManager::connectionManager()
 
 void connectionManager::Init()
 {
-	clientManager::GetInstance()->OnClientDisconnect.subscribe(BIND_EVENT_FN1(connectionManager::ClientDisconnectCallback));
+	clientManager::GetInstance()->GetClientDisconnectEvent().subscribe(BIND_EVENT_FN1(connectionManager::ClientDisconnectCallback));
 }
 
 

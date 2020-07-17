@@ -23,21 +23,25 @@ public:
 	static void sendMessage(int ID, const Buffer& output);
 	static void broadCast(const Buffer& output);
 	static bool AddClient(const Ref<Client>& newClient) { return GetInstance()->AddClient_impl(newClient); }
-	static bool RemoveClient(Ref<Client>& client) { return GetInstance()->RemoveClient_impl(client); }
+	static bool RemoveClient(Ref<Client>& client) { return GetInstance()->RemoveClient_impl(client);}
 
 	int checkForIncoming(Ref<Client> client, Buffer* output);
 	void publishMessage(Ref<Client> client, const Buffer &output);
 	void worker(std::mutex* jobVector);
 
-	~clientManager();
+	const Event<const Ref<Client>&>& GetNewClientEvent() const { return OnNewClient; }
+	const Event<const Ref<Client>&>& GetClientDisconnectEvent() const { return OnClientDisconnect; }
 
-	Event<const Ref<Client>> OnClientDisconnect;
-	Event<const Ref<Client>> OnNewClient;
+	~clientManager();
 
 private:
 	clientManager();
 	static clientManager* s_Instance;
 	bool AddClient_impl(const Ref<Client>& newClient);
 	bool RemoveClient_impl(Ref<Client>& client);
+
+private://Events
+	Event<const Ref<Client>&> OnClientDisconnect;
+	Event<const Ref<Client>&> OnNewClient;
 };
 

@@ -29,6 +29,7 @@ void DataElementArray::Deserialise(const Buffer& rawInput)
 	}
 }
 
+
 Buffer DataElementArray::Serialise()
 {
 	Buffer retBuff;

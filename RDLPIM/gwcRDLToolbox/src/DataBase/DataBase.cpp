@@ -71,6 +71,13 @@ DataElement DataBase::GetData(const std::string& varName)
 	return m_Data[varName]->GetData();
 }
 
+bool DataBase::PointExists(const std::string& name)
+{
+	if (m_Data.find(name) != m_Data.end())
+		return true;
+	return false;
+}
+
 
 DataBase::DataBase()
 {

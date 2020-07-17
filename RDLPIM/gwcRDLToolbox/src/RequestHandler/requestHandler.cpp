@@ -1,7 +1,7 @@
 #include "rdlpch.h"
 #include "requestHandler.hpp"
 
-std::vector<Ref<job>> requestHandler::jobs;
+std::vector<Ref<job>> requestHandler::m_jobs;
 int requestHandler::noJobs = 0;
 requestHandler* requestHandler::s_Instance = nullptr;
 
@@ -13,7 +13,7 @@ void requestHandler::printJobs()
 
 void requestHandler::addToQue(const Buffer &rawJob)
 {
-	jobs.push_back(CreateRef<job>(rawJob));
+	m_jobs.push_back(CreateRef<job>(rawJob));
 	noJobs++;
 	printJobs();
 }
@@ -21,12 +21,12 @@ void requestHandler::addToQue(const Buffer &rawJob)
 void requestHandler::terminateJob()
 {
 	requestHandler::noJobs--;
-	requestHandler::jobs.erase(requestHandler::jobs.begin());
+	requestHandler::m_jobs.erase(requestHandler::m_jobs.begin());
 }
 
 void requestHandler::processNextJob()
 {
-	switch (jobs[0]->command)
+	switch (m_jobs[0]->command)
 	{
 	case Info:
 		break;
@@ -95,12 +95,12 @@ void requestHandler::worker(std::mutex* jobVectorMutex)
 void requestHandler::handleDEBUG()
 {
 	Buffer message("ID-");
-	message.append(std::to_string(jobs[0]->ID).c_str());
+	message.append(std::to_string(m_jobs[0]->ID).c_str());
 	message.append(":");
-	message.append(jobs[0]->data);
+	message.append(m_jobs[0]->data);
 	message.nullTerminate();
 
-	clientManager::publishMessage(jobs[0]->ID, message);
+	clientManager::publishMessage(m_jobs[0]->ID, message);
 }
 
 void requestHandler::handleChat()
@@ -110,9 +110,9 @@ void requestHandler::handleChat()
 	Buffer data;
 
 	data.set("ID-");
-	data.append(std::to_string(jobs[0]->ID).c_str());
+	data.append(std::to_string(m_jobs[0]->ID).c_str());
 	data.append(":");
-	data.append(jobs[0]->data);
+	data.append(m_jobs[0]->data);
 	data.nullTerminate();
 
 	reqHead.SetCommand(Commands::chat);
@@ -121,7 +121,7 @@ void requestHandler::handleChat()
 	OutBuf = reqHead.Serialise();
 	OutBuf.append(data);
 
-	clientManager::publishMessage(jobs[0]->ID, OutBuf);
+	clientManager::publishMessage(m_jobs[0]->ID, OutBuf);
 }
 
 void requestHandler::handleRDLPull()
@@ -133,13 +133,13 @@ void requestHandler::handleRDLPull()
 	int it = 0;
 
 	//End if there is no job data
-	if (jobs[0]->data.size <= 0) {
+	if (m_jobs[0]->data.size <= 0) {
 		return;
 	}
 
 	//If there is valid job data, find how many pulls are being requested.
-	while (it < jobs[0]->data.size) {
-		if(jobs[0]->data.contents[it] == '=') {
+	while (it < m_jobs[0]->data.size) {
+		if(m_jobs[0]->data.contents[it] == '=') {
 			numReqs++;
 		}
 		it++;
@@ -151,18 +151,18 @@ void requestHandler::handleRDLPull()
 	std::vector<DataElement*> reqs;
 
 	//null terminate the raw request data.
-	jobs[0]->data.nullTerminate();
+	m_jobs[0]->data.nullTerminate();
 
 	//deserialise the request variable names.
 	for (int i = 0; i < numReqs; i++) {
 		
 		it = 0;
 		//get next variable name
-		while (jobs[0]->data.contents[it+gap] != '=' && jobs[0]->data.contents[it+gap] != '\0') {
+		while (m_jobs[0]->data.contents[it+gap] != '=' && m_jobs[0]->data.contents[it+gap] != '\0') {
 			it++;
 		}
 		nameSize = it;
-		tempName.set(&(jobs[0]->data.contents[gap]), nameSize);
+		tempName.set(&(m_jobs[0]->data.contents[gap]), nameSize);
 
 		DataElement* newRequest = new DataElement(&tempName);
 		reqs.push_back(newRequest);
@@ -190,14 +190,14 @@ void requestHandler::handleRDLPull()
 		message.append(tempReq.Serialise());
 	}
 
-	clientManager::sendMessage(jobs[0]->ID, message);
+	clientManager::sendMessage(m_jobs[0]->ID, message);
 }
 
 void requestHandler::handlePush()
 {
-	if (jobs[0]->data.size > 0) {
+	if (m_jobs[0]->data.size > 0) {
 		DataElementArray PushDataArr;
-		PushDataArr.Deserialise(jobs[0]->data);
+		PushDataArr.Deserialise(m_jobs[0]->data);
 
 		DataBase* DB = DataBase::GetInstance();
 
@@ -207,7 +207,7 @@ void requestHandler::handlePush()
 
 void requestHandler::handlePull()
 {
-	if (jobs[0]->data.size <= 0)
+	if (m_jobs[0]->data.size <= 0)
 		return;
 
 	RequestHeader reqHeader;
@@ -216,7 +216,7 @@ void requestHandler::handlePull()
 	Buffer Data;
 
 	DataBase* DB = DataBase::GetInstance();
-	Buffer jobData = jobs[0]->data;
+	Buffer jobData = m_jobs[0]->data;
 	std::vector<std::string> requestVars;
 
 	//build request array
@@ -236,14 +236,14 @@ void requestHandler::handlePull()
 	SendBuffer = reqHeader.Serialise();
 	SendBuffer.append(Data);
 
-	clientManager::sendMessage(jobs[0]->ID, SendBuffer);
+	clientManager::sendMessage(m_jobs[0]->ID, SendBuffer);
 
 }
 
 void requestHandler::handleSubscribe()
 {
-#pragma region Handle initial responce as a pull request
-	if (jobs[0]->data.size <= 0)
+
+	if (m_jobs[0]->data.size <= 0)
 		return;
 
 	RequestHeader reqHeader;
@@ -252,7 +252,7 @@ void requestHandler::handleSubscribe()
 	Buffer Data;
 
 	DataBase* DB = DataBase::GetInstance();
-	Buffer jobData = jobs[0]->data;
+	Buffer jobData = m_jobs[0]->data;
 	std::vector<std::string> requestVars;
 
 	//build request array
@@ -260,6 +260,15 @@ void requestHandler::handleSubscribe()
 		requestVars.push_back(jobData.PassChunk('{', '}').ToString());
 	}
 
+#pragma region build subscribe data
+	for (auto var : requestVars) {
+		if (DB->PointExists(var))
+			m_Subscriptions[m_jobs[0]->ID]->AddVar(var);
+	}
+#pragma endregion
+
+#pragma region Send Current Data state to client
+	
 	//get data
 	for (auto var : requestVars) {
 		dataElement = DB->GetData(var);
@@ -272,8 +281,13 @@ void requestHandler::handleSubscribe()
 	SendBuffer = reqHeader.Serialise();
 	SendBuffer.append(Data);
 
-	clientManager::sendMessage(jobs[0]->ID, SendBuffer);
+	clientManager::sendMessage(m_jobs[0]->ID, SendBuffer);
 #pragma endregion
+
+
+
+
+	
 }
 
 void requestHandler::handelError()
@@ -283,7 +297,7 @@ void requestHandler::handelError()
 	RequestHeader reqHed;
 
 	errMessage.set("invalid request code: ");
-	errMessage.append(std::to_string((int)jobs[0]->command).c_str());
+	errMessage.append(std::to_string((int)m_jobs[0]->command).c_str());
 	errMessage.append("-- [hint: is your request header properly formatted [int][int](command, bytes of data)] -- job not processed");
 
 	reqHed.SetSize(errMessage.size);
@@ -292,22 +306,47 @@ void requestHandler::handelError()
 	sendBuffer = reqHed.Serialise();
 	sendBuffer.append(errMessage);
 
-	clientManager::sendMessage(jobs[0]->ID, sendBuffer);
+	clientManager::sendMessage(m_jobs[0]->ID, sendBuffer);
 }
 
 requestHandler::requestHandler()
 {
 	//get onNewDataEvent
 	auto& newDataEvent = DataBase::GetInstance()->GetOnNewEntry();
+	auto& newClientEvent = clientManager::GetInstance()->GetNewClientEvent();
+	auto& clientDisconnectEvent = clientManager::GetInstance()->GetClientDisconnectEvent();
 
-	//initialise callback object.
-	onNewDataEntry = CreateRef<EventCallback<const std::string>>();
-	onNewDataEntry->SetCallback(BIND_EVENT_FN1(requestHandler::NewDataEntryHandler));
+
+	//initialise callback objects.
+	onNewDataEntryCallback = CreateRef<EventCallback<const std::string>>();
+	onNewDataEntryCallback->SetCallback(BIND_EVENT_FN1(requestHandler::NewDataEntryHandler));
+
+	onClientConnectCallback = CreateRef<EventCallback<const Ref<Client>&>>();
+	onClientConnectCallback->SetCallback(BIND_EVENT_FN1(requestHandler::ClientConnectedHandler));
 	
+	onClientDisconnectCallback = CreateRef<EventCallback<const Ref<Client>&>>();
+	onClientDisconnectCallback->SetCallback(BIND_EVENT_FN1(requestHandler::ClientDisconnectedHandler));
+
 	//subscribe to new data events;
-	newDataEvent.subscribe(onNewDataEntry);
+	newDataEvent.subscribe(onNewDataEntryCallback);
+	newClientEvent.subscribe(onClientConnectCallback);
+	clientDisconnectEvent.subscribe(onClientDisconnectCallback);
 }
 
 requestHandler::~requestHandler()
 {
+}
+
+bool requestHandler::ClientDisconnectedHandler(const Ref<Client>& client)
+{
+	m_Subscriptions.erase(client->ID);
+
+	return PROPAGATE_EVENT;
+}
+
+bool requestHandler::ClientConnectedHandler(const Ref<Client>& client)
+{
+	m_Subscriptions[client->ID] = CreateRef<Subscriptions>();
+
+	return PROPAGATE_EVENT;
 }
