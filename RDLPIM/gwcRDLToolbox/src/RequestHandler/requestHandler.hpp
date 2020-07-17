@@ -28,9 +28,6 @@ public: //methods
 	void worker(std::mutex* jobVector);
 
 public://callbacks
-	bool NewDataEntryHandler(const std::string& data) { std::cout << data << " has been added" << std::endl; return false; }
-	Ref<EventCallback<const std::string>> onNewDataEntryCallback;
-
 	bool ClientConnectedHandler(const Ref<Client>& client);
 	Ref<EventCallback<const Ref<Client>&>> onClientConnectCallback;
 

@@ -334,15 +334,11 @@ void requestHandler::handelError()
 requestHandler::requestHandler()
 {
 	//get onNewDataEvent
-	auto& newDataEvent = DataBase::GetInstance()->GetOnNewEntry();
 	auto& newClientEvent = clientManager::GetInstance()->GetNewClientEvent();
 	auto& clientDisconnectEvent = clientManager::GetInstance()->GetClientDisconnectEvent();
 
 
 	//initialise callback objects.
-	onNewDataEntryCallback = CreateRef<EventCallback<const std::string>>();
-	onNewDataEntryCallback->SetCallback(BIND_EVENT_FN1(requestHandler::NewDataEntryHandler));
-
 	onClientConnectCallback = CreateRef<EventCallback<const Ref<Client>&>>();
 	onClientConnectCallback->SetCallback(BIND_EVENT_FN1(requestHandler::ClientConnectedHandler));
 	
@@ -350,7 +346,6 @@ requestHandler::requestHandler()
 	onClientDisconnectCallback->SetCallback(BIND_EVENT_FN1(requestHandler::ClientDisconnectedHandler));
 
 	//subscribe to new data events;
-	newDataEvent.subscribe(onNewDataEntryCallback);
 	newClientEvent.subscribe(onClientConnectCallback);
 	clientDisconnectEvent.subscribe(onClientDisconnectCallback);
 }
