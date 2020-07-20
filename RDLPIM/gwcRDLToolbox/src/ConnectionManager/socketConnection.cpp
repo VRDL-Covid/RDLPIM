@@ -4,6 +4,7 @@
 
 void connectionObject::init()
 {
+	PROFILE_FUNCTION();
 	//initialise connection state
 	connected = false;
 
@@ -54,6 +55,7 @@ void connectionObject::init()
 
 void connectionObject::acceptNewConnection()
 {
+	PROFILE_FUNCTION();
 	if (clientSocket != INVALID_SOCKET) {
 		closesocket(clientSocket);
 		clientSocket = INVALID_SOCKET;
@@ -141,6 +143,7 @@ int connectionObject::connectToServer()
 
 void connectionObject::closeSocket()
 {
+	PROFILE_FUNCTION();
 	closesocket(servSocket);
 }
 
@@ -296,6 +299,7 @@ void connectionObject::setPort(int _port)
 
 void connectionObject::setNonBlocking(bool state)
 {
+	PROFILE_FUNCTION();
 	//set non blocking
 	unsigned long nonBlocking;
 
@@ -349,6 +353,7 @@ bool connectionObject::canRead()
 
 bool connectionObject::canSend()
 {
+	PROFILE_FUNCTION();
 	WSAPOLLFD clientFD = {};
 
 	clientFD.fd = clientSocket;

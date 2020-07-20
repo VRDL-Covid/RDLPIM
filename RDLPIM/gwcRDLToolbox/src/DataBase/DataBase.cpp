@@ -37,6 +37,7 @@ void DataBase::ModData(const DataElement& data)
 
 void DataBase::ModData(const DataElementArray& dataArr)
 {
+	PROFILE_FUNCTION();
 	auto cpy = dataArr;
 
 	for (auto& element : cpy) {

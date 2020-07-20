@@ -13,6 +13,7 @@ void requestHandler::printJobs()
 
 void requestHandler::addToQue(const Buffer &rawJob)
 {
+	PROFILE_FUNCTION();
 	m_jobs.push_back(CreateRef<job>(rawJob));
 	noJobs++;
 	printJobs();
@@ -20,13 +21,16 @@ void requestHandler::addToQue(const Buffer &rawJob)
 
 void requestHandler::terminateJob()
 {
+	PROFILE_FUNCTION();
 	requestHandler::noJobs--;
 	requestHandler::m_jobs.erase(requestHandler::m_jobs.begin());
 }
 
 void requestHandler::processNextJob()
 {
+	PROFILE_FUNCTION();
 	if (requestHandler::noJobs > 0) {
+
 		switch (m_jobs[0]->command) {
 		case Info:
 			break;
@@ -75,6 +79,7 @@ void requestHandler::processNextJob()
 
 void requestHandler::processSubscriptions()
 {
+	PROFILE_FUNCTION();
 	RequestHeader reqHead;
 	reqHead.SetCommand(Commands::DATA);
 	Buffer OutBuf;
@@ -95,9 +100,11 @@ void requestHandler::processSubscriptions()
 		}
 	}
 }
-void requestHandler::worker(std::mutex* jobVectorMutex)
+void requestHandler::worker(bool& work, std::mutex* jobVectorMutex)
 {
-	while (true) {
+	
+
+	while (work) {
 		//handle next request
 		if (clientManager::clientDB_lock.try_lock()) {
 			jobVectorMutex->lock();
@@ -109,13 +116,12 @@ void requestHandler::worker(std::mutex* jobVectorMutex)
 			jobVectorMutex->unlock();
 			clientManager::clientDB_lock.unlock();
 		}
-
-
 	}
 }
 
 void requestHandler::handleDEBUG()
 {
+	PROFILE_FUNCTION();
 	Buffer message("ID-");
 	message.append(std::to_string(m_jobs[0]->ID).c_str());
 	message.append(":");
@@ -127,6 +133,7 @@ void requestHandler::handleDEBUG()
 
 void requestHandler::handleChat()
 {
+	PROFILE_FUNCTION();
 	RequestHeader reqHead;
 	Buffer OutBuf;
 	Buffer data;
@@ -148,6 +155,7 @@ void requestHandler::handleChat()
 
 void requestHandler::handleRDLPull()
 {
+	PROFILE_FUNCTION();
 	int nameSize = 0;
 	int gap = 0;
 	int numReqs = 0;
@@ -217,6 +225,7 @@ void requestHandler::handleRDLPull()
 
 void requestHandler::handlePush()
 {
+	PROFILE_FUNCTION();
 	if (m_jobs[0]->data.size > 0) {
 		DataElementArray PushDataArr;
 		PushDataArr.Deserialise(m_jobs[0]->data);
@@ -229,6 +238,7 @@ void requestHandler::handlePush()
 
 void requestHandler::handlePull()
 {
+	PROFILE_FUNCTION();
 	if (m_jobs[0]->data.size <= 0)
 		return;
 
@@ -264,6 +274,7 @@ void requestHandler::handlePull()
 
 void requestHandler::handleSubscribe()
 {
+	PROFILE_FUNCTION();
 
 	if (m_jobs[0]->data.size <= 0)
 		return;
@@ -314,6 +325,7 @@ void requestHandler::handleSubscribe()
 
 void requestHandler::handelError()
 {
+	PROFILE_FUNCTION();
 	Buffer errMessage;
 	Buffer sendBuffer;
 	RequestHeader reqHed;

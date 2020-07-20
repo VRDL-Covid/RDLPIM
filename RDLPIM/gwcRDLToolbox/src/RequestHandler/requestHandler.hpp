@@ -25,7 +25,7 @@ public: //methods
 
 	static void printJobs();
 	
-	void worker(std::mutex* jobVector);
+	void worker(bool& work, std::mutex* jobVector);
 
 public://callbacks
 	bool ClientConnectedHandler(const Ref<Client>& client);

@@ -15,6 +15,7 @@ DataElementArray::~DataElementArray()
 
 void DataElementArray::Deserialise(const Buffer& rawInput)
 {
+	PROFILE_FUNCTION();
 	Buffer input = rawInput;
 	Buffer chunk;
 

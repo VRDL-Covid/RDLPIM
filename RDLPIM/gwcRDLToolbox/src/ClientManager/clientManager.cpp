@@ -8,7 +8,7 @@ std::vector<Ref<Client>> clientManager::clients;
 
 clientManager* clientManager::s_Instance = nullptr;
 
-void clientManager::worker(std::mutex* jobVectorMutex)
+void clientManager::worker(bool& work, std::mutex* jobVectorMutex)
 {
 	
 	Buffer inbuff;
@@ -16,7 +16,7 @@ void clientManager::worker(std::mutex* jobVectorMutex)
 	Buffer test;
 	
 
-	while (true) {
+	while (work) {
 
 		clientManager::clientDB_lock.lock();
 		std::vector<Ref<Client>>::iterator it = clientManager::clients.begin();
@@ -50,6 +50,7 @@ void clientManager::worker(std::mutex* jobVectorMutex)
 
 int clientManager::checkForIncoming(Ref<Client> client, Buffer* output)
 {
+	PROFILE_FUNCTION();
 	int bytes = 0;
 	if (client->checkStatus()) {
 		if (client->connection.canRead()) {
@@ -122,6 +123,7 @@ bool clientManager::AddClient_impl(const Ref<Client>& newClient)
 
 bool clientManager::RemoveClient_impl(Ref<Client>& client)
 {
+	PROFILE_FUNCTION();
 	OnClientDisconnect.raiseEvent(client);
 	RequestHeader reqHead;
 	Buffer outbuffer;

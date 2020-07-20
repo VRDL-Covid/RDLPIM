@@ -19,3 +19,6 @@
 #include <functional>
 
 #include"Core/Core.h"
+
+//ifDebug
+#include"Debugging/Profiling/Instrumentor.h"

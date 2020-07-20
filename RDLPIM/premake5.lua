@@ -4,6 +4,7 @@ workspace "RDLPIM"
 	configurations
 	{
 		"Debug",
+		"Profiling",
 		"Release",
 		"Dist"
 	}
@@ -67,9 +68,15 @@ project "gwcRDLToolbox"
 	filter "configurations:Debug"
 		runtime "Debug"
 		symbols "on"
+		defines{}
+		
+	filter "configurations:Profiling"
+		runtime "Debug"
+		symbols "on"
+		defines{"GE_PROFILING"}
 
 	filter "configurations:Release"
-		defines{"NDEBUG"}
+		defines{"NDEBUG","GE_PROFILING"}
 		runtime "Release"
 		symbols "on"
 		optimize "on"
@@ -135,17 +142,23 @@ project "gwcRDLToolbox"
 	filter "configurations:Debug"
 		runtime "Debug"
 		symbols "on"
+		defines{}
+		
+	filter "configurations:Profiling"
+		runtime "Debug"
+		symbols "on"
+		defines{"GE_PROFILING"}
 
 	filter "configurations:Release"
+		defines{"NDEBUG","GE_PROFILING"}
 		runtime "Release"
 		symbols "on"
 		optimize "on"
 
-		
 	filter "configurations:Dist"
+		defines{"NDEBUG"}
 		runtime "Release"
 		optimize "on"
-
 
 	
 -------------------------------------------------------
@@ -204,15 +217,21 @@ project "gwcRDLToolbox"
 	filter "configurations:Debug"
 		runtime "Debug"
 		symbols "on"
+		defines{}
 		
+	filter "configurations:Profiling"
+		runtime "Debug"
+		symbols "on"
+		defines{"GE_PROFILING"}
 
 	filter "configurations:Release"
+		defines{"NDEBUG","GE_PROFILING"}
 		runtime "Release"
 		symbols "on"
 		optimize "on"
-		
 
 	filter "configurations:Dist"
+		defines{"NDEBUG"}
 		runtime "Release"
 		optimize "on"
-		
+

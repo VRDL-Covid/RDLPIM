@@ -12,7 +12,7 @@ public:
 	void connectToClient();
 	bool ClientDisconnectCallback(const Ref<Client>& user);
 
-	void worker();
+	void worker(bool& work);
 	void Init();
 	~connectionManager();
 

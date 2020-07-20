@@ -5,6 +5,7 @@ connectionManager* connectionManager::s_Instance = nullptr;
 
 void connectionManager::buildConnectionDetails(Buffer* connectionReq)
 {
+	PROFILE_FUNCTION();
 	int nextPort = portPool::getPort();
 	processingClient =  CreateRef<Client>(nextPort);
 
@@ -37,6 +38,7 @@ void connectionManager::buildConnectionDetails(Buffer* connectionReq)
 
 void connectionManager::sendConnectionDetails()
 {
+	PROFILE_FUNCTION();
 	Buffer cDeets;
 	//send connection data packet to new client;
 	if (listener.canSend()) {
@@ -53,6 +55,7 @@ void connectionManager::sendConnectionDetails()
 
 void connectionManager::connectToClient() 
 {
+	PROFILE_FUNCTION();
 	listener.acceptNewConnection();
 	
 	while (!listener.connected) {
@@ -72,9 +75,10 @@ bool connectionManager::ClientDisconnectCallback(const Ref<Client>& user)
 }
 
 
-void connectionManager::worker()
+void connectionManager::worker(bool& work)
 {
-	while (true) {
+	
+	while (work) {
 		listener.closeSocket();
 		listener.init();
 		connectToClient();
