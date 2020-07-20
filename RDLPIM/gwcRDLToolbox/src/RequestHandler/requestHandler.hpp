@@ -22,8 +22,6 @@ public: //methods
 	static int noJobs;
 
 	static void addToQue(const Buffer& rawJob);
-
-	static void printJobs();
 	
 	void worker(bool& work, std::mutex* jobVector);
 

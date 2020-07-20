@@ -6,17 +6,12 @@ int requestHandler::noJobs = 0;
 requestHandler* requestHandler::s_Instance = nullptr;
 
 
-void requestHandler::printJobs()
-{
-	//TODO:GWC - make method to print pending jobs.
-}
 
 void requestHandler::addToQue(const Buffer &rawJob)
 {
 	PROFILE_FUNCTION();
 	m_jobs.push_back(CreateRef<job>(rawJob));
 	noJobs++;
-	printJobs();
 }
 
 void requestHandler::terminateJob()
@@ -33,16 +28,6 @@ void requestHandler::processNextJob()
 
 		switch (m_jobs[0]->command) {
 		case Info:
-			break;
-
-		case rdlPush:
-			break;
-
-		case rdlPull:
-			handleRDLPull();
-			break;
-
-		case rdlSubscribe:
 			break;
 
 		case push:
