@@ -168,5 +168,6 @@ clientManager::~clientManager()
 
 void clientManager::Init()
 {
+	PROFILE_FUNCTION();
 	connectionManager::GetInstance()->onNewConnection.subscribe(BIND_EVENT_FN1(clientManager::AddClient_impl));
 }

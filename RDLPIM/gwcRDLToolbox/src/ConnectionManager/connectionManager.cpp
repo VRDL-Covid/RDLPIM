@@ -112,6 +112,7 @@ connectionManager::connectionManager()
 
 void connectionManager::Init()
 {
+	PROFILE_FUNCTION();
 	clientManager::GetInstance()->GetClientDisconnectEvent().subscribe(BIND_EVENT_FN1(connectionManager::ClientDisconnectCallback));
 }
 
