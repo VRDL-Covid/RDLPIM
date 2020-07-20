@@ -74,9 +74,10 @@ project "gwcRDLToolbox"
 		runtime "Debug"
 		symbols "on"
 		defines{"GE_PROFILING"}
+		optimize "on"
 
 	filter "configurations:Release"
-		defines{"NDEBUG","GE_PROFILING"}
+		defines{"NDEBUG"}
 		runtime "Release"
 		symbols "on"
 		optimize "on"
@@ -150,7 +151,7 @@ project "gwcRDLToolbox"
 		defines{"GE_PROFILING"}
 
 	filter "configurations:Release"
-		defines{"NDEBUG","GE_PROFILING"}
+		defines{"NDEBUG"}
 		runtime "Release"
 		symbols "on"
 		optimize "on"
@@ -222,10 +223,11 @@ project "gwcRDLToolbox"
 	filter "configurations:Profiling"
 		runtime "Debug"
 		symbols "on"
+		optimize "on"
 		defines{"GE_PROFILING"}
 
 	filter "configurations:Release"
-		defines{"NDEBUG","GE_PROFILING"}
+		defines{"NDEBUG"}
 		runtime "Release"
 		symbols "on"
 		optimize "on"
