@@ -107,10 +107,10 @@ public:
 		int iResult;
 
 		if (value) {
-			data[0] = 0xff;
+			data[0] = (char)0xff;
 		}
 		else {
-			data[0] = 0x00;
+			data[0] = (char)0x00;
 		}
 
 		HANDLE processHandle = OpenProcess(PROCESS_ALL_ACCESS, false, pid);

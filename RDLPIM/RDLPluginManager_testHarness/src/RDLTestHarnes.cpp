@@ -246,19 +246,19 @@ int testHarness()
 
 
 			switch (reqHead.GetCommand()) {
-			case DATA:
+			case Commands::DATA:
 				handleDataPacket(inBuff);
 				break;
-			case ERR:
+			case Commands::ERR:
 				std::cout << "ERROR message: ";
 				inBuff.fullPrint();
 				std::cout << std::endl;
 				break;
-			case chat:
+			case Commands::chat:
 				inBuff.fullPrint();
 				std::cout << std::endl;
 				break;
-			case Info:
+			case Commands::Info:
 				std::cout << "Server Info: ";
 				inBuff.fullPrint();
 				break;

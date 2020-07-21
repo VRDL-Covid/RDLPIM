@@ -29,7 +29,7 @@ Buffer Buffer::PassChunk(char first, char second)
 
 	char* temp = (char*)malloc(bytes);
 
-	for (int i = 0; i < bytes; i++) {
+	for (uint32_t i = 0; i < bytes; i++) {
 		temp[i] = contents[i + start];
 	}
 
@@ -115,12 +115,7 @@ void Buffer::set(void* src, int iSize)
 
 
 	//resize the memory allocated to the contents buffer
-	if (contents == nullptr) {
-		contents = (char*)malloc(sizeof(char) * size);
-	}
-	else {
-		contents = (char*)realloc(contents, sizeof(char) * size);
-	}
+	resizeContents(size);
 
 	//copy the contents of the src to the contents buffer
 	for (int i = 0; i < size; i++) {
@@ -139,12 +134,7 @@ void Buffer::set(const char* src)
 	}
 
 	//resize the memory allocated to the contents buffer
-	if (contents == nullptr) {
-		contents = (char*)malloc(sizeof(char) * size);
-	}
-	else {
-		contents = (char*)realloc(contents, sizeof(char) * size);
-	}
+	resizeContents(size);
 
 	//copy the contents of the src to the contents buffer
 	for (int i = 0; i < size; i++) {
@@ -157,13 +147,15 @@ void Buffer::set(char* src, int iSize)
 	//redefine the size of the buffer
 	size = iSize;
 
+
+	if (size == 0) {
+		free(contents);
+		contents = nullptr;
+		return;
+	}
+
 	//resize the memory allocated to the contents buffer
-	if (contents == nullptr) {
-		contents = (char*)malloc(sizeof(char) * size);
-	}
-	else {
-		contents = (char*)realloc(contents, sizeof(char) * size);
-	}
+	resizeContents(size);
 
 	//copy the contents of the src to the contents buffer
 	for (int i = 0; i < size; i++) {
@@ -270,12 +262,8 @@ void Buffer::append(const Buffer& tail)
 
 	//realocate contents size
 	size = newSize;
-	if (contents == nullptr) {
-		contents = (char*)malloc(sizeof(char) * size);
-	}
-	else {
-		contents = (char*)realloc(contents, sizeof(char) * size);
-	}
+
+	resizeContents(size);
 
 	//temp buffer to contents.
 
@@ -310,12 +298,8 @@ void Buffer::append(const char* tail)
 
 	//realocate contents size
 	size = newSize;
-	if (contents == nullptr) {
-		contents = (char*)malloc(sizeof(char) * size);
-	}
-	else {
-		contents = (char*)realloc(contents, sizeof(char) * size);
-	}
+
+	resizeContents(size);
 
 	//temp buffer to contents.
 
@@ -345,12 +329,7 @@ void Buffer::prepend(const Buffer& head)
 
 	//reallocate memory assigned to contents buffer
 	size = newSize;
-	if (contents == nullptr) {
-		contents = (char*)malloc(sizeof(char) * size);
-	}
-	else {
-		contents = (char*)realloc(contents, sizeof(char) * size);
-	}
+	resizeContents(size);
 
 	//copy temporary buffer to contents buffer
 	for (int i = 0; i < size; i++) {
@@ -385,12 +364,7 @@ void Buffer::prepend(const char* head)
 
 	//reallocate memory assigned to contents buffer
 	size = newSize;
-	if (contents == nullptr) {
-		contents = (char*)malloc(sizeof(char) * size);
-	}
-	else {
-		contents = (char*)realloc(contents, sizeof(char) * size);
-	}
+	resizeContents(size);
 
 	//copy temporary buffer to contents buffer
 	for (int i = 0; i < size; i++) {
@@ -416,7 +390,7 @@ void Buffer::nullTerminate()
 
 	this->size = newSize;
 
-	this->contents = (char*)realloc(this->contents, sizeof(char) * this->size);
+	resizeContents(size);
 
 
 	for (int i = 0; i < this->size; i++) {
@@ -524,12 +498,7 @@ Buffer& Buffer::operator=(const Buffer& other)
 {
 	this->size = other.size;
 
-	if (this->contents == nullptr) {
-		this->contents = (char*)malloc(sizeof(char) * other.size);
-	}
-	else {
-		this->contents = (char*)realloc(this->contents, sizeof(char) * other.size);
-	}
+	resizeContents(size);
 
 	for (int i = 0; i < size; i++) {
 		this->contents[i] = other.contents[i];
@@ -538,7 +507,7 @@ Buffer& Buffer::operator=(const Buffer& other)
 	return *this;
 }
 
-Buffer& Buffer::operator=(Buffer&& other)
+Buffer& Buffer::operator=(Buffer&& other) noexcept
 {
 	size = other.size;
 	other.size = 0;
@@ -564,4 +533,29 @@ std::ostream& operator << (std::ostream& out, Buffer& buf)
 	}
 
 	return out;
+}
+
+void Buffer::resizeContents(size_t newSize)
+{
+	if (newSize == 0) {
+		free(contents);
+		contents = nullptr;
+		return;
+	}
+
+
+	if (contents == nullptr) {
+		contents = (char*)malloc(sizeof(char) * newSize);
+	}
+	else {
+		char* ptr = (char*)realloc(contents, sizeof(char) * newSize);
+
+		if (ptr != nullptr)
+			contents = ptr;
+		else {
+			puts("unable to reallocate memory, exiting...");
+			free(contents);
+			exit(1);
+		}
+	}
 }

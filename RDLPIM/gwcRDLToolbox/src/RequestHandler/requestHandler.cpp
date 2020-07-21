@@ -27,30 +27,30 @@ void requestHandler::processNextJob()
 	if (requestHandler::noJobs > 0) {
 
 		switch (m_jobs[0]->command) {
-		case Info:
+		case Commands::Info:
 			break;
 
-		case push:
+		case Commands::push:
 			handlePush();
 			break;
 
-		case pull:
+		case Commands::pull:
 			handlePull();
 			break;
 
-		case subscribe:
+		case Commands::subscribe:
 			handleSubscribe();
 			break;
 
-		case chat:
+		case Commands::chat:
 			handleChat();
 			break;
 
-		case DEBUG:
+		case Commands::DEBUG:
 			handleDEBUG();
 			break;
 
-		case VOIP:
+		case Commands::VOIP:
 			break;
 
 		default:
@@ -85,20 +85,20 @@ void requestHandler::processSubscriptions()
 		}
 	}
 }
-void requestHandler::worker(bool& work, std::mutex* jobVectorMutex)
+void requestHandler::worker(bool& work, std::mutex& jobVectorMutex)
 {
 	
 
 	while (work) {
 		//handle next request
 		if (clientManager::clientDB_lock.try_lock()) {
-			jobVectorMutex->lock();
+			jobVectorMutex.lock();
 			
 			processNextJob();
 		
 			processSubscriptions();
 
-			jobVectorMutex->unlock();
+			jobVectorMutex.unlock();
 			clientManager::clientDB_lock.unlock();
 		}
 	}

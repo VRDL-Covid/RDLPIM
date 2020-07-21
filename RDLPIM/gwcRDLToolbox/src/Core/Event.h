@@ -14,10 +14,10 @@ public:
 	~Event() = default;
 
 	void subscribe(const Ref<EventCallback<T...>>& callback) const;
-	Ref<EventCallback<T...>>& subscribe(std::function<bool(T...)> callbackFN)const;
+	Ref<EventCallback<T...>> subscribe(std::function<bool(T...)> callbackFN)const;
 
 	void subscribePriority(const Ref<EventCallback<T...>>& callback)const ;
-	Ref<EventCallback<T...>>& subscribePriority(std::function<bool(T...)> callbackFN)const;
+	Ref<EventCallback<T...>> subscribePriority(std::function<bool(T...)> callbackFN)const;
 
 	void unsubscribe(const Ref < EventCallback<T...>>& callback)const ;
 	void unsubscribe(const uint32_t& id)const;
@@ -40,7 +40,7 @@ void Event<T...>::subscribe(const Ref<EventCallback<T...>>& callback)const
 }
 
 template<typename... T>
-Ref<EventCallback<T...>>& Event<T...>::subscribe(std::function<bool(T...)> callbackFN) const
+Ref<EventCallback<T...>> Event<T...>::subscribe(std::function<bool(T...)> callbackFN) const
 {
 	Ref<EventCallback<T...>> callback{ new EventCallback<T...>(callbackFN) };
 
@@ -57,7 +57,7 @@ void Event<T...>::subscribePriority(const Ref<EventCallback<T...>>& callback)con
 }
 
 template<typename... T>
-Ref<EventCallback<T...>>& Event<T...>::subscribePriority(std::function<bool(T...)> callbackFN) const
+Ref<EventCallback<T...>> Event<T...>::subscribePriority(std::function<bool(T...)> callbackFN) const
 {
 	Ref<EventCallback<T...>> callback{ new EventCallback<T...>(callbackFN) };
 

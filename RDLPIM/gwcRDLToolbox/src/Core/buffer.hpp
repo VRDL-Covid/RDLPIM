@@ -85,7 +85,7 @@ public:
 	Buffer& operator=(const Buffer& other);
 
 	//move operator
-	Buffer& operator=(Buffer&&);
+	Buffer& operator=(Buffer&&) noexcept;
 
 	//input overload
 	friend std::istream& operator>> (std::istream& in, Buffer& buf);
@@ -95,4 +95,7 @@ public:
 	Buffer PassChunk(char delimiter);
 
 	~Buffer();
+
+private:
+	void resizeContents(size_t newSize);
 };

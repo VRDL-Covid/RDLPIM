@@ -8,7 +8,7 @@ std::vector<Ref<Client>> clientManager::clients;
 
 clientManager* clientManager::s_Instance = nullptr;
 
-void clientManager::worker(bool& work, std::mutex* jobVectorMutex)
+void clientManager::worker(bool& work, std::mutex& jobVectorMutex)
 {
 	
 	Buffer inbuff;
@@ -38,7 +38,7 @@ void clientManager::worker(bool& work, std::mutex* jobVectorMutex)
 					IDdata.set(temp, sizeof(int));
 					inbuff.prepend(IDdata);
 
-					std::lock_guard<std::mutex>(*jobVectorMutex);
+					std::lock_guard<std::mutex> lock(jobVectorMutex);
 					requestHandler::addToQue(inbuff);
 				}
 			}

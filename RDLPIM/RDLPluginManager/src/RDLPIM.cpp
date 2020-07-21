@@ -28,8 +28,8 @@ PROFILE_END_SESSION();
 PROFILE_BEGIN_SESSION("RDLPIM-Runtime", "../analysis/RDLPIM-Runtime.json");
 	//start threads to get the objects "working"
 	std::thread connectionManagerThread(&connectionManager::worker, connectionManagerObj, std::ref(work));
-	std::thread clientManagerThread(&clientManager::worker, clientManagerObj, std::ref(work) ,&jobVectorMutex);
-	std::thread reqFactoryThread(&requestHandler::worker, reqFactory, std::ref(work) ,&jobVectorMutex);
+	std::thread clientManagerThread(&clientManager::worker, clientManagerObj, std::ref(work) ,std::ref(jobVectorMutex));
+	std::thread reqFactoryThread(&requestHandler::worker, reqFactory, std::ref(work) ,std::ref(jobVectorMutex));
 
 	while (exit != '!') {
 		std::cin >> exit;

@@ -23,7 +23,7 @@ public: //methods
 
 	static void addToQue(const Buffer& rawJob);
 	
-	void worker(bool& work, std::mutex* jobVector);
+	void worker(bool& work, std::mutex& jobVector);
 
 public://callbacks
 	bool ClientConnectedHandler(const Ref<Client>& client);
