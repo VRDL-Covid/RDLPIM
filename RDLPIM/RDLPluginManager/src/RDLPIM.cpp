@@ -2,6 +2,9 @@
 /*Main RDL Plugin Manager functionality.*/
 int exePluginManager()
 {
+	////////////////////////////////
+	//Initialisation
+	////////////////////////////////
 PROFILE_BEGIN_SESSION("RDLPIM-Startup", "../analysis/RDLPIM-Startup.json");
 	//clean up any mess left behind
 	WSACleanup();
@@ -9,6 +12,8 @@ PROFILE_BEGIN_SESSION("RDLPIM-Startup", "../analysis/RDLPIM-Startup.json");
 	//Thread state Variable
 	bool work = true;
 	char exit = 'a';
+
+	//todo GWC - this mutex should be inside the reqFactory object, it shouldnt need to be created at this level.
 	//create a mutex to manage shared memory between clientManager and requestHandler
 	std::mutex jobVectorMutex;
 
@@ -25,6 +30,12 @@ PROFILE_BEGIN_SESSION("RDLPIM-Startup", "../analysis/RDLPIM-Startup.json");
 
 PROFILE_END_SESSION();
 
+
+	////////////////////////////////
+	// Runtime execution
+	////////////////////////////////
+
+
 PROFILE_BEGIN_SESSION("RDLPIM-Runtime", "../analysis/RDLPIM-Runtime.json");
 	//start threads to get the objects "working"
 	std::thread connectionManagerThread(&connectionManager::worker, connectionManagerObj, std::ref(work));
@@ -39,8 +50,11 @@ PROFILE_BEGIN_SESSION("RDLPIM-Runtime", "../analysis/RDLPIM-Runtime.json");
 	//join threads on exit
 	//TODO:GWC - need to somehow tell the threads to cleanly exit.
 PROFILE_END_SESSION();
+
+
 	reqFactoryThread.join();
 	clientManagerThread.join();
+	//TODO:GWC  Connection Manager get next connection needs to be non-blocking, thread cant exit.
 	connectionManagerThread.join();
 
 	return 0;
