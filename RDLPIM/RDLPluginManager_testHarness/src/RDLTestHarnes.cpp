@@ -1,6 +1,9 @@
 #include "gwcRDLToolBox.h"
 #include"testClient.hpp"
 
+
+std::mutex coutMutex;
+
 void sendDebugMSGs(Buffer &outBuff, bool* send)
 {
 	//while (true) {
@@ -184,11 +187,15 @@ void sender(Buffer& outBuff, bool* send, std::mutex& sockSend)
 	while (true) {
 		option = 0;
 
-		std::cout << "Select a command" << std::endl;
-		std::cout << "1) Chat/string test" << std::endl;
-		std::cout << "2) pushIntStack" << std::endl;
-		std::cout << "3) pullIntStack" << std::endl;
-		std::cout << "4) SubscribeInt" << std::endl;
+		{
+			std::lock_guard<std::mutex> lock(coutMutex);
+			std::cout << "Select a command" << std::endl;
+			std::cout << "1) Chat/string test" << std::endl;
+			std::cout << "2) pushIntStack" << std::endl;
+			std::cout << "3) pullIntStack" << std::endl;
+			std::cout << "4) SubscribeInt" << std::endl;
+		}
+
 
 		std::cin >> option;
 
@@ -209,7 +216,11 @@ void sender(Buffer& outBuff, bool* send, std::mutex& sockSend)
 void handleDataPacket(const Buffer& inBuff)
 {
 	std::cout << "Data Recieved:"<< std::endl;
-	inBuff.fullPrint();
+	
+	{
+		std::lock_guard<std::mutex> lock(coutMutex);
+		inBuff.fullPrint();
+	}
 }
 
 int testHarness()
@@ -250,22 +261,33 @@ int testHarness()
 				handleDataPacket(inBuff);
 				break;
 			case Commands::ERR:
-				std::cout << "ERROR message: ";
-				inBuff.fullPrint();
-				std::cout << std::endl;
+				{
+					std::lock_guard<std::mutex> lock(coutMutex);
+					std::cout << "ERROR message: ";
+					inBuff.fullPrint();
+					std::cout << std::endl;
+				}
 				break;
 			case Commands::chat:
-				inBuff.fullPrint();
-				std::cout << std::endl;
+				{
+					std::lock_guard<std::mutex> lock(coutMutex);
+					inBuff.fullPrint();
+					std::cout << std::endl;
+				}
 				break;
 			case Commands::Info:
-				std::cout << "Server Info: ";
-				inBuff.fullPrint();
+				{
+					std::lock_guard<std::mutex> lock(coutMutex);
+					std::cout << "Server Info: ";
+					inBuff.fullPrint();
+				}
 				break;
 			default:
-				std::cout << "unknown Function, message: ";
-				inBuff.fullPrint();
-				std::cout << std::endl;
+				{
+					std::lock_guard<std::mutex> lock(coutMutex);
+					inBuff.fullPrint();
+					std::cout << std::endl;
+				}
 				break;
 			}
 
