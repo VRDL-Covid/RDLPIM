@@ -64,11 +64,7 @@ DWORD GetPID(const std::string& processName) {
 
 RDL::RDL()
 {
-}
-
-RDL::RDL(const Buffer &ipid)
-{
-	pid = GetPID(ipid.contents);
+	pid = 0;
 }
 
 RDL::RDL(const char* ipid)
@@ -76,10 +72,6 @@ RDL::RDL(const char* ipid)
 	pid = GetPID(ipid);
 }
 
-RDL::RDL(char* ipid)
-{
-	pid = GetPID(ipid);
-}
 
 RDL::~RDL()
 {

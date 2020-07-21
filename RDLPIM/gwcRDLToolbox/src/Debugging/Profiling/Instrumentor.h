@@ -46,19 +46,19 @@ public:
     {
         std::lock_guard<std::mutex> lock(m_resBlock);
         if (m_ProfileCount++ > 0)
-            m_OutputStream << ",";
+            m_OutputStream << "," << std::endl;
 
         std::string name = result.Name;
         std::replace(name.begin(), name.end(), '"', '\'');
 
-        m_OutputStream << "{";
-        m_OutputStream << "\"cat\":\"function\",";
-        m_OutputStream << "\"dur\":" << (result.End - result.Start) << ',';
-        m_OutputStream << "\"name\":\"" << name << "\",";
-        m_OutputStream << "\"ph\":\"X\",";
-        m_OutputStream << "\"pid\":0,";
-        m_OutputStream << "\"tid\":" << result.ThreadID << ",";
-        m_OutputStream << "\"ts\":" << result.Start;
+        m_OutputStream << "{" << std::endl;
+        m_OutputStream << "    \"cat\":\"function\"," << std::endl;
+        m_OutputStream << "    \"dur\":" << (result.End - result.Start) << ',' << std::endl;
+        m_OutputStream << "    \"name\":\"" << name << "\"," << std::endl;
+        m_OutputStream << "    \"ph\":\"X\"," << std::endl;
+        m_OutputStream << "    \"pid\":0," << std::endl;
+        m_OutputStream << "    \"tid\":" << result.ThreadID << "," << std::endl;
+        m_OutputStream << "    \"ts\":" << result.Start << std::endl;
         m_OutputStream << "}";
 
         m_OutputStream.flush();
@@ -67,7 +67,7 @@ public:
     void WriteHeader()
     {
         std::lock_guard<std::mutex> lock(m_resBlock);
-        m_OutputStream << "{\"otherData\": {},\"traceEvents\":[";
+        m_OutputStream << "{\"otherData\": {},"<< std::endl<<"\"traceEvents\":[" << std::endl;
         m_OutputStream.flush();
     }
 

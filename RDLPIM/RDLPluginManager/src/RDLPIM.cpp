@@ -16,7 +16,7 @@ PROFILE_BEGIN_SESSION("RDLPIM-Startup", "../analysis/RDLPIM-Startup.json");
 	connectionManager* connectionManagerObj = connectionManager::GetInstance();
 	clientManager* clientManagerObj = clientManager::GetInstance();
 	requestHandler* reqFactory = requestHandler::GetInstance();
-	//RDL theRDL((const char*)"rtex10.exe");
+	RDL theRDL((const char*)"rtex10.exe");
 
 	//initialise Object
 	connectionManagerObj->Init();
