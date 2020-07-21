@@ -61,98 +61,28 @@ DWORD GetPID(const std::string& processName) {
 }
 
 
+RDL* RDL::s_Instance = nullptr;
 
 RDL::RDL()
 {
 	pid = 0;
 }
 
-RDL::RDL(const char* ipid)
+RDL* RDL::Get()
 {
-	pid = GetPID(ipid);
+	if (s_Instance == nullptr)
+		s_Instance = new RDL;
+	return s_Instance;
 }
 
+void RDL::Init(const char* processName)
+{
+	pid = GetPID(processName);
+}
 
 RDL::~RDL()
 {
 }
-
-// readMemDouble
-// Read double variable from memory space
-// specify the hex address within the memory that you would like to read
-// and the PID that the memory has been allocated to. Required under Windows OS.
-double RDL::readMemDouble(INT_PTR address) {
-	const int bufferSize = 8;
-	char* buffer[bufferSize];
-	SIZE_T bytesRead;
-	double retVar;
-
-
-	HANDLE processHandle = OpenProcess(PROCESS_VM_READ, false, pid);
-
-	if (ReadProcessMemory(processHandle, (LPCVOID)address, buffer, bufferSize, &bytesRead)) {
-		CloseHandle(processHandle);
-		retVar = *(double*)buffer;
-	}
-	else {
-		printf("WARNING::Error reading process memory at Address:0x%p\n", address);
-		return NULL;
-	}
-
-	return retVar;
-}
-
-
-// readMemInt
-// Read integer variable from memory space
-// specify the hex address within the memory that you would like to read
-// and the PID that the memory has been allocated to. Required under Windows OS.
-int RDL::readMemInt(INT_PTR address) {
-	const int bufferSize = 4;
-	char* buffer[bufferSize];
-	SIZE_T bytesRead;
-	int retVar;
-
-
-	HANDLE processHandle = OpenProcess(PROCESS_VM_READ, false, pid);
-
-	if (ReadProcessMemory(processHandle, (LPCVOID)address, buffer, bufferSize, &bytesRead)) {
-		CloseHandle(processHandle);
-		retVar = *(int*)buffer;
-	}
-	else {
-		printf("WARNING::Error reading process memory at Address:0x%p\n", address);
-		return -1;
-	}
-
-	return retVar;
-}
-
-// readMemBool
-// Read Boolean variable from memory space
-// specify the hex address within the memory that you would like to read
-// and the PID that the memory has been allocated to. Required under Windows OS.
-bool RDL::readMemBool(INT_PTR address) {
-	const int bufferSize = 1;
-	char* buffer[bufferSize];
-	SIZE_T bytesRead;
-	bool retVar;
-
-
-	HANDLE processHandle = OpenProcess(PROCESS_VM_READ, false, pid);
-
-	if (ReadProcessMemory(processHandle, (LPCVOID)address, buffer, bufferSize, &bytesRead)) {
-		CloseHandle(processHandle);
-		retVar = *(bool*)buffer;
-	}
-	else {
-		printf("WARNING::Error reading process memory at Address:0x%p\n", address);
-		return false;
-	}
-
-	return retVar;
-}
-
 
 // plcGetVarAddress:
 // input as character array
@@ -194,9 +124,6 @@ long RDL::plcGetVarAddress(char* varname) {
 }
 
 
-
-
-
 bool RDL::RDL_Active()
 {
 	HANDLE process = OpenProcess(SYNCHRONIZE, FALSE, pid);
@@ -205,109 +132,3 @@ bool RDL::RDL_Active()
 	return ret == WAIT_TIMEOUT;
 }
 
-// WriteMem(Bool overload)
-// Write 1 byte bool to memory space
-// specify the hex address within the memory that you would like to read
-// and the PID that the memory has been allocated to. Required under Windows OS.
-void RDL::WriteMem(INT_PTR address, bool value) {
-
-	convertable buffer;
-	buffer.Double = 0;
-	buffer.Bool = value;
-	int iResult;
-
-	if (value) {
-		buffer.Char[0] = 0xff;
-	}
-	else {
-		buffer.Char[0] = 0x00;
-	}
-
-	HANDLE processHandle = OpenProcess(PROCESS_ALL_ACCESS, false, pid);
-
-	iResult = WriteProcessMemory(processHandle, (LPVOID)address, &buffer, sizeof(bool), NULL);
-}
-
-// WriteMem(Int overload)
-// Write 4 byte int to memory space
-// specify the hex address within the memory that you would like to read
-// and the PID that the memory has been allocated to. Required under Windows OS.
-void RDL::WriteMem(INT_PTR address, int value) {
-
-	convertable buffer;
-	buffer.Double = 0;
-	buffer.Int = value;
-	int iResult;
-
-	HANDLE processHandle = OpenProcess(PROCESS_ALL_ACCESS, false, pid);
-
-	iResult = WriteProcessMemory(processHandle, (LPVOID)address, &buffer, sizeof(int), NULL);
-}
-
-
-// WriteMemDouble(double overload)
-// Write 8 byte double to memory space
-// specify the hex address within the memory that you would like to read
-// and the PID that the memory has been allocated to. Required under Windows OS.
-void RDL::WriteMem(INT_PTR address, double value) {
-
-	convertable buffer;
-	buffer.Double = 0;
-	buffer.Double = value;
-	int iResult;
-
-	HANDLE processHandle = OpenProcess(PROCESS_ALL_ACCESS, false, pid);
-
-	iResult = WriteProcessMemory(processHandle, (LPVOID)address, &buffer, sizeof(double), NULL);
-}
-
-
-// readDouble
-// Read double variable from RDL
-double RDL::readDouble(char* varname) 
-{
-	return readMemDouble(plcGetVarAddress(varname));
-}
-
-// readDouble
-// Read double variable from RDL
-double RDL::readDouble(const char* varname)
-{
-	char temp[64];
-	strcpy_s(temp, varname);
-	return readMemDouble(plcGetVarAddress(temp));
-}
-
-
-// readMemInt
-// Read integer from RDL
-int RDL::readInt(char* varname) 
-{
-	return readMemInt(plcGetVarAddress(varname));
-}
-
-// readMemInt
-// Read integer from RDL
-int RDL::readInt(const char* varname)
-{
-	char temp[64];
-	strcpy_s(temp, varname);
-	return readMemInt(plcGetVarAddress(temp));
-}
-
-
-// readMemBool
-// Read Boolean from RDL
-bool RDL::readBool(char* varname)
-{
-	return readMemBool(plcGetVarAddress(varname));
-}
-
-// readMemBool
-// Read Boolean from RDL
-bool RDL::readBool(const char* varname)
-{
-	char temp[64];
-	strcpy_s(temp, varname);
-	return readMemBool(plcGetVarAddress(temp));
-}

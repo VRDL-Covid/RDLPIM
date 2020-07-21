@@ -11,7 +11,7 @@
 class requestHandler
 {
 public: //methods
-	static requestHandler* GetInstance()
+	static requestHandler* Get()
 	{
 		if (s_Instance == nullptr)
 			s_Instance = new requestHandler;

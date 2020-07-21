@@ -16,7 +16,7 @@ public:
 	void Init();
 	~connectionManager();
 
-	static connectionManager* GetInstance()
+	static connectionManager* Get()
 	{
 		if (s_Instance == nullptr)
 			s_Instance = new connectionManager;

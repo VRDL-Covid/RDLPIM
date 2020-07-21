@@ -331,8 +331,8 @@ void requestHandler::handelError()
 requestHandler::requestHandler()
 {
 	//get onNewDataEvent
-	auto& newClientEvent = clientManager::GetInstance()->GetNewClientEvent();
-	auto& clientDisconnectEvent = clientManager::GetInstance()->GetClientDisconnectEvent();
+	auto& newClientEvent = clientManager::Get()->GetNewClientEvent();
+	auto& clientDisconnectEvent = clientManager::Get()->GetClientDisconnectEvent();
 
 
 	//initialise callback objects.

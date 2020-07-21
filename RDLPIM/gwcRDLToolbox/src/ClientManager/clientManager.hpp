@@ -9,7 +9,7 @@ class clientManager
 public:
 	void Init();
 
-	static clientManager* GetInstance()
+	static clientManager* Get()
 	{
 		if (s_Instance == nullptr)
 			s_Instance = new clientManager;
@@ -22,8 +22,8 @@ public:
 	static void publishMessage(int ID, const Buffer& output);
 	static void sendMessage(int ID, const Buffer& output);
 	static void broadCast(const Buffer& output);
-	static bool AddClient(const Ref<Client>& newClient) { return GetInstance()->AddClient_impl(newClient); }
-	static bool RemoveClient(Ref<Client>& client) { return GetInstance()->RemoveClient_impl(client);}
+	static bool AddClient(const Ref<Client>& newClient) { return Get()->AddClient_impl(newClient); }
+	static bool RemoveClient(Ref<Client>& client) { return Get()->RemoveClient_impl(client);}
 
 	int checkForIncoming(Ref<Client> client, Buffer* output);
 	void publishMessage(Ref<Client> client, const Buffer &output);

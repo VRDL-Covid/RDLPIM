@@ -13,14 +13,16 @@ PROFILE_BEGIN_SESSION("RDLPIM-Startup", "../analysis/RDLPIM-Startup.json");
 	std::mutex jobVectorMutex;
 
 	//instantiate high level objects
-	connectionManager* connectionManagerObj = connectionManager::GetInstance();
-	clientManager* clientManagerObj = clientManager::GetInstance();
-	requestHandler* reqFactory = requestHandler::GetInstance();
-	RDL theRDL((const char*)"rtex10.exe");
+	connectionManager* connectionManagerObj = connectionManager::Get();
+	clientManager* clientManagerObj = clientManager::Get();
+	requestHandler* reqFactory = requestHandler::Get();
+	RDL* theRDL = RDL::Get();
 
 	//initialise Object
 	connectionManagerObj->Init();
 	clientManagerObj->Init();
+	theRDL->Init("rtex10.exe");
+
 PROFILE_END_SESSION();
 
 PROFILE_BEGIN_SESSION("RDLPIM-Runtime", "../analysis/RDLPIM-Runtime.json");
