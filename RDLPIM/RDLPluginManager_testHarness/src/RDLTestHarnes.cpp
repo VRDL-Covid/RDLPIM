@@ -43,7 +43,6 @@ void sendDebugMSGs(Buffer &outBuff, bool* send)
 
 void sendChatMSGs(Buffer& outBuff, bool* send, std::mutex& sockSend)
 {
-	char userIn[1024];
 	uint32_t bytes = 0;
 	RequestHeader reqHeader;
 	Buffer userInData;
@@ -123,7 +122,6 @@ void SendPullInt(Buffer& outBuffer, bool* send, std::mutex& sockSend)
 	Buffer name;
 	Buffer data;
 	RequestHeader reqHeader;
-	int value;
 
 
 	std::vector<std::shared_ptr<DataElement>> requests;
@@ -155,7 +153,6 @@ void SentSubInt(Buffer& outBuffer, bool* send, std::mutex& sockSend)
 	Buffer name;
 	Buffer data;
 	RequestHeader reqHeader;
-	int value;
 
 
 	std::vector<std::shared_ptr<DataElement>> requests;

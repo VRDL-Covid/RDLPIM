@@ -21,9 +21,9 @@ public: //methods
 
 	static int noJobs;
 
-	static void addToQue(const Buffer& rawJob);
+	void addToQue(const Buffer& rawJob);
 	
-	void worker(bool& work, std::mutex& jobVector);
+	void worker(bool& work);
 
 public://callbacks
 	bool ClientConnectedHandler(const Ref<Client>& client);
@@ -55,6 +55,8 @@ private:
 
 	std::unordered_map<int, Ref<Subscriptions>> m_Subscriptions;
 
-	static std::vector<Ref<job>> m_jobs;
+	std::vector<Ref<job>> m_jobs;
+	std::mutex m_jobQueMutex;
+
 };
 

@@ -1,7 +1,6 @@
 #include "rdlpch.h"
 #include "requestHandler.hpp"
 
-std::vector<Ref<job>> requestHandler::m_jobs;
 int requestHandler::noJobs = 0;
 requestHandler* requestHandler::s_Instance = nullptr;
 
@@ -9,8 +8,9 @@ requestHandler* requestHandler::s_Instance = nullptr;
 
 void requestHandler::addToQue(const Buffer &rawJob)
 {
+	std::lock_guard<std::mutex> lock(m_jobQueMutex);
 	PROFILE_FUNCTION();
-	m_jobs.push_back(CreateRef<job>(rawJob));
+	Get()->m_jobs.push_back(CreateRef<job>(rawJob));
 	noJobs++;
 }
 
@@ -23,6 +23,7 @@ void requestHandler::terminateJob()
 
 void requestHandler::processNextJob()
 {
+	std::lock_guard<std::mutex> lock(m_jobQueMutex);
 	PROFILE_FUNCTION();
 	if (requestHandler::noJobs > 0) {
 
@@ -85,22 +86,14 @@ void requestHandler::processSubscriptions()
 		}
 	}
 }
-void requestHandler::worker(bool& work, std::mutex& jobVectorMutex)
+void requestHandler::worker(bool& work)
 {
 	
 
 	while (work) {
 		//handle next request
-		if (clientManager::clientDB_lock.try_lock()) {
-			jobVectorMutex.lock();
-			
 			processNextJob();
-		
 			processSubscriptions();
-
-			jobVectorMutex.unlock();
-			clientManager::clientDB_lock.unlock();
-		}
 	}
 }
 

@@ -27,7 +27,7 @@ public:
 
 	int checkForIncoming(Ref<Client> client, Buffer* output);
 	void publishMessage(Ref<Client> client, const Buffer &output);
-	void worker(bool& work, std::mutex& jobVector);
+	void worker(bool& work);
 
 	const Event<const Ref<Client>&>& GetNewClientEvent() const { return OnNewClient; }
 	const Event<const Ref<Client>&>& GetClientDisconnectEvent() const { return OnClientDisconnect; }
