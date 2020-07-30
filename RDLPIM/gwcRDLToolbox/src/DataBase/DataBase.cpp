@@ -54,8 +54,6 @@ void DataBase::ModData(const DataElementArray& dataArr)
 		else {
 			m_Data[varname_str]->SetData(*element);
 		}
-
-		m_Data[varname_str]->GetOnChangedEvent().raiseEvent(*element);
 	}
 
 	OnUpdated.raiseEvent(dataArr);

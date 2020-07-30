@@ -112,6 +112,7 @@ long RDL::plcGetVarAddress(char* varname) {
 
 	// Find Global memory block (eg "global_v") in which varname (eg "th_temp_eff") is stored
 	// Find the offset from the runtime base memory location of the global memory block
+	//TODO - GWC, do i really want to mdd_open every plcGetVar address call put these in the constructor/destructor and test onsite!
 	iResult = mdd_open(0);
 	if (iResult == 0) printf("MST_XFER : mdd_open=%d\n", iResult);
 	iResult = DbmPidNew(0, name, lreq, 0, global, &offset, &ctype, &iprec, dimen, 0, 0, 0, &level, 0, 0, 0, 0, 0, 0);
