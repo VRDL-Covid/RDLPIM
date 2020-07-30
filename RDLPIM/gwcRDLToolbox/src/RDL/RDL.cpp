@@ -144,6 +144,7 @@ bool RDL::RDL_Active()
 
 bool RDL::OnNewVariableHandler(const std::string& varName)
 {
+	//Todo, handle differently if RDL is not active. so not to invoke mdd_open.
 	rdlData tmp(varName.c_str());
 	auto& DB_entry = DataBase::GetInstance()->GetEntry(varName);
 
