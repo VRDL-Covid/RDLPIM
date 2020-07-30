@@ -77,7 +77,6 @@ bool connectionManager::ClientDisconnectCallback(const Ref<Client>& user)
 
 void connectionManager::worker(bool& work)
 {
-	
 	while (work) {
 		listener.closeSocket();
 		listener.init();
@@ -93,12 +92,6 @@ void connectionManager::worker(bool& work)
 		//processingClient->connection.Send("########################################################\n");
 
 	}
-	
-
-
-	//accept a new connection.
-
-	//
 }
 
 
@@ -106,13 +99,12 @@ connectionManager::connectionManager()
 {
 	listener.setPort(BASE_PORT);
 	listener.init();
-
-	
 }
 
 void connectionManager::Init()
 {
-	clientManager::GetInstance()->GetClientDisconnectEvent().subscribe(BIND_EVENT_FN1(connectionManager::ClientDisconnectCallback));
+	PROFILE_FUNCTION();
+	clientManager::Get()->GetClientDisconnectEvent().subscribe(BIND_EVENT_FN(connectionManager::ClientDisconnectCallback));
 }
 
 

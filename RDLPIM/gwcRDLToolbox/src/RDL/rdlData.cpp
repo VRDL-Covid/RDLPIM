@@ -199,9 +199,22 @@ rdlData::rdlData(const char* vName)
 
 	initRDLData(vName);
 
+	if (bytes == 0) {
+		if (data != nullptr)
+			free(data);
+	}
+	else {
+		char* ptr = (char*)realloc(data, bytes);
 
-	data = (char*)realloc(data, bytes);
-	read();
+		if (ptr != nullptr)
+			data = ptr;
+		else {
+			puts("unable to allocate memory, exiting");
+			exit(1);
+		}
+
+		read();
+	}
 }
 
 rdlData::rdlData(const Buffer& vName)
@@ -216,8 +229,22 @@ rdlData::rdlData(const Buffer& vName)
 
 	initRDLData(cpy.contents);
 
-	data = (char*)realloc(data, bytes);
-	read();
+	if (bytes == 0) {
+		if (data != nullptr)
+			free(data);
+	}
+	else {
+		char* ptr = (char*)realloc(data, bytes);
+
+		if (ptr != nullptr)
+			data = ptr;
+		else {
+			puts("unable to allocate memory, exiting");
+			exit(1);
+		}
+
+		read();
+	}
 }
 
 void rdlData::init(const Buffer& vName)
@@ -232,8 +259,22 @@ void rdlData::init(const Buffer& vName)
 
 	initRDLData(cpy.contents);
 
-	data = (char*)realloc(data, bytes);
-	read();
+	if (bytes == 0) {
+		if (data != nullptr)
+			free(data);
+	}
+	else {
+		char* ptr = (char*)realloc(data, bytes);
+
+		if (ptr != nullptr)
+			data = ptr;
+		else {
+			puts("unable to allocate memory, exiting");
+			exit(1);
+		}
+
+		read();
+	}
 }
 
 void rdlData::init(const char* vName)
@@ -245,8 +286,22 @@ void rdlData::init(const char* vName)
 	initRDLData(vName);
 
 
-	data = (char*)realloc(data,bytes);
-	read();
+	if (bytes == 0) {
+		if (data != nullptr)
+			free(data);
+	}
+	else {
+		char* ptr = (char*)realloc(data, bytes);
+
+		if (ptr != nullptr)
+			data = ptr;
+		else {
+			puts("unable to allocate memory, exiting");
+			exit(1);
+		}
+
+		read();
+	}
 }
 
 

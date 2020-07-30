@@ -77,7 +77,6 @@ void connectionObject::acceptNewConnection()
 		return;
 	}
 	else {
-
 		FD_SET(clientSocket, &readSet);
 		FD_SET(clientSocket, &writeSet);
 		connected = true;
@@ -262,22 +261,13 @@ int connectionObject::Send(const Buffer &inp)
 	std::lock_guard<std::mutex> lock(m_IOLock);
 	char _buff[MAXBUFFER];
 	memset(_buff, '\0', MAXBUFFER);
-	int sBytes;
-	int rBytes;
+
 
 	if (clientSocket != INVALID_SOCKET) {
 		return send(clientSocket, inp.contents, inp.size, 0);
-		//TODO:GWC add in error checking
-		//rBytes = recv(clientSocket, _buff, MAXBUFFER, 0);
-		//
-		//if (strcmp(inp.contents, _buff)) {
-		//	printf("Error message from server: %s\n", _buff);
-		//	return -1;
-		//}
 	}
 	else {
 		printf("Connection not valid to send message\n");
-		//todo disconnect event here.
 		return 0;
 	}
 
@@ -313,7 +303,7 @@ void connectionObject::setNonBlocking(bool state)
 	if (ioctlsocket(clientSocket, FIONBIO, &nonBlocking) == SOCKET_ERROR) {
 		std::cout << "unable to make socket non blocking. WSA Error:" << WSAGetLastError() << std::endl;
 		closesocket(clientSocket);
-		clientSocket == INVALID_SOCKET;
+		clientSocket = INVALID_SOCKET;
 		connected = false;
 		return;
 	}

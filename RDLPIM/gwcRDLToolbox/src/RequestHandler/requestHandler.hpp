@@ -11,7 +11,7 @@
 class requestHandler
 {
 public: //methods
-	static requestHandler* GetInstance()
+	static requestHandler* Get()
 	{
 		if (s_Instance == nullptr)
 			s_Instance = new requestHandler;
@@ -21,9 +21,9 @@ public: //methods
 
 	static int noJobs;
 
-	static void addToQue(const Buffer& rawJob);
+	void addToQue(const Buffer& rawJob);
 	
-	void worker(bool& work, std::mutex* jobVector);
+	void worker(bool& work);
 
 public://callbacks
 	bool ClientConnectedHandler(const Ref<Client>& client);
@@ -44,8 +44,6 @@ private:
 	//job handlers
 	void handleDEBUG();
 	void handleChat();
-	void handleRDLPull();
-
 	void handlePush();
 	void handlePull();
 	void handleSubscribe();
@@ -55,6 +53,8 @@ private:
 
 	std::unordered_map<int, Ref<Subscriptions>> m_Subscriptions;
 
-	static std::vector<Ref<job>> m_jobs;
+	std::vector<Ref<job>> m_jobs;
+	std::mutex m_jobQueMutex;
+
 };
 

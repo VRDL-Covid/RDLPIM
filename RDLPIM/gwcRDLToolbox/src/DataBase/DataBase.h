@@ -1,6 +1,7 @@
 #pragma once
 #include"DBElement.h"
 #include"RequestHandler/dataArray.hpp"
+#include"RDL/RDL.hpp"
 class DataBase
 {
 public:
@@ -17,7 +18,7 @@ public:
 	
 	DataElement GetData(const std::string& varname);
 	Ref<DBElement>& GetEntry(const std::string& name) { return m_Data[name]; }
-	Event<const std::string>& GetOnNewEntry() { return OnNewEntry; }
+	Event<const std::string&>& GetOnNewEntry() { return OnNewEntry; }
 
 
 
@@ -31,6 +32,6 @@ private://methods
 	
 	std::mutex m_DBAccess;
 
-	Event<const std::string> OnNewEntry;
+	Event<const std::string&> OnNewEntry;
 	Event<const DataElementArray&> OnUpdated;
 };

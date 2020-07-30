@@ -8,24 +8,28 @@ std::vector<Ref<Client>> clientManager::clients;
 
 clientManager* clientManager::s_Instance = nullptr;
 
-void clientManager::worker(bool& work, std::mutex* jobVectorMutex)
+void clientManager::worker(bool& work)
 {
 	
 	Buffer inbuff;
 	int bytes = 0;
 	Buffer test;
 	
-
+	std::vector<Ref<Client>> clientsCPY;
 	while (work) {
 
-		clientManager::clientDB_lock.lock();
-		std::vector<Ref<Client>>::iterator it = clientManager::clients.begin();
+		{
+			std::lock_guard<std::mutex> lock(clientDB_lock);
+			clientsCPY = clientManager::clients;
+		}
 		
-		for (it; it != clients.end(); it++) {
+		std::vector<Ref<Client>>::iterator it = clientsCPY.begin();
+
+		for (it; it != clientsCPY.end(); it++) {
 			if (!((bytes = checkForIncoming(*it, &inbuff)) >= 0)) {
 
 				RemoveClient_impl(*it);
-				break;
+					break;
 			}
 			else {
 				if (bytes > 0) {
@@ -38,12 +42,11 @@ void clientManager::worker(bool& work, std::mutex* jobVectorMutex)
 					IDdata.set(temp, sizeof(int));
 					inbuff.prepend(IDdata);
 
-					std::lock_guard<std::mutex>(*jobVectorMutex);
-					requestHandler::addToQue(inbuff);
+					requestHandler::Get()->addToQue(inbuff);
 				}
 			}
 		}
-		clientManager::clientDB_lock.unlock();
+		
 	}
 }
 
@@ -66,6 +69,7 @@ int clientManager::checkForIncoming(Ref<Client> client, Buffer* output)
 
 void clientManager::publishMessage(Ref<Client> iclient, const Buffer &output)
 {
+	std::lock_guard<std::mutex> lock(clientDB_lock);
 	std::vector<Ref<Client>>::iterator it = clients.begin();
 
 	for (it; it != clients.end(); it++) {
@@ -78,6 +82,7 @@ void clientManager::publishMessage(Ref<Client> iclient, const Buffer &output)
 
 void clientManager::publishMessage(int ID, const Buffer &output)
 {
+	std::lock_guard<std::mutex> lock(clientDB_lock);
 	std::vector<Ref<Client>>::iterator it = clients.begin();
 
 	for (it; it != clients.end(); it++) {
@@ -90,6 +95,7 @@ void clientManager::publishMessage(int ID, const Buffer &output)
 
 void clientManager::sendMessage(int ID, const Buffer &output)
 {
+	std::lock_guard<std::mutex> lock(clientDB_lock);
 	std::vector<Ref<Client>>::iterator it = clients.begin();
 
 	for (it; it != clients.end(); it++) {
@@ -102,6 +108,7 @@ void clientManager::sendMessage(int ID, const Buffer &output)
 
 void clientManager::broadCast(const Buffer &output)
 {
+	std::lock_guard<std::mutex> lock(clientDB_lock);
 	std::vector<Ref<Client>>::iterator it = clients.begin();
 
 	for (it; it != clients.end(); it++) {
@@ -112,9 +119,9 @@ void clientManager::broadCast(const Buffer &output)
 
 bool clientManager::AddClient_impl(const Ref<Client>& newClient)
 {
-	clientDB_lock.lock();
+	std::lock_guard<std::mutex> lock(clientDB_lock);
 	clients.push_back(newClient);
-	clientDB_lock.unlock();
+
 
 	OnNewClient.raiseEvent(newClient);
 
@@ -144,6 +151,7 @@ bool clientManager::RemoveClient_impl(Ref<Client>& client)
 
 	publishMessage(client, outbuffer);
 
+	std::lock_guard<std::mutex> lock(clientDB_lock);
 	std::vector<Ref<Client>>::iterator it = clients.begin();
 	for (; it != clients.end();it++) {
 		if ((*it)->ID == client->ID) {
@@ -168,5 +176,6 @@ clientManager::~clientManager()
 
 void clientManager::Init()
 {
-	connectionManager::GetInstance()->onNewConnection.subscribe(BIND_EVENT_FN1(clientManager::AddClient_impl));
+	PROFILE_FUNCTION();
+	connectionManager::Get()->onNewConnection.subscribe(BIND_EVENT_FN(clientManager::AddClient_impl));
 }

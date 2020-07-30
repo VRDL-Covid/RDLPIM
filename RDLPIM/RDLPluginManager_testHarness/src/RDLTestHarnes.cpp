@@ -1,6 +1,9 @@
 #include "gwcRDLToolBox.h"
 #include"testClient.hpp"
 
+
+std::mutex coutMutex;
+
 void sendDebugMSGs(Buffer &outBuff, bool* send)
 {
 	//while (true) {
@@ -40,7 +43,6 @@ void sendDebugMSGs(Buffer &outBuff, bool* send)
 
 void sendChatMSGs(Buffer& outBuff, bool* send, std::mutex& sockSend)
 {
-	char userIn[1024];
 	uint32_t bytes = 0;
 	RequestHeader reqHeader;
 	Buffer userInData;
@@ -120,7 +122,6 @@ void SendPullInt(Buffer& outBuffer, bool* send, std::mutex& sockSend)
 	Buffer name;
 	Buffer data;
 	RequestHeader reqHeader;
-	int value;
 
 
 	std::vector<std::shared_ptr<DataElement>> requests;
@@ -152,7 +153,6 @@ void SentSubInt(Buffer& outBuffer, bool* send, std::mutex& sockSend)
 	Buffer name;
 	Buffer data;
 	RequestHeader reqHeader;
-	int value;
 
 
 	std::vector<std::shared_ptr<DataElement>> requests;
@@ -184,11 +184,15 @@ void sender(Buffer& outBuff, bool* send, std::mutex& sockSend)
 	while (true) {
 		option = 0;
 
-		std::cout << "Select a command" << std::endl;
-		std::cout << "1) Chat/string test" << std::endl;
-		std::cout << "2) pushIntStack" << std::endl;
-		std::cout << "3) pullIntStack" << std::endl;
-		std::cout << "4) SubscribeInt" << std::endl;
+		{
+			std::lock_guard<std::mutex> lock(coutMutex);
+			std::cout << "Select a command" << std::endl;
+			std::cout << "1) Chat/string test" << std::endl;
+			std::cout << "2) pushIntStack" << std::endl;
+			std::cout << "3) pullIntStack" << std::endl;
+			std::cout << "4) SubscribeInt" << std::endl;
+		}
+
 
 		std::cin >> option;
 
@@ -209,7 +213,11 @@ void sender(Buffer& outBuff, bool* send, std::mutex& sockSend)
 void handleDataPacket(const Buffer& inBuff)
 {
 	std::cout << "Data Recieved:"<< std::endl;
-	inBuff.fullPrint();
+	
+	{
+		std::lock_guard<std::mutex> lock(coutMutex);
+		inBuff.fullPrint();
+	}
 }
 
 int testHarness()
@@ -217,7 +225,8 @@ int testHarness()
 	//connectionObject client(8000, "10.106.94.39");
 	std::mutex sockSend;
 
-	testClient client1("127.0.0.1",8000);
+	//testClient client1("127.0.0.1", 8000);
+	testClient client1("86.165.221.104", 8000);
 	client1.getConnectionData();
 	client1.connection.setPort(client1.port);
 
@@ -246,26 +255,37 @@ int testHarness()
 
 
 			switch (reqHead.GetCommand()) {
-			case DATA:
+			case Commands::DATA:
 				handleDataPacket(inBuff);
 				break;
-			case ERR:
-				std::cout << "ERROR message: ";
-				inBuff.fullPrint();
-				std::cout << std::endl;
+			case Commands::ERR:
+				{
+					std::lock_guard<std::mutex> lock(coutMutex);
+					std::cout << "ERROR message: ";
+					inBuff.fullPrint();
+					std::cout << std::endl;
+				}
 				break;
-			case chat:
-				inBuff.fullPrint();
-				std::cout << std::endl;
+			case Commands::chat:
+				{
+					std::lock_guard<std::mutex> lock(coutMutex);
+					inBuff.fullPrint();
+					std::cout << std::endl;
+				}
 				break;
-			case Info:
-				std::cout << "Server Info: ";
-				inBuff.fullPrint();
+			case Commands::Info:
+				{
+					std::lock_guard<std::mutex> lock(coutMutex);
+					std::cout << "Server Info: ";
+					inBuff.fullPrint();
+				}
 				break;
 			default:
-				std::cout << "unknown Function, message: ";
-				inBuff.fullPrint();
-				std::cout << std::endl;
+				{
+					std::lock_guard<std::mutex> lock(coutMutex);
+					inBuff.fullPrint();
+					std::cout << std::endl;
+				}
 				break;
 			}
 

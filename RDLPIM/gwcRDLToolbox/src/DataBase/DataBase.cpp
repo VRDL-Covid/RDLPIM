@@ -1,6 +1,7 @@
 #include"rdlpch.h"
 #include"DataBase.h"
 
+
 DataBase* DataBase::s_Instance = nullptr;
 
 DataBase* DataBase::GetInstance()
@@ -38,10 +39,10 @@ void DataBase::ModData(const DataElement& data)
 void DataBase::ModData(const DataElementArray& dataArr)
 {
 	PROFILE_FUNCTION();
+	std::lock_guard<std::mutex> lock(m_DBAccess);
 	auto cpy = dataArr;
 
 	for (auto& element : cpy) {
-		std::lock_guard<std::mutex> lock(m_DBAccess);
 		Buffer varname = element->m_VarName;
 
 		std::string varname_str = varname.ToString();
@@ -53,8 +54,6 @@ void DataBase::ModData(const DataElementArray& dataArr)
 		else {
 			m_Data[varname_str]->SetData(*element);
 		}
-
-		m_Data[varname_str]->GetOnChangedEvent().raiseEvent(*element);
 	}
 
 	OnUpdated.raiseEvent(dataArr);
@@ -65,8 +64,9 @@ DataElement DataBase::GetData(const std::string& varName)
 {
 	std::lock_guard<std::mutex> lock(m_DBAccess);
 	if (m_Data.find(varName) == m_Data.end()) {
+		//not in DB, try RDL as a source.
 		DataElement ret(varName);
-		ret.m_Type = Buffer("NOT_FOUND");
+		ret.set(RDL::Get()->Read(varName.c_str()));
 		return ret;
 	}
 	auto DBE = m_Data[varName];

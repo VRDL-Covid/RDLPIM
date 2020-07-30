@@ -342,3 +342,8 @@ DataElement& DataElement::operator=(DataElement&& other)
 
 	return *this;
 }
+
+const std::string DataElement::GetType() const
+{
+	return m_Type.ToString();
+}

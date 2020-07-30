@@ -1,6 +1,10 @@
 #pragma once
 #include "EventCallback.h"
 
+//macos to bind generic callback functions
+#define BIND_EVENT_FN(fn) [this](auto&&... args) -> decltype(auto) {return this->fn(std::forward<decltype(args)>(args)...);}
+#define BIND_EVENT_FNO(fn,O)[this](auto&&... args) -> decltype(auto) {return O->fn(std::forward<decltype(args)>(args)...);}
+
 const bool PROPAGATE_EVENT = false;
 const bool TERMINATE_EVENT = true;
 
@@ -14,10 +18,10 @@ public:
 	~Event() = default;
 
 	void subscribe(const Ref<EventCallback<T...>>& callback) const;
-	Ref<EventCallback<T...>>& subscribe(std::function<bool(T...)> callbackFN)const;
+	Ref<EventCallback<T...>> subscribe(std::function<bool(T...)> callbackFN)const;
 
 	void subscribePriority(const Ref<EventCallback<T...>>& callback)const ;
-	Ref<EventCallback<T...>>& subscribePriority(std::function<bool(T...)> callbackFN)const;
+	Ref<EventCallback<T...>> subscribePriority(std::function<bool(T...)> callbackFN)const;
 
 	void unsubscribe(const Ref < EventCallback<T...>>& callback)const ;
 	void unsubscribe(const uint32_t& id)const;
@@ -40,7 +44,7 @@ void Event<T...>::subscribe(const Ref<EventCallback<T...>>& callback)const
 }
 
 template<typename... T>
-Ref<EventCallback<T...>>& Event<T...>::subscribe(std::function<bool(T...)> callbackFN) const
+Ref<EventCallback<T...>> Event<T...>::subscribe(std::function<bool(T...)> callbackFN) const
 {
 	Ref<EventCallback<T...>> callback{ new EventCallback<T...>(callbackFN) };
 
@@ -57,7 +61,7 @@ void Event<T...>::subscribePriority(const Ref<EventCallback<T...>>& callback)con
 }
 
 template<typename... T>
-Ref<EventCallback<T...>>& Event<T...>::subscribePriority(std::function<bool(T...)> callbackFN) const
+Ref<EventCallback<T...>> Event<T...>::subscribePriority(std::function<bool(T...)> callbackFN) const
 {
 	Ref<EventCallback<T...>> callback{ new EventCallback<T...>(callbackFN) };
 

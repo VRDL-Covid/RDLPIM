@@ -17,7 +17,7 @@ void RequestHeader::Deserialise(const Buffer& raw)
 	memcpy(&m_bytes, &raw.contents[4], 4);
 }
 
-void RequestHeader::SetCommand(const Commands& command)
+void RequestHeader::SetCommand(const enum Commands& command)
 {
 	m_command = command;
 }
