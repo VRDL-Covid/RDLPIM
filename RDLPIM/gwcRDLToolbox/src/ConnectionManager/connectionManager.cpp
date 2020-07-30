@@ -113,7 +113,7 @@ connectionManager::connectionManager()
 void connectionManager::Init()
 {
 	PROFILE_FUNCTION();
-	clientManager::Get()->GetClientDisconnectEvent().subscribe(BIND_EVENT_FN1(connectionManager::ClientDisconnectCallback));
+	clientManager::Get()->GetClientDisconnectEvent().subscribe(BIND_EVENT_FN(connectionManager::ClientDisconnectCallback));
 }
 
 

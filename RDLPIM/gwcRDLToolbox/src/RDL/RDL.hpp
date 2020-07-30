@@ -1,8 +1,11 @@
 #pragma once
 #include<windows.h>
 #include<tlhelp32.h>
+#include"DataBase/DataBase.h"
 #include"Core/buffer.hpp"
 #include"s3Includes.hpp"
+#include"rdlData.hpp"
+#include"Core/Event.h"
 
 
 
@@ -35,6 +38,13 @@ public:
 
 	static RDL* Get();
 
+	void worker(bool& work)
+	{
+		while (work) {
+
+		}
+	}
+
 	void Init(const char* processName);
 
 	// plcGetVarAddress:
@@ -46,43 +56,15 @@ public:
 	bool RDL_Active();
 
 
-	//templatised read memory functions.
-	template<typename T>
-	T Read(INT_PTR address)
+	rdlData Read(const char* varname)
 	{
-		char* buffer[sizeof(T)];
-		SIZE_T bytesRead;
-		T retVar;
-
-
-		HANDLE processHandle = OpenProcess(PROCESS_VM_READ, false, pid);
-
-		if (ReadProcessMemory(processHandle, (LPCVOID)address, buffer, sizeof(T), &bytesRead)) {
-			CloseHandle(processHandle);
-			retVar = *(T*)buffer;
-		}
-		else {
-			printf("WARNING::Error reading process memory at Address:0x%p\n", address);
-			return false;
-		}
-
-		return retVar;
+		return rdlData(varname);
 	}
-
-	template<typename T>
-	T Read(const char* varname)
+	
+	rdlData Read(char* varname)
 	{
-		char temp[64];
-		strcpy_s(temp, varname);
-		return Read<T>(plcGetVarAddress(temp));
+		return rdlData(varname);
 	}
-
-	template<typename T>
-	T Read(char* varname)
-	{
-		return Read<T>(plcGetVarAddress(varname));
-	}
-
 
 	//templateised write memory functions
 	template<typename T>
@@ -97,7 +79,7 @@ public:
 
 		iResult = WriteProcessMemory(processHandle, (LPVOID)address, &data[0], sizeof(T), NULL);
 	}
-	
+
 	template<>
 	void Write<bool>(INT_PTR address, bool value)
 	{
@@ -118,9 +100,19 @@ public:
 		iResult = WriteProcessMemory(processHandle, (LPVOID)address, &data[0], sizeof(bool), NULL);
 	}
 
+
+	void TrackVariable(const std::string& varName);
+	void UntrackVariable(const std::string& varName);
+
+public://callbacks
+	Ref<EventCallback<const std::string&>> c_NewDataEntry;
 private:
 	static RDL* s_Instance;
 
+	std::vector<std::string> m_trackedVars;
+	std::mutex m_TrackedVarsArray;
+
 private:
 	RDL();
+	bool OnNewVariableHandler(const std::string& varName);
 };

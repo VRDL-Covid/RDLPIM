@@ -65,7 +65,13 @@ RDL* RDL::s_Instance = nullptr;
 
 RDL::RDL()
 {
+	//initialise RDL process ID
 	pid = 0;
+	
+	//subscribe to new data elements in the RDLPIM database.
+	c_NewDataEntry = CreateRef<EventCallback<const std::string&>>();
+	c_NewDataEntry->SetCallback(BIND_EVENT_FN(RDL::OnNewVariableHandler));
+	DataBase::GetInstance()->GetOnNewEntry().subscribe(c_NewDataEntry);
 }
 
 RDL* RDL::Get()
@@ -123,7 +129,6 @@ long RDL::plcGetVarAddress(char* varname) {
 	return 0;
 }
 
-
 bool RDL::RDL_Active()
 {
 	HANDLE process = OpenProcess(SYNCHRONIZE, FALSE, pid);
@@ -132,3 +137,37 @@ bool RDL::RDL_Active()
 	return ret == WAIT_TIMEOUT;
 }
 
+bool RDL::OnNewVariableHandler(const std::string& varName)
+{
+	rdlData tmp(varName.c_str());
+	if (std::string(tmp.ctype) != std::string("ERR-NFND"))
+		TrackVariable(varName);
+	return PROPAGATE_EVENT;
+}
+
+void RDL::TrackVariable(const std::string& varName)
+{
+	std::lock_guard<std::mutex> lock(m_TrackedVarsArray);
+
+	uint32_t count = 0;
+
+	for (std::string var : m_trackedVars) {
+		if (var == varName)
+			++count;
+	}
+
+	if (!count)
+		m_trackedVars.push_back(varName);
+}
+
+void RDL::UntrackVariable(const std::string& varName)
+{
+	std::lock_guard<std::mutex> lock(m_TrackedVarsArray);
+
+	for (auto it = m_trackedVars.begin(); it != m_trackedVars.end(); it++) {
+		if (*(it) == varName) {
+			m_trackedVars.erase(it);
+			break;
+		}
+	}
+}

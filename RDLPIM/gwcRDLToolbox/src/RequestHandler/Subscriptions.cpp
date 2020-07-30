@@ -4,7 +4,7 @@
 Subscriptions::Subscriptions()
 {
 	OnElementChangeCallback = CreateRef<EventCallback<const DataElement&>>();
-	OnElementChangeCallback->SetCallback(BIND_EVENT_FN1(Subscriptions::BuildDataBuffer));
+	OnElementChangeCallback->SetCallback(BIND_EVENT_FN(Subscriptions::BuildDataBuffer));
 }
 
 bool Subscriptions::BuildDataBuffer(const DataElement& element)

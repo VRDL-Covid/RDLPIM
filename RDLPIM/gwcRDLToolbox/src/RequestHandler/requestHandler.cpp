@@ -330,10 +330,10 @@ requestHandler::requestHandler()
 
 	//initialise callback objects.
 	onClientConnectCallback = CreateRef<EventCallback<const Ref<Client>&>>();
-	onClientConnectCallback->SetCallback(BIND_EVENT_FN1(requestHandler::ClientConnectedHandler));
+	onClientConnectCallback->SetCallback(BIND_EVENT_FN(requestHandler::ClientConnectedHandler));
 	
 	onClientDisconnectCallback = CreateRef<EventCallback<const Ref<Client>&>>();
-	onClientDisconnectCallback->SetCallback(BIND_EVENT_FN1(requestHandler::ClientDisconnectedHandler));
+	onClientDisconnectCallback->SetCallback(BIND_EVENT_FN(requestHandler::ClientDisconnectedHandler));
 
 	//subscribe to new data events;
 	newClientEvent.subscribe(onClientConnectCallback);
