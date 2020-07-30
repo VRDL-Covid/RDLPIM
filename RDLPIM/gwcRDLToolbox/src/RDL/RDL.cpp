@@ -72,6 +72,10 @@ RDL::RDL()
 	c_NewDataEntry = CreateRef<EventCallback<const std::string&>>();
 	c_NewDataEntry->SetCallback(BIND_EVENT_FN(RDL::OnNewVariableHandler));
 	DataBase::GetInstance()->GetOnNewEntry().subscribe(c_NewDataEntry);
+	
+	//build on DataElementChanged callback object
+	c_DB_ElementChanged = CreateRef<EventCallback<const DataElement&>>();
+	c_DB_ElementChanged->SetCallback(BIND_EVENT_FN(RDL::OnDataElementChanged));
 }
 
 RDL* RDL::Get()
@@ -140,8 +144,26 @@ bool RDL::RDL_Active()
 bool RDL::OnNewVariableHandler(const std::string& varName)
 {
 	rdlData tmp(varName.c_str());
-	if (std::string(tmp.ctype) != std::string("ERR-NFND"))
+	auto& DB_entry = DataBase::GetInstance()->GetEntry(varName);
+
+	if (std::string(tmp.ctype) != std::string("ERR-NFND")) { // if RDL owns it
+		DB_entry->SetRDLOwned(true);
+		if (DB_entry->GetData().GetType() == std::string("INIT")) { //if doesnt contain data (un-initialised subscribe)
+			DB_entry->SetData(tmp);
+		}
+		else {														//if contains data RDL data push
+			//set RDL to data
+			auto& element = DB_entry->GetData(); 
+			Write(element.m_VarName.ToString().c_str(), element.m_data, (size_t)element.m_Bytes);
+		}
 		TrackVariable(varName);
+	}
+	else { //If RDL doesnt own it
+		if (DB_entry->GetData().GetType() == std::string("INIT")) { //last chane initialise failed
+			DB_entry->SetData(tmp); //set to err not found
+		}
+	}
+
 	return PROPAGATE_EVENT;
 }
 
@@ -158,11 +180,16 @@ void RDL::TrackVariable(const std::string& varName)
 
 	if (!count)
 		m_trackedVars.push_back(varName);
+
+	auto& DB_entry = DataBase::GetInstance()->GetEntry(varName);
+	DB_entry->GetOnChangedEvent().subscribe(c_DB_ElementChanged);
 }
 
 void RDL::UntrackVariable(const std::string& varName)
 {
 	std::lock_guard<std::mutex> lock(m_TrackedVarsArray);
+	auto& DB_entry = DataBase::GetInstance()->GetEntry(varName);
+	DB_entry->GetOnChangedEvent().unsubscribe(c_DB_ElementChanged);
 
 	for (auto it = m_trackedVars.begin(); it != m_trackedVars.end(); it++) {
 		if (*(it) == varName) {
@@ -170,4 +197,11 @@ void RDL::UntrackVariable(const std::string& varName)
 			break;
 		}
 	}
+}
+
+bool RDL::OnDataElementChanged(const DataElement& data)
+{
+	Write(data.m_VarName.ToString().c_str(),data.m_data, (size_t)data.m_Bytes);
+
+	return PROPAGATE_EVENT;
 }

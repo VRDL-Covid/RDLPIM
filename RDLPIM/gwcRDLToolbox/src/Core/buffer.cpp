@@ -227,6 +227,7 @@ bool Buffer::operator==(const Buffer& buf1)
 	return(!diff(this, &buf1));
 }
 
+
 bool Buffer::operator!=(const Buffer& buf1)
 {
 	if (size != buf1.size)

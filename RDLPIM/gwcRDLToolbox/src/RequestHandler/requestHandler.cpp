@@ -131,76 +131,6 @@ void requestHandler::handleChat()
 	clientManager::publishMessage(m_jobs[0]->ID, OutBuf);
 }
 
-void requestHandler::handleRDLPull()
-{
-	PROFILE_FUNCTION();
-	int nameSize = 0;
-	int gap = 0;
-	int numReqs = 0;
-	Buffer tempName("h");
-	int it = 0;
-
-	//End if there is no job data
-	if (m_jobs[0]->data.size <= 0) {
-		return;
-	}
-
-	//If there is valid job data, find how many pulls are being requested.
-	while (it < m_jobs[0]->data.size) {
-		if(m_jobs[0]->data.contents[it] == '=') {
-			numReqs++;
-		}
-		it++;
-	}
-	numReqs++;
-
-
-	//build vector of pull requests
-	std::vector<DataElement*> reqs;
-
-	//null terminate the raw request data.
-	m_jobs[0]->data.nullTerminate();
-
-	//deserialise the request variable names.
-	for (int i = 0; i < numReqs; i++) {
-		
-		it = 0;
-		//get next variable name
-		while (m_jobs[0]->data.contents[it+gap] != '=' && m_jobs[0]->data.contents[it+gap] != '\0') {
-			it++;
-		}
-		nameSize = it;
-		tempName.set(&(m_jobs[0]->data.contents[gap]), nameSize);
-
-		DataElement* newRequest = new DataElement(&tempName);
-		reqs.push_back(newRequest);
-		gap += nameSize + 1;
-	}
-
-	//set message command flag to datagram
-	Buffer message;
-	char TcommandRaw[sizeof(int)];
-	Commands Tcommand;
-	Tcommand = Commands::DATA;
-	memcpy(TcommandRaw, &Tcommand, 4);
-	message.set(TcommandRaw, sizeof(int));
-	message.append("=");
-
-	//fill request objects with data
-
-
-	for (int i = 0; i < numReqs; i++) {
-		rdlData RDLDATA;
-		RDLDATA.init(reqs[i]->m_VarName);
-
-		DataElement tempReq;
-		tempReq.set(RDLDATA);
-		message.append(tempReq.Serialise());
-	}
-
-	clientManager::sendMessage(m_jobs[0]->ID, message);
-}
-
 void requestHandler::handlePush()
 {
 	PROFILE_FUNCTION();
@@ -273,8 +203,15 @@ void requestHandler::handleSubscribe()
 
 #pragma region build subscribe data
 	for (auto var : requestVars) {
-		if (DB->PointExists(var))
-			m_Subscriptions[m_jobs[0]->ID]->AddVar(var);
+		if (!DB->PointExists(var)) {
+			DataElement tmp(var);
+			tmp.m_Type = Buffer("INIT");
+			DataElementArray tmpArr;
+			tmpArr.AddElement(tmp);
+			DB->ModData(tmpArr);
+		}
+			
+		m_Subscriptions[m_jobs[0]->ID]->AddVar(var);
 	}
 #pragma endregion
 
@@ -294,10 +231,6 @@ void requestHandler::handleSubscribe()
 
 	clientManager::sendMessage(m_jobs[0]->ID, SendBuffer);
 #pragma endregion
-
-
-
-
 	
 }
 

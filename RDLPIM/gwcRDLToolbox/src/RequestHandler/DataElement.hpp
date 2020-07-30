@@ -44,6 +44,11 @@ public:
 	//				"{VarName=VarType=Bytes=Value}"
 	Buffer Serialise()const;
 
+
+	//Author: Guy Collins
+	//Date: /30/07/2020
+	//A function to return the type as a string
+	const std::string GetType()const;
 	// Author: Guy Collins
 	// Date: 20/01/2020
 	// Description: Constructor and destructor methods, overloaded to initialise variable name from a string or buffer object.

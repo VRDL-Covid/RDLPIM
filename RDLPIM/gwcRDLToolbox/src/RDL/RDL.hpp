@@ -80,6 +80,15 @@ public:
 		iResult = WriteProcessMemory(processHandle, (LPVOID)address, &data[0], sizeof(T), NULL);
 	}
 
+	void Write(const char* varName, char* data, size_t size)
+	{
+		char* _name ;
+
+		strcpy(_name, varName);
+		HANDLE processHandle = OpenProcess(PROCESS_ALL_ACCESS, false, pid);
+		WriteProcessMemory(processHandle, (LPVOID)plcGetVarAddress(_name),data, size, NULL);
+	}
+
 	template<>
 	void Write<bool>(INT_PTR address, bool value)
 	{
@@ -106,6 +115,7 @@ public:
 
 public://callbacks
 	Ref<EventCallback<const std::string&>> c_NewDataEntry;
+	Ref<EventCallback<const DataElement&>> c_DB_ElementChanged;
 private:
 	static RDL* s_Instance;
 
@@ -115,4 +125,5 @@ private:
 private:
 	RDL();
 	bool OnNewVariableHandler(const std::string& varName);
+	bool OnDataElementChanged(const DataElement& data);
 };

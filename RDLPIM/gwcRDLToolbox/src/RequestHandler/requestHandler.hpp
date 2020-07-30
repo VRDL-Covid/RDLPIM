@@ -44,8 +44,6 @@ private:
 	//job handlers
 	void handleDEBUG();
 	void handleChat();
-	void handleRDLPull();
-
 	void handlePush();
 	void handlePull();
 	void handleSubscribe();
