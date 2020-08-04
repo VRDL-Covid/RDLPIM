@@ -44,6 +44,9 @@ public:
 	//				"{VarName=VarType=Bytes=Value}"
 	Buffer Serialise()const;
 
+	//Author: Guy Collins
+	//Date 04/08/2020
+	const std::string GetName() const { return m_VarName.ToString(); }
 
 	//Author: Guy Collins
 	//Date: /30/07/2020
@@ -65,13 +68,13 @@ public:
 	DataElement(const DataElement& other);
 
 	//move Constructor
-	DataElement(DataElement&& other);
+	DataElement(DataElement&& other) noexcept;
 
 	//copy assignment overload
 	DataElement& operator=(const DataElement& other);
 
 	//move assigment overload
-	DataElement& operator=(DataElement&& other);
+	DataElement& operator=(DataElement&& other) noexcept;
 
 };
 

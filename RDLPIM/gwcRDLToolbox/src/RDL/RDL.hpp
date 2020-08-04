@@ -38,12 +38,8 @@ public:
 
 	static RDL* Get();
 
-	void worker(bool& work)
-	{
-		while (work) {
+	void worker(bool& work);
 
-		}
-	}
 
 	void Init(const char* processName);
 
@@ -56,44 +52,35 @@ public:
 	bool RDL_Active();
 
 
-	rdlData Read(const char* varname)
-	{
-		return rdlData(varname);
-	}
+	rdlData Read(const char* varname);
 	
-	rdlData Read(char* varname)
-	{
-		return rdlData(varname);
-	}
+	rdlData Read(char* varname);
 
 	//templateised write memory functions
 	template<typename T>
-	void Write(INT_PTR address, T value)
+	void Write(const std::string& varName, T value)
 	{
 		char data[sizeof(T)];
 		memcpy(&data[0], &value, sizeof(T));
+
+		char* _name;
+		strcpy(_name, varName.c_str());
 
 		int iResult;
 
 		HANDLE processHandle = OpenProcess(PROCESS_ALL_ACCESS, false, pid);
 
-		iResult = WriteProcessMemory(processHandle, (LPVOID)address, &data[0], sizeof(T), NULL);
-	}
-
-	void Write(const char* varName, char* data, size_t size)
-	{
-		char* _name ;
-
-		strcpy(_name, varName);
-		HANDLE processHandle = OpenProcess(PROCESS_ALL_ACCESS, false, pid);
-		WriteProcessMemory(processHandle, (LPVOID)plcGetVarAddress(_name),data, size, NULL);
+		iResult = WriteProcessMemory(processHandle, (LPVOID)plcGetVarAddress(_name), &data[0], sizeof(T), NULL);
 	}
 
 	template<>
-	void Write<bool>(INT_PTR address, bool value)
+	void Write<bool>(const std::string& varName, bool value)
 	{
 		char data[sizeof(bool)];
 		memcpy(&data[0], &value, sizeof(bool));
+
+		char _name[S3_STRLEN];
+		strcpy_s(_name, (rsize_t)S3_STRLEN, varName.c_str());
 
 		int iResult;
 
@@ -106,9 +93,13 @@ public:
 
 		HANDLE processHandle = OpenProcess(PROCESS_ALL_ACCESS, false, pid);
 
-		iResult = WriteProcessMemory(processHandle, (LPVOID)address, &data[0], sizeof(bool), NULL);
+		iResult = WriteProcessMemory(processHandle, (LPVOID)plcGetVarAddress(_name), &data[0], sizeof(bool), NULL);
 	}
 
+
+	void Write(const char* varName, char* data, size_t size);
+	void Write(const std::string& varName, char* data, size_t size);
+	void Write(const DataElement& data);
 
 	void TrackVariable(const std::string& varName);
 	void UntrackVariable(const std::string& varName);

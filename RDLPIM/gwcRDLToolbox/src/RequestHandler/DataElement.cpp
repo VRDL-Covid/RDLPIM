@@ -13,7 +13,7 @@ union convertable {
 DataElement::DataElement()
 {
 	//varName.set("");
-	//type.set("");
+	m_Type.set("ERR-NFND");
 	m_Bytes = 0;
 	m_data = nullptr;
 }
@@ -23,7 +23,7 @@ DataElement::DataElement(const char* var)
 	Buffer temp(var);
 	temp.nullTerminate();
 	m_VarName.set(var);
-	m_Type.set("");
+	m_Type.set("ERR-NFND");
 	m_Bytes = 0;
 	m_data = nullptr;
 }
@@ -31,7 +31,7 @@ DataElement::DataElement(const char* var)
 DataElement::DataElement(std::string var)
 {
 	m_VarName.set(var.c_str());
-	m_Type.set("");
+	m_Type.set("ERR-NFND");
 	m_Bytes = 0;
 	m_data = nullptr;
 }
@@ -39,7 +39,7 @@ DataElement::DataElement(std::string var)
 DataElement::DataElement(const Buffer& var)
 {
 	m_VarName = var;
-	m_Type.set("");
+	m_Type.set("ERR-NFND");
 	m_Bytes = 0;
 	m_data = nullptr;
 }
@@ -47,7 +47,7 @@ DataElement::DataElement(const Buffer& var)
 DataElement::DataElement(Buffer* var)
 {
 	m_VarName = *var;
-	m_Type.set("");
+	m_Type.set("ERR-NFND");
 	m_Bytes = 0;
 	m_data = nullptr;
 }
@@ -211,7 +211,13 @@ int DataElement::deserialise(const Buffer& in)
 		itt = 0;
 	}
 
-	temp = (char*)realloc(temp, nameSize + typeSize);
+	void* ptr = realloc(temp, nameSize + typeSize);
+	if (ptr != nullptr)
+		temp = (char*)ptr;
+	else {
+		puts("insufficient system memory");
+		exit(1);
+	}
 
 	for (int i = 0; i < nameSize+typeSize; i++) {
 		temp[i] = incpy.contents[i+nameSize];
@@ -283,7 +289,14 @@ void DataElement::sizeData(int sBytes){
 		m_data = (char*)malloc(sBytes);
 	}
 	else {
-		m_data = (char*)realloc(m_data, sBytes);
+		void* ptr = realloc(m_data, sBytes);
+
+		if (ptr != nullptr)
+			m_data = (char*)ptr;
+		else {
+			puts("insufficient system memory... exiting");
+			exit(1);
+		}
 	}
 }
 
@@ -302,7 +315,7 @@ DataElement::DataElement(const DataElement& other)
 }
 
 //move constructors
-DataElement::DataElement(DataElement&& other)
+DataElement::DataElement(DataElement&& other) noexcept
 {
 	m_VarName = std::move(other.m_VarName);
 	m_Type = std::move(other.m_Type);
@@ -330,7 +343,7 @@ DataElement& DataElement::operator=(const DataElement& other)
 	return *this;
 }
 
-DataElement& DataElement::operator=(DataElement&& other)
+DataElement& DataElement::operator=(DataElement&& other) noexcept
 {
 	m_VarName = std::move(other.m_VarName);
 	m_Type =    std::move(other.m_Type);

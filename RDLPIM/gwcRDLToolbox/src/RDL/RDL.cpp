@@ -63,19 +63,8 @@ DWORD GetPID(const std::string& processName) {
 
 RDL* RDL::s_Instance = nullptr;
 
-RDL::RDL()
+RDL::~RDL()
 {
-	//initialise RDL process ID
-	pid = 0;
-	
-	//subscribe to new data elements in the RDLPIM database.
-	c_NewDataEntry = CreateRef<EventCallback<const std::string&>>();
-	c_NewDataEntry->SetCallback(BIND_EVENT_FN(RDL::OnNewVariableHandler));
-	DataBase::GetInstance()->GetOnNewEntry().subscribe(c_NewDataEntry);
-	
-	//build on DataElementChanged callback object
-	c_DB_ElementChanged = CreateRef<EventCallback<const DataElement&>>();
-	c_DB_ElementChanged->SetCallback(BIND_EVENT_FN(RDL::OnDataElementChanged));
 }
 
 RDL* RDL::Get()
@@ -85,13 +74,97 @@ RDL* RDL::Get()
 	return s_Instance;
 }
 
+void RDL::worker(bool& work)
+{
+	while (work) {
+
+	}
+}
+
+rdlData RDL::Read(const char* varname)
+{
+	return rdlData(varname);
+}
+
+rdlData RDL::Read(char* varname)
+{
+	return rdlData(varname);
+}
+
+void RDL::Write(const char* varName, char* data, size_t size)
+{
+	char _name[S3_STRLEN];
+	strcpy_s(_name,(rsize_t)S3_STRLEN, varName);
+
+	HANDLE processHandle = OpenProcess(PROCESS_ALL_ACCESS, false, pid);
+	WriteProcessMemory(processHandle, (LPVOID)plcGetVarAddress(_name), data, size, NULL);
+}
+
+void RDL::Write(const std::string& varName, char* data, size_t size)
+{
+	char _name[S3_STRLEN];
+	strcpy_s(_name, (rsize_t)S3_STRLEN, varName.c_str());
+
+	HANDLE processHandle = OpenProcess(PROCESS_ALL_ACCESS, false, pid);
+	WriteProcessMemory(processHandle, (LPVOID)plcGetVarAddress(_name), data, size, NULL);
+}
+
+
+void RDL::Write(const DataElement& data)
+{
+
+	char _name[S3_STRLEN];
+	strcpy_s(_name,(rsize_t)S3_STRLEN, data.GetName().c_str());
+
+	HANDLE processHandle = OpenProcess(PROCESS_ALL_ACCESS, false, pid);
+
+	if (data.GetType() == std::string("bool")) {
+		bool* status;
+		status = (bool*)data.m_data;
+		Write<bool>(data.GetName(), *status);
+		return;
+	}
+
+	WriteProcessMemory(processHandle, (LPVOID)plcGetVarAddress(_name), data.m_data, data.m_Bytes, NULL);
+}
+
+
+void RDL::TrackVariable(const std::string& varName)
+{
+	std::lock_guard<std::mutex> lock(m_TrackedVarsArray);
+
+	uint32_t count = 0;
+
+	for (std::string var : m_trackedVars) {
+		if (var == varName)
+			++count;
+	}
+
+	if (!count)
+		m_trackedVars.push_back(varName);
+
+	auto& DB_entry = DataBase::GetInstance()->GetEntry(varName);
+	DB_entry->GetOnChangedEvent().subscribe(c_DB_ElementChanged);
+}
+
+void RDL::UntrackVariable(const std::string& varName)
+{
+	std::lock_guard<std::mutex> lock(m_TrackedVarsArray);
+	auto& DB_entry = DataBase::GetInstance()->GetEntry(varName);
+	DB_entry->GetOnChangedEvent().unsubscribe(c_DB_ElementChanged);
+
+	for (auto it = m_trackedVars.begin(); it != m_trackedVars.end(); it++) {
+		if (*(it) == varName) {
+			m_trackedVars.erase(it);
+			break;
+		}
+	}
+}
+
+
 void RDL::Init(const char* processName)
 {
 	pid = GetPID(processName);
-}
-
-RDL::~RDL()
-{
 }
 
 // plcGetVarAddress:
@@ -144,66 +217,58 @@ bool RDL::RDL_Active()
 
 bool RDL::OnNewVariableHandler(const std::string& varName)
 {
-	//Todo, handle differently if RDL is not active. so not to invoke mdd_open.
-	rdlData tmp(varName.c_str());
 	auto& DB_entry = DataBase::GetInstance()->GetEntry(varName);
-
-	if (std::string(tmp.ctype) != std::string("ERR-NFND")) { // if RDL owns it
-		DB_entry->SetRDLOwned(true);
+	
+	if (RDL_Active()) {
+		rdlData tmp(varName.c_str());
+		if (std::string(tmp.ctype) != std::string("ERR-NFND")) { // if RDL owns it
+			DB_entry->SetRDLOwned(true);
+			if (DB_entry->GetData().GetType() == std::string("INIT")) { //if doesnt contain data (un-initialised subscribe)
+				DB_entry->SetData(tmp);
+			}
+			else {														//if contains data RDL data push
+				//set RDL to data
+				auto& element = DB_entry->GetData();
+				Write(element);
+			}
+			TrackVariable(varName);
+		}
+		else { //If RDL doesnt own it
+			if (DB_entry->GetData().GetType() == std::string("INIT")) { //last chance initialise failed
+				DB_entry->SetData(tmp); //set to err not found
+			}
+		}
+	}
+	else {
 		if (DB_entry->GetData().GetType() == std::string("INIT")) { //if doesnt contain data (un-initialised subscribe)
-			DB_entry->SetData(tmp);
-		}
-		else {														//if contains data RDL data push
-			//set RDL to data
-			auto& element = DB_entry->GetData(); 
-			Write(element.m_VarName.ToString().c_str(), element.m_data, (size_t)element.m_Bytes);
-		}
-		TrackVariable(varName);
-	}
-	else { //If RDL doesnt own it
-		if (DB_entry->GetData().GetType() == std::string("INIT")) { //last chane initialise failed
-			DB_entry->SetData(tmp); //set to err not found
+			DataElement errData(varName);
+			DB_entry->SetData(errData);
 		}
 	}
-
+	
 	return PROPAGATE_EVENT;
-}
-
-void RDL::TrackVariable(const std::string& varName)
-{
-	std::lock_guard<std::mutex> lock(m_TrackedVarsArray);
-
-	uint32_t count = 0;
-
-	for (std::string var : m_trackedVars) {
-		if (var == varName)
-			++count;
-	}
-
-	if (!count)
-		m_trackedVars.push_back(varName);
-
-	auto& DB_entry = DataBase::GetInstance()->GetEntry(varName);
-	DB_entry->GetOnChangedEvent().subscribe(c_DB_ElementChanged);
-}
-
-void RDL::UntrackVariable(const std::string& varName)
-{
-	std::lock_guard<std::mutex> lock(m_TrackedVarsArray);
-	auto& DB_entry = DataBase::GetInstance()->GetEntry(varName);
-	DB_entry->GetOnChangedEvent().unsubscribe(c_DB_ElementChanged);
-
-	for (auto it = m_trackedVars.begin(); it != m_trackedVars.end(); it++) {
-		if (*(it) == varName) {
-			m_trackedVars.erase(it);
-			break;
-		}
-	}
 }
 
 bool RDL::OnDataElementChanged(const DataElement& data)
 {
-	Write(data.m_VarName.ToString().c_str(),data.m_data, (size_t)data.m_Bytes);
 
+	Write(data);
 	return PROPAGATE_EVENT;
+}
+
+
+//Private implimentations
+RDL::RDL()
+{
+	//initialise RDL process ID
+	pid = 0;
+
+	//subscribe to new data elements in the RDLPIM database.
+	c_NewDataEntry = CreateRef<EventCallback<const std::string&>>();
+	c_NewDataEntry->SetCallback(BIND_EVENT_FN(RDL::OnNewVariableHandler));
+	DataBase::GetInstance()->GetOnNewEntry().subscribe(c_NewDataEntry);
+
+	//build on DataElementChanged callback object
+	c_DB_ElementChanged = CreateRef<EventCallback<const DataElement&>>();
+	c_DB_ElementChanged->SetCallback(BIND_EVENT_FN(RDL::OnDataElementChanged));
 }
