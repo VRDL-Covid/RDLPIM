@@ -60,6 +60,7 @@ public:
 
 	INT_PTR ptr;
 	static DWORD pid;
+	static std::mutex s_readProcessLock;
 	char* data;
 
 
@@ -70,6 +71,8 @@ public:
 	void init(const std::string& vName);
 
 	const std::string GetName()const { return std::string(name); }
+
+	Buffer GetData();
 
 	rdlData();
 	rdlData(const char* vName);

@@ -48,18 +48,38 @@ RDL* RDL::Get()
 
 void RDL::worker(bool& work)
 {
-	std::vector<rdlData> trkedCpy;
+	auto trkedCpy = m_trackedVars;
+	auto DB = DataBase::GetInstance();
+	DataElementArray dataArr;
 	rdlData reader;
-	while (work) {
-		{
-			std::lock_guard<std::mutex> lock(m_TrackedVarsArray);
-			trkedCpy = m_trackedVars;
-		}
 
-		for (auto varName : trkedCpy) {
-			reader.init(varName.GetName());
+	while (work) {
+		if (RDL_Active()) {
+			{
+				std::lock_guard<std::mutex> lock(m_TrackedVarsArray);
+				trkedCpy = m_trackedVars;
+			}
+
+			for (auto var : trkedCpy) {
+				reader.init(var.first);
+				if (reader.GetData() != var.second) { //if rdlData has changed.
+					dataArr.AddElement(DataElement(reader));
+				}
+			}
+
+			DB->ModData(dataArr);
+			dataArr.ClearArray();
+			
+			//todo- Sleep is not cross platform, should use chrono
+			Sleep(250);
 		}
-		Sleep(250);
+		else {
+			//Todo - process name should be a variable
+			Init("rtex10.exe");
+
+			//todo- Sleep is not cross platform, should use chrono
+			Sleep(2000);
+		}
 	}
 }
 
@@ -117,13 +137,9 @@ void RDL::TrackVariable(const rdlData& variable)
 
 	uint32_t count = 0;
 
-	for (auto var : m_trackedVars) {
-		if (var.GetName() == variable.GetName())
-			++count;
-	}
-
-	if (!count)
-		m_trackedVars.push_back(variable);
+	if (m_trackedVars.find(variable.GetName()) == m_trackedVars.end()) 
+		m_trackedVars.emplace(variable.GetName(), Buffer(variable.data, variable.bytes));
+	
 
 	auto& DB_entry = DataBase::GetInstance()->GetEntry(variable.GetName());
 	DB_entry->GetOnChangedEvent().subscribe(c_DB_ElementChanged);
@@ -136,7 +152,7 @@ void RDL::UntrackVariable(const std::string& varName)
 	DB_entry->GetOnChangedEvent().unsubscribe(c_DB_ElementChanged);
 
 	for (auto it = m_trackedVars.begin(); it != m_trackedVars.end(); it++) {
-		if (it->GetName() == varName) {
+		if (it->first == varName) {
 			m_trackedVars.erase(it);
 			break;
 		}
@@ -191,6 +207,9 @@ long RDL::FindRuntimePointer(char* varname) {
 
 bool RDL::RDL_Active()
 {
+	if (pid == 0)
+		return false;
+
 	HANDLE process = OpenProcess(SYNCHRONIZE, FALSE, pid);
 	DWORD ret = WaitForSingleObject(process, 0);
 	CloseHandle(process);

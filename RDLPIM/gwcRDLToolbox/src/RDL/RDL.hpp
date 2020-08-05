@@ -98,7 +98,7 @@ public://callbacks
 private:
 	static RDL* s_Instance;
 
-	std::vector<rdlData> m_trackedVars;
+	std::unordered_map<std::string,Buffer> m_trackedVars;
 	std::mutex m_TrackedVarsArray;
 
 private:

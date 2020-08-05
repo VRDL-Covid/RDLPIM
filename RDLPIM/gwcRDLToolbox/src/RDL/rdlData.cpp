@@ -6,6 +6,8 @@
 
 DWORD rdlData::pid = -1;
 
+std::mutex rdlData::s_readProcessLock;
+
 void rdlData::initRDLData(const char* varname)
 {
 	int iResult;
@@ -102,8 +104,8 @@ void rdlData::read()
 		return;
 	}
 
+	std::lock_guard<std::mutex> lock(s_readProcessLock);
 	HANDLE processHandle = OpenProcess(PROCESS_VM_READ, false, rdlData::pid);
-
 	if (ReadProcessMemory(processHandle, (LPCVOID)ptr, data, bytes, &bytesRead)) {
 		CloseHandle(processHandle);
 	}
@@ -123,6 +125,7 @@ void rdlData::write(const Buffer& newValue)
 
 	int iResult;
 
+	std::lock_guard<std::mutex> lock(s_readProcessLock);
 	HANDLE processHandle = OpenProcess(PROCESS_ALL_ACCESS, false, pid);
 
 	iResult = WriteProcessMemory(processHandle, (LPVOID)ptr, &newValue.contents[0], newValue.size, NULL);
@@ -282,6 +285,7 @@ void rdlData::init(const char* vName)
 void rdlData::init(const std::string& vName)
 {
 	if (rdlData::pid == -1) {
+		//todo - process name should be variable
 		rdlData::pid = GetPID("rtex10.exe");
 	}
 
@@ -304,6 +308,12 @@ void rdlData::init(const std::string& vName)
 
 		read();
 	}
+}
+
+Buffer rdlData::GetData()
+{
+	read();
+	return Buffer(data, bytes);
 }
 
 
