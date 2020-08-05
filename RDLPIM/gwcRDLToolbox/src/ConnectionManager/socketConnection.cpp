@@ -378,11 +378,20 @@ connectionObject::connectionObject()
 {
 	port = -1;
 	memset(ip, '\0', sizeof(ip));
+
+	clientHints = { 0 };
+	connected = false;
+	memset(ip, '\0', sizeof(ip));
 }
 
 connectionObject::connectionObject(SOCKET skt)
 {
+
 	servSocket = skt;
+
+	clientHints = { 0 };
+	connected = false;
+	memset(ip, '\0', sizeof(ip));
 }
 
 connectionObject::connectionObject(int _port, const char* _ip)
@@ -391,6 +400,10 @@ connectionObject::connectionObject(int _port, const char* _ip)
 
 	memset(ip, '\0', sizeof(ip));
 	strcpy_s(ip, _ip);
+
+	clientHints = { 0 };
+	connected = false;
+	memset(ip, '\0', sizeof(ip));
 }
 
 connectionObject::connectionObject(int _port)
@@ -398,6 +411,10 @@ connectionObject::connectionObject(int _port)
 	memset(ip, '\0', sizeof(ip));
 
 	port = _port;
+
+	clientHints = { 0 };
+	connected = false;
+	memset(ip, '\0', sizeof(ip));
 }
 
 connectionObject::~connectionObject()

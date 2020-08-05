@@ -14,18 +14,6 @@
 #define off 0x00
 
 
-// type to convert types prior to sending over TCP/IP using char array buffer.
-union convertable {
-	char Char[8];
-	double Double;
-	float Float;
-	int Int;
-	bool Bool;
-};
-
-
-
-
 // Author: Guy Collins
 // Date: 20/01/2020
 // Description: A class to handle interaction with the RDL, constructed by passing a buffer* / char* containing the processes name eg "rtex10"
@@ -46,7 +34,7 @@ public:
 	// plcGetVarAddress:
 	// input as character array
 	// Function:  Return the runtime memory location of a variable managed by DBM, eg "th_temp_eff"
-	long plcGetVarAddress(char* varname);
+	long FindRuntimePointer(char* varname);
 
 	//RDL_Active deteremins if the RDL is still running.
 	bool RDL_Active();
@@ -70,7 +58,7 @@ public:
 
 		HANDLE processHandle = OpenProcess(PROCESS_ALL_ACCESS, false, pid);
 
-		iResult = WriteProcessMemory(processHandle, (LPVOID)plcGetVarAddress(_name), &data[0], sizeof(T), NULL);
+		iResult = WriteProcessMemory(processHandle, (LPVOID)FindRuntimePointer(_name), &data[0], sizeof(T), NULL);
 	}
 
 	template<>
@@ -93,7 +81,7 @@ public:
 
 		HANDLE processHandle = OpenProcess(PROCESS_ALL_ACCESS, false, pid);
 
-		iResult = WriteProcessMemory(processHandle, (LPVOID)plcGetVarAddress(_name), &data[0], sizeof(bool), NULL);
+		iResult = WriteProcessMemory(processHandle, (LPVOID)FindRuntimePointer(_name), &data[0], sizeof(bool), NULL);
 	}
 
 
@@ -101,7 +89,7 @@ public:
 	void Write(const std::string& varName, char* data, size_t size);
 	void Write(const DataElement& data);
 
-	void TrackVariable(const std::string& varName);
+	void TrackVariable(const rdlData& varName);
 	void UntrackVariable(const std::string& varName);
 
 public://callbacks
@@ -110,7 +98,7 @@ public://callbacks
 private:
 	static RDL* s_Instance;
 
-	std::vector<std::string> m_trackedVars;
+	std::unordered_map<std::string,Buffer> m_trackedVars;
 	std::mutex m_TrackedVarsArray;
 
 private:

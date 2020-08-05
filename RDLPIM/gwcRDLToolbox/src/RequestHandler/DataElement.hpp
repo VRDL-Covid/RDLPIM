@@ -60,6 +60,7 @@ public:
 	DataElement(const Buffer& var);
 	DataElement(Buffer* var);
 	DataElement(const char* var);
+	DataElement(const rdlData& var);
 	~DataElement();
 
 	//copy constructors

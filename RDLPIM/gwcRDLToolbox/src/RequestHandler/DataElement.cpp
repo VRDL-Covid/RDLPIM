@@ -52,6 +52,39 @@ DataElement::DataElement(Buffer* var)
 	m_data = nullptr;
 }
 
+DataElement::DataElement(const rdlData& var)
+{
+	//set name
+	m_VarName.set(var.name);
+
+	//set bytes
+	m_Bytes = var.bytes;
+
+	//set type
+	m_Type.set(var.ctype);
+
+	if (!strncmp(var.ctype, "L", 1) && var.bytes == 1) {
+		m_Type.set("bool");
+	}
+
+	if (!strncmp(var.ctype, "I", 1) && var.bytes == 4) {
+		m_Type.set("int");
+	}
+
+	if (!strncmp(var.ctype, "R", 1) && var.bytes == 8) {
+		m_Type.set("double");
+	}
+
+
+
+	//set data
+	sizeData(m_Bytes);
+
+	for (int i = 0; i < m_Bytes; i++) {
+		m_data[i] = var.data[i];
+	}
+}
+
 
 
 DataElement::~DataElement()

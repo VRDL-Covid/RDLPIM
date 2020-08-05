@@ -3,33 +3,10 @@
 // Import DLLs required to read RDL global memory.
 // this is required in order to determine the memory allocation during
 // run time of the RDL.
-extern "C" {
-	// imported functions from s3dll.dll
-	typedef void(__stdcall  *__ET)();
-	typedef struct {
-		__ET entry;
-		char	*longname;
-		char	*user;
-		char	type, cons, dummy, level;
-		int	argc;
-		unsigned int mflags;
-	} MODTAB;
-
-	__declspec(dllimport) int mdd_open(char* who);
-	__declspec(dllimport) void mdd_close(int which);
-	__declspec(dllimport) int DbmPidNew(int s, char *instring, int lreq, char *typedb,
-		char *global, int *offset, char *type1, int *prec, int *dimen, char *vcopt,
-		long *ival, double *dval, int *lfound, char *sdesc, char *ldesc, char *unit,
-		char *sys_id, char *fmt, unsigned int *date);
-
-	// imported data from mstg.dll
-	__declspec(dllimport) int number_shared_globals;
-	__declspec(dllimport) GLOBAL_TABLE share_global_table[];
-
-};
-
 
 DWORD rdlData::pid = -1;
+
+std::mutex rdlData::s_readProcessLock;
 
 void rdlData::initRDLData(const char* varname)
 {
@@ -127,8 +104,8 @@ void rdlData::read()
 		return;
 	}
 
+	std::lock_guard<std::mutex> lock(s_readProcessLock);
 	HANDLE processHandle = OpenProcess(PROCESS_VM_READ, false, rdlData::pid);
-
 	if (ReadProcessMemory(processHandle, (LPCVOID)ptr, data, bytes, &bytesRead)) {
 		CloseHandle(processHandle);
 	}
@@ -148,6 +125,7 @@ void rdlData::write(const Buffer& newValue)
 
 	int iResult;
 
+	std::lock_guard<std::mutex> lock(s_readProcessLock);
 	HANDLE processHandle = OpenProcess(PROCESS_ALL_ACCESS, false, pid);
 
 	iResult = WriteProcessMemory(processHandle, (LPVOID)ptr, &newValue.contents[0], newValue.size, NULL);
@@ -303,6 +281,41 @@ void rdlData::init(const char* vName)
 		read();
 	}
 }
+
+void rdlData::init(const std::string& vName)
+{
+	if (rdlData::pid == -1) {
+		//todo - process name should be variable
+		rdlData::pid = GetPID("rtex10.exe");
+	}
+
+	initRDLData(vName.c_str());
+
+
+	if (bytes == 0) {
+		if (data != nullptr)
+			free(data);
+	}
+	else {
+		char* ptr = (char*)realloc(data, bytes);
+
+		if (ptr != nullptr)
+			data = ptr;
+		else {
+			puts("unable to allocate memory, exiting");
+			exit(1);
+		}
+
+		read();
+	}
+}
+
+Buffer rdlData::GetData()
+{
+	read();
+	return Buffer(data, bytes);
+}
+
 
 
 rdlData::~rdlData()

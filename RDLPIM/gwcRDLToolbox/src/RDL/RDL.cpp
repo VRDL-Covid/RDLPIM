@@ -1,34 +1,6 @@
 #include "rdlpch.h"
 #include "RDL.hpp"
 
-// Import DLLs required to read RDL global memory.
-// this is required in order to determine the memory allocation during
-// run time of the RDL.
-extern "C" {
-	// imported functions from s3dll.dll
-	typedef void(__stdcall  *__ET)();
-	typedef struct {
-		__ET entry;
-		char	*longname;
-		char	*user;
-		char	type, cons, dummy, level;
-		int	argc;
-		unsigned int mflags;
-	} MODTAB;
-
-	__declspec(dllimport) int mdd_open(char* who);
-	__declspec(dllimport) void mdd_close(int which);
-	__declspec(dllimport) int DbmPidNew(int s, char *instring, int lreq, char *typedb,
-		char *global, int *offset, char *type1, int *prec, int *dimen, char *vcopt,
-		long *ival, double *dval, int *lfound, char *sdesc, char *ldesc, char *unit,
-		char *sys_id, char *fmt, unsigned int *date);
-
-	// imported data from mstg.dll
-	__declspec(dllimport) int number_shared_globals;
-	__declspec(dllimport) GLOBAL_TABLE share_global_table[];
-
-};
-
 //Guy Collins 17/11/2016
 // Obtain Process ID of a generic name eg "rtex10.exe"
 DWORD GetPID(const std::string& processName) {
@@ -76,8 +48,38 @@ RDL* RDL::Get()
 
 void RDL::worker(bool& work)
 {
-	while (work) {
+	auto trkedCpy = m_trackedVars;
+	auto DB = DataBase::GetInstance();
+	DataElementArray dataArr;
+	rdlData reader;
 
+	while (work) {
+		if (RDL_Active()) {
+			{
+				std::lock_guard<std::mutex> lock(m_TrackedVarsArray);
+				trkedCpy = m_trackedVars;
+			}
+
+			for (auto var : trkedCpy) {
+				reader.init(var.first);
+				if (reader.GetData() != var.second) { //if rdlData has changed.
+					dataArr.AddElement(DataElement(reader));
+				}
+			}
+
+			DB->ModData(dataArr);
+			dataArr.ClearArray();
+			
+			//todo- Sleep is not cross platform, should use chrono
+			Sleep(250);
+		}
+		else {
+			//Todo - process name should be a variable
+			Init("rtex10.exe");
+
+			//todo- Sleep is not cross platform, should use chrono
+			Sleep(2000);
+		}
 	}
 }
 
@@ -97,7 +99,7 @@ void RDL::Write(const char* varName, char* data, size_t size)
 	strcpy_s(_name,(rsize_t)S3_STRLEN, varName);
 
 	HANDLE processHandle = OpenProcess(PROCESS_ALL_ACCESS, false, pid);
-	WriteProcessMemory(processHandle, (LPVOID)plcGetVarAddress(_name), data, size, NULL);
+	WriteProcessMemory(processHandle, (LPVOID)FindRuntimePointer(_name), data, size, NULL);
 }
 
 void RDL::Write(const std::string& varName, char* data, size_t size)
@@ -106,7 +108,7 @@ void RDL::Write(const std::string& varName, char* data, size_t size)
 	strcpy_s(_name, (rsize_t)S3_STRLEN, varName.c_str());
 
 	HANDLE processHandle = OpenProcess(PROCESS_ALL_ACCESS, false, pid);
-	WriteProcessMemory(processHandle, (LPVOID)plcGetVarAddress(_name), data, size, NULL);
+	WriteProcessMemory(processHandle, (LPVOID)FindRuntimePointer(_name), data, size, NULL);
 }
 
 
@@ -125,25 +127,21 @@ void RDL::Write(const DataElement& data)
 		return;
 	}
 
-	WriteProcessMemory(processHandle, (LPVOID)plcGetVarAddress(_name), data.m_data, data.m_Bytes, NULL);
+	WriteProcessMemory(processHandle, (LPVOID)FindRuntimePointer(_name), data.m_data, data.m_Bytes, NULL);
 }
 
 
-void RDL::TrackVariable(const std::string& varName)
+void RDL::TrackVariable(const rdlData& variable)
 {
 	std::lock_guard<std::mutex> lock(m_TrackedVarsArray);
 
 	uint32_t count = 0;
 
-	for (std::string var : m_trackedVars) {
-		if (var == varName)
-			++count;
-	}
+	if (m_trackedVars.find(variable.GetName()) == m_trackedVars.end()) 
+		m_trackedVars.emplace(variable.GetName(), Buffer(variable.data, variable.bytes));
+	
 
-	if (!count)
-		m_trackedVars.push_back(varName);
-
-	auto& DB_entry = DataBase::GetInstance()->GetEntry(varName);
+	auto& DB_entry = DataBase::GetInstance()->GetEntry(variable.GetName());
 	DB_entry->GetOnChangedEvent().subscribe(c_DB_ElementChanged);
 }
 
@@ -154,7 +152,7 @@ void RDL::UntrackVariable(const std::string& varName)
 	DB_entry->GetOnChangedEvent().unsubscribe(c_DB_ElementChanged);
 
 	for (auto it = m_trackedVars.begin(); it != m_trackedVars.end(); it++) {
-		if (*(it) == varName) {
+		if (it->first == varName) {
 			m_trackedVars.erase(it);
 			break;
 		}
@@ -170,7 +168,7 @@ void RDL::Init(const char* processName)
 // plcGetVarAddress:
 // input as character array
 // Function:  Return the runtime memory location of a variable managed by DBM, eg "th_temp_eff"
-long RDL::plcGetVarAddress(char* varname) {
+long RDL::FindRuntimePointer(char* varname) {
 	char name[S3_STRLEN];
 	char global[S3_STRLEN];
 	int offset;
@@ -209,6 +207,9 @@ long RDL::plcGetVarAddress(char* varname) {
 
 bool RDL::RDL_Active()
 {
+	if (pid == 0)
+		return false;
+
 	HANDLE process = OpenProcess(SYNCHRONIZE, FALSE, pid);
 	DWORD ret = WaitForSingleObject(process, 0);
 	CloseHandle(process);
@@ -231,7 +232,7 @@ bool RDL::OnNewVariableHandler(const std::string& varName)
 				auto& element = DB_entry->GetData();
 				Write(element);
 			}
-			TrackVariable(varName);
+			TrackVariable(tmp);
 		}
 		else { //If RDL doesnt own it
 			if (DB_entry->GetData().GetType() == std::string("INIT")) { //last chance initialise failed

@@ -36,6 +36,7 @@ PROFILE_END_SESSION();
 
 PROFILE_BEGIN_SESSION("RDLPIM-Runtime", "../analysis/RDLPIM-Runtime.json");
 	//start threads to get the objects "working"
+	std::thread rdlManager(&RDL::worker, theRDL, std::ref(work));
 	std::thread connectionManagerThread(&connectionManager::worker, connectionManagerObj, std::ref(work));
 	std::thread clientManagerThread(&clientManager::worker, clientManagerObj, std::ref(work));
 	std::thread reqFactoryThread(&requestHandler::worker, reqFactory, std::ref(work));
@@ -47,7 +48,7 @@ PROFILE_BEGIN_SESSION("RDLPIM-Runtime", "../analysis/RDLPIM-Runtime.json");
 
 PROFILE_END_SESSION();
 
-
+	rdlManager.join();
 	reqFactoryThread.join();
 	clientManagerThread.join();
 	connectionManagerThread.detach();
