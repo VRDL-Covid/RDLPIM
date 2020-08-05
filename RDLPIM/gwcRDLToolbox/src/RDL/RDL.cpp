@@ -78,7 +78,7 @@ void RDL::worker(bool& work)
 			Init("rtex10.exe");
 
 			//todo- Sleep is not cross platform, should use chrono
-			Sleep(2000);
+			Sleep(5000);
 		}
 	}
 }

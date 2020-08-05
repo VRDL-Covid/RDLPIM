@@ -147,6 +147,38 @@ void SendPullInt(Buffer& outBuffer, bool* send, std::mutex& sockSend)
 	*send = true;
 }
 
+void SentUnSubInt(Buffer& outBuffer, bool* send, std::mutex& sockSend)
+{
+	//get variable name
+	Buffer name;
+	Buffer data;
+	RequestHeader reqHeader;
+
+
+	std::vector<std::shared_ptr<DataElement>> requests;
+
+	//get  test input stack
+	std::cout << "set name = '!' to end Unsubscribe to Int stack" << std::endl << std::endl;
+	std::cout << "variable Name:" << std::endl;
+	std::cin >> name;
+	while (name != "!") {
+		name.prepend("{");
+		name.append("}");
+		data.append(name);
+		std::cin >> name;
+	}
+
+	//build header packet
+	reqHeader.SetCommand(Commands::unsubscribe);
+	reqHeader.SetSize(data.size);
+
+	std::lock_guard<std::mutex> lock(sockSend);
+	outBuffer = reqHeader.Serialise();
+	outBuffer.append(data);
+	*send = true;
+}
+
+
 void SentSubInt(Buffer& outBuffer, bool* send, std::mutex& sockSend)
 {
 	//get variable name
@@ -178,6 +210,7 @@ void SentSubInt(Buffer& outBuffer, bool* send, std::mutex& sockSend)
 	*send = true;
 }
 
+
 void sender(Buffer& outBuff, bool* send, std::mutex& sockSend)
 {
 	int option;
@@ -188,9 +221,10 @@ void sender(Buffer& outBuff, bool* send, std::mutex& sockSend)
 			std::lock_guard<std::mutex> lock(coutMutex);
 			std::cout << "Select a command" << std::endl;
 			std::cout << "1) Chat/string test" << std::endl;
-			std::cout << "2) pushIntStack" << std::endl;
-			std::cout << "3) pullIntStack" << std::endl;
-			std::cout << "4) SubscribeInt" << std::endl;
+			std::cout << "2) push Int Stack" << std::endl;
+			std::cout << "3) pull Int Stack" << std::endl;
+			std::cout << "4) Subscribe Int Stack" << std::endl;
+			std::cout << "5) Unsubscribe Int Stack" << std::endl;
 		}
 
 
@@ -202,6 +236,7 @@ void sender(Buffer& outBuff, bool* send, std::mutex& sockSend)
 		case 2: {std::cin.clear();SendPushInt(outBuff, send, sockSend); break; }
 		case 3: {std::cin.clear();SendPullInt(outBuff, send, sockSend); break; }
 		case 4: {std::cin.clear();SentSubInt(outBuff, send, sockSend); break; }
+		case 5: {std::cin.clear();SentUnSubInt(outBuff, send, sockSend); break; }
 		}
 		
 
