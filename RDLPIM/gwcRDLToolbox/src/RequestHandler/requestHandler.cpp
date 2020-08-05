@@ -43,6 +43,10 @@ void requestHandler::processNextJob()
 			handleSubscribe();
 			break;
 
+		case Commands::unsubscribe:
+			handleUnsubscribe();
+			break;
+
 		case Commands::chat:
 			handleChat();
 			break;
@@ -232,6 +236,28 @@ void requestHandler::handleSubscribe()
 	clientManager::sendMessage(m_jobs[0]->ID, SendBuffer);
 #pragma endregion
 	
+}
+
+void requestHandler::handleUnsubscribe()
+{
+	PROFILE_FUNCTION();
+
+	if (m_jobs[0]->data.size <= 0)
+		return;
+
+	Buffer jobData = m_jobs[0]->data;
+	std::vector<std::string> requestVars;
+
+	//build request array
+	while (jobData.size > 0) {
+		requestVars.push_back(jobData.PassChunk('{', '}').ToString());
+	}
+
+#pragma region build subscribe data
+	for (auto var : requestVars) {
+		m_Subscriptions[m_jobs[0]->ID]->RemVar(var);
+	}
+#pragma endregion
 }
 
 void requestHandler::handelError()

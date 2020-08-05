@@ -10,7 +10,22 @@ public:
 
 	void AddVar(const std::string& name)
 	{
-		m_SubscribedPoints.push_back(name); DataBase::GetInstance()->GetEntry(name)->GetOnChangedEvent().subscribe(OnElementChangeCallback);
+		std::lock_guard<std::mutex> lock(m_accessLock);
+		m_SubscribedPoints.push_back(name); 
+		DataBase::GetInstance()->GetEntry(name)->GetOnChangedEvent().subscribe(OnElementChangeCallback);
+	}
+
+	void RemVar(const std::string& name)
+	{
+		std::lock_guard<std::mutex> lock(m_accessLock);
+		for (auto it = m_SubscribedPoints.begin(); it != m_SubscribedPoints.end(); it++) {
+			if (*it == name) {
+				m_SubscribedPoints.erase(it);
+				break;
+			}
+		}
+
+		DataBase::GetInstance()->GetEntry(name)->GetOnChangedEvent().unsubscribe(OnElementChangeCallback);
 	}
 
 	Buffer GetOutData() { return m_DataBuffer;}
@@ -26,4 +41,5 @@ private:
 	std::vector<std::string> m_SubscribedPoints;
 	Buffer m_DataBuffer;
 	bool m_isMarked = false;
+	std::mutex m_accessLock;
 };
