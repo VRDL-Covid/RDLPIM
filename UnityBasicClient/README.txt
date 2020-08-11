@@ -1,0 +1,1 @@
+Attach a RDLPIM_Controller script to an empty object to connect to the RDLPIM.  Subscribe to RDLPIM_Clinet DataRecieved event to get messages from the RDLPIM. Messages are check once per frame.
