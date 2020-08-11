@@ -23,8 +23,12 @@ public class StateObject
 public class DataRecievedEventArgs: EventArgs
 {
     public byte[] Data { get; set; }
+    public int bytes;
+    public RDLPIM_FucntionCode FucntionCode { get; set; }
 }
 
+
+public enum RDLPIM_FucntionCode { None = 0, data, chat, push, pull, subscribe, unsubscribe, VOIP, Info, error, DEBUG }
 
 public class RDLPIM_Client
 {
@@ -44,6 +48,7 @@ public class RDLPIM_Client
     private static RDLPIM_Client s_Instance = null;
     private Socket client = null;
     public byte[] recBuff = new byte[2048];
+    public int bytes = 0;
     private String response = String.Empty;
     
     // ManualResetEvent instances signal completion.  
@@ -76,12 +81,11 @@ public class RDLPIM_Client
             // Create the state object.  
             StateObject state = new StateObject();
             state.workSocket = client;
-
+            bytes = 0;
             // Begin receiving the data from the remote device.  
+
             client.BeginReceive(recBuff, 0, StateObject.BufferSize, 0,
                 new AsyncCallback(ReceiveCallback), state);
-
-
         }
         catch (Exception e)
         {
@@ -143,11 +147,30 @@ public class RDLPIM_Client
 
     protected virtual void OnDataRecieved()
     {
-        if(DataRecieved!= null)
+        //split multiple recieved mesages
+        int t_bytes = this.bytes;
+        int offset = 0;
+
+
+        while((offset+ BitConverter.ToInt32(recBuff, 4 + offset)) < t_bytes)
         {
-            DataRecieved(this, new DataRecievedEventArgs { Data = recBuff});
+            int partSize =  BitConverter.ToInt32(recBuff, 4);
+            byte[] partialData = new byte[partSize];
+
+            for (int i = 0; i < partSize; i++)
+            {
+                partialData[i] = recBuff[offset + 8 + i];
+            }
+
+            if (DataRecieved != null)
+            {
+                DataRecieved(this, new DataRecievedEventArgs { Data = partialData, bytes = partSize, FucntionCode = (RDLPIM_FucntionCode)BitConverter.ToInt32(recBuff, offset) });
+            }
+
+            offset += partSize+8;
         }
     }
+
 
     //privateMethods
 
@@ -184,7 +207,8 @@ public class RDLPIM_Client
 
             // Read data from the remote device.  
             int bytesRead = client.EndReceive(ar);
-
+            bytes += bytesRead;
+            
             if (bytesRead > 0)
             {
                 // There might be more data, so store the data received so far.  

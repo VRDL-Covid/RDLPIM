@@ -47,10 +47,15 @@ void sendChatMSGs(Buffer& outBuff, bool* send, std::mutex& sockSend)
 	RequestHeader reqHeader;
 	Buffer userInData;
 
-	std::cout << "Broadcast message:";
-	//get user input
+	std::cout <<"Broadcast message:";
 
-	std::cin >> userInData;
+	std::cin.clear();
+	std::cin.sync();
+
+	//get user input
+	std::string msg;
+	std::getline(std::cin, msg);
+	userInData.set(msg.c_str());
 
 	std::lock_guard<std::mutex> lock(sockSend);
 

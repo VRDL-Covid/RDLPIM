@@ -11,6 +11,7 @@ public class RDLPIM_Controller : MonoBehaviour
     public int Port = 8000;
     public string IP = "127.0.0.1";
     public byte[] recBuff;
+    public int m_bytes;
 
     // Start is called before the first frame update
     void Start()
@@ -36,31 +37,22 @@ public class RDLPIM_Controller : MonoBehaviour
 
     public void onRDLPIMmessage(object source, DataRecievedEventArgs e)
     {
-        
-
-        //Todo This could be multiple messages stacked up between unity frames, need to handle this.
-        recBuff = e.Data;
-
-        int functionCode;
+       
+        RDLPIM_FucntionCode functionCode;
         int bytes;
 
-        functionCode = BitConverter.ToInt32(e.Data, 0);
-        bytes = BitConverter.ToInt32(e.Data, 4);
+        functionCode = e.FucntionCode;
+        bytes = e.bytes;
+        m_bytes = bytes;
 
-        if(functionCode == 2 || functionCode == 8 )
+        if(functionCode == RDLPIM_FucntionCode.chat || functionCode == RDLPIM_FucntionCode.Info )
         {
-            Debug.Log("recieved Chat " + functionCode + " with " + bytes + " of data.");
-            byte[] msgRaw = new byte[bytes];
-            for(int i = 0; i < bytes; i++)
-            {
-                msgRaw[i] = e.Data[i + 8];
-            }
-            
-            string msg = System.Text.Encoding.Default.GetString(msgRaw);
+            Debug.Log("recieved Function:" + functionCode + " with " + bytes + " of data.");
+            string msg = System.Text.Encoding.Default.GetString(e.Data);
             Debug.Log(msg);
         } else
         {
-            Debug.Log("recieved Function code " + functionCode + " with " + bytes + " of data.");
+            Debug.Log("recieved Function:"+ functionCode + " with " + bytes + " of data.");
         }
     }
 
