@@ -71,7 +71,7 @@ void requestHandler::processSubscriptions()
 {
 	PROFILE_FUNCTION();
 	RequestHeader reqHead;
-	reqHead.SetCommand(Commands::DATA);
+	reqHead.SetCommand(Commands::data);
 	Buffer OutBuf;
 
 	for (auto& sub : m_Subscriptions) {
@@ -174,7 +174,7 @@ void requestHandler::handlePull()
 		Data.append(dataElement.Serialise());
 	}
 
-	reqHeader.SetCommand(Commands::DATA);
+	reqHeader.SetCommand(Commands::data);
 	reqHeader.SetSize(Data.size);
 
 	SendBuffer = reqHeader.Serialise();
@@ -227,7 +227,7 @@ void requestHandler::handleSubscribe()
 		Data.append(dataElement.Serialise());
 	}
 
-	reqHeader.SetCommand(Commands::DATA);
+	reqHeader.SetCommand(Commands::data);
 	reqHeader.SetSize(Data.size);
 
 	SendBuffer = reqHeader.Serialise();
@@ -272,7 +272,7 @@ void requestHandler::handelError()
 	errMessage.append("-- [hint: is your request header properly formatted [int][int](command, bytes of data)] -- job not processed");
 
 	reqHed.SetSize(errMessage.size);
-	reqHed.SetCommand(Commands::ERR);
+	reqHed.SetCommand(Commands::error);
 
 	sendBuffer = reqHed.Serialise();
 	sendBuffer.append(errMessage);

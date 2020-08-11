@@ -261,7 +261,7 @@ int testHarness()
 	std::mutex sockSend;
 
 	//testClient client1("127.0.0.1", 8000);
-	testClient client1("86.165.221.104", 8000);
+	testClient client1("127.0.0.1", 8000);
 	client1.getConnectionData();
 	client1.connection.setPort(client1.port);
 
@@ -290,10 +290,10 @@ int testHarness()
 
 
 			switch (reqHead.GetCommand()) {
-			case Commands::DATA:
+			case Commands::data:
 				handleDataPacket(inBuff);
 				break;
-			case Commands::ERR:
+			case Commands::error:
 				{
 					std::lock_guard<std::mutex> lock(coutMutex);
 					std::cout << "ERROR message: ";

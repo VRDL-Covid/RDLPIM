@@ -77,6 +77,7 @@ bool connectionManager::ClientDisconnectCallback(const Ref<Client>& user)
 
 void connectionManager::worker(bool& work)
 {
+	
 	while (work) {
 		listener.closeSocket();
 		listener.init();
@@ -112,3 +113,4 @@ connectionManager::~connectionManager()
 {
 	WSACleanup();
 }
+

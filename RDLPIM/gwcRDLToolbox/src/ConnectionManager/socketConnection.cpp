@@ -72,6 +72,7 @@ void connectionObject::acceptNewConnection()
 
 	clientSocket = accept(servSocket, (sockaddr*)&clientHints, &sizeClientHints);
 
+
 	if (clientSocket == INVALID_SOCKET) {
 		std::cerr << "unable to connect to client, network permission issue? WSA Error:" << WSAGetLastError() << std::endl;
 		return;
