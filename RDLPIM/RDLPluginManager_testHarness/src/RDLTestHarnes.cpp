@@ -266,7 +266,7 @@ int testHarness()
 	std::mutex sockSend;
 
 	//testClient client1("127.0.0.1", 8000);
-	testClient client1("127.0.0.1", 8000);
+	testClient client1("86.140.237.160", 8000);
 	client1.getConnectionData();
 	client1.connection.setPort(client1.port);
 
