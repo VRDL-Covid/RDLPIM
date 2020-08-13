@@ -305,14 +305,14 @@ requestHandler::~requestHandler()
 
 bool requestHandler::ClientDisconnectedHandler(const Ref<Client>& client)
 {
-	m_Subscriptions.erase(client->ID);
+	m_Subscriptions.erase(client->GetID());
 
 	return PROPAGATE_EVENT;
 }
 
 bool requestHandler::ClientConnectedHandler(const Ref<Client>& client)
 {
-	m_Subscriptions[client->ID] = CreateRef<Subscriptions>();
+	m_Subscriptions[client->GetID()] = CreateRef<Subscriptions>();
 
 	return PROPAGATE_EVENT;
 }

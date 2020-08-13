@@ -29,7 +29,8 @@ void connectionManager::buildConnectionDetails(Buffer* connectionReq)
 		start--;
 	}
 	start++;
-	memcpy(&buff[start], &processingClient->ID, sizeof(processingClient->ID));
+	int _id = processingClient->GetID();
+	memcpy(&buff[start], &_id, sizeof(processingClient->GetID()));
 
 	connectionReq->set(buff, start + 9);
 
@@ -69,7 +70,7 @@ void connectionManager::connectToClient()
 bool connectionManager::ClientDisconnectCallback(const Ref<Client>& user)
 {
 	user->connection.closeSocket();
-	int port = user->port;
+	int port = user->GetPort();
 	portPool::releasePort(port);
 	return false;
 }

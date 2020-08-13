@@ -1,7 +1,10 @@
 #include "gwcRDLToolBox.h"
 
 
-/*Main RDL Plugin Manager functionality.*/
+/// @brief 
+/// This is the main function of the RDLPIM application, contains objecs to manage connections, manage clients, handle requests and RDL memory management.
+/// 
+/// @return returns a status code 
 int exePluginManager()
 {
 
