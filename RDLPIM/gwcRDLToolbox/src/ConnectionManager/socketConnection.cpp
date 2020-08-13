@@ -265,7 +265,7 @@ int connectionObject::Send(const Buffer &inp)
 
 
 	if (clientSocket != INVALID_SOCKET) {
-		return send(clientSocket, inp.contents, inp.size, 0);
+		return send(clientSocket, inp.GetContents(), inp.GetSize(), 0);
 	}
 	else {
 		printf("Connection not valid to send message\n");

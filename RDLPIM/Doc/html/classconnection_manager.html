@@ -87,42 +87,60 @@ $(document).ready(function(){initNavTree('classconnection_manager.html',''); ini
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="classconnection_manager-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">connectionManager Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The <a class="el" href="classconnection_manager.html" title="The connectionManager class handles incoming connection request attempts and manages the hand shake.">connectionManager</a> class handles incoming connection request attempts and manages the hand shake. </p>
+<p>A client make a connect request on a blocking socket on port 8000. The client simply has to bind to this port and the RDLPIM will send connection details (port and a client ID) should a port be availble. The client can then reconnect on the provided port using an asynchronous socket. This will be the highway for data into and out of the RDLPIM. The <a class="el" href="classconnection_manager.html" title="The connectionManager class handles incoming connection request attempts and manages the hand shake.">connectionManager</a> follows the singleton design pattern an instance can be instantiated and obtained using the <a class="el" href="classconnection_manager.html#a580b42e951a3161fd90f7897a97a3090" title="Instantiates and returns a singleton instance of a connectionManager.">Get()</a> method provided.</p>
+<dl class="section author"><dt>Author</dt><dd>Guy Collins</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>The <a class="el" href="classconnection_manager.html" title="The connectionManager class handles incoming connection request attempts and manages the hand shake.">connectionManager</a> must be used in conjunction with a <a class="el" href="classclient_manager.html" title="A Class to manage connected Clients.">clientManager</a>. </dd></dl>
+<h3><a class="anchor" id="autotoc_md2"></a>
+Example</h3>
+<div class="fragment"><div class="line"><span class="keywordtype">bool</span> work = <span class="keyword">true</span>;</div>
+<div class="line"> </div>
+<div class="line"><a class="code" href="classconnection_manager.html">connectionManager</a>* connectionManagerObj = <a class="code" href="classconnection_manager.html#a580b42e951a3161fd90f7897a97a3090">connectionManager::Get</a>();</div>
+<div class="line"><a class="code" href="classclient_manager.html">clientManager</a>* clientManagerObj = <a class="code" href="classclient_manager.html#a619f94bbb420f0bc6ca2a6ecdda86fc7">clientManager::Get</a>();</div>
+<div class="line"> </div>
+<div class="line">connectionManagerObj-&gt;<a class="code" href="classconnection_manager.html#a811cfa8e6ffa9945da84cc54a9f1c05f">Init</a>();</div>
+<div class="line">clientManagerObj-&gt;<a class="code" href="classclient_manager.html#a1e15bd2fc9baf19977e120d52a4f3395">Init</a>();</div>
+<div class="line"> </div>
+<div class="line">std::thread connectionManagerThread(&amp;<a class="code" href="classconnection_manager.html#a4c9f37a1fd2143659695256a318c9889">connectionManager::worker</a>, connectionManagerObj, std::ref(work));</div>
+<div class="line">std::thread clientManagerThread(&amp;<a class="code" href="classclient_manager.html#aad7266a1685fb69675fc5c2cd29c54e3">clientManager::worker</a>, clientManagerObj, std::ref(work));</div>
+<div class="line"> </div>
+<div class="line">clientManagerThread.join();</div>
+<div class="line">connectionManagerThread.detach();</div>
+</div><!-- fragment --> 
+<p class="definition">Definition at line <a class="el" href="connection_manager_8hpp_source.html#l00034">34</a> of file <a class="el" href="connection_manager_8hpp_source.html">connectionManager.hpp</a>.</p>
+</div>
 <p><code>#include &lt;<a class="el" href="connection_manager_8hpp_source.html">connectionManager.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a3d6e118f5defeac73682d09891800316"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classconnection_manager.html#a3d6e118f5defeac73682d09891800316">connectToClient</a> ()</td></tr>
-<tr class="separator:a3d6e118f5defeac73682d09891800316"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a811cfa8e6ffa9945da84cc54a9f1c05f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classconnection_manager.html#a811cfa8e6ffa9945da84cc54a9f1c05f">Init</a> ()</td></tr>
+<tr class="memdesc:a811cfa8e6ffa9945da84cc54a9f1c05f"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to initialise the <a class="el" href="classconnection_manager.html" title="The connectionManager class handles incoming connection request attempts and manages the hand shake.">connectionManager</a> object.  <a href="classconnection_manager.html#a811cfa8e6ffa9945da84cc54a9f1c05f">More...</a><br /></td></tr>
+<tr class="separator:a811cfa8e6ffa9945da84cc54a9f1c05f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3b38da3010e2dd19d4a7d761a4b5137a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classconnection_manager.html#a3b38da3010e2dd19d4a7d761a4b5137a">ClientDisconnectCallback</a> (const <a class="el" href="_core_8h.html#add5e90b302c31b74a46619f240214bcc">Ref</a>&lt; <a class="el" href="class_client.html">Client</a> &gt; &amp;user)</td></tr>
+<tr class="memdesc:a3b38da3010e2dd19d4a7d761a4b5137a"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method tidies up the connection associated with a disconnecting client.  <a href="classconnection_manager.html#a3b38da3010e2dd19d4a7d761a4b5137a">More...</a><br /></td></tr>
 <tr class="separator:a3b38da3010e2dd19d4a7d761a4b5137a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c9f37a1fd2143659695256a318c9889"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classconnection_manager.html#a4c9f37a1fd2143659695256a318c9889">worker</a> (bool &amp;work)</td></tr>
+<tr class="memdesc:a4c9f37a1fd2143659695256a318c9889"><td class="mdescLeft">&#160;</td><td class="mdescRight">A background worker thread to handle the management of client connection objects.  <a href="classconnection_manager.html#a4c9f37a1fd2143659695256a318c9889">More...</a><br /></td></tr>
 <tr class="separator:a4c9f37a1fd2143659695256a318c9889"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a811cfa8e6ffa9945da84cc54a9f1c05f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classconnection_manager.html#a811cfa8e6ffa9945da84cc54a9f1c05f">Init</a> ()</td></tr>
-<tr class="separator:a811cfa8e6ffa9945da84cc54a9f1c05f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aac7c7f7ef9eb1182ba0716e5f77ef8e7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classconnection_manager.html#aac7c7f7ef9eb1182ba0716e5f77ef8e7">~connectionManager</a> ()</td></tr>
 <tr class="separator:aac7c7f7ef9eb1182ba0716e5f77ef8e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7207798578f022b7e77edb6642a8634a"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_event.html">Event</a>&lt; const <a class="el" href="_core_8h.html#add5e90b302c31b74a46619f240214bcc">Ref</a>&lt; <a class="el" href="class_client.html">Client</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classconnection_manager.html#a7207798578f022b7e77edb6642a8634a">GetNewConnectionEvent</a> () const</td></tr>
+<tr class="memdesc:a7207798578f022b7e77edb6642a8634a"><td class="mdescLeft">&#160;</td><td class="mdescRight">A getter to the onNewConnection event.  <a href="classconnection_manager.html#a7207798578f022b7e77edb6642a8634a">More...</a><br /></td></tr>
+<tr class="separator:a7207798578f022b7e77edb6642a8634a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a580b42e951a3161fd90f7897a97a3090"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classconnection_manager.html">connectionManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classconnection_manager.html#a580b42e951a3161fd90f7897a97a3090">Get</a> ()</td></tr>
+<tr class="memdesc:a580b42e951a3161fd90f7897a97a3090"><td class="mdescLeft">&#160;</td><td class="mdescRight">Instantiates and returns a singleton instance of a <a class="el" href="classconnection_manager.html" title="The connectionManager class handles incoming connection request attempts and manages the hand shake.">connectionManager</a>.  <a href="classconnection_manager.html#a580b42e951a3161fd90f7897a97a3090">More...</a><br /></td></tr>
 <tr class="separator:a580b42e951a3161fd90f7897a97a3090"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:aec4b0a448c4b904089a353666303565a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_event.html">Event</a>&lt; const <a class="el" href="_core_8h.html#add5e90b302c31b74a46619f240214bcc">Ref</a>&lt; <a class="el" href="class_client.html">Client</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classconnection_manager.html#aec4b0a448c4b904089a353666303565a">onNewConnection</a></td></tr>
-<tr class="separator:aec4b0a448c4b904089a353666303565a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="connection_manager_8hpp_source.html#l00009">9</a> of file <a class="el" href="connection_manager_8hpp_source.html">connectionManager.hpp</a>.</p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aac7c7f7ef9eb1182ba0716e5f77ef8e7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aac7c7f7ef9eb1182ba0716e5f77ef8e7">&#9670;&nbsp;</a></span>~connectionManager()</h2>
 
@@ -159,26 +177,16 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>This method tidies up the connection associated with a disconnecting client. </p>
+<p>The client socket is closed and the port is released back into the available ports pool </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">user</td><td>A refernce to the disconnecting client </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>event propogation state </dd></dl>
+
 <p class="definition">Definition at line <a class="el" href="connection_manager_8cpp_source.html#l00070">70</a> of file <a class="el" href="connection_manager_8cpp_source.html">connectionManager.cpp</a>.</p>
-
-</div>
-</div>
-<a id="a3d6e118f5defeac73682d09891800316"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3d6e118f5defeac73682d09891800316">&#9670;&nbsp;</a></span>connectToClient()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void connectionManager::connectToClient </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="connection_manager_8cpp_source.html#l00057">57</a> of file <a class="el" href="connection_manager_8cpp_source.html">connectionManager.cpp</a>.</p>
 
 </div>
 </div>
@@ -205,7 +213,41 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="connection_manager_8hpp_source.html#l00019">19</a> of file <a class="el" href="connection_manager_8hpp_source.html">connectionManager.hpp</a>.</p>
+<p>Instantiates and returns a singleton instance of a <a class="el" href="classconnection_manager.html" title="The connectionManager class handles incoming connection request attempts and manages the hand shake.">connectionManager</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>raw pointer to a <a class="el" href="classconnection_manager.html" title="The connectionManager class handles incoming connection request attempts and manages the hand shake.">connectionManager</a> object. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="connection_manager_8hpp_source.html#l00062">62</a> of file <a class="el" href="connection_manager_8hpp_source.html">connectionManager.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a7207798578f022b7e77edb6642a8634a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7207798578f022b7e77edb6642a8634a">&#9670;&nbsp;</a></span>GetNewConnectionEvent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="class_event.html">Event</a>&lt;const <a class="el" href="_core_8h.html#add5e90b302c31b74a46619f240214bcc">Ref</a>&lt;<a class="el" href="class_client.html">Client</a>&gt; &gt;&amp; connectionManager::GetNewConnectionEvent </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A getter to the onNewConnection event. </p>
+<p>This event is raised following the succesfull connection and handshake of a new connection. </p><dl class="section return"><dt>Returns</dt><dd><br  />
+ </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="connection_manager_8hpp_source.html#l00073">73</a> of file <a class="el" href="connection_manager_8hpp_source.html">connectionManager.hpp</a>.</p>
 
 </div>
 </div>
@@ -223,6 +265,10 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>A method to initialise the <a class="el" href="classconnection_manager.html" title="The connectionManager class handles incoming connection request attempts and manages the hand shake.">connectionManager</a> object. </p>
+<p>This method get a reference to the <a class="el" href="classclient_manager.html" title="A Class to manage connected Clients.">clientManager</a> singleton and subscribes to the ClientDisconnectEvent event</p>
+<dl class="section warning"><dt>Warning</dt><dd>this method must be executed before the worker method is executed. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="connection_manager_8cpp_source.html#l00106">106</a> of file <a class="el" href="connection_manager_8cpp_source.html">connectionManager.cpp</a>.</p>
 
@@ -244,24 +290,15 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>A background worker thread to handle the management of client connection objects. </p>
+<p>listens for incoming connection requests, serves connection data and handles the handshake. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">work</td><td>a signal to drive the work, flase indicates that the thread may join. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 <p class="definition">Definition at line <a class="el" href="connection_manager_8cpp_source.html#l00079">79</a> of file <a class="el" href="connection_manager_8cpp_source.html">connectionManager.cpp</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="aec4b0a448c4b904089a353666303565a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aec4b0a448c4b904089a353666303565a">&#9670;&nbsp;</a></span>onNewConnection</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_event.html">Event</a>&lt;const <a class="el" href="_core_8h.html#add5e90b302c31b74a46619f240214bcc">Ref</a>&lt;<a class="el" href="class_client.html">Client</a>&gt; &gt; connectionManager::onNewConnection</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="connection_manager_8hpp_source.html#l00026">26</a> of file <a class="el" href="connection_manager_8hpp_source.html">connectionManager.hpp</a>.</p>
 
 </div>
 </div>
@@ -271,6 +308,14 @@ Public Attributes</h2></td></tr>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="aclassclient_manager_html_a619f94bbb420f0bc6ca2a6ecdda86fc7"><div class="ttname"><a href="classclient_manager.html#a619f94bbb420f0bc6ca2a6ecdda86fc7">clientManager::Get</a></div><div class="ttdeci">static clientManager * Get()</div><div class="ttdoc">The clientManager is a singleton, this method instantiates an instance if required and returns a raw ...</div><div class="ttdef"><b>Definition:</b> <a href="client_manager_8hpp_source.html#l00049">clientManager.hpp:49</a></div></div>
+<div class="ttc" id="aclassconnection_manager_html_a580b42e951a3161fd90f7897a97a3090"><div class="ttname"><a href="classconnection_manager.html#a580b42e951a3161fd90f7897a97a3090">connectionManager::Get</a></div><div class="ttdeci">static connectionManager * Get()</div><div class="ttdoc">Instantiates and returns a singleton instance of a connectionManager.</div><div class="ttdef"><b>Definition:</b> <a href="connection_manager_8hpp_source.html#l00062">connectionManager.hpp:62</a></div></div>
+<div class="ttc" id="aclassclient_manager_html_aad7266a1685fb69675fc5c2cd29c54e3"><div class="ttname"><a href="classclient_manager.html#aad7266a1685fb69675fc5c2cd29c54e3">clientManager::worker</a></div><div class="ttdeci">void worker(bool &amp;work)</div><div class="ttdoc">A background worker thread to handle the management of clients.</div><div class="ttdef"><b>Definition:</b> <a href="client_manager_8cpp_source.html#l00011">clientManager.cpp:11</a></div></div>
+<div class="ttc" id="aclassconnection_manager_html"><div class="ttname"><a href="classconnection_manager.html">connectionManager</a></div><div class="ttdoc">The connectionManager class handles incoming connection request attempts and manages the hand shake.</div><div class="ttdef"><b>Definition:</b> <a href="connection_manager_8hpp_source.html#l00034">connectionManager.hpp:34</a></div></div>
+<div class="ttc" id="aclassclient_manager_html_a1e15bd2fc9baf19977e120d52a4f3395"><div class="ttname"><a href="classclient_manager.html#a1e15bd2fc9baf19977e120d52a4f3395">clientManager::Init</a></div><div class="ttdeci">void Init()</div><div class="ttdoc">A method to initialise the clientManager object.</div><div class="ttdef"><b>Definition:</b> <a href="client_manager_8cpp_source.html#l00179">clientManager.cpp:179</a></div></div>
+<div class="ttc" id="aclassconnection_manager_html_a4c9f37a1fd2143659695256a318c9889"><div class="ttname"><a href="classconnection_manager.html#a4c9f37a1fd2143659695256a318c9889">connectionManager::worker</a></div><div class="ttdeci">void worker(bool &amp;work)</div><div class="ttdoc">A background worker thread to handle the management of client connection objects.</div><div class="ttdef"><b>Definition:</b> <a href="connection_manager_8cpp_source.html#l00079">connectionManager.cpp:79</a></div></div>
+<div class="ttc" id="aclassclient_manager_html"><div class="ttname"><a href="classclient_manager.html">clientManager</a></div><div class="ttdoc">A Class to manage connected Clients.</div><div class="ttdef"><b>Definition:</b> <a href="client_manager_8hpp_source.html#l00036">clientManager.hpp:36</a></div></div>
+<div class="ttc" id="aclassconnection_manager_html_a811cfa8e6ffa9945da84cc54a9f1c05f"><div class="ttname"><a href="classconnection_manager.html#a811cfa8e6ffa9945da84cc54a9f1c05f">connectionManager::Init</a></div><div class="ttdeci">void Init()</div><div class="ttdoc">A method to initialise the connectionManager object.</div><div class="ttdef"><b>Definition:</b> <a href="connection_manager_8cpp_source.html#l00106">connectionManager.cpp:106</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

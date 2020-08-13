@@ -1,0 +1,7 @@
+digraph "rdlData"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{rdlData\n|+ s\l+ name\l+ global\l+ typeDB\l+ vcopt\l+ sdesc\l+ ldesc\l+ unit\l+ sys_id\l+ fmt\land 11 more...\l+ pid\l+ s_readProcessLock\l|+ read()\l+ write()\l+ init()\l+ init()\l+ init()\l+ GetName()\l+ GetData()\l+ rdlData()\l+ rdlData()\l+ rdlData()\l+ ~rdlData()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+}

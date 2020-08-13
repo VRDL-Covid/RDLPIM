@@ -79,7 +79,7 @@ void requestHandler::processSubscriptions()
 		auto subInfo = sub.second;
 		if (subInfo != nullptr) {
 			if (subInfo->IsMarkerForSending()) {
-				reqHead.SetSize(subInfo->GetOutData().size);
+				reqHead.SetSize(subInfo->GetOutData().GetSize());
 
 				OutBuf = reqHead.Serialise();
 				OutBuf.append(subInfo->GetOutData());
@@ -127,7 +127,7 @@ void requestHandler::handleChat()
 	data.nullTerminate();
 
 	reqHead.SetCommand(Commands::chat);
-	reqHead.SetSize(data.size);
+	reqHead.SetSize(data.GetSize());
 
 	OutBuf = reqHead.Serialise();
 	OutBuf.append(data);
@@ -138,7 +138,7 @@ void requestHandler::handleChat()
 void requestHandler::handlePush()
 {
 	PROFILE_FUNCTION();
-	if (m_jobs[0]->data.size > 0) {
+	if (m_jobs[0]->data.GetSize() > 0) {
 		DataElementArray PushDataArr;
 		PushDataArr.Deserialise(m_jobs[0]->data);
 
@@ -151,7 +151,7 @@ void requestHandler::handlePush()
 void requestHandler::handlePull()
 {
 	PROFILE_FUNCTION();
-	if (m_jobs[0]->data.size <= 0)
+	if (m_jobs[0]->data.GetSize() <= 0)
 		return;
 
 	RequestHeader reqHeader;
@@ -164,7 +164,7 @@ void requestHandler::handlePull()
 	std::vector<std::string> requestVars;
 
 	//build request array
-	while (jobData.size > 0) {
+	while (jobData.GetSize() > 0) {
 		requestVars.push_back(jobData.PassChunk('{', '}').ToString());
 	}
 
@@ -175,7 +175,7 @@ void requestHandler::handlePull()
 	}
 
 	reqHeader.SetCommand(Commands::data);
-	reqHeader.SetSize(Data.size);
+	reqHeader.SetSize(Data.GetSize());
 
 	SendBuffer = reqHeader.Serialise();
 	SendBuffer.append(Data);
@@ -188,7 +188,7 @@ void requestHandler::handleSubscribe()
 {
 	PROFILE_FUNCTION();
 
-	if (m_jobs[0]->data.size <= 0)
+	if (m_jobs[0]->data.GetSize() <= 0)
 		return;
 
 	RequestHeader reqHeader;
@@ -201,7 +201,7 @@ void requestHandler::handleSubscribe()
 	std::vector<std::string> requestVars;
 
 	//build request array
-	while (jobData.size > 0) {
+	while (jobData.GetSize() > 0) {
 		requestVars.push_back(jobData.PassChunk('{', '}').ToString());
 	}
 
@@ -228,7 +228,7 @@ void requestHandler::handleSubscribe()
 	}
 
 	reqHeader.SetCommand(Commands::data);
-	reqHeader.SetSize(Data.size);
+	reqHeader.SetSize(Data.GetSize());
 
 	SendBuffer = reqHeader.Serialise();
 	SendBuffer.append(Data);
@@ -242,14 +242,14 @@ void requestHandler::handleUnsubscribe()
 {
 	PROFILE_FUNCTION();
 
-	if (m_jobs[0]->data.size <= 0)
+	if (m_jobs[0]->data.GetSize() <= 0)
 		return;
 
 	Buffer jobData = m_jobs[0]->data;
 	std::vector<std::string> requestVars;
 
 	//build request array
-	while (jobData.size > 0) {
+	while (jobData.GetSize() > 0) {
 		requestVars.push_back(jobData.PassChunk('{', '}').ToString());
 	}
 
@@ -271,7 +271,7 @@ void requestHandler::handelError()
 	errMessage.append(std::to_string((int)m_jobs[0]->command).c_str());
 	errMessage.append("-- [hint: is your request header properly formatted [int][int](command, bytes of data)] -- job not processed");
 
-	reqHed.SetSize(errMessage.size);
+	reqHed.SetSize(errMessage.GetSize());
 	reqHed.SetCommand(Commands::error);
 
 	sendBuffer = reqHed.Serialise();

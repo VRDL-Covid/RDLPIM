@@ -118,7 +118,7 @@ void rdlData::read()
 
 void rdlData::write(const Buffer& newValue)
 {
-	if (newValue.size > bytes) {
+	if (newValue.GetSize() > bytes) {
 		std::cerr << "write overflow to RDL variable:" << name << std::endl;
 		return;
 	}
@@ -128,7 +128,7 @@ void rdlData::write(const Buffer& newValue)
 	std::lock_guard<std::mutex> lock(s_readProcessLock);
 	HANDLE processHandle = OpenProcess(PROCESS_ALL_ACCESS, false, pid);
 
-	iResult = WriteProcessMemory(processHandle, (LPVOID)ptr, &newValue.contents[0], newValue.size, NULL);
+	iResult = WriteProcessMemory(processHandle, (LPVOID)ptr, &newValue.GetContents()[0], newValue.GetSize(), NULL);
 
 	CloseHandle(processHandle);
 }
@@ -205,7 +205,7 @@ rdlData::rdlData(const Buffer& vName)
 		rdlData::pid = GetPID("rtex10.exe");
 	}
 
-	initRDLData(cpy.contents);
+	initRDLData(cpy.GetContents());
 
 	if (bytes == 0) {
 		if (data != nullptr)
@@ -235,7 +235,7 @@ void rdlData::init(const Buffer& vName)
 		rdlData::pid = GetPID("rtex10.exe");
 	}
 
-	initRDLData(cpy.contents);
+	initRDLData(cpy.GetContents());
 
 	if (bytes == 0) {
 		if (data != nullptr)

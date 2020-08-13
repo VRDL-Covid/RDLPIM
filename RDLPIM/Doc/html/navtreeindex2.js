@@ -1,11 +1,5 @@
 var NAVTREEINDEX2 =
 {
-"rdlpch_8h.html":[1,0,1,0,9],
-"rdlpch_8h_source.html":[1,0,1,0,9],
-"request_handler_8cpp.html":[1,0,1,0,6,6],
-"request_handler_8cpp_source.html":[1,0,1,0,6,6],
-"request_handler_8hpp.html":[1,0,1,0,6,7],
-"request_handler_8hpp_source.html":[1,0,1,0,6,7],
 "s3_includes_8hpp.html":[1,0,1,0,5,4],
 "s3_includes_8hpp.html#a1cebc5d011566cca2d4d613414f6181c":[1,0,1,0,5,4,1],
 "s3_includes_8hpp.html#a292040b8b6bdea74f1d959a2a6274bab":[1,0,1,0,5,4,2],

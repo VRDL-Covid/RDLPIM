@@ -1,0 +1,12 @@
+digraph "C:/Users/gwc59/OneDrive/Desktop/RDLPIM/RDLPIM/RDLPluginManager" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_fde6cb08a85d2543db3f388b5485c04f {
+    graph [ bgcolor="#eeeeff", pencolor="black", label="" URL="dir_fde6cb08a85d2543db3f388b5485c04f.html"];
+    dir_fde6cb08a85d2543db3f388b5485c04f [shape=plaintext label="RDLPluginManager"];
+    dir_b67e24b0a0dd8181a7e04676fa1454c4 [shape=box label="src" color="black" fillcolor="white" style="filled" URL="dir_b67e24b0a0dd8181a7e04676fa1454c4.html"];
+  }
+  dir_30dea0a188e0c9c44c90f58d5398ef91 [shape=box label="gwcRDLToolbox" fillcolor="white" style="filled" color="red" URL="dir_30dea0a188e0c9c44c90f58d5398ef91.html"];
+  dir_b67e24b0a0dd8181a7e04676fa1454c4->dir_30dea0a188e0c9c44c90f58d5398ef91 [headlabel="1", labeldistance=1.5 headhref="dir_000020_000009.html"];
+}

@@ -20,7 +20,7 @@ void DataElementArray::Deserialise(const Buffer& rawInput)
 	Buffer chunk;
 
 	
-	while (input.size > 0) {
+	while (input.GetSize() > 0) {
 		chunk = input.PassChunk('{', '}');
 		
 		auto ptr = CreateRef<DataElement>();

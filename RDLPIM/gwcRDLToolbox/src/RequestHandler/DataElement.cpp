@@ -137,26 +137,26 @@ int DataElement::set(char* in, int size)
 }
 int DataElement::set(Buffer* in)
 {
-	sizeData(in->size);
-	memset(m_data, '\0', in->size);
+	sizeData(in->GetSize());
+	memset(m_data, '\0', in->GetSize());
 
-	for (int i = 0; i < in->size; i++) {
-		m_data[i] = in->contents[i];
+	for (int i = 0; i < in->GetSize(); i++) {
+		m_data[i] = in->GetContents()[i];
 	}
 	m_Type.set("blob");
-	m_Bytes = in->size;
+	m_Bytes = in->GetSize();
 	return 0;
 }
 int DataElement::set(const Buffer &in)
 {
-	sizeData(in.size);
-	memset(m_data, '\0', in.size);
+	sizeData(in.GetSize());
+	memset(m_data, '\0', in.GetSize());
 
-	for (int i = 0; i < in.size; i++) {
-		m_data[i] = in.contents[i];
+	for (int i = 0; i < in.GetSize(); i++) {
+		m_data[i] = in.GetContents()[i];
 	}
 	m_Type.set("blob");
-	m_Bytes = in.size;
+	m_Bytes = in.GetSize();
 	return 0;
 }
 void DataElement::set(const rdlData& rdldata)
@@ -201,17 +201,17 @@ int DataElement::deserialise(const Buffer& in)
 	Buffer incpy = in;
 
 	//if no data to serialise return 0 elements deserialised
-	if (incpy.size == 0) {
+	if (incpy.GetSize() == 0) {
 		return -1;
 	}
 
 	//get variable name
-	while ((incpy.contents[itt] != '=') && (itt < incpy.size)) {
+	while ((incpy.GetContents()[itt] != '=') && (itt < incpy.GetSize())) {
 		itt++;
 	}
 
 	//if no '=' found its not properly formatted
-	if (itt == 0 || itt >= incpy.size) {
+	if (itt == 0 || itt >= incpy.GetSize()) {
 		return -1;
 	}
 
@@ -223,7 +223,7 @@ int DataElement::deserialise(const Buffer& in)
 	temp = (char*)malloc(nameSize * sizeof(char));
 	
 	for (int i = 0; i < nameSize; i++) {
-		temp[i] = incpy.contents[i];
+		temp[i] = incpy.GetContents()[i];
 	}
 
 	m_VarName.set(temp,nameSize);
@@ -231,11 +231,11 @@ int DataElement::deserialise(const Buffer& in)
 
 	//get type data
 	nameSize++;
-	while (incpy.contents[nameSize + itt] != '=' && (itt + nameSize) < incpy.size) {
+	while (incpy.GetContents()[nameSize + itt] != '=' && (itt + nameSize) < incpy.GetSize()) {
 		itt++;
 	}
 
-	if (itt == 0 || itt >= incpy.size) {
+	if (itt == 0 || itt >= incpy.GetSize()) {
 		free(temp);
 		return 1;
 	}
@@ -253,7 +253,7 @@ int DataElement::deserialise(const Buffer& in)
 	}
 
 	for (int i = 0; i < nameSize+typeSize; i++) {
-		temp[i] = incpy.contents[i+nameSize];
+		temp[i] = incpy.GetContents()[i+nameSize];
 	}
 
 	// copy data over.
@@ -263,11 +263,11 @@ int DataElement::deserialise(const Buffer& in)
 
 	//get number of bytes
 	typeSize++;
-	memcpy(&m_Bytes, &(incpy.contents[nameSize + typeSize]), sizeof(int));
+	memcpy(&m_Bytes, &(incpy.GetContents()[nameSize + typeSize]), sizeof(int));
 	typeSize += 5;
 
 	sizeData(m_Bytes);
-	memcpy(m_data, &(incpy.contents[nameSize + typeSize]), m_Bytes);
+	memcpy(m_data, &(incpy.GetContents()[nameSize + typeSize]), m_Bytes);
 
 
 	free(temp);
@@ -290,7 +290,7 @@ Buffer DataElement::Serialise() const
 	char* temp = (char*)malloc(sizeof(char) * tempSize);
 
 	//build varname
-	output.set(m_VarName.contents, m_VarName.size);
+	output = m_VarName;
 
 	//build type
 	output.append("=");

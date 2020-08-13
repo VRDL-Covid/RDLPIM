@@ -95,116 +95,85 @@ $(document).ready(function(){initNavTree('socket_connection_8hpp_source.html',''
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#pragma comment (lib, &quot;Ws2_32.lib&quot;)</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#pragma comment (lib, &quot;Ws2_32.lib&quot;)</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">// Author: Guy Collins</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">// Date: 20/01/2020</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">// Description: An object to handle asynchronus SOCKET comms.</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="classconnection_object.html">   16</a></span>&#160;<span class="keyword">class </span><a class="code" href="classconnection_object.html">connectionObject</a></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;{</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classconnection_object.html#a4aec5d613693733aa6b801712d85789d">   19</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classconnection_object.html#a4aec5d613693733aa6b801712d85789d">connected</a>;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="comment">// Author: Guy Collins</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="comment">// Date: 21/01/2020</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="comment">// Description: Method to initialise WSA</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classconnection_object.html#ae800f3217fa33618f8a5faff117b3ed5">init</a>();</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="comment">// Author: Guy Collins</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="comment">// Date: 21/01/2020</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="comment">// Description: method to accept an incomming connection from a client</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classconnection_object.html#ab94ec2e3dbb63fa408217f4a2f89cfeb">acceptNewConnection</a>();</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="comment">// Author: Guy Collins</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="comment">// Date: 21/01/2020</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="comment">// Description: method to connect to a remote server.</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classconnection_object.html#a34414d2c0e42e74c96c7d464578f77a6">connectToServer</a>();</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="comment">// Author: Guy Collins</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="comment">// Date: 21/01/2020</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="comment">// Description: method to close handle socket.</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classconnection_object.html#aeed65a6acaa427e799ab2bb1efbd5c9c">closeSocket</a>();</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="comment">// Author: Guy Collins</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="comment">// Date: 21/01/2020</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="comment">// Description: method of shutdown WSA services cleanly.</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classconnection_object.html#a3a914d08a0eb59db0277466d4288c94f">cleanUp</a>();</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="comment">// Author: Guy Collins</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="comment">// Date: 21/01/2020</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="comment">// Description: method to recieve incoming data into a char array or buffer object.</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classconnection_object.html#a9d9cd3c30599d6c396d149bc8c4c00df">recieve</a>(<span class="keywordtype">char</span>* out, <span class="keywordtype">int</span> size);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classconnection_object.html#a9d9cd3c30599d6c396d149bc8c4c00df">recieve</a>(<a class="code" href="class_buffer.html">Buffer</a>* buff);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classconnection_object.html#a4a03e36c5a6e842249992edcc6835e3c">Send</a>(<span class="keywordtype">char</span>* out, <span class="keywordtype">int</span> size);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classconnection_object.html#a4a03e36c5a6e842249992edcc6835e3c">Send</a>(<span class="keyword">const</span> <a class="code" href="class_buffer.html">Buffer</a> &amp;inp);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classconnection_object.html#a4a03e36c5a6e842249992edcc6835e3c">Send</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* out);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="comment">// Author: Guy Collins</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="comment">// Date: 21/01/2020</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="comment">// Description: Setter methods for IP and Port if not initialised at the constructor.</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classconnection_object.html#a22b93ae4d4dd816e944718bb323f4cba">setIP</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* inp);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classconnection_object.html#a83461c751e46b6441789d6e454cc3240">setPort</a>(<span class="keywordtype">int</span> _port);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="comment">//TODO:GWC - get status of socket, is it still valid to talk over? [dpnt! getsockopt() method]</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="comment">//bool clientStatus();</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classconnection_object.html#aa6c2ba0884754548ff4b1396d0a0ed14">setNonBlocking</a>(<span class="keywordtype">bool</span> state);</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="classconnection_object.html">   34</a></span>&#160;<span class="keyword">class </span><a class="code" href="classconnection_object.html">connectionObject</a></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="classconnection_object.html#a4aec5d613693733aa6b801712d85789d">   37</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classconnection_object.html#a4aec5d613693733aa6b801712d85789d">connected</a>; </div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classconnection_object.html#ae800f3217fa33618f8a5faff117b3ed5">init</a>();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classconnection_object.html#ab94ec2e3dbb63fa408217f4a2f89cfeb">acceptNewConnection</a>();</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classconnection_object.html#a34414d2c0e42e74c96c7d464578f77a6">connectToServer</a>();</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classconnection_object.html#aeed65a6acaa427e799ab2bb1efbd5c9c">closeSocket</a>();</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classconnection_object.html#a3a914d08a0eb59db0277466d4288c94f">cleanUp</a>();</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="comment">//TODO:GWC - check there is something to be read to prevent blocking...</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classconnection_object.html#ab7a005be09f1d4baf61daea4bab1ee15">canRead</a>();</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classconnection_object.html#af83a61d117114f70000134bd23e561ce">canSend</a>();</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="comment">// Author: Guy Collins</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="comment">// Date: 21/01/2020</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="comment">// Description: constructor and destructor overloads.</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <a class="code" href="classconnection_object.html#a7560f78c624bfb9d0eb72093786f0abd">connectionObject</a>();</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <a class="code" href="classconnection_object.html#a7560f78c624bfb9d0eb72093786f0abd">connectionObject</a>(SOCKET skt);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <a class="code" href="classconnection_object.html#a7560f78c624bfb9d0eb72093786f0abd">connectionObject</a>(<span class="keywordtype">int</span> _port, <span class="keyword">const</span> <span class="keywordtype">char</span>* _ip);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <a class="code" href="classconnection_object.html#a7560f78c624bfb9d0eb72093786f0abd">connectionObject</a>(<span class="keywordtype">int</span> _port);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <a class="code" href="classconnection_object.html#a7fde270b3301b8bedc7c18e9f06d57e0">~connectionObject</a>();</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    WSADATA wsData;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    sockaddr_in serverHints, clientHints;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordtype">int</span> sizeServerHints, sizeClientHints;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordtype">int</span> port;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordtype">char</span> ip[16];</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    SOCKET servSocket = INVALID_SOCKET;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    SOCKET clientSocket = INVALID_SOCKET;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    FD_SET readSet;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    FD_SET writeSet;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    std::mutex m_IOLock;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    </div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;};</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classconnection_object.html#a9d9cd3c30599d6c396d149bc8c4c00df">recieve</a>(<span class="keywordtype">char</span>* out, <span class="keywordtype">int</span> size);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classconnection_object.html#a9d9cd3c30599d6c396d149bc8c4c00df">recieve</a>(<a class="code" href="class_buffer.html">Buffer</a>* buff);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classconnection_object.html#a4a03e36c5a6e842249992edcc6835e3c">Send</a>(<span class="keywordtype">char</span>* out, <span class="keywordtype">int</span> size);</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classconnection_object.html#a4a03e36c5a6e842249992edcc6835e3c">Send</a>(<span class="keyword">const</span> <a class="code" href="class_buffer.html">Buffer</a>&amp; inp);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classconnection_object.html#a4a03e36c5a6e842249992edcc6835e3c">Send</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* out);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classconnection_object.html#a22b93ae4d4dd816e944718bb323f4cba">setIP</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* inp);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classconnection_object.html#a83461c751e46b6441789d6e454cc3240">setPort</a>(<span class="keywordtype">int</span> _port);</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classconnection_object.html#aa6c2ba0884754548ff4b1396d0a0ed14">setNonBlocking</a>(<span class="keywordtype">bool</span> state);</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classconnection_object.html#ab7a005be09f1d4baf61daea4bab1ee15">canRead</a>();</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classconnection_object.html#af83a61d117114f70000134bd23e561ce">canSend</a>();</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160; </div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <a class="code" href="classconnection_object.html#a7560f78c624bfb9d0eb72093786f0abd">connectionObject</a>();</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <a class="code" href="classconnection_object.html#a7560f78c624bfb9d0eb72093786f0abd">connectionObject</a>(SOCKET skt);</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <a class="code" href="classconnection_object.html#a7560f78c624bfb9d0eb72093786f0abd">connectionObject</a>(<span class="keywordtype">int</span> _port, <span class="keyword">const</span> <span class="keywordtype">char</span>* _ip);</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <a class="code" href="classconnection_object.html#a7560f78c624bfb9d0eb72093786f0abd">connectionObject</a>(<span class="keywordtype">int</span> _port);</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <a class="code" href="classconnection_object.html#a7fde270b3301b8bedc7c18e9f06d57e0">~connectionObject</a>();</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160; </div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    WSADATA wsData;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    sockaddr_in serverHints, clientHints;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="keywordtype">int</span> sizeServerHints, sizeClientHints;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keywordtype">int</span> port;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    <span class="keywordtype">char</span> ip[16];</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    SOCKET servSocket = INVALID_SOCKET;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    SOCKET clientSocket = INVALID_SOCKET;</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160; </div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    FD_SET readSet;</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    FD_SET writeSet;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160; </div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    std::mutex m_IOLock;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    </div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;};</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160; </div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclassconnection_object_html_a7560f78c624bfb9d0eb72093786f0abd"><div class="ttname"><a href="classconnection_object.html#a7560f78c624bfb9d0eb72093786f0abd">connectionObject::connectionObject</a></div><div class="ttdeci">connectionObject()</div><div class="ttdef"><b>Definition:</b> <a href="socket_connection_8cpp_source.html#l00378">socketConnection.cpp:378</a></div></div>
-<div class="ttc" id="aclassconnection_object_html_a4a03e36c5a6e842249992edcc6835e3c"><div class="ttname"><a href="classconnection_object.html#a4a03e36c5a6e842249992edcc6835e3c">connectionObject::Send</a></div><div class="ttdeci">int Send(char *out, int size)</div><div class="ttdef"><b>Definition:</b> <a href="socket_connection_8cpp_source.html#l00208">socketConnection.cpp:208</a></div></div>
-<div class="ttc" id="aclassconnection_object_html"><div class="ttname"><a href="classconnection_object.html">connectionObject</a></div><div class="ttdef"><b>Definition:</b> <a href="socket_connection_8hpp_source.html#l00016">socketConnection.hpp:16</a></div></div>
-<div class="ttc" id="aclassconnection_object_html_a3a914d08a0eb59db0277466d4288c94f"><div class="ttname"><a href="classconnection_object.html#a3a914d08a0eb59db0277466d4288c94f">connectionObject::cleanUp</a></div><div class="ttdeci">void cleanUp()</div><div class="ttdef"><b>Definition:</b> <a href="socket_connection_8cpp_source.html#l00150">socketConnection.cpp:150</a></div></div>
-<div class="ttc" id="aclassconnection_object_html_a83461c751e46b6441789d6e454cc3240"><div class="ttname"><a href="classconnection_object.html#a83461c751e46b6441789d6e454cc3240">connectionObject::setPort</a></div><div class="ttdeci">void setPort(int _port)</div><div class="ttdef"><b>Definition:</b> <a href="socket_connection_8cpp_source.html#l00285">socketConnection.cpp:285</a></div></div>
+<div class="ttc" id="aclassconnection_object_html_a4a03e36c5a6e842249992edcc6835e3c"><div class="ttname"><a href="classconnection_object.html#a4a03e36c5a6e842249992edcc6835e3c">connectionObject::Send</a></div><div class="ttdeci">int Send(char *out, int size)</div><div class="ttdoc">A method to Send data to connected endpoint.</div><div class="ttdef"><b>Definition:</b> <a href="socket_connection_8cpp_source.html#l00208">socketConnection.cpp:208</a></div></div>
+<div class="ttc" id="aclassconnection_object_html"><div class="ttname"><a href="classconnection_object.html">connectionObject</a></div><div class="ttdoc">The connectionObject is a wrapper around the window SOCKET class.</div><div class="ttdef"><b>Definition:</b> <a href="socket_connection_8hpp_source.html#l00034">socketConnection.hpp:34</a></div></div>
+<div class="ttc" id="aclassconnection_object_html_a3a914d08a0eb59db0277466d4288c94f"><div class="ttname"><a href="classconnection_object.html#a3a914d08a0eb59db0277466d4288c94f">connectionObject::cleanUp</a></div><div class="ttdeci">void cleanUp()</div><div class="ttdoc">Wrapper to WSA cleanup.</div><div class="ttdef"><b>Definition:</b> <a href="socket_connection_8cpp_source.html#l00150">socketConnection.cpp:150</a></div></div>
+<div class="ttc" id="aclassconnection_object_html_a83461c751e46b6441789d6e454cc3240"><div class="ttname"><a href="classconnection_object.html#a83461c751e46b6441789d6e454cc3240">connectionObject::setPort</a></div><div class="ttdeci">void setPort(int _port)</div><div class="ttdoc">Methof to define the port of the endpoint.</div><div class="ttdef"><b>Definition:</b> <a href="socket_connection_8cpp_source.html#l00285">socketConnection.cpp:285</a></div></div>
 <div class="ttc" id="aclassconnection_object_html_a7fde270b3301b8bedc7c18e9f06d57e0"><div class="ttname"><a href="classconnection_object.html#a7fde270b3301b8bedc7c18e9f06d57e0">connectionObject::~connectionObject</a></div><div class="ttdeci">~connectionObject()</div><div class="ttdef"><b>Definition:</b> <a href="socket_connection_8cpp_source.html#l00421">socketConnection.cpp:421</a></div></div>
-<div class="ttc" id="aclassconnection_object_html_ab7a005be09f1d4baf61daea4bab1ee15"><div class="ttname"><a href="classconnection_object.html#ab7a005be09f1d4baf61daea4bab1ee15">connectionObject::canRead</a></div><div class="ttdeci">bool canRead()</div><div class="ttdef"><b>Definition:</b> <a href="socket_connection_8cpp_source.html#l00313">socketConnection.cpp:313</a></div></div>
-<div class="ttc" id="aclass_buffer_html"><div class="ttname"><a href="class_buffer.html">Buffer</a></div><div class="ttdef"><b>Definition:</b> <a href="buffer_8hpp_source.html#l00005">buffer.hpp:5</a></div></div>
-<div class="ttc" id="aclassconnection_object_html_aeed65a6acaa427e799ab2bb1efbd5c9c"><div class="ttname"><a href="classconnection_object.html#aeed65a6acaa427e799ab2bb1efbd5c9c">connectionObject::closeSocket</a></div><div class="ttdeci">void closeSocket()</div><div class="ttdef"><b>Definition:</b> <a href="socket_connection_8cpp_source.html#l00144">socketConnection.cpp:144</a></div></div>
-<div class="ttc" id="aclassconnection_object_html_a9d9cd3c30599d6c396d149bc8c4c00df"><div class="ttname"><a href="classconnection_object.html#a9d9cd3c30599d6c396d149bc8c4c00df">connectionObject::recieve</a></div><div class="ttdeci">int recieve(char *out, int size)</div><div class="ttdef"><b>Definition:</b> <a href="socket_connection_8cpp_source.html#l00157">socketConnection.cpp:157</a></div></div>
-<div class="ttc" id="aclassconnection_object_html_a22b93ae4d4dd816e944718bb323f4cba"><div class="ttname"><a href="classconnection_object.html#a22b93ae4d4dd816e944718bb323f4cba">connectionObject::setIP</a></div><div class="ttdeci">void setIP(const char *inp)</div><div class="ttdef"><b>Definition:</b> <a href="socket_connection_8cpp_source.html#l00279">socketConnection.cpp:279</a></div></div>
-<div class="ttc" id="aclassconnection_object_html_ae800f3217fa33618f8a5faff117b3ed5"><div class="ttname"><a href="classconnection_object.html#ae800f3217fa33618f8a5faff117b3ed5">connectionObject::init</a></div><div class="ttdeci">void init()</div><div class="ttdef"><b>Definition:</b> <a href="socket_connection_8cpp_source.html#l00005">socketConnection.cpp:5</a></div></div>
+<div class="ttc" id="aclassconnection_object_html_ab7a005be09f1d4baf61daea4bab1ee15"><div class="ttname"><a href="classconnection_object.html#ab7a005be09f1d4baf61daea4bab1ee15">connectionObject::canRead</a></div><div class="ttdeci">bool canRead()</div><div class="ttdoc">Method to check if there is data to be read on a asynchronous non blocking connection.</div><div class="ttdef"><b>Definition:</b> <a href="socket_connection_8cpp_source.html#l00313">socketConnection.cpp:313</a></div></div>
+<div class="ttc" id="aclass_buffer_html"><div class="ttname"><a href="class_buffer.html">Buffer</a></div><div class="ttdoc">The Buffer class is a container to hold serialised data.</div><div class="ttdef"><b>Definition:</b> <a href="buffer_8hpp_source.html#l00031">buffer.hpp:31</a></div></div>
+<div class="ttc" id="aclassconnection_object_html_aeed65a6acaa427e799ab2bb1efbd5c9c"><div class="ttname"><a href="classconnection_object.html#aeed65a6acaa427e799ab2bb1efbd5c9c">connectionObject::closeSocket</a></div><div class="ttdeci">void closeSocket()</div><div class="ttdoc">A method to cleanly close the server side socket.</div><div class="ttdef"><b>Definition:</b> <a href="socket_connection_8cpp_source.html#l00144">socketConnection.cpp:144</a></div></div>
+<div class="ttc" id="aclassconnection_object_html_a9d9cd3c30599d6c396d149bc8c4c00df"><div class="ttname"><a href="classconnection_object.html#a9d9cd3c30599d6c396d149bc8c4c00df">connectionObject::recieve</a></div><div class="ttdeci">int recieve(char *out, int size)</div><div class="ttdoc">A method to recieve incoming data.</div><div class="ttdef"><b>Definition:</b> <a href="socket_connection_8cpp_source.html#l00157">socketConnection.cpp:157</a></div></div>
+<div class="ttc" id="aclassconnection_object_html_a22b93ae4d4dd816e944718bb323f4cba"><div class="ttname"><a href="classconnection_object.html#a22b93ae4d4dd816e944718bb323f4cba">connectionObject::setIP</a></div><div class="ttdeci">void setIP(const char *inp)</div><div class="ttdoc">Method to define the IP of the end point.</div><div class="ttdef"><b>Definition:</b> <a href="socket_connection_8cpp_source.html#l00279">socketConnection.cpp:279</a></div></div>
+<div class="ttc" id="aclassconnection_object_html_ae800f3217fa33618f8a5faff117b3ed5"><div class="ttname"><a href="classconnection_object.html#ae800f3217fa33618f8a5faff117b3ed5">connectionObject::init</a></div><div class="ttdeci">void init()</div><div class="ttdoc">Method to initialise WSA and connectionObject parameters.</div><div class="ttdef"><b>Definition:</b> <a href="socket_connection_8cpp_source.html#l00005">socketConnection.cpp:5</a></div></div>
 <div class="ttc" id="aconnection_options_8h_html"><div class="ttname"><a href="connection_options_8h.html">connectionOptions.h</a></div></div>
-<div class="ttc" id="aclassconnection_object_html_af83a61d117114f70000134bd23e561ce"><div class="ttname"><a href="classconnection_object.html#af83a61d117114f70000134bd23e561ce">connectionObject::canSend</a></div><div class="ttdeci">bool canSend()</div><div class="ttdef"><b>Definition:</b> <a href="socket_connection_8cpp_source.html#l00345">socketConnection.cpp:345</a></div></div>
-<div class="ttc" id="aclassconnection_object_html_ab94ec2e3dbb63fa408217f4a2f89cfeb"><div class="ttname"><a href="classconnection_object.html#ab94ec2e3dbb63fa408217f4a2f89cfeb">connectionObject::acceptNewConnection</a></div><div class="ttdeci">void acceptNewConnection()</div><div class="ttdef"><b>Definition:</b> <a href="socket_connection_8cpp_source.html#l00056">socketConnection.cpp:56</a></div></div>
-<div class="ttc" id="aclassconnection_object_html_aa6c2ba0884754548ff4b1396d0a0ed14"><div class="ttname"><a href="classconnection_object.html#aa6c2ba0884754548ff4b1396d0a0ed14">connectionObject::setNonBlocking</a></div><div class="ttdeci">void setNonBlocking(bool state)</div><div class="ttdef"><b>Definition:</b> <a href="socket_connection_8cpp_source.html#l00291">socketConnection.cpp:291</a></div></div>
+<div class="ttc" id="aclassconnection_object_html_af83a61d117114f70000134bd23e561ce"><div class="ttname"><a href="classconnection_object.html#af83a61d117114f70000134bd23e561ce">connectionObject::canSend</a></div><div class="ttdeci">bool canSend()</div><div class="ttdoc">Method to check if end point is able to recieve.</div><div class="ttdef"><b>Definition:</b> <a href="socket_connection_8cpp_source.html#l00345">socketConnection.cpp:345</a></div></div>
+<div class="ttc" id="aclassconnection_object_html_ab94ec2e3dbb63fa408217f4a2f89cfeb"><div class="ttname"><a href="classconnection_object.html#ab94ec2e3dbb63fa408217f4a2f89cfeb">connectionObject::acceptNewConnection</a></div><div class="ttdeci">void acceptNewConnection()</div><div class="ttdoc">Method to put the connectionObject into a connection accept state.</div><div class="ttdef"><b>Definition:</b> <a href="socket_connection_8cpp_source.html#l00056">socketConnection.cpp:56</a></div></div>
+<div class="ttc" id="aclassconnection_object_html_aa6c2ba0884754548ff4b1396d0a0ed14"><div class="ttname"><a href="classconnection_object.html#aa6c2ba0884754548ff4b1396d0a0ed14">connectionObject::setNonBlocking</a></div><div class="ttdeci">void setNonBlocking(bool state)</div><div class="ttdoc">Method to upgrade the connection to an asynchronous socket.</div><div class="ttdef"><b>Definition:</b> <a href="socket_connection_8cpp_source.html#l00291">socketConnection.cpp:291</a></div></div>
 <div class="ttc" id="abuffer_8hpp_html"><div class="ttname"><a href="buffer_8hpp.html">buffer.hpp</a></div></div>
-<div class="ttc" id="aclassconnection_object_html_a4aec5d613693733aa6b801712d85789d"><div class="ttname"><a href="classconnection_object.html#a4aec5d613693733aa6b801712d85789d">connectionObject::connected</a></div><div class="ttdeci">bool connected</div><div class="ttdef"><b>Definition:</b> <a href="socket_connection_8hpp_source.html#l00019">socketConnection.hpp:19</a></div></div>
-<div class="ttc" id="aclassconnection_object_html_a34414d2c0e42e74c96c7d464578f77a6"><div class="ttname"><a href="classconnection_object.html#a34414d2c0e42e74c96c7d464578f77a6">connectionObject::connectToServer</a></div><div class="ttdeci">int connectToServer()</div><div class="ttdef"><b>Definition:</b> <a href="socket_connection_8cpp_source.html#l00105">socketConnection.cpp:105</a></div></div>
+<div class="ttc" id="aclassconnection_object_html_a4aec5d613693733aa6b801712d85789d"><div class="ttname"><a href="classconnection_object.html#a4aec5d613693733aa6b801712d85789d">connectionObject::connected</a></div><div class="ttdeci">bool connected</div><div class="ttdoc">Connection Status: True = Connected.</div><div class="ttdef"><b>Definition:</b> <a href="socket_connection_8hpp_source.html#l00037">socketConnection.hpp:37</a></div></div>
+<div class="ttc" id="aclassconnection_object_html_a34414d2c0e42e74c96c7d464578f77a6"><div class="ttname"><a href="classconnection_object.html#a34414d2c0e42e74c96c7d464578f77a6">connectionObject::connectToServer</a></div><div class="ttdeci">int connectToServer()</div><div class="ttdoc">Method to connect socket to an endpoint.</div><div class="ttdef"><b>Definition:</b> <a href="socket_connection_8cpp_source.html#l00105">socketConnection.cpp:105</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

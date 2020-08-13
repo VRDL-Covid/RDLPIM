@@ -8,12 +8,13 @@ var class_buffer =
     [ "append", "class_buffer.html#a3d9dc934771421cc98150c6b1f65b73c", null ],
     [ "append", "class_buffer.html#ad78342268de97a09b20ff88f330aab9a", null ],
     [ "fullPrint", "class_buffer.html#a31ae3980abdb9a603ac8c181bd36bd7e", null ],
+    [ "GetContents", "class_buffer.html#a79b72f5f238e940e856a6bea070cc254", null ],
+    [ "GetSize", "class_buffer.html#af8ebc5241683654e942612fc4d992a2a", null ],
     [ "nullTerminate", "class_buffer.html#a4611e63dd17bd7d50d489cc5197d049c", null ],
     [ "operator!=", "class_buffer.html#aec030e2820f75dacf6c36bcef512430b", null ],
     [ "operator=", "class_buffer.html#a5f17992243d414b9c9411e46e9ba30fc", null ],
     [ "operator=", "class_buffer.html#aa47ec59c6964b1b4dc616a397e6e6968", null ],
     [ "operator==", "class_buffer.html#ab25a5779a447b80eab4895181aaa5ac7", null ],
-    [ "PassChunk", "class_buffer.html#a4c46d4a4f6c606688a06b99b4431794b", null ],
     [ "PassChunk", "class_buffer.html#aef250a235fc635aa48e04358d1a47015", null ],
     [ "prepend", "class_buffer.html#a228899405fffc3391d2f8d26c3a5e441", null ],
     [ "prepend", "class_buffer.html#a03b37486fb6bb62fabad1d158dc14790", null ],
@@ -25,9 +26,6 @@ var class_buffer =
     [ "stripTail", "class_buffer.html#ae0858709647ffcf2daf587c48a9915a1", null ],
     [ "stripTail", "class_buffer.html#ac21cb162e9096ac7f88cb355c34fc92e", null ],
     [ "ToString", "class_buffer.html#af6a671e548bcb07e9ad933f841701884", null ],
-    [ "operator<<", "class_buffer.html#a3ec69b1268304da457b12536fdc5e8fe", null ],
     [ "operator<<", "class_buffer.html#ae1ad2c5c45b2f6e493898237025e6912", null ],
-    [ "operator>>", "class_buffer.html#a9b5c5a33d67d334a17a4982dcff3fbc9", null ],
-    [ "contents", "class_buffer.html#a1dbc181e84d7a4fa88cff46b7e48af11", null ],
-    [ "size", "class_buffer.html#ab73cc798639521aed06c3159faa40449", null ]
+    [ "operator>>", "class_buffer.html#a9b5c5a33d67d334a17a4982dcff3fbc9", null ]
 ];
