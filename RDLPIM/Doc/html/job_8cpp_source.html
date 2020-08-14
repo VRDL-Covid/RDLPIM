@@ -91,19 +91,19 @@ $(document).ready(function(){initNavTree('job_8cpp_source.html',''); initResizab
 <a href="job_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="rdlpch_8h.html">rdlpch.h</a>&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="job_8hpp.html">job.hpp</a>&quot;</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
-<div class="line"><a name="l00004"></a><span class="lineno"><a class="line" href="classjob.html#aeeb7b0a3c4a1a8c720caa5ce7c706a5b">    4</a></span>&#160;<a class="code" href="job_8hpp.html#a1939e90743463fb34c8c571ec0590430">Commands</a> <a class="code" href="classjob.html#aeeb7b0a3c4a1a8c720caa5ce7c706a5b">job::getCommand</a>(<span class="keyword">const</span> <a class="code" href="class_buffer.html">Buffer</a>&amp; rawJob)</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<a class="code" href="job_8hpp.html#a1939e90743463fb34c8c571ec0590430">Commands</a> job::ParseCommand(<span class="keyword">const</span> <a class="code" href="class_buffer.html">Buffer</a>&amp; rawJob)</div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;{</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    memcpy(&amp;<a class="code" href="classjob.html#aa7dcda692fb45cb3db0210ee51dfc297">command</a>, &amp;rawJob.<a class="code" href="class_buffer.html#a79b72f5f238e940e856a6bea070cc254">GetContents</a>()[4], <span class="keyword">sizeof</span>(<span class="keywordtype">int</span>));</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="classjob.html#aa7dcda692fb45cb3db0210ee51dfc297">command</a>;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    memcpy(&amp;command, &amp;rawJob.<a class="code" href="class_buffer.html#a79b72f5f238e940e856a6bea070cc254">GetContents</a>()[4], <span class="keyword">sizeof</span>(<span class="keywordtype">int</span>));</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <span class="keywordflow">return</span> command;</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;}</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
-<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="classjob.html#a4535920b8a5f4c9d6933a3300a1631d4">   10</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="classjob.html#a4535920b8a5f4c9d6933a3300a1631d4">job::getClientID</a>(<span class="keyword">const</span> <a class="code" href="class_buffer.html">Buffer</a>&amp; rawJob)</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keywordtype">int</span> job::ParseClientID(<span class="keyword">const</span> <a class="code" href="class_buffer.html">Buffer</a>&amp; rawJob)</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;{</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    memcpy(&amp;<a class="code" href="classjob.html#acc912567fbd8e0ce0b5a5d09ee6b5717">ID</a>, &amp;rawJob.<a class="code" href="class_buffer.html#a79b72f5f238e940e856a6bea070cc254">GetContents</a>()[0], <span class="keyword">sizeof</span>(<span class="keywordtype">int</span>));</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="classjob.html#acc912567fbd8e0ce0b5a5d09ee6b5717">ID</a>;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    memcpy(&amp;ID, &amp;rawJob.<a class="code" href="class_buffer.html#a79b72f5f238e940e856a6bea070cc254">GetContents</a>()[0], <span class="keyword">sizeof</span>(<span class="keywordtype">int</span>));</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordflow">return</span> ID;</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;}</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
-<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="classjob.html#ac2f471cbf67b19ab4db1f4545851a363">   16</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classjob.html#ac2f471cbf67b19ab4db1f4545851a363">job::getData</a>(<span class="keyword">const</span> <a class="code" href="class_buffer.html">Buffer</a>&amp; rawJob)</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keywordtype">void</span> job::ParseData(<span class="keyword">const</span> <a class="code" href="class_buffer.html">Buffer</a>&amp; rawJob)</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;{</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keywordtype">int</span> bytes = 0;</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    memcpy(&amp;bytes, &amp;rawJob.<a class="code" href="class_buffer.html#a79b72f5f238e940e856a6bea070cc254">GetContents</a>()[8], <span class="keyword">sizeof</span>(<span class="keywordtype">int</span>));</div>
@@ -114,7 +114,7 @@ $(document).ready(function(){initNavTree('job_8cpp_source.html',''); initResizab
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        temp[i] = rawJob.<a class="code" href="class_buffer.html#a79b72f5f238e940e856a6bea070cc254">GetContents</a>()[12 + i];</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    }</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <a class="code" href="classjob.html#acd1d3043b3ae2494fb5e8f083e7fb404">data</a>.<a class="code" href="class_buffer.html#a78e5e071c3c53cd032e3fab145567e78">set</a>(temp, bytes);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    data.<a class="code" href="class_buffer.html#a78e5e071c3c53cd032e3fab145567e78">set</a>(temp, bytes);</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;}</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
@@ -122,16 +122,16 @@ $(document).ready(function(){initNavTree('job_8cpp_source.html',''); initResizab
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
 <div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="classjob.html#aac084c262ee7505cfd5434b386b4f620">   33</a></span>&#160;<a class="code" href="classjob.html#aac084c262ee7505cfd5434b386b4f620">job::job</a>()</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <a class="code" href="classjob.html#acc912567fbd8e0ce0b5a5d09ee6b5717">ID</a> = -1;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <a class="code" href="classjob.html#aa7dcda692fb45cb3db0210ee51dfc297">command</a> = <a class="code" href="job_8hpp.html#a1939e90743463fb34c8c571ec0590430a6adf97f83acf6453d4a6a4b1070f3754">Commands::None</a>;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <a class="code" href="classjob.html#acd1d3043b3ae2494fb5e8f083e7fb404">data</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    ID = -1;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    command = <a class="code" href="job_8hpp.html#a1939e90743463fb34c8c571ec0590430a6adf97f83acf6453d4a6a4b1070f3754">Commands::None</a>;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    data = <span class="keyword">nullptr</span>;</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;}</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
 <div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="classjob.html#a406b2f43ba1307231efc7a3c13255823">   40</a></span>&#160;<a class="code" href="classjob.html#aac084c262ee7505cfd5434b386b4f620">job::job</a>(<span class="keyword">const</span> <a class="code" href="class_buffer.html">Buffer</a>&amp; rawJob)</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="classjob.html#a4535920b8a5f4c9d6933a3300a1631d4">getClientID</a>(rawJob);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <a class="code" href="classjob.html#aeeb7b0a3c4a1a8c720caa5ce7c706a5b">getCommand</a>(rawJob);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="classjob.html#ac2f471cbf67b19ab4db1f4545851a363">getData</a>(rawJob);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    ParseClientID(rawJob);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    ParseCommand(rawJob);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    ParseData(rawJob);</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;}</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
@@ -141,20 +141,14 @@ $(document).ready(function(){initNavTree('job_8cpp_source.html',''); initResizab
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassjob_html_acd1d3043b3ae2494fb5e8f083e7fb404"><div class="ttname"><a href="classjob.html#acd1d3043b3ae2494fb5e8f083e7fb404">job::data</a></div><div class="ttdeci">Buffer data</div><div class="ttdef"><b>Definition:</b> <a href="job_8hpp_source.html#l00016">job.hpp:16</a></div></div>
-<div class="ttc" id="aclassjob_html_aeeb7b0a3c4a1a8c720caa5ce7c706a5b"><div class="ttname"><a href="classjob.html#aeeb7b0a3c4a1a8c720caa5ce7c706a5b">job::getCommand</a></div><div class="ttdeci">Commands getCommand(const Buffer &amp;rawJob)</div><div class="ttdef"><b>Definition:</b> <a href="job_8cpp_source.html#l00004">job.cpp:4</a></div></div>
 <div class="ttc" id="ajob_8hpp_html_a1939e90743463fb34c8c571ec0590430"><div class="ttname"><a href="job_8hpp.html#a1939e90743463fb34c8c571ec0590430">Commands</a></div><div class="ttdeci">Commands</div><div class="ttdoc">Enumeration of Job type.</div><div class="ttdef"><b>Definition:</b> <a href="job_8hpp_source.html#l00006">job.hpp:6</a></div></div>
-<div class="ttc" id="aclassjob_html_acc912567fbd8e0ce0b5a5d09ee6b5717"><div class="ttname"><a href="classjob.html#acc912567fbd8e0ce0b5a5d09ee6b5717">job::ID</a></div><div class="ttdeci">int ID</div><div class="ttdef"><b>Definition:</b> <a href="job_8hpp_source.html#l00014">job.hpp:14</a></div></div>
-<div class="ttc" id="aclassjob_html_ac2f471cbf67b19ab4db1f4545851a363"><div class="ttname"><a href="classjob.html#ac2f471cbf67b19ab4db1f4545851a363">job::getData</a></div><div class="ttdeci">void getData(const Buffer &amp;rawJob)</div><div class="ttdef"><b>Definition:</b> <a href="job_8cpp_source.html#l00016">job.cpp:16</a></div></div>
 <div class="ttc" id="aclassjob_html_aac084c262ee7505cfd5434b386b4f620"><div class="ttname"><a href="classjob.html#aac084c262ee7505cfd5434b386b4f620">job::job</a></div><div class="ttdeci">job()</div><div class="ttdef"><b>Definition:</b> <a href="job_8cpp_source.html#l00033">job.cpp:33</a></div></div>
-<div class="ttc" id="aclassjob_html_a4535920b8a5f4c9d6933a3300a1631d4"><div class="ttname"><a href="classjob.html#a4535920b8a5f4c9d6933a3300a1631d4">job::getClientID</a></div><div class="ttdeci">int getClientID(const Buffer &amp;rawJob)</div><div class="ttdef"><b>Definition:</b> <a href="job_8cpp_source.html#l00010">job.cpp:10</a></div></div>
 <div class="ttc" id="aclass_buffer_html_a78e5e071c3c53cd032e3fab145567e78"><div class="ttname"><a href="class_buffer.html#a78e5e071c3c53cd032e3fab145567e78">Buffer::set</a></div><div class="ttdeci">void set(void *src, int iSize)</div><div class="ttdoc">A method to store primitive types within a buffer object (int, float, double etc)</div><div class="ttdef"><b>Definition:</b> <a href="buffer_8cpp_source.html#l00108">buffer.cpp:108</a></div></div>
 <div class="ttc" id="aclass_buffer_html"><div class="ttname"><a href="class_buffer.html">Buffer</a></div><div class="ttdoc">The Buffer class is a container to hold serialised data.</div><div class="ttdef"><b>Definition:</b> <a href="buffer_8hpp_source.html#l00031">buffer.hpp:31</a></div></div>
 <div class="ttc" id="ardlpch_8h_html"><div class="ttname"><a href="rdlpch_8h.html">rdlpch.h</a></div></div>
 <div class="ttc" id="ajob_8hpp_html"><div class="ttname"><a href="job_8hpp.html">job.hpp</a></div></div>
 <div class="ttc" id="aclass_buffer_html_a79b72f5f238e940e856a6bea070cc254"><div class="ttname"><a href="class_buffer.html#a79b72f5f238e940e856a6bea070cc254">Buffer::GetContents</a></div><div class="ttdeci">const char * GetContents() const</div><div class="ttdoc">A method to return a const pointer to the Buffers contents.</div><div class="ttdef"><b>Definition:</b> <a href="buffer_8hpp_source.html#l00038">buffer.hpp:38</a></div></div>
 <div class="ttc" id="ajob_8hpp_html_a1939e90743463fb34c8c571ec0590430a6adf97f83acf6453d4a6a4b1070f3754"><div class="ttname"><a href="job_8hpp.html#a1939e90743463fb34c8c571ec0590430a6adf97f83acf6453d4a6a4b1070f3754">Commands::None</a></div><div class="ttdeci">@ None</div></div>
-<div class="ttc" id="aclassjob_html_aa7dcda692fb45cb3db0210ee51dfc297"><div class="ttname"><a href="classjob.html#aa7dcda692fb45cb3db0210ee51dfc297">job::command</a></div><div class="ttdeci">Commands command</div><div class="ttdef"><b>Definition:</b> <a href="job_8hpp_source.html#l00015">job.hpp:15</a></div></div>
 <div class="ttc" id="aclassjob_html_a9d736078ab717304757ed7368b257da3"><div class="ttname"><a href="classjob.html#a9d736078ab717304757ed7368b257da3">job::~job</a></div><div class="ttdeci">~job()</div><div class="ttdef"><b>Definition:</b> <a href="job_8cpp_source.html#l00048">job.cpp:48</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

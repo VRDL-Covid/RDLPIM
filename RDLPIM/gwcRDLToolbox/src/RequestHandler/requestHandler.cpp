@@ -27,7 +27,7 @@ void requestHandler::processNextJob()
 	PROFILE_FUNCTION();
 	if (requestHandler::noJobs > 0) {
 
-		switch (m_jobs[0]->command) {
+		switch (m_jobs[0]->GetCommand()) {
 		case Commands::Info:
 			break;
 
@@ -105,12 +105,12 @@ void requestHandler::handleDEBUG()
 {
 	PROFILE_FUNCTION();
 	Buffer message("ID-");
-	message.append(std::to_string(m_jobs[0]->ID).c_str());
+	message.append(std::to_string(m_jobs[0]->GetID()).c_str());
 	message.append(":");
-	message.append(m_jobs[0]->data);
+	message.append(m_jobs[0]->GetJobData());
 	message.nullTerminate();
 
-	clientManager::publishMessage(m_jobs[0]->ID, message);
+	clientManager::publishMessage(m_jobs[0]->GetID(), message);
 }
 
 void requestHandler::handleChat()
@@ -121,9 +121,9 @@ void requestHandler::handleChat()
 	Buffer data;
 
 	data.set("ID-");
-	data.append(std::to_string(m_jobs[0]->ID).c_str());
+	data.append(std::to_string(m_jobs[0]->GetID()).c_str());
 	data.append(":");
-	data.append(m_jobs[0]->data);
+	data.append(m_jobs[0]->GetJobData());
 	data.nullTerminate();
 
 	reqHead.SetCommand(Commands::chat);
@@ -132,15 +132,15 @@ void requestHandler::handleChat()
 	OutBuf = reqHead.Serialise();
 	OutBuf.append(data);
 
-	clientManager::publishMessage(m_jobs[0]->ID, OutBuf);
+	clientManager::publishMessage(m_jobs[0]->GetID(), OutBuf);
 }
 
 void requestHandler::handlePush()
 {
 	PROFILE_FUNCTION();
-	if (m_jobs[0]->data.GetSize() > 0) {
+	if (m_jobs[0]->GetJobData().GetSize() > 0) {
 		DataElementArray PushDataArr;
-		PushDataArr.Deserialise(m_jobs[0]->data);
+		PushDataArr.Deserialise(m_jobs[0]->GetJobData());
 
 		DataBase* DB = DataBase::GetInstance();
 
@@ -151,7 +151,7 @@ void requestHandler::handlePush()
 void requestHandler::handlePull()
 {
 	PROFILE_FUNCTION();
-	if (m_jobs[0]->data.GetSize() <= 0)
+	if (m_jobs[0]->GetJobData().GetSize() <= 0)
 		return;
 
 	RequestHeader reqHeader;
@@ -160,7 +160,7 @@ void requestHandler::handlePull()
 	Buffer Data;
 
 	DataBase* DB = DataBase::GetInstance();
-	Buffer jobData = m_jobs[0]->data;
+	Buffer jobData = m_jobs[0]->GetJobData();
 	std::vector<std::string> requestVars;
 
 	//build request array
@@ -180,7 +180,7 @@ void requestHandler::handlePull()
 	SendBuffer = reqHeader.Serialise();
 	SendBuffer.append(Data);
 
-	clientManager::sendMessage(m_jobs[0]->ID, SendBuffer);
+	clientManager::sendMessage(m_jobs[0]->GetID(), SendBuffer);
 
 }
 
@@ -188,7 +188,7 @@ void requestHandler::handleSubscribe()
 {
 	PROFILE_FUNCTION();
 
-	if (m_jobs[0]->data.GetSize() <= 0)
+	if (m_jobs[0]->GetJobData().GetSize() <= 0)
 		return;
 
 	RequestHeader reqHeader;
@@ -197,7 +197,7 @@ void requestHandler::handleSubscribe()
 	Buffer Data;
 
 	DataBase* DB = DataBase::GetInstance();
-	Buffer jobData = m_jobs[0]->data;
+	Buffer jobData = m_jobs[0]->GetJobData();
 	std::vector<std::string> requestVars;
 
 	//build request array
@@ -215,7 +215,7 @@ void requestHandler::handleSubscribe()
 			DB->ModData(tmpArr);
 		}
 			
-		m_Subscriptions[m_jobs[0]->ID]->AddVar(var);
+		m_Subscriptions[m_jobs[0]->GetID()]->AddVar(var);
 	}
 #pragma endregion
 
@@ -233,7 +233,7 @@ void requestHandler::handleSubscribe()
 	SendBuffer = reqHeader.Serialise();
 	SendBuffer.append(Data);
 
-	clientManager::sendMessage(m_jobs[0]->ID, SendBuffer);
+	clientManager::sendMessage(m_jobs[0]->GetID(), SendBuffer);
 #pragma endregion
 	
 }
@@ -242,10 +242,10 @@ void requestHandler::handleUnsubscribe()
 {
 	PROFILE_FUNCTION();
 
-	if (m_jobs[0]->data.GetSize() <= 0)
+	if (m_jobs[0]->GetJobData().GetSize() <= 0)
 		return;
 
-	Buffer jobData = m_jobs[0]->data;
+	Buffer jobData = m_jobs[0]->GetJobData();
 	std::vector<std::string> requestVars;
 
 	//build request array
@@ -255,7 +255,7 @@ void requestHandler::handleUnsubscribe()
 
 #pragma region build subscribe data
 	for (auto var : requestVars) {
-		m_Subscriptions[m_jobs[0]->ID]->RemVar(var);
+		m_Subscriptions[m_jobs[0]->GetID()]->RemVar(var);
 	}
 #pragma endregion
 }
@@ -268,7 +268,7 @@ void requestHandler::handelError()
 	RequestHeader reqHed;
 
 	errMessage.set("invalid request code: ");
-	errMessage.append(std::to_string((int)m_jobs[0]->command).c_str());
+	errMessage.append(std::to_string((int)m_jobs[0]->GetCommand()).c_str());
 	errMessage.append("-- [hint: is your request header properly formatted [int][int](command, bytes of data)] -- job not processed");
 
 	reqHed.SetSize(errMessage.GetSize());
@@ -277,7 +277,7 @@ void requestHandler::handelError()
 	sendBuffer = reqHed.Serialise();
 	sendBuffer.append(errMessage);
 
-	clientManager::sendMessage(m_jobs[0]->ID, sendBuffer);
+	clientManager::sendMessage(m_jobs[0]->GetID(), sendBuffer);
 }
 
 requestHandler::requestHandler()
