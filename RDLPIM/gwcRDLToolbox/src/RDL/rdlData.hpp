@@ -32,46 +32,65 @@ extern "C" {
 
 };
 
+
+/// @brief A RDL runtime data catcher object, will execute a DBM lookup to determine the 'RDL attributes' of the datagram. A pointer to the process memory is developed enabling the realtime value to be obtained.
+///  
 class rdlData
 {
 private:
 	DWORD GetPID(const std::string& processName);
 	void initRDLData(const char* varname);
 public:
-	int s = 0;
-	char name[S3_STRLEN];
-	char global[S3_STRLEN];
-	char typeDB[S3_STRLEN];
-	char vcopt[S3_STRLEN];
-	char sdesc[S3_STRLEN];
-	char ldesc[1024];
-	char unit[S3_STRLEN];
-	char sys_id[S3_STRLEN];
-	char fmt[S3_STRLEN];
-	unsigned int date;
-	int offset;
-	char ctype[S3_STRLEN];
-	int bytes = 0;
-	int level = 1;         //send 1 for ods only lookup
-	int dimen[7];
-	int lreq = 2;        // #define UO_LEV	2
-	long ival;
-	double dval;
+	int s = 0; ///<unknown property
+	char name[S3_STRLEN]; ///<RDL variable name
+	char global[S3_STRLEN];///<Global memory partition name eg Global_V
+	char typeDB[S3_STRLEN]; ///<unknown property
+	char vcopt[S3_STRLEN]; ///<unknown property
+	char sdesc[S3_STRLEN];///<Short Description of variable
+	char ldesc[1024];///<Long description of variable
+	char unit[S3_STRLEN];///<Engineering units
+	char sys_id[S3_STRLEN];///<system ID eg CM (coolant makeup)
+	char fmt[S3_STRLEN];///<console write formate, eg %f
+	unsigned int date; ///<Date added/modified
+	int offset; ///<offset from base memory location of the owning global partition
+	char ctype[S3_STRLEN]; ///<DataType 
+	int bytes = 0; ///<size of data
+	int level = 1; ///<send 1 for ods only lookup
+	int dimen[7]; ///<Array dimension 0 = single primitive, 1= 1D array etc
+	int lreq = 2; ///< #define UO_LEV	2
+	long ival; ///<initial value
+	double dval; ///<default value
 
-	INT_PTR ptr;
-	static DWORD pid;
-	static std::mutex s_readProcessLock;
-	char* data;
+	INT_PTR ptr; ///<runtime memory location
+	static DWORD pid; ///<process ID of the RDL (static)
+	static std::mutex s_readProcessLock; ///<thread safety process read
+	char* data;///< contents of realtime memory location at last read() execution
 
-
+	/// @brief A method to flush the RDL's process memory for into this object
 	void read();
+
+	/// @brief A method to write the raw contents of a Buffer into the RDL's process memory
+	/// @param newValue raw data
 	void write(const Buffer& newValue);
+
+	/// @brief A method to initialise and couple the rdlData object to the RDL process
+	/// @param vName RDL variable name.
 	void init(const Buffer& vName);
+
+	/// @brief A method to initialise and couple the rdlData object to the RDL process
+	/// @param vName RDL variable name.
 	void init(const char* vName);
+
+	/// @brief A method to initialise and couple the rdlData object to the RDL process
+	/// @param vName RDL variable name.
 	void init(const std::string& vName);
 
+	/// @brief A method to return the variable name that this rdlData object is responcible for
+	/// @return std::string representation of the variable name.
 	const std::string GetName()const { return std::string(name); }
 
+	/// @brief A method to return a copy of the RDL's process memory as a Buffer object
+	/// @return raw process memory stored in a Buffer object
 	Buffer GetData();
 
 	rdlData();

@@ -591,39 +591,31 @@ $(document).ready(function(){initNavTree('buffer_8cpp_source.html',''); initResi
 <div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;    <span class="keywordflow">return</span> in;</div>
 <div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;}</div>
 <div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160; </div>
-<div class="line"><a name="l00504"></a><span class="lineno"><a class="line" href="buffer_8cpp.html#a3ec69b1268304da457b12536fdc5e8fe">  504</a></span>&#160;std::ostream&amp; <a class="code" href="buffer_8cpp.html#ae1ad2c5c45b2f6e493898237025e6912">operator &lt;&lt; </a>(std::ostream&amp; out, <a class="code" href="class_buffer.html">Buffer</a>&amp; buf)</div>
-<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;{</div>
-<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; buf.size; i++) {</div>
-<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;        out &lt;&lt; buf.contents[i];</div>
-<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;    }</div>
-<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160; </div>
-<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;    <span class="keywordflow">return</span> out;</div>
-<div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160;}</div>
+<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160; </div>
+<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;<span class="keywordtype">void</span> Buffer::resizeContents(<span class="keywordtype">size_t</span> newSize)</div>
+<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;{</div>
+<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;    <span class="keywordflow">if</span> (newSize == 0) {</div>
+<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;        free(contents);</div>
+<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;        contents = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160;    }</div>
 <div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160; </div>
-<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;<span class="keywordtype">void</span> Buffer::resizeContents(<span class="keywordtype">size_t</span> newSize)</div>
-<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;{</div>
-<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;    <span class="keywordflow">if</span> (newSize == 0) {</div>
-<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;        free(contents);</div>
-<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;        contents = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;        <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;    }</div>
-<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160; </div>
-<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160; </div>
-<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;    <span class="keywordflow">if</span> (contents == <span class="keyword">nullptr</span>) {</div>
-<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;        contents = (<span class="keywordtype">char</span>*)malloc(<span class="keyword">sizeof</span>(<span class="keywordtype">char</span>) * newSize);</div>
-<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;    }</div>
-<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;    <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00526"></a><span class="lineno">  526</span>&#160;        <span class="keywordtype">char</span>* ptr = (<span class="keywordtype">char</span>*)realloc(contents, <span class="keyword">sizeof</span>(<span class="keywordtype">char</span>) * newSize);</div>
-<div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160; </div>
-<div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160;        <span class="keywordflow">if</span> (ptr != <span class="keyword">nullptr</span>)</div>
-<div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160;            contents = ptr;</div>
-<div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160;        <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;            puts(<span class="stringliteral">&quot;unable to reallocate memory, exiting...&quot;</span>);</div>
-<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;            free(contents);</div>
-<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;            exit(1);</div>
-<div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160;        }</div>
-<div class="line"><a name="l00535"></a><span class="lineno">  535</span>&#160;    }</div>
-<div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160;}</div>
+<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160; </div>
+<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;    <span class="keywordflow">if</span> (contents == <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;        contents = (<span class="keywordtype">char</span>*)malloc(<span class="keyword">sizeof</span>(<span class="keywordtype">char</span>) * newSize);</div>
+<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;    }</div>
+<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;    <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;        <span class="keywordtype">char</span>* ptr = (<span class="keywordtype">char</span>*)realloc(contents, <span class="keyword">sizeof</span>(<span class="keywordtype">char</span>) * newSize);</div>
+<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160; </div>
+<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;        <span class="keywordflow">if</span> (ptr != <span class="keyword">nullptr</span>)</div>
+<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;            contents = ptr;</div>
+<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;        <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;            puts(<span class="stringliteral">&quot;unable to reallocate memory, exiting...&quot;</span>);</div>
+<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;            free(contents);</div>
+<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;            exit(1);</div>
+<div class="line"><a name="l00526"></a><span class="lineno">  526</span>&#160;        }</div>
+<div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160;    }</div>
+<div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclass_buffer_html_a472e7c30b6dd27f045e6a82e66564fc7"><div class="ttname"><a href="class_buffer.html#a472e7c30b6dd27f045e6a82e66564fc7">Buffer::diff</a></div><div class="ttdeci">static int diff(const Buffer &amp;buf1, const Buffer &amp;buf2)</div><div class="ttdoc">A static method to determin the number of differences beween two buffers.</div><div class="ttdef"><b>Definition:</b> <a href="buffer_8cpp_source.html#l00168">buffer.cpp:168</a></div></div>

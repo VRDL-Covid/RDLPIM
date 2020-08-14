@@ -93,8 +93,10 @@ $(document).ready(function(){initNavTree('class_data_base.html',''); initResizab
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="_data_base_8h_source.html#l00005">5</a> of file <a class="el" href="_data_base_8h_source.html">DataBase.h</a>.</p>
+<div class="textblock"><p>The <a class="el" href="class_data_base.html" title="The DataBase class forms the heart of the RDLPIM architecture, this singleton holds all data pushed i...">DataBase</a> class forms the heart of the RDLPIM architecture, this singleton holds all data pushed into the RDLPIM as well as any subscribed data from the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a> itsself. </p>
+<p>Ultimately, an instantiated <a class="el" href="class_data_base.html" title="The DataBase class forms the heart of the RDLPIM architecture, this singleton holds all data pushed i...">DataBase</a> object contains a dynamic array of std::string (data Name) and <a class="el" href="class_d_b_element.html" title="This class defines the structure of the data stored within a DataBase instance.">DBElement</a> (actual data) key pairs. The String protion of the key pairs is a lookup name, for example th_temp_eff. The <a class="el" href="class_d_b_element.html" title="This class defines the structure of the data stored within a DataBase instance.">DBElement</a> class ultimately contains the binary for the data object stored, this can be any data type, primitive or custom defined. The <a class="el" href="class_d_b_element.html" title="This class defines the structure of the data stored within a DataBase instance.">DBElement</a> also keeps track of which variables are calculated within the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a>, allowing any requests to this data to invoke a refresh from the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a> as a source. </p>
+
+<p class="definition">Definition at line <a class="el" href="_data_base_8h_source.html#l00011">11</a> of file <a class="el" href="_data_base_8h_source.html">DataBase.h</a>.</p>
 </div>
 <p><code>#include &lt;<a class="el" href="_data_base_8h_source.html">DataBase.h</a>&gt;</code></p>
 <table class="memberdecls">
@@ -103,21 +105,28 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a533f39bc554708cfb3ef37bfe061ea53"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_data_base.html#a533f39bc554708cfb3ef37bfe061ea53">~DataBase</a> ()=default</td></tr>
 <tr class="separator:a533f39bc554708cfb3ef37bfe061ea53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8954589425519e779d3023b81822f806"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_data_base.html#a8954589425519e779d3023b81822f806">ModData</a> (const <a class="el" href="class_data_element.html">DataElement</a> &amp;<a class="el" href="job_8hpp.html#a1939e90743463fb34c8c571ec0590430a8d777f385d3dfec8815d20f7496026dc">data</a>)</td></tr>
+<tr class="memdesc:a8954589425519e779d3023b81822f806"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to modify or add a new data element to the DataBAse.  <a href="class_data_base.html#a8954589425519e779d3023b81822f806">More...</a><br /></td></tr>
 <tr class="separator:a8954589425519e779d3023b81822f806"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a312963734a75eee801277f0576151c8c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_data_base.html#a312963734a75eee801277f0576151c8c">ModData</a> (const <a class="el" href="class_data_element_array.html">DataElementArray</a> &amp;dataArr)</td></tr>
+<tr class="memdesc:a312963734a75eee801277f0576151c8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to modify many DBElements at once.  <a href="class_data_base.html#a312963734a75eee801277f0576151c8c">More...</a><br /></td></tr>
 <tr class="separator:a312963734a75eee801277f0576151c8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a15b89f0d22a7e362507bb2c34e1281bf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_data_base.html#a15b89f0d22a7e362507bb2c34e1281bf">PointExists</a> (const std::string &amp;name)</td></tr>
+<tr class="memdesc:a15b89f0d22a7e362507bb2c34e1281bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to determine if a variable exists within the <a class="el" href="class_data_base.html" title="The DataBase class forms the heart of the RDLPIM architecture, this singleton holds all data pushed i...">DataBase</a> instance.  <a href="class_data_base.html#a15b89f0d22a7e362507bb2c34e1281bf">More...</a><br /></td></tr>
 <tr class="separator:a15b89f0d22a7e362507bb2c34e1281bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e2fc292e8f4695cb6e1a9e3f46541b9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_data_element.html">DataElement</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_data_base.html#a6e2fc292e8f4695cb6e1a9e3f46541b9">GetData</a> (const std::string &amp;varname)</td></tr>
+<tr class="memdesc:a6e2fc292e8f4695cb6e1a9e3f46541b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to get access to the underlying data within a <a class="el" href="class_d_b_element.html" title="This class defines the structure of the data stored within a DataBase instance.">DBElement</a> of the <a class="el" href="class_data_base.html" title="The DataBase class forms the heart of the RDLPIM architecture, this singleton holds all data pushed i...">DataBase</a> Class.  <a href="class_data_base.html#a6e2fc292e8f4695cb6e1a9e3f46541b9">More...</a><br /></td></tr>
 <tr class="separator:a6e2fc292e8f4695cb6e1a9e3f46541b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a00c0ecc482cdc9be99645851202fc3fd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_core_8h.html#add5e90b302c31b74a46619f240214bcc">Ref</a>&lt; <a class="el" href="class_d_b_element.html">DBElement</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_data_base.html#a00c0ecc482cdc9be99645851202fc3fd">GetEntry</a> (const std::string &amp;name)</td></tr>
+<tr class="memdesc:a00c0ecc482cdc9be99645851202fc3fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to return a shared pointer reference to a <a class="el" href="class_d_b_element.html" title="This class defines the structure of the data stored within a DataBase instance.">DBElement</a> within the <a class="el" href="class_data_base.html" title="The DataBase class forms the heart of the RDLPIM architecture, this singleton holds all data pushed i...">DataBase</a> instance.  <a href="class_data_base.html#a00c0ecc482cdc9be99645851202fc3fd">More...</a><br /></td></tr>
 <tr class="separator:a00c0ecc482cdc9be99645851202fc3fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0c28cdaf013a062a1c57939c0d92ccfc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_event.html">Event</a>&lt; const std::string &amp; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_data_base.html#a0c28cdaf013a062a1c57939c0d92ccfc">GetOnNewEntry</a> ()</td></tr>
+<tr class="memdesc:a0c28cdaf013a062a1c57939c0d92ccfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to get a constant reference to the onNewEntry event.  <a href="class_data_base.html#a0c28cdaf013a062a1c57939c0d92ccfc">More...</a><br /></td></tr>
 <tr class="separator:a0c28cdaf013a062a1c57939c0d92ccfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:aebd27d27eddd3fba3d24fbc7f6223c19"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_data_base.html">DataBase</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_data_base.html#aebd27d27eddd3fba3d24fbc7f6223c19">GetInstance</a> ()</td></tr>
+<tr class="memdesc:aebd27d27eddd3fba3d24fbc7f6223c19"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method instantiates an instance of the <a class="el" href="class_data_base.html" title="The DataBase class forms the heart of the RDLPIM architecture, this singleton holds all data pushed i...">DataBase</a> class if it hasnt already so, and returns a raw pointer to it.  <a href="class_data_base.html#aebd27d27eddd3fba3d24fbc7f6223c19">More...</a><br /></td></tr>
 <tr class="separator:aebd27d27eddd3fba3d24fbc7f6223c19"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
@@ -163,6 +172,15 @@ Static Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>A method to get access to the underlying data within a <a class="el" href="class_d_b_element.html" title="This class defines the structure of the data stored within a DataBase instance.">DBElement</a> of the <a class="el" href="class_data_base.html" title="The DataBase class forms the heart of the RDLPIM architecture, this singleton holds all data pushed i...">DataBase</a> Class. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">varname</td><td>Variable name </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A copy of the <a class="el" href="class_data_element.html" title="A class to handle the data transfer of complex and primitive objects into and out of the DataBase ins...">DataElement</a>. </dd></dl>
+
 <p class="definition">Definition at line <a class="el" href="_data_base_8cpp_source.html#l00063">63</a> of file <a class="el" href="_data_base_8cpp_source.html">DataBase.cpp</a>.</p>
 
 </div>
@@ -191,7 +209,16 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_data_base_8h_source.html#l00020">20</a> of file <a class="el" href="_data_base_8h_source.html">DataBase.h</a>.</p>
+<p>A method to return a shared pointer reference to a <a class="el" href="class_d_b_element.html" title="This class defines the structure of the data stored within a DataBase instance.">DBElement</a> within the <a class="el" href="class_data_base.html" title="The DataBase class forms the heart of the RDLPIM architecture, this singleton holds all data pushed i...">DataBase</a> instance. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>Variable name </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a shared pointer reference to a <a class="el" href="class_d_b_element.html" title="This class defines the structure of the data stored within a DataBase instance.">DBElement</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_data_base_8h_source.html#l00050">50</a> of file <a class="el" href="_data_base_8h_source.html">DataBase.h</a>.</p>
 
 </div>
 </div>
@@ -217,6 +244,9 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>This method instantiates an instance of the <a class="el" href="class_data_base.html" title="The DataBase class forms the heart of the RDLPIM architecture, this singleton holds all data pushed i...">DataBase</a> class if it hasnt already so, and returns a raw pointer to it. </p>
+<dl class="section return"><dt>Returns</dt><dd>A raw pointer to a <a class="el" href="class_data_base.html" title="The DataBase class forms the heart of the RDLPIM architecture, this singleton holds all data pushed i...">DataBase</a> instance. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_data_base_8cpp_source.html#l00007">7</a> of file <a class="el" href="_data_base_8cpp_source.html">DataBase.cpp</a>.</p>
 
@@ -245,7 +275,10 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_data_base_8h_source.html#l00021">21</a> of file <a class="el" href="_data_base_8h_source.html">DataBase.h</a>.</p>
+<p>A method to get a constant reference to the onNewEntry event. </p>
+<dl class="section return"><dt>Returns</dt><dd>const reference to the onNewEntry event </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_data_base_8h_source.html#l00055">55</a> of file <a class="el" href="_data_base_8h_source.html">DataBase.h</a>.</p>
 
 </div>
 </div>
@@ -264,6 +297,15 @@ Static Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>A method to modify or add a new data element to the DataBAse. </p>
+<p>The variables name is extracted from the <a class="el" href="class_data_element.html" title="A class to handle the data transfer of complex and primitive objects into and out of the DataBase ins...">DataElement</a> object and a lookup to the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a> is performed. If the data exists within the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a>'s runtime memory, it is updated with the value passed by this function, if not, the relevant <a class="el" href="class_d_b_element.html" title="This class defines the structure of the data stored within a DataBase instance.">DBElement</a> is found and the data added/updated. Once a <a class="el" href="class_d_b_element.html" title="This class defines the structure of the data stored within a DataBase instance.">DBElement</a> has been succesfully modified, an event is raised from that element broadcasting that it has changed. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>a reference to a <a class="el" href="class_data_element.html" title="A class to handle the data transfer of complex and primitive objects into and out of the DataBase ins...">DataElement</a> object.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section warning"><dt>Warning</dt><dd>if you are trying to add multiple dataElements to the <a class="el" href="class_data_base.html" title="The DataBase class forms the heart of the RDLPIM architecture, this singleton holds all data pushed i...">DataBase</a>, do not repeatedly use this method as it will raise excessive onDataChanged events and therefore many small subscriptions packets, this is not performant. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_data_base_8cpp_source.html#l00017">17</a> of file <a class="el" href="_data_base_8cpp_source.html">DataBase.cpp</a>.</p>
 
@@ -285,6 +327,14 @@ Static Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>A method to modify many DBElements at once. </p>
+<p>The <a class="el" href="class_data_element_array.html" title="A container class to serialise and deserialise an array of DataElements to. Required by the DataBase:...">DataElementArray</a> is deserialised into an array of DataElements, these are then used to modify many DBElements simultaneously. After completion a single event is raised with data for all modified members (DataBase::onChanged), this will result in fewer but more densly packed subscription packets being sent to subscribed clients. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dataArr</td><td><a class="el" href="class_data_element_array.html" title="A container class to serialise and deserialise an array of DataElements to. Required by the DataBase:...">DataElementArray</a> refernce (containing multiple DataElements.) </td></tr>
+  </table>
+  </dd>
+</dl>
+
 <p class="definition">Definition at line <a class="el" href="_data_base_8cpp_source.html#l00039">39</a> of file <a class="el" href="_data_base_8cpp_source.html">DataBase.cpp</a>.</p>
 
 </div>
@@ -305,7 +355,16 @@ Static Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_data_base_8cpp_source.html#l00076">76</a> of file <a class="el" href="_data_base_8cpp_source.html">DataBase.cpp</a>.</p>
+<p>A method to determine if a variable exists within the <a class="el" href="class_data_base.html" title="The DataBase class forms the heart of the RDLPIM architecture, this singleton holds all data pushed i...">DataBase</a> instance. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>Variable name </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if exists, False if not </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_data_base_8cpp_source.html#l00077">77</a> of file <a class="el" href="_data_base_8cpp_source.html">DataBase.cpp</a>.</p>
 
 </div>
 </div>

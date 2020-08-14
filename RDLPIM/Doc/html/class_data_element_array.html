@@ -92,8 +92,9 @@ $(document).ready(function(){initNavTree('class_data_element_array.html',''); in
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="data_array_8hpp_source.html#l00004">4</a> of file <a class="el" href="data_array_8hpp_source.html">dataArray.hpp</a>.</p>
+<div class="textblock"><p>A container class to serialise and deserialise an array of DataElements to. Required by the <a class="el" href="class_data_base.html#a312963734a75eee801277f0576151c8c" title="A method to modify many DBElements at once.">DataBase::ModData(const DataElementArray&amp; dataArr)</a> method. </p>
+
+<p class="definition">Definition at line <a class="el" href="data_array_8hpp_source.html#l00006">6</a> of file <a class="el" href="data_array_8hpp_source.html">dataArray.hpp</a>.</p>
 </div>
 <p><code>#include &lt;<a class="el" href="data_array_8hpp_source.html">dataArray.hpp</a>&gt;</code></p>
 <table class="memberdecls">
@@ -104,24 +105,34 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a88b211645d72a3356e4afc3ecb07790f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_data_element_array.html#a88b211645d72a3356e4afc3ecb07790f">~DataElementArray</a> ()</td></tr>
 <tr class="separator:a88b211645d72a3356e4afc3ecb07790f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a54a97e3420181a8a437290362f3f5555"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_data_element_array.html#a54a97e3420181a8a437290362f3f5555">Deserialise</a> (const <a class="el" href="class_buffer.html">Buffer</a> &amp;rawInput)</td></tr>
+<tr class="memdesc:a54a97e3420181a8a437290362f3f5555"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deserialise a <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> object into an array of DataElements.  <a href="class_data_element_array.html#a54a97e3420181a8a437290362f3f5555">More...</a><br /></td></tr>
 <tr class="separator:a54a97e3420181a8a437290362f3f5555"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31e8e771f87f98708ad3f5475eeba3be"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_buffer.html">Buffer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_data_element_array.html#a31e8e771f87f98708ad3f5475eeba3be">Serialise</a> ()</td></tr>
+<tr class="memdesc:a31e8e771f87f98708ad3f5475eeba3be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serialise a <a class="el" href="class_data_element_array.html" title="A container class to serialise and deserialise an array of DataElements to. Required by the DataBase:...">DataElementArray</a> object into a <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a>.  <a href="class_data_element_array.html#a31e8e771f87f98708ad3f5475eeba3be">More...</a><br /></td></tr>
 <tr class="separator:a31e8e771f87f98708ad3f5475eeba3be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ff601a9a81f250135d839f69f210fdc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_buffer.html">Buffer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_data_element_array.html#a0ff601a9a81f250135d839f69f210fdc">GetVarNames</a> ()</td></tr>
+<tr class="memdesc:a0ff601a9a81f250135d839f69f210fdc"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to return a {} delimieted list of the variable names within the array of DataElements.  <a href="class_data_element_array.html#a0ff601a9a81f250135d839f69f210fdc">More...</a><br /></td></tr>
 <tr class="separator:a0ff601a9a81f250135d839f69f210fdc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a550bc3eb610cf385c1a66e3842826170"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_data_element_array.html#a550bc3eb610cf385c1a66e3842826170">ClearArray</a> ()</td></tr>
+<tr class="memdesc:a550bc3eb610cf385c1a66e3842826170"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to empty the internally stored <a class="el" href="class_data_element.html" title="A class to handle the data transfer of complex and primitive objects into and out of the DataBase ins...">DataElement</a> array.  <a href="class_data_element_array.html#a550bc3eb610cf385c1a66e3842826170">More...</a><br /></td></tr>
 <tr class="separator:a550bc3eb610cf385c1a66e3842826170"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a12fccaeafd1784b32dfc94654e4d0833"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_data_element_array.html#a12fccaeafd1784b32dfc94654e4d0833">AddElement</a> (const <a class="el" href="class_data_element.html">DataElement</a> &amp;element)</td></tr>
+<tr class="memdesc:a12fccaeafd1784b32dfc94654e4d0833"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to append a <a class="el" href="class_data_element.html" title="A class to handle the data transfer of complex and primitive objects into and out of the DataBase ins...">DataElement</a> object to the <a class="el" href="class_data_element.html" title="A class to handle the data transfer of complex and primitive objects into and out of the DataBase ins...">DataElement</a> array stored within this object.  <a href="class_data_element_array.html#a12fccaeafd1784b32dfc94654e4d0833">More...</a><br /></td></tr>
 <tr class="separator:a12fccaeafd1784b32dfc94654e4d0833"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5bfa89fde5feda84759a21ce6263661"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="_core_8h.html#add5e90b302c31b74a46619f240214bcc">Ref</a>&lt; <a class="el" href="class_data_element.html">DataElement</a> &gt; &gt;::iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_data_element_array.html#ab5bfa89fde5feda84759a21ce6263661">begin</a> ()</td></tr>
+<tr class="memdesc:ab5bfa89fde5feda84759a21ce6263661"><td class="mdescLeft">&#160;</td><td class="mdescRight">Custom for loop iteration.  <a href="class_data_element_array.html#ab5bfa89fde5feda84759a21ce6263661">More...</a><br /></td></tr>
 <tr class="separator:ab5bfa89fde5feda84759a21ce6263661"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a16d3188c0c456c388a5695bc0ede1015"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="_core_8h.html#add5e90b302c31b74a46619f240214bcc">Ref</a>&lt; <a class="el" href="class_data_element.html">DataElement</a> &gt; &gt;::iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_data_element_array.html#a16d3188c0c456c388a5695bc0ede1015">end</a> ()</td></tr>
+<tr class="memdesc:a16d3188c0c456c388a5695bc0ede1015"><td class="mdescLeft">&#160;</td><td class="mdescRight">Custom for loop iteration.  <a href="class_data_element_array.html#a16d3188c0c456c388a5695bc0ede1015">More...</a><br /></td></tr>
 <tr class="separator:a16d3188c0c456c388a5695bc0ede1015"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a84bb4e60814ebc34d8d3c3e23f8c4c0b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_data_element_array.html">DataElementArray</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_data_element_array.html#a84bb4e60814ebc34d8d3c3e23f8c4c0b">operator=</a> (<a class="el" href="class_data_element_array.html">DataElementArray</a> &amp;&amp;other)</td></tr>
+<tr class="memdesc:a84bb4e60814ebc34d8d3c3e23f8c4c0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move operator overload.  <a href="class_data_element_array.html#a84bb4e60814ebc34d8d3c3e23f8c4c0b">More...</a><br /></td></tr>
 <tr class="separator:a84bb4e60814ebc34d8d3c3e23f8c4c0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3823f22af306a15762aa5b26f930939e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_data_element_array.html">DataElementArray</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_data_element_array.html#a3823f22af306a15762aa5b26f930939e">operator=</a> (const <a class="el" href="class_data_element_array.html">DataElementArray</a> &amp;other)</td></tr>
+<tr class="memdesc:a3823f22af306a15762aa5b26f930939e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy assignment operator.  <a href="class_data_element_array.html#a3823f22af306a15762aa5b26f930939e">More...</a><br /></td></tr>
 <tr class="separator:a3823f22af306a15762aa5b26f930939e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2e855839ed243c3db6b0ba89b95d5218"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_data_element_array.html#a2e855839ed243c3db6b0ba89b95d5218">DataElementArray</a> (const <a class="el" href="class_data_element_array.html">DataElementArray</a> &amp;other)</td></tr>
+<tr class="memdesc:a2e855839ed243c3db6b0ba89b95d5218"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy Constructor.  <a href="class_data_element_array.html#a2e855839ed243c3db6b0ba89b95d5218">More...</a><br /></td></tr>
 <tr class="separator:a2e855839ed243c3db6b0ba89b95d5218"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
@@ -179,6 +190,14 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Copy Constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>RHS </td></tr>
+  </table>
+  </dd>
+</dl>
+
 <p class="definition">Definition at line <a class="el" href="data_array_8cpp_source.html#l00086">86</a> of file <a class="el" href="data_array_8cpp_source.html">dataArray.cpp</a>.</p>
 
 </div>
@@ -208,7 +227,15 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="data_array_8hpp_source.html#l00015">15</a> of file <a class="el" href="data_array_8hpp_source.html">dataArray.hpp</a>.</p>
+<p>A method to append a <a class="el" href="class_data_element.html" title="A class to handle the data transfer of complex and primitive objects into and out of the DataBase ins...">DataElement</a> object to the <a class="el" href="class_data_element.html" title="A class to handle the data transfer of complex and primitive objects into and out of the DataBase ins...">DataElement</a> array stored within this object. </p>
+<p>This is a utility function to help build an array of DataElements to be serialised. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">element</td><td><a class="el" href="class_data_element.html" title="A class to handle the data transfer of complex and primitive objects into and out of the DataBase ins...">DataElement</a> object to be placed into the array </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="data_array_8hpp_source.html#l00032">32</a> of file <a class="el" href="data_array_8hpp_source.html">dataArray.hpp</a>.</p>
 
 </div>
 </div>
@@ -235,7 +262,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="data_array_8hpp_source.html#l00017">17</a> of file <a class="el" href="data_array_8hpp_source.html">dataArray.hpp</a>.</p>
+<p>Custom for loop iteration. </p>
+<dl class="section return"><dt>Returns</dt><dd>iterator </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="data_array_8hpp_source.html#l00036">36</a> of file <a class="el" href="data_array_8hpp_source.html">dataArray.hpp</a>.</p>
 
 </div>
 </div>
@@ -262,7 +292,9 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="data_array_8hpp_source.html#l00014">14</a> of file <a class="el" href="data_array_8hpp_source.html">dataArray.hpp</a>.</p>
+<p>A method to empty the internally stored <a class="el" href="class_data_element.html" title="A class to handle the data transfer of complex and primitive objects into and out of the DataBase ins...">DataElement</a> array. </p>
+
+<p class="definition">Definition at line <a class="el" href="data_array_8hpp_source.html#l00026">26</a> of file <a class="el" href="data_array_8hpp_source.html">dataArray.hpp</a>.</p>
 
 </div>
 </div>
@@ -281,6 +313,14 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Deserialise a <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> object into an array of DataElements. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rawInput</td><td><a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> object containing serialised data. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p class="definition">Definition at line <a class="el" href="data_array_8cpp_source.html#l00016">16</a> of file <a class="el" href="data_array_8cpp_source.html">dataArray.cpp</a>.</p>
 
@@ -309,7 +349,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="data_array_8hpp_source.html#l00018">18</a> of file <a class="el" href="data_array_8hpp_source.html">dataArray.hpp</a>.</p>
+<p>Custom for loop iteration. </p>
+<dl class="section return"><dt>Returns</dt><dd>iterator </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="data_array_8hpp_source.html#l00040">40</a> of file <a class="el" href="data_array_8hpp_source.html">dataArray.hpp</a>.</p>
 
 </div>
 </div>
@@ -327,6 +370,9 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>A method to return a {} delimieted list of the variable names within the array of DataElements. </p>
+<dl class="section return"><dt>Returns</dt><dd>{} delimieted list of the variable names within the array of DataElements </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="data_array_8cpp_source.html#l00051">51</a> of file <a class="el" href="data_array_8cpp_source.html">dataArray.cpp</a>.</p>
 
@@ -348,6 +394,15 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Copy assignment operator. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>RHS </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_data_element_array.html" title="A container class to serialise and deserialise an array of DataElements to. Required by the DataBase:...">DataElementArray</a> reference </dd></dl>
+
 <p class="definition">Definition at line <a class="el" href="data_array_8cpp_source.html#l00078">78</a> of file <a class="el" href="data_array_8cpp_source.html">dataArray.cpp</a>.</p>
 
 </div>
@@ -368,6 +423,15 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Move operator overload. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>RHS </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_data_element_array.html" title="A container class to serialise and deserialise an array of DataElements to. Required by the DataBase:...">DataElementArray</a> reference </dd></dl>
+
 <p class="definition">Definition at line <a class="el" href="data_array_8cpp_source.html#l00070">70</a> of file <a class="el" href="data_array_8cpp_source.html">dataArray.cpp</a>.</p>
 
 </div>
@@ -386,6 +450,9 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Serialise a <a class="el" href="class_data_element_array.html" title="A container class to serialise and deserialise an array of DataElements to. Required by the DataBase:...">DataElementArray</a> object into a <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> of serialised data </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="data_array_8cpp_source.html#l00034">34</a> of file <a class="el" href="data_array_8cpp_source.html">dataArray.cpp</a>.</p>
 

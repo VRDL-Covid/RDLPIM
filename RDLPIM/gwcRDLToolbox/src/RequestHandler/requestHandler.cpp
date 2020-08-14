@@ -209,7 +209,7 @@ void requestHandler::handleSubscribe()
 	for (auto var : requestVars) {
 		if (!DB->PointExists(var)) {
 			DataElement tmp(var);
-			tmp.m_Type = Buffer("INIT");
+			tmp.SetType(Buffer("INIT"));
 			DataElementArray tmpArr;
 			tmpArr.AddElement(tmp);
 			DB->ModData(tmpArr);

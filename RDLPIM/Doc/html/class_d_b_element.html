@@ -92,8 +92,10 @@ $(document).ready(function(){initNavTree('class_d_b_element.html',''); initResiz
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="_d_b_element_8h_source.html#l00005">5</a> of file <a class="el" href="_d_b_element_8h_source.html">DBElement.h</a>.</p>
+<div class="textblock"><p>This class defines the structure of the data stored within a <a class="el" href="class_data_base.html" title="The DataBase class forms the heart of the RDLPIM architecture, this singleton holds all data pushed i...">DataBase</a> instance. </p>
+<p>The <a class="el" href="class_d_b_element.html" title="This class defines the structure of the data stored within a DataBase instance.">DBElement</a> object contains a <a class="el" href="class_data_element.html" title="A class to handle the data transfer of complex and primitive objects into and out of the DataBase ins...">DataElement</a> object(the raw data), boolean to describe whether the data is live wihtin the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a>'s runtime memory and an event which is raised upon the data within being modified. </p>
+
+<p class="definition">Definition at line <a class="el" href="_d_b_element_8h_source.html#l00008">8</a> of file <a class="el" href="_d_b_element_8h_source.html">DBElement.h</a>.</p>
 </div>
 <p><code>#include &lt;<a class="el" href="_d_b_element_8h_source.html">DBElement.h</a>&gt;</code></p>
 <table class="memberdecls">
@@ -104,16 +106,22 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a448c1ab409fd8bf4bae01ca4649caec5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d_b_element.html#a448c1ab409fd8bf4bae01ca4649caec5">~DBElement</a> ()=default</td></tr>
 <tr class="separator:a448c1ab409fd8bf4bae01ca4649caec5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af47441ed74aea4b3704103baea29ccdf"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="class_data_element.html">DataElement</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d_b_element.html#af47441ed74aea4b3704103baea29ccdf">GetData</a> () const</td></tr>
+<tr class="memdesc:af47441ed74aea4b3704103baea29ccdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to get a constant reference to the underlying data contained within the <a class="el" href="class_d_b_element.html" title="This class defines the structure of the data stored within a DataBase instance.">DBElement</a> object.  <a href="class_d_b_element.html#af47441ed74aea4b3704103baea29ccdf">More...</a><br /></td></tr>
 <tr class="separator:af47441ed74aea4b3704103baea29ccdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:affd4eb4f2cc2901c449e1f5a8c845687"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d_b_element.html#affd4eb4f2cc2901c449e1f5a8c845687">SetData</a> (const <a class="el" href="class_data_element.html">DataElement</a> &amp;<a class="el" href="job_8hpp.html#a1939e90743463fb34c8c571ec0590430a8d777f385d3dfec8815d20f7496026dc">data</a>)</td></tr>
+<tr class="memdesc:affd4eb4f2cc2901c449e1f5a8c845687"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to set the contents of the <a class="el" href="class_d_b_element.html" title="This class defines the structure of the data stored within a DataBase instance.">DBElement</a> object to that contained within a <a class="el" href="class_data_element.html" title="A class to handle the data transfer of complex and primitive objects into and out of the DataBase ins...">DataElement</a> object.  <a href="class_d_b_element.html#affd4eb4f2cc2901c449e1f5a8c845687">More...</a><br /></td></tr>
 <tr class="separator:affd4eb4f2cc2901c449e1f5a8c845687"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a49f0f9373abe71e5157d48b7dc654584"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d_b_element.html#a49f0f9373abe71e5157d48b7dc654584">SetData</a> (const <a class="el" href="classrdl_data.html">rdlData</a> &amp;<a class="el" href="job_8hpp.html#a1939e90743463fb34c8c571ec0590430a8d777f385d3dfec8815d20f7496026dc">data</a>)</td></tr>
+<tr class="memdesc:a49f0f9373abe71e5157d48b7dc654584"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to set the contents of the <a class="el" href="class_d_b_element.html" title="This class defines the structure of the data stored within a DataBase instance.">DBElement</a> object to data stripped from the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a>'s runtime memory.  <a href="class_d_b_element.html#a49f0f9373abe71e5157d48b7dc654584">More...</a><br /></td></tr>
 <tr class="separator:a49f0f9373abe71e5157d48b7dc654584"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19e642945951ad6dc939895306676f18"><td class="memItemLeft" align="right" valign="top">const bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d_b_element.html#a19e642945951ad6dc939895306676f18">IsRDLOwned</a> () const</td></tr>
+<tr class="memdesc:a19e642945951ad6dc939895306676f18"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to return whether or not the data contained within the <a class="el" href="class_d_b_element.html" title="This class defines the structure of the data stored within a DataBase instance.">DBElement</a> object is live within the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a>'s runtime memory.  <a href="class_d_b_element.html#a19e642945951ad6dc939895306676f18">More...</a><br /></td></tr>
 <tr class="separator:a19e642945951ad6dc939895306676f18"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab2ef1b61b82a3906b767b11ace6005c2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d_b_element.html#ab2ef1b61b82a3906b767b11ace6005c2">SetRDLOwned</a> (bool state)</td></tr>
+<tr class="memdesc:ab2ef1b61b82a3906b767b11ace6005c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to specify that the data contained within the <a class="el" href="class_d_b_element.html" title="This class defines the structure of the data stored within a DataBase instance.">DBElement</a> object is lived within the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a>'s runtime memory.  <a href="class_d_b_element.html#ab2ef1b61b82a3906b767b11ace6005c2">More...</a><br /></td></tr>
 <tr class="separator:ab2ef1b61b82a3906b767b11ace6005c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4a95fdeb7ba5b5132cdffb1208f43894"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_event.html">Event</a>&lt; const <a class="el" href="class_data_element.html">DataElement</a> &amp; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_d_b_element.html#a4a95fdeb7ba5b5132cdffb1208f43894">GetOnChangedEvent</a> ()</td></tr>
+<tr class="memdesc:a4a95fdeb7ba5b5132cdffb1208f43894"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to get a const reference to the onChanged event.  <a href="class_d_b_element.html#a4a95fdeb7ba5b5132cdffb1208f43894">More...</a><br /></td></tr>
 <tr class="separator:a4a95fdeb7ba5b5132cdffb1208f43894"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
@@ -141,7 +149,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_d_b_element_8h_source.html#l00008">8</a> of file <a class="el" href="_d_b_element_8h_source.html">DBElement.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_d_b_element_8h_source.html#l00011">11</a> of file <a class="el" href="_d_b_element_8h_source.html">DBElement.h</a>.</p>
 
 </div>
 </div>
@@ -194,7 +202,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_d_b_element_8h_source.html#l00011">11</a> of file <a class="el" href="_d_b_element_8h_source.html">DBElement.h</a>.</p>
+<p>A method to get a constant reference to the underlying data contained within the <a class="el" href="class_d_b_element.html" title="This class defines the structure of the data stored within a DataBase instance.">DBElement</a> object. </p>
+<dl class="section return"><dt>Returns</dt><dd>A constant reference to a <a class="el" href="class_data_element.html" title="A class to handle the data transfer of complex and primitive objects into and out of the DataBase ins...">DataElement</a> object. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_d_b_element_8h_source.html#l00016">16</a> of file <a class="el" href="_d_b_element_8h_source.html">DBElement.h</a>.</p>
 
 </div>
 </div>
@@ -221,7 +232,11 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_d_b_element_8h_source.html#l00018">18</a> of file <a class="el" href="_d_b_element_8h_source.html">DBElement.h</a>.</p>
+<p>A method to get a const reference to the onChanged event. </p>
+<p>This is required so that a developer may subscribe a call back to it. </p><dl class="section return"><dt>Returns</dt><dd><br  />
+ </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_d_b_element_8h_source.html#l00042">42</a> of file <a class="el" href="_d_b_element_8h_source.html">DBElement.h</a>.</p>
 
 </div>
 </div>
@@ -248,7 +263,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_d_b_element_8h_source.html#l00015">15</a> of file <a class="el" href="_d_b_element_8h_source.html">DBElement.h</a>.</p>
+<p>A method to return whether or not the data contained within the <a class="el" href="class_d_b_element.html" title="This class defines the structure of the data stored within a DataBase instance.">DBElement</a> object is live within the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a>'s runtime memory. </p>
+<dl class="section return"><dt>Returns</dt><dd>True if is <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a> owned/Calculated, False if not. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_d_b_element_8h_source.html#l00032">32</a> of file <a class="el" href="_d_b_element_8h_source.html">DBElement.h</a>.</p>
 
 </div>
 </div>
@@ -276,7 +294,15 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_d_b_element_8h_source.html#l00012">12</a> of file <a class="el" href="_d_b_element_8h_source.html">DBElement.h</a>.</p>
+<p>A method to set the contents of the <a class="el" href="class_d_b_element.html" title="This class defines the structure of the data stored within a DataBase instance.">DBElement</a> object to that contained within a <a class="el" href="class_data_element.html" title="A class to handle the data transfer of complex and primitive objects into and out of the DataBase ins...">DataElement</a> object. </p>
+<p>This method invokes the onChanged event, allowing those subscribed to know its value has changed. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>the new data to be stored within the <a class="el" href="class_d_b_element.html" title="This class defines the structure of the data stored within a DataBase instance.">DBElement</a> object </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_d_b_element_8h_source.html#l00022">22</a> of file <a class="el" href="_d_b_element_8h_source.html">DBElement.h</a>.</p>
 
 </div>
 </div>
@@ -304,7 +330,15 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_d_b_element_8h_source.html#l00013">13</a> of file <a class="el" href="_d_b_element_8h_source.html">DBElement.h</a>.</p>
+<p>A method to set the contents of the <a class="el" href="class_d_b_element.html" title="This class defines the structure of the data stored within a DataBase instance.">DBElement</a> object to data stripped from the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a>'s runtime memory. </p>
+<p>This method handls type setting and sizing of the <a class="el" href="class_d_b_element.html" title="This class defines the structure of the data stored within a DataBase instance.">DBElement</a> dynamically with the support of GSE's DBM </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>an <a class="el" href="classrdl_data.html" title="A RDL runtime data catcher object, will execute a DBM lookup to determine the &#39;RDL attributes&#39; of the...">rdlData</a> object reference, this object is responsible for interogating the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a>'s process memory safely. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_d_b_element_8h_source.html#l00028">28</a> of file <a class="el" href="_d_b_element_8h_source.html">DBElement.h</a>.</p>
 
 </div>
 </div>
@@ -332,7 +366,15 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_d_b_element_8h_source.html#l00016">16</a> of file <a class="el" href="_d_b_element_8h_source.html">DBElement.h</a>.</p>
+<p>A method to specify that the data contained within the <a class="el" href="class_d_b_element.html" title="This class defines the structure of the data stored within a DataBase instance.">DBElement</a> object is lived within the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a>'s runtime memory. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">state</td><td>True if is <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a> owned/Calculated, False if not. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_d_b_element_8h_source.html#l00036">36</a> of file <a class="el" href="_d_b_element_8h_source.html">DBElement.h</a>.</p>
 
 </div>
 </div>

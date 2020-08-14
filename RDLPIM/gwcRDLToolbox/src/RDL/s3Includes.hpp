@@ -2,6 +2,7 @@
 #ifndef S3Includes
 #define S3Includes
 
+/// @brief Container for simexec memory partition information
 typedef struct {
 	char	*name;
 	void	*base;

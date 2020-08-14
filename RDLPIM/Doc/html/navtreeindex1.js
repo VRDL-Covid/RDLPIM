@@ -1,8 +1,5 @@
 var NAVTREEINDEX1 =
 {
-"classconnection_manager.html#a3b38da3010e2dd19d4a7d761a4b5137a":[0,0,3,1],
-"classconnection_manager.html#a4c9f37a1fd2143659695256a318c9889":[0,0,3,4],
-"classconnection_manager.html#a7207798578f022b7e77edb6642a8634a":[0,0,3,2],
 "classconnection_manager.html#a811cfa8e6ffa9945da84cc54a9f1c05f":[0,0,3,3],
 "classconnection_manager.html#aac7c7f7ef9eb1182ba0716e5f77ef8e7":[0,0,3,0],
 "classconnection_object.html":[0,0,4],
@@ -144,8 +141,8 @@ var NAVTREEINDEX1 =
 "dir_fec83a1834de54d140f3cd39ab44d392.html":[1,0,0,0],
 "dir_ff187dd449628fb1b08c5368f2ef4d1d.html":[1,0,1,0,6],
 "files.html":[1,0],
-"functions.html":[0,2,0,0],
 "functions.html":[0,2,0],
+"functions.html":[0,2,0,0],
 "functions_b.html":[0,2,0,1],
 "functions_c.html":[0,2,0,2],
 "functions_d.html":[0,2,0,3],
@@ -249,5 +246,8 @@ var NAVTREEINDEX1 =
 "request_handler_8cpp.html":[1,0,1,0,6,6],
 "request_handler_8cpp_source.html":[1,0,1,0,6,6],
 "request_handler_8hpp.html":[1,0,1,0,6,7],
-"request_handler_8hpp_source.html":[1,0,1,0,6,7]
+"request_handler_8hpp_source.html":[1,0,1,0,6,7],
+"s3_includes_8hpp.html":[1,0,1,0,5,4],
+"s3_includes_8hpp.html#a1cebc5d011566cca2d4d613414f6181c":[1,0,1,0,5,4,1],
+"s3_includes_8hpp.html#a292040b8b6bdea74f1d959a2a6274bab":[1,0,1,0,5,4,2]
 };

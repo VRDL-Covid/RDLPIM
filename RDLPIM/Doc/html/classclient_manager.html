@@ -311,7 +311,7 @@ Static Public Member Functions</h2></td></tr>
 <p>a getting for the onclientDisconnect event </p>
 <p>This event is raised following a client disconnect. </p><dl class="section return"><dt>Returns</dt><dd>a const reference to the disconnected client object </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="client_manager_8hpp_source.html#l00107">107</a> of file <a class="el" href="client_manager_8hpp_source.html">clientManager.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="client_manager_8hpp_source.html#l00109">109</a> of file <a class="el" href="client_manager_8hpp_source.html">clientManager.hpp</a>.</p>
 
 </div>
 </div>
@@ -341,7 +341,7 @@ Static Public Member Functions</h2></td></tr>
 <p>a getter for the onNewClient event. </p>
 <p>This event is raised following the succeful registration of a new client </p><dl class="section return"><dt>Returns</dt><dd>a constant reference to the newly connected client object. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="client_manager_8hpp_source.html#l00101">101</a> of file <a class="el" href="client_manager_8hpp_source.html">clientManager.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="client_manager_8hpp_source.html#l00103">103</a> of file <a class="el" href="client_manager_8hpp_source.html">clientManager.hpp</a>.</p>
 
 </div>
 </div>
@@ -563,7 +563,7 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>A background worker thread to handle the management of clients. </p>
-<dl class="params"><dt>Parameters</dt><dd>
+<p>Recieves raw job requests which are deserialised and added to the Job queue maintained by the <a class="el" href="classrequest_handler.html">requestHandler</a> by function <a class="el" href="classrequest_handler.html#a979529685301147afcf7520e112b41e4">requestHandler::addToQue(const Buffer&amp; inbuff)</a>. Handles clientDisconnect and raises event to the <a class="el" href="classconnection_manager.html" title="The connectionManager class handles incoming connection request attempts and manages the hand shake.">connectionManager</a> object </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">work</td><td>a signal to drive the work, flase indicates that the thread may join. </td></tr>
   </table>

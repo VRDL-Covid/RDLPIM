@@ -91,6 +91,8 @@ public:
 
 
 	/// @brief A background worker thread to handle the management of clients
+	/// 
+	/// Recieves raw job requests which are deserialised and added to the Job queue maintained by the requestHandler by function requestHandler::addToQue(const Buffer& inbuff).  Handles clientDisconnect and raises event to the connectionManager object
 	/// @param work a signal to drive the work, flase indicates that the thread may join.
 	void worker(bool& work);
 

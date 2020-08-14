@@ -116,18 +116,18 @@ void RDL::Write(const DataElement& data)
 {
 
 	char _name[S3_STRLEN];
-	strcpy_s(_name,(rsize_t)S3_STRLEN, data.GetName().c_str());
+	strcpy_s(_name,(rsize_t)S3_STRLEN, data.GetName().ToString().c_str());
 
 	HANDLE processHandle = OpenProcess(PROCESS_ALL_ACCESS, false, pid);
 
 	if (data.GetType() == std::string("bool")) {
 		bool* status;
-		status = (bool*)data.m_data;
-		Write<bool>(data.GetName(), *status);
+		status = (bool*)data.GetData();
+		Write<bool>(data.GetName().ToString(), *status);
 		return;
 	}
 
-	WriteProcessMemory(processHandle, (LPVOID)FindRuntimePointer(_name), data.m_data, data.m_Bytes, NULL);
+	WriteProcessMemory(processHandle, (LPVOID)FindRuntimePointer(_name), data.GetData(), data.GetSize(), NULL);
 }
 
 
