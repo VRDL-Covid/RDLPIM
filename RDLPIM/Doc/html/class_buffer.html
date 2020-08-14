@@ -87,49 +87,95 @@ $(document).ready(function(){initNavTree('class_buffer.html',''); initResizable(
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#friends">Friends</a> &#124;
 <a href="class_buffer-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Buffer Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> class is a container to hold serialised data. </p>
+<p>The primary use of the <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> object is to hold serialised data which can be transfered by connectionObjects maintained between the <a class="el" href="classconnection_manager.html" title="The connectionManager class handles incoming connection request attempts and manages the hand shake.">connectionManager</a> and <a class="el" href="classclient_manager.html" title="A Class to manage connected Clients.">clientManager</a>. <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> objects are useful for containing large volumes of machiene readable only data. Utility functions have been included to allow the developer to compare the contents of <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> objects and determing if they are the same or different.</p>
+<p>Manipulation methods to append, prepend, process chunks and print to console beyond that which a std::string would permite by ignoring null termination convention. <br  />
+</p>
+<h3><a class="anchor" id="autotoc_md4"></a>
+Example</h3>
+<div class="fragment"><div class="line"><a class="code" href="class_buffer.html">Buffer</a> buff1(<span class="stringliteral">&quot;test1&quot;</span>);</div>
+<div class="line"><a class="code" href="class_buffer.html">Buffer</a> buff2(<span class="stringliteral">&quot;test2&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordflow">if</span>(buff1 == buff2){</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;This cannot happen&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">} <span class="keywordflow">else</span> {</div>
+<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;This will always happen&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><a class="code" href="class_data_element.html">DataElement</a> someData;</div>
+<div class="line"><a class="code" href="class_buffer.html">Buffer</a> serialised;</div>
+<div class="line"> </div>
+<div class="line">serialised = someData.<a class="code" href="class_data_element.html#af32f7cca78a851bb3c56636f16cb0dd0">deserialise</a>();</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">//print the binary equivalent of a DataElement including and nulls that may or may not exist.</span></div>
+<div class="line">serialised.<a class="code" href="class_buffer.html#a31ae3980abdb9a603ac8c181bd36bd7e">fullPrint</a>();</div>
+</div><!-- fragment --> 
+<p class="definition">Definition at line <a class="el" href="buffer_8hpp_source.html#l00031">31</a> of file <a class="el" href="buffer_8hpp_source.html">buffer.hpp</a>.</p>
+</div>
 <p><code>#include &lt;<a class="el" href="buffer_8hpp_source.html">buffer.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a79b72f5f238e940e856a6bea070cc254"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#a79b72f5f238e940e856a6bea070cc254">GetContents</a> () const</td></tr>
+<tr class="memdesc:a79b72f5f238e940e856a6bea070cc254"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to return a const pointer to the Buffers contents.  <a href="class_buffer.html#a79b72f5f238e940e856a6bea070cc254">More...</a><br /></td></tr>
+<tr class="separator:a79b72f5f238e940e856a6bea070cc254"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8ebc5241683654e942612fc4d992a2a"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#af8ebc5241683654e942612fc4d992a2a">GetSize</a> () const</td></tr>
+<tr class="memdesc:af8ebc5241683654e942612fc4d992a2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to get the size of the data contained within the <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> object.  <a href="class_buffer.html#af8ebc5241683654e942612fc4d992a2a">More...</a><br /></td></tr>
+<tr class="separator:af8ebc5241683654e942612fc4d992a2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a78e5e071c3c53cd032e3fab145567e78"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#a78e5e071c3c53cd032e3fab145567e78">set</a> (void *src, int iSize)</td></tr>
+<tr class="memdesc:a78e5e071c3c53cd032e3fab145567e78"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to store primitive types within a buffer object (int, float, double etc)  <a href="class_buffer.html#a78e5e071c3c53cd032e3fab145567e78">More...</a><br /></td></tr>
 <tr class="separator:a78e5e071c3c53cd032e3fab145567e78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a05c8acb5220126b8e0d2e5dbd873a113"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#a05c8acb5220126b8e0d2e5dbd873a113">set</a> (const char *src)</td></tr>
+<tr class="memdesc:a05c8acb5220126b8e0d2e5dbd873a113"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to store a const char* source into a <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> object.  <a href="class_buffer.html#a05c8acb5220126b8e0d2e5dbd873a113">More...</a><br /></td></tr>
 <tr class="separator:a05c8acb5220126b8e0d2e5dbd873a113"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af40c2247aa5c853604d8db9645c2f2bc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#af40c2247aa5c853604d8db9645c2f2bc">set</a> (char *src, int iSize)</td></tr>
+<tr class="memdesc:af40c2247aa5c853604d8db9645c2f2bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to pass data held within a char array into a <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> object.  <a href="class_buffer.html#af40c2247aa5c853604d8db9645c2f2bc">More...</a><br /></td></tr>
 <tr class="separator:af40c2247aa5c853604d8db9645c2f2bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab25a5779a447b80eab4895181aaa5ac7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#ab25a5779a447b80eab4895181aaa5ac7">operator==</a> (const <a class="el" href="class_buffer.html">Buffer</a> &amp;buf1)</td></tr>
+<tr class="memdesc:ab25a5779a447b80eab4895181aaa5ac7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equality operator overload.  <a href="class_buffer.html#ab25a5779a447b80eab4895181aaa5ac7">More...</a><br /></td></tr>
 <tr class="separator:ab25a5779a447b80eab4895181aaa5ac7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aec030e2820f75dacf6c36bcef512430b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#aec030e2820f75dacf6c36bcef512430b">operator!=</a> (const <a class="el" href="class_buffer.html">Buffer</a> &amp;buf1)</td></tr>
+<tr class="memdesc:aec030e2820f75dacf6c36bcef512430b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inequality operator overload.  <a href="class_buffer.html#aec030e2820f75dacf6c36bcef512430b">More...</a><br /></td></tr>
 <tr class="separator:aec030e2820f75dacf6c36bcef512430b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3d9dc934771421cc98150c6b1f65b73c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#a3d9dc934771421cc98150c6b1f65b73c">append</a> (const <a class="el" href="class_buffer.html">Buffer</a> &amp;tail)</td></tr>
+<tr class="memdesc:a3d9dc934771421cc98150c6b1f65b73c"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to append a buffer to this buffer.  <a href="class_buffer.html#a3d9dc934771421cc98150c6b1f65b73c">More...</a><br /></td></tr>
 <tr class="separator:a3d9dc934771421cc98150c6b1f65b73c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad78342268de97a09b20ff88f330aab9a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#ad78342268de97a09b20ff88f330aab9a">append</a> (const char *tail)</td></tr>
+<tr class="memdesc:ad78342268de97a09b20ff88f330aab9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to append a R value char array to this buffer.  <a href="class_buffer.html#ad78342268de97a09b20ff88f330aab9a">More...</a><br /></td></tr>
 <tr class="separator:ad78342268de97a09b20ff88f330aab9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a228899405fffc3391d2f8d26c3a5e441"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#a228899405fffc3391d2f8d26c3a5e441">prepend</a> (const <a class="el" href="class_buffer.html">Buffer</a> &amp;head)</td></tr>
+<tr class="memdesc:a228899405fffc3391d2f8d26c3a5e441"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to prepent this buffer with another.  <a href="class_buffer.html#a228899405fffc3391d2f8d26c3a5e441">More...</a><br /></td></tr>
 <tr class="separator:a228899405fffc3391d2f8d26c3a5e441"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a03b37486fb6bb62fabad1d158dc14790"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#a03b37486fb6bb62fabad1d158dc14790">prepend</a> (const char *head)</td></tr>
+<tr class="memdesc:a03b37486fb6bb62fabad1d158dc14790"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to prepend this buffer with an char array.  <a href="class_buffer.html#a03b37486fb6bb62fabad1d158dc14790">More...</a><br /></td></tr>
 <tr class="separator:a03b37486fb6bb62fabad1d158dc14790"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4611e63dd17bd7d50d489cc5197d049c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#a4611e63dd17bd7d50d489cc5197d049c">nullTerminate</a> ()</td></tr>
+<tr class="memdesc:a4611e63dd17bd7d50d489cc5197d049c"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to null terminate the buffer, required for use with std::string like behaviour.  <a href="class_buffer.html#a4611e63dd17bd7d50d489cc5197d049c">More...</a><br /></td></tr>
 <tr class="separator:a4611e63dd17bd7d50d489cc5197d049c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31ae3980abdb9a603ac8c181bd36bd7e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#a31ae3980abdb9a603ac8c181bd36bd7e">fullPrint</a> () const</td></tr>
+<tr class="memdesc:a31ae3980abdb9a603ac8c181bd36bd7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to print the contents of a buffer to std::cout.  <a href="class_buffer.html#a31ae3980abdb9a603ac8c181bd36bd7e">More...</a><br /></td></tr>
 <tr class="separator:a31ae3980abdb9a603ac8c181bd36bd7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a588c4031aec36457968286ca9c23ca76"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#a588c4031aec36457968286ca9c23ca76">stripHead</a> (int N)</td></tr>
+<tr class="memdesc:a588c4031aec36457968286ca9c23ca76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to remove N byts of data from the Buffers head.  <a href="class_buffer.html#a588c4031aec36457968286ca9c23ca76">More...</a><br /></td></tr>
 <tr class="separator:a588c4031aec36457968286ca9c23ca76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9bac4e7adb02950ea3445d1d4724ac06"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#a9bac4e7adb02950ea3445d1d4724ac06">stripHead</a> (char seperator)</td></tr>
+<tr class="memdesc:a9bac4e7adb02950ea3445d1d4724ac06"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to remove up to and including a char, for example a '{' char.  <a href="class_buffer.html#a9bac4e7adb02950ea3445d1d4724ac06">More...</a><br /></td></tr>
 <tr class="separator:a9bac4e7adb02950ea3445d1d4724ac06"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac21cb162e9096ac7f88cb355c34fc92e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#ac21cb162e9096ac7f88cb355c34fc92e">stripTail</a> (int N)</td></tr>
+<tr class="memdesc:ac21cb162e9096ac7f88cb355c34fc92e"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to remove N bytes from the end of the <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> object.  <a href="class_buffer.html#ac21cb162e9096ac7f88cb355c34fc92e">More...</a><br /></td></tr>
 <tr class="separator:ac21cb162e9096ac7f88cb355c34fc92e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae0858709647ffcf2daf587c48a9915a1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#ae0858709647ffcf2daf587c48a9915a1">stripTail</a> (char seperator)</td></tr>
+<tr class="memdesc:ae0858709647ffcf2daf587c48a9915a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method of striping data from the end of the <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> object up to and including a delimiter, for example a '}' char.  <a href="class_buffer.html#ae0858709647ffcf2daf587c48a9915a1">More...</a><br /></td></tr>
 <tr class="separator:ae0858709647ffcf2daf587c48a9915a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af6a671e548bcb07e9ad933f841701884"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#af6a671e548bcb07e9ad933f841701884">ToString</a> () const</td></tr>
+<tr class="memdesc:af6a671e548bcb07e9ad933f841701884"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method of converting a string like <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> contents to a std::string.  <a href="class_buffer.html#af6a671e548bcb07e9ad933f841701884">More...</a><br /></td></tr>
 <tr class="separator:af6a671e548bcb07e9ad933f841701884"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7ef2cd201190fde551dcb902627112b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#ae7ef2cd201190fde551dcb902627112b">Buffer</a> ()</td></tr>
 <tr class="separator:ae7ef2cd201190fde551dcb902627112b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -138,45 +184,36 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a486008529171ab8b14e42b9ed7868fae"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#a486008529171ab8b14e42b9ed7868fae">Buffer</a> (char *src, int sSize)</td></tr>
 <tr class="separator:a486008529171ab8b14e42b9ed7868fae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a805dd7787c93381a111afa05c20f929e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#a805dd7787c93381a111afa05c20f929e">Buffer</a> (const <a class="el" href="class_buffer.html">Buffer</a> &amp;other)</td></tr>
+<tr class="memdesc:a805dd7787c93381a111afa05c20f929e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy Constructor.  <a href="class_buffer.html#a805dd7787c93381a111afa05c20f929e">More...</a><br /></td></tr>
 <tr class="separator:a805dd7787c93381a111afa05c20f929e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa47ec59c6964b1b4dc616a397e6e6968"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_buffer.html">Buffer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#aa47ec59c6964b1b4dc616a397e6e6968">operator=</a> (const <a class="el" href="class_buffer.html">Buffer</a> &amp;other)</td></tr>
+<tr class="memdesc:aa47ec59c6964b1b4dc616a397e6e6968"><td class="mdescLeft">&#160;</td><td class="mdescRight">copy assignent overload  <a href="class_buffer.html#aa47ec59c6964b1b4dc616a397e6e6968">More...</a><br /></td></tr>
 <tr class="separator:aa47ec59c6964b1b4dc616a397e6e6968"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f17992243d414b9c9411e46e9ba30fc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_buffer.html">Buffer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#a5f17992243d414b9c9411e46e9ba30fc">operator=</a> (<a class="el" href="class_buffer.html">Buffer</a> &amp;&amp;) noexcept</td></tr>
+<tr class="memdesc:a5f17992243d414b9c9411e46e9ba30fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">move assignment overload  <a href="class_buffer.html#a5f17992243d414b9c9411e46e9ba30fc">More...</a><br /></td></tr>
 <tr class="separator:a5f17992243d414b9c9411e46e9ba30fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef250a235fc635aa48e04358d1a47015"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_buffer.html">Buffer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#aef250a235fc635aa48e04358d1a47015">PassChunk</a> (char first, char second)</td></tr>
+<tr class="memdesc:aef250a235fc635aa48e04358d1a47015"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to return part of a serialised array of <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> objects.  <a href="class_buffer.html#aef250a235fc635aa48e04358d1a47015">More...</a><br /></td></tr>
 <tr class="separator:aef250a235fc635aa48e04358d1a47015"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4c46d4a4f6c606688a06b99b4431794b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_buffer.html">Buffer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#a4c46d4a4f6c606688a06b99b4431794b">PassChunk</a> (char delimiter)</td></tr>
-<tr class="separator:a4c46d4a4f6c606688a06b99b4431794b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a59b8743e4a5f731bdd0c4185c9ef263b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#a59b8743e4a5f731bdd0c4185c9ef263b">~Buffer</a> ()</td></tr>
 <tr class="separator:a59b8743e4a5f731bdd0c4185c9ef263b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a3f64ede42b6dc4d8ac19068903311b7d"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#a3f64ede42b6dc4d8ac19068903311b7d">diff</a> (<a class="el" href="class_buffer.html">Buffer</a> *buf1, <a class="el" href="class_buffer.html">Buffer</a> *buf2)</td></tr>
-<tr class="separator:a3f64ede42b6dc4d8ac19068903311b7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adfab491803c6aef10a4377ff8302d28c"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#adfab491803c6aef10a4377ff8302d28c">diff</a> (<a class="el" href="class_buffer.html">Buffer</a> *buf1, const <a class="el" href="class_buffer.html">Buffer</a> *buf2)</td></tr>
-<tr class="separator:adfab491803c6aef10a4377ff8302d28c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a1dbc181e84d7a4fa88cff46b7e48af11"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#a1dbc181e84d7a4fa88cff46b7e48af11">contents</a></td></tr>
-<tr class="separator:a1dbc181e84d7a4fa88cff46b7e48af11"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab73cc798639521aed06c3159faa40449"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#ab73cc798639521aed06c3159faa40449">size</a></td></tr>
-<tr class="separator:ab73cc798639521aed06c3159faa40449"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a472e7c30b6dd27f045e6a82e66564fc7"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#a472e7c30b6dd27f045e6a82e66564fc7">diff</a> (const <a class="el" href="class_buffer.html">Buffer</a> &amp;buf1, const <a class="el" href="class_buffer.html">Buffer</a> &amp;buf2)</td></tr>
+<tr class="memdesc:a472e7c30b6dd27f045e6a82e66564fc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">A static method to determin the number of differences beween two buffers.  <a href="class_buffer.html#a472e7c30b6dd27f045e6a82e66564fc7">More...</a><br /></td></tr>
+<tr class="separator:a472e7c30b6dd27f045e6a82e66564fc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
 <tr class="memitem:ae1ad2c5c45b2f6e493898237025e6912"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#ae1ad2c5c45b2f6e493898237025e6912">operator&lt;&lt;</a> (std::ostream &amp;out, const <a class="el" href="class_buffer.html">Buffer</a> &amp;c)</td></tr>
+<tr class="memdesc:ae1ad2c5c45b2f6e493898237025e6912"><td class="mdescLeft">&#160;</td><td class="mdescRight">std::ostream operator overload  <a href="class_buffer.html#ae1ad2c5c45b2f6e493898237025e6912">More...</a><br /></td></tr>
 <tr class="separator:ae1ad2c5c45b2f6e493898237025e6912"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b5c5a33d67d334a17a4982dcff3fbc9"><td class="memItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#a9b5c5a33d67d334a17a4982dcff3fbc9">operator&gt;&gt;</a> (std::istream &amp;in, <a class="el" href="class_buffer.html">Buffer</a> &amp;buf)</td></tr>
+<tr class="memdesc:a9b5c5a33d67d334a17a4982dcff3fbc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">std::istream operator overload  <a href="class_buffer.html#a9b5c5a33d67d334a17a4982dcff3fbc9">More...</a><br /></td></tr>
 <tr class="separator:a9b5c5a33d67d334a17a4982dcff3fbc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ec69b1268304da457b12536fdc5e8fe"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_buffer.html#a3ec69b1268304da457b12536fdc5e8fe">operator&lt;&lt;</a> (std::ostream &amp;out, <a class="el" href="class_buffer.html">Buffer</a> &amp;buf)</td></tr>
-<tr class="separator:a3ec69b1268304da457b12536fdc5e8fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="buffer_8hpp_source.html#l00005">5</a> of file <a class="el" href="buffer_8hpp_source.html">buffer.hpp</a>.</p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ae7ef2cd201190fde551dcb902627112b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae7ef2cd201190fde551dcb902627112b">&#9670;&nbsp;</a></span>Buffer() <span class="overload">[1/4]</span></h2>
 
@@ -262,6 +299,15 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Copy Constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td><br  />
+ </td></tr>
+  </table>
+  </dd>
+</dl>
+
 <p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00096">96</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
 
 </div>
@@ -302,7 +348,15 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00248">248</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
+<p>A method to append a buffer to this buffer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tail</td><td>buffer data to append </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00222">222</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
 
 </div>
 </div>
@@ -322,12 +376,20 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00278">278</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
+<p>A method to append a R value char array to this buffer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tail</td><td>append source </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00252">252</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a3f64ede42b6dc4d8ac19068903311b7d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3f64ede42b6dc4d8ac19068903311b7d">&#9670;&nbsp;</a></span>diff() <span class="overload">[1/2]</span></h2>
+<a id="a472e7c30b6dd27f045e6a82e66564fc7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a472e7c30b6dd27f045e6a82e66564fc7">&#9670;&nbsp;</a></span>diff()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -338,13 +400,13 @@ Friends</h2></td></tr>
         <tr>
           <td class="memname">int Buffer::diff </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_buffer.html">Buffer</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_buffer.html">Buffer</a> &amp;&#160;</td>
           <td class="paramname"><em>buf1</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_buffer.html">Buffer</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_buffer.html">Buffer</a> &amp;&#160;</td>
           <td class="paramname"><em>buf2</em>&#160;</td>
         </tr>
         <tr>
@@ -359,46 +421,18 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>A static method to determin the number of differences beween two buffers. </p>
+<p>A a difference is given if the lengeth of the buffers are difference, the differences are then counted over the range of the shortest buffer. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buf1</td><td>left hand side </td></tr>
+    <tr><td class="paramname">buf2</td><td>right hand side </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the integer number of differences found </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00168">168</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
-
-</div>
-</div>
-<a id="adfab491803c6aef10a4377ff8302d28c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adfab491803c6aef10a4377ff8302d28c">&#9670;&nbsp;</a></span>diff() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int Buffer::diff </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_buffer.html">Buffer</a> *&#160;</td>
-          <td class="paramname"><em>buf1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="class_buffer.html">Buffer</a> *&#160;</td>
-          <td class="paramname"><em>buf2</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00195">195</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
 
 </div>
 </div>
@@ -417,7 +451,70 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00404">404</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
+<p>Method to print the contents of a buffer to std::cout. </p>
+<p>Unlike a std::string, this will not stop printing if a null char is encountered, instead it will print to the end of its buffer. </p>
+
+<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00378">378</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a79b72f5f238e940e856a6bea070cc254"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79b72f5f238e940e856a6bea070cc254">&#9670;&nbsp;</a></span>GetContents()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char* Buffer::GetContents </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A method to return a const pointer to the Buffers contents. </p>
+<dl class="section return"><dt>Returns</dt><dd>Buffers raw contents </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="buffer_8hpp_source.html#l00038">38</a> of file <a class="el" href="buffer_8hpp_source.html">buffer.hpp</a>.</p>
+
+</div>
+</div>
+<a id="af8ebc5241683654e942612fc4d992a2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8ebc5241683654e942612fc4d992a2a">&#9670;&nbsp;</a></span>GetSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int Buffer::GetSize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A method to get the size of the data contained within the <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> object. </p>
+<dl class="section return"><dt>Returns</dt><dd>int size of contents </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="buffer_8hpp_source.html#l00042">42</a> of file <a class="el" href="buffer_8hpp_source.html">buffer.hpp</a>.</p>
 
 </div>
 </div>
@@ -436,7 +533,9 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00379">379</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
+<p>A method to null terminate the buffer, required for use with std::string like behaviour. </p>
+
+<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00353">353</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
 
 </div>
 </div>
@@ -456,7 +555,16 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00231">231</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
+<p>Inequality operator overload. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buf1</td><td>right hand side of inequality </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>status of equality true if not equal. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00205">205</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
 
 </div>
 </div>
@@ -484,7 +592,17 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00511">511</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
+<p>move assignment overload </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">RHS</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><br  />
+ </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00485">485</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
 
 </div>
 </div>
@@ -504,7 +622,17 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00498">498</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
+<p>copy assignent overload </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>RHS </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><br  />
+ </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00472">472</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
 
 </div>
 </div>
@@ -524,30 +652,21 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00222">222</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
+<p>Equality operator overload. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buf1</td><td>right hand side of equality </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>status of equality true if equal. </dd></dl>
 
-</div>
-</div>
-<a id="a4c46d4a4f6c606688a06b99b4431794b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4c46d4a4f6c606688a06b99b4431794b">&#9670;&nbsp;</a></span>PassChunk() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_buffer.html">Buffer</a> Buffer::PassChunk </td>
-          <td>(</td>
-          <td class="paramtype">char&#160;</td>
-          <td class="paramname"><em>delimiter</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
+<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00196">196</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
 
 </div>
 </div>
 <a id="aef250a235fc635aa48e04358d1a47015"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aef250a235fc635aa48e04358d1a47015">&#9670;&nbsp;</a></span>PassChunk() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aef250a235fc635aa48e04358d1a47015">&#9670;&nbsp;</a></span>PassChunk()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -572,6 +691,31 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>A method to return part of a serialised array of <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> objects. </p>
+<dl class="section warning"><dt>Warning</dt><dd>This method is destructive, it 'pops' the <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> part from the full serialised data </dd></dl>
+<h3><a class="anchor" id="autotoc_md7"></a>
+Example</h3>
+<div class="fragment"><div class="line"><a class="code" href="class_buffer.html">Buffer</a> array(<span class="stringliteral">&quot;{part1}{part2}&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">buffer part1;</div>
+<div class="line">buffer part2;</div>
+<div class="line"> </div>
+<div class="line">part1 = array.PassChunk(<span class="charliteral">&#39;{&#39;</span>,<span class="charliteral">&#39;}&#39;</span>);</div>
+<div class="line">part2 = array.PassChunk(<span class="charliteral">&#39;{&#39;</span>,<span class="charliteral">&#39;}&#39;</span>);</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">//part1 contains &quot;part1&quot;</span></div>
+<div class="line"><span class="comment">//part2 contains &quot;part2&quot;</span></div>
+<div class="line"><span class="comment">//array contains &quot;&quot;</span></div>
+</div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">first</td><td></td></tr>
+    <tr><td class="paramname">second</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><br  />
+ </dd></dl>
+
 <p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00004">4</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
 
 </div>
@@ -592,7 +736,15 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00314">314</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
+<p>A method to prepent this buffer with another. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">head</td><td>source data </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00288">288</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
 
 </div>
 </div>
@@ -612,7 +764,15 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00344">344</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
+<p>A method to prepend this buffer with an char array. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">head</td><td>source data </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00318">318</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
 
 </div>
 </div>
@@ -642,6 +802,16 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Method to pass data held within a char array into a <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> object. </p>
+<dl class="section warning"><dt>Warning</dt><dd>depricated, use <a class="el" href="class_buffer.html#a78e5e071c3c53cd032e3fab145567e78" title="A method to store primitive types within a buffer object (int, float, double etc)">set(void* src, int iSize)</a> </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">src</td><td>source </td></tr>
+    <tr><td class="paramname">iSize</td><td>size of source array </td></tr>
+  </table>
+  </dd>
+</dl>
+
 <p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00145">145</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
 
 </div>
@@ -661,6 +831,25 @@ Friends</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>A method to store a const char* source into a <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> object. </p>
+<p>This is primarily used to store R-value reference strings </p>
+<h3><a class="anchor" id="autotoc_md6"></a>
+Example</h3>
+<div class="fragment"><div class="line"><span class="keywordtype">double</span> myDouble = 3.14159;</div>
+<div class="line"> </div>
+<div class="line"><a class="code" href="class_buffer.html">Buffer</a> serialisedRvalueString;</div>
+<div class="line">serialisedRvalueString.<a class="code" href="class_buffer.html#a78e5e071c3c53cd032e3fab145567e78">set</a>(<span class="stringliteral">&quot;my const char star&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">//Print the binary of a double.</span></div>
+<div class="line">serialisedRvalueString.<a class="code" href="class_buffer.html#a31ae3980abdb9a603ac8c181bd36bd7e">fullPrint</a>();</div>
+</div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">src</td><td><br  />
+ </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00128">128</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
 
@@ -692,6 +881,24 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>A method to store primitive types within a buffer object (int, float, double etc) </p>
+<h3><a class="anchor" id="autotoc_md5"></a>
+Example</h3>
+<div class="fragment"><div class="line"><span class="keywordtype">double</span> myDouble = 3.14159;</div>
+<div class="line"> </div>
+<div class="line"><a class="code" href="class_buffer.html">Buffer</a> serialisedDouble;</div>
+<div class="line">serialisedDouble.<a class="code" href="class_buffer.html#a78e5e071c3c53cd032e3fab145567e78">set</a>(&amp;myDouble,<span class="keyword">sizeof</span>(<span class="keywordtype">double</span>));</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">//Print the binary of a double.</span></div>
+<div class="line">serialisedDouble.<a class="code" href="class_buffer.html#a31ae3980abdb9a603ac8c181bd36bd7e">fullPrint</a>();</div>
+</div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">src</td><td>pointer to primitive </td></tr>
+    <tr><td class="paramname">iSize</td><td>size of the primitive </td></tr>
+  </table>
+  </dd>
+</dl>
+
 <p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00108">108</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
 
 </div>
@@ -712,7 +919,15 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00436">436</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
+<p>A method to remove up to and including a char, for example a '{' char. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">seperator</td><td>delimiter </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00410">410</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
 
 </div>
 </div>
@@ -732,7 +947,15 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00413">413</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
+<p>Method to remove N byts of data from the Buffers head. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">N</td><td>Number of bytes </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00387">387</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
 
 </div>
 </div>
@@ -752,7 +975,16 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00474">474</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
+<p>A method of striping data from the end of the <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> object up to and including a delimiter, for example a '}' char. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">seperator</td><td><br  />
+ </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00448">448</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
 
 </div>
 </div>
@@ -772,7 +1004,15 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00451">451</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
+<p>A method to remove N bytes from the end of the <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">N</td><td>Number of bytes </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00425">425</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
 
 </div>
 </div>
@@ -791,51 +1031,17 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00489">489</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
+<p>A method of converting a string like <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> contents to a std::string. </p>
+<p>Should only be used with human readable contents. </p><dl class="section return"><dt>Returns</dt><dd><br  />
+ </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00463">463</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Friends And Related Function Documentation</h2>
-<a id="a3ec69b1268304da457b12536fdc5e8fe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3ec69b1268304da457b12536fdc5e8fe">&#9670;&nbsp;</a></span>operator&lt;&lt; <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::ostream&amp; operator&lt;&lt; </td>
-          <td>(</td>
-          <td class="paramtype">std::ostream &amp;&#160;</td>
-          <td class="paramname"><em>out</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_buffer.html">Buffer</a> &amp;&#160;</td>
-          <td class="paramname"><em>buf</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00530">530</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
-
-</div>
-</div>
 <a id="ae1ad2c5c45b2f6e493898237025e6912"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae1ad2c5c45b2f6e493898237025e6912">&#9670;&nbsp;</a></span>operator&lt;&lt; <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1ad2c5c45b2f6e493898237025e6912">&#9670;&nbsp;</a></span>operator&lt;&lt;</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -868,7 +1074,17 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00239">239</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
+<p>std::ostream operator overload </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">out</td><td>reference to the outstream </td></tr>
+    <tr><td class="paramname">c</td><td>const reference of <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> to be streamed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>ostream reference </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00213">213</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
 
 </div>
 </div>
@@ -906,40 +1122,17 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00522">522</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
+<p>std::istream operator overload </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">in</td><td>reference to the outstream </td></tr>
+    <tr><td class="paramname">buf</td><td>const reference of <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> to be streamed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>istream reference </dd></dl>
 
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a1dbc181e84d7a4fa88cff46b7e48af11"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1dbc181e84d7a4fa88cff46b7e48af11">&#9670;&nbsp;</a></span>contents</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">char* Buffer::contents</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="buffer_8hpp_source.html#l00012">12</a> of file <a class="el" href="buffer_8hpp_source.html">buffer.hpp</a>.</p>
-
-</div>
-</div>
-<a id="ab73cc798639521aed06c3159faa40449"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab73cc798639521aed06c3159faa40449">&#9670;&nbsp;</a></span>size</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int Buffer::size</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="buffer_8hpp_source.html#l00013">13</a> of file <a class="el" href="buffer_8hpp_source.html">buffer.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00496">496</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
 
 </div>
 </div>
@@ -949,6 +1142,11 @@ Friends</h2></td></tr>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="aclass_buffer_html_a31ae3980abdb9a603ac8c181bd36bd7e"><div class="ttname"><a href="class_buffer.html#a31ae3980abdb9a603ac8c181bd36bd7e">Buffer::fullPrint</a></div><div class="ttdeci">void fullPrint() const</div><div class="ttdoc">Method to print the contents of a buffer to std::cout.</div><div class="ttdef"><b>Definition:</b> <a href="buffer_8cpp_source.html#l00378">buffer.cpp:378</a></div></div>
+<div class="ttc" id="aclass_buffer_html_a78e5e071c3c53cd032e3fab145567e78"><div class="ttname"><a href="class_buffer.html#a78e5e071c3c53cd032e3fab145567e78">Buffer::set</a></div><div class="ttdeci">void set(void *src, int iSize)</div><div class="ttdoc">A method to store primitive types within a buffer object (int, float, double etc)</div><div class="ttdef"><b>Definition:</b> <a href="buffer_8cpp_source.html#l00108">buffer.cpp:108</a></div></div>
+<div class="ttc" id="aclass_buffer_html"><div class="ttname"><a href="class_buffer.html">Buffer</a></div><div class="ttdoc">The Buffer class is a container to hold serialised data.</div><div class="ttdef"><b>Definition:</b> <a href="buffer_8hpp_source.html#l00031">buffer.hpp:31</a></div></div>
+<div class="ttc" id="aclass_data_element_html_af32f7cca78a851bb3c56636f16cb0dd0"><div class="ttname"><a href="class_data_element.html#af32f7cca78a851bb3c56636f16cb0dd0">DataElement::deserialise</a></div><div class="ttdeci">int deserialise(const Buffer &amp;in)</div><div class="ttdoc">A method to deserialise back into a DataElement object.</div><div class="ttdef"><b>Definition:</b> <a href="_data_element_8cpp_source.html#l00195">DataElement.cpp:195</a></div></div>
+<div class="ttc" id="aclass_data_element_html"><div class="ttname"><a href="class_data_element.html">DataElement</a></div><div class="ttdoc">A class to handle the data transfer of complex and primitive objects into and out of the DataBase ins...</div><div class="ttdef"><b>Definition:</b> <a href="_data_element_8hpp_source.html#l00039">DataElement.hpp:39</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

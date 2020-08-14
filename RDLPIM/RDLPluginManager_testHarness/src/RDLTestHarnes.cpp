@@ -4,43 +4,6 @@
 
 std::mutex coutMutex;
 
-void sendDebugMSGs(Buffer &outBuff, bool* send)
-{
-	//while (true) {
-		char userIn[1024];
-		int bytes = 0;
-		char CBytes[4];
-		std::cin.clear();
-
-		//get user input
-		std::cin.getline(userIn, sizeof(userIn));
-		Buffer userInData(userIn);
-
-		//build bytes data
-		bytes = userInData.size;
-		memcpy(&CBytes, &userInData.size, 4);
-		Buffer bytesData(CBytes, 4);
-
-		//build command data
-		char cmd[4];
-		char* cmdPtr = &cmd[0];
-		Buffer commandSend;
-		Commands chat = Commands::DEBUG;
-		memcpy(cmd, &chat, 4);
-		commandSend.set(cmdPtr, 4);
-
-		//build raw job buffer
-		outBuff.set("CMD=");
-		outBuff.append(commandSend);
-		outBuff.append("=DATA=");
-		outBuff.append(bytesData);
-		outBuff.append(userInData);
-
-		//output bit from thread to send
-		*send = true;
-	//}
-}
-
 void sendChatMSGs(Buffer& outBuff, bool* send, std::mutex& sockSend)
 {
 	uint32_t bytes = 0;
@@ -61,7 +24,7 @@ void sendChatMSGs(Buffer& outBuff, bool* send, std::mutex& sockSend)
 
 
 	//buildHeader
-	bytes = userInData.size;
+	bytes = userInData.GetSize();
 	reqHeader.SetSize(bytes);
 	reqHeader.SetCommand(Commands::chat);
 
@@ -112,7 +75,7 @@ void SendPushInt(Buffer& outBuffer, bool* send, std::mutex& sockSend)
 
 	//build header packet
 	reqHeader.SetCommand(Commands::push);
-	reqHeader.SetSize(data.size);
+	reqHeader.SetSize(data.GetSize());
 
 	std::lock_guard<std::mutex> lock(sockSend);
 
@@ -144,7 +107,7 @@ void SendPullInt(Buffer& outBuffer, bool* send, std::mutex& sockSend)
 
 	//build header packet
 	reqHeader.SetCommand(Commands::pull);
-	reqHeader.SetSize(data.size);
+	reqHeader.SetSize(data.GetSize());
 
 	std::lock_guard<std::mutex> lock(sockSend);
 	outBuffer = reqHeader.Serialise();
@@ -175,7 +138,7 @@ void SentUnSubInt(Buffer& outBuffer, bool* send, std::mutex& sockSend)
 
 	//build header packet
 	reqHeader.SetCommand(Commands::unsubscribe);
-	reqHeader.SetSize(data.size);
+	reqHeader.SetSize(data.GetSize());
 
 	std::lock_guard<std::mutex> lock(sockSend);
 	outBuffer = reqHeader.Serialise();
@@ -207,7 +170,7 @@ void SentSubInt(Buffer& outBuffer, bool* send, std::mutex& sockSend)
 
 	//build header packet
 	reqHeader.SetCommand(Commands::subscribe);
-	reqHeader.SetSize(data.size);
+	reqHeader.SetSize(data.GetSize());
 
 	std::lock_guard<std::mutex> lock(sockSend);
 	outBuffer = reqHeader.Serialise();

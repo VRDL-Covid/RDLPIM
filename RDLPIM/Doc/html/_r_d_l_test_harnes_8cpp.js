@@ -3,7 +3,6 @@ var _r_d_l_test_harnes_8cpp =
     [ "handleDataPacket", "_r_d_l_test_harnes_8cpp.html#af99c3e6c3e811faed136504aefa426be", null ],
     [ "main", "_r_d_l_test_harnes_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4", null ],
     [ "sendChatMSGs", "_r_d_l_test_harnes_8cpp.html#a7f36eeb38113ac757f5289bc17ea08e0", null ],
-    [ "sendDebugMSGs", "_r_d_l_test_harnes_8cpp.html#af2f343b13e7d6cc9a164b6b2f3071962", null ],
     [ "sender", "_r_d_l_test_harnes_8cpp.html#a243d5b3207528b8e3ad84585f4340462", null ],
     [ "SendPullInt", "_r_d_l_test_harnes_8cpp.html#a6c2afa9c5a7a4e786bb145d050a6dd3c", null ],
     [ "SendPushInt", "_r_d_l_test_harnes_8cpp.html#a7ee90ba2deb4f374f16a4aa0d79a9373", null ],

@@ -13,8 +13,8 @@ Buffer RequestHeader::Serialise()
 
 void RequestHeader::Deserialise(const Buffer& raw)
 {
-	memcpy(&m_command, &raw.contents[0], 4);
-	memcpy(&m_bytes, &raw.contents[4], 4);
+	memcpy(&m_command, &raw.GetContents()[0], 4);
+	memcpy(&m_bytes, &raw.GetContents()[4], 4);
 }
 
 void RequestHeader::SetCommand(const enum Commands& command)

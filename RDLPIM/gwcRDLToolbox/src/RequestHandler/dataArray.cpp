@@ -20,7 +20,7 @@ void DataElementArray::Deserialise(const Buffer& rawInput)
 	Buffer chunk;
 
 	
-	while (input.size > 0) {
+	while (input.GetSize() > 0) {
 		chunk = input.PassChunk('{', '}');
 		
 		auto ptr = CreateRef<DataElement>();
@@ -55,7 +55,7 @@ Buffer DataElementArray::GetVarNames()
 	if (m_DataArry.size() > 0) {
 		for (auto& element : *this) {
 			retBuff.append("{");
-			retBuff.append(element->m_VarName);
+			retBuff.append(element->GetName());
 			retBuff.append("}");
 		}
 	} 

@@ -29,6 +29,7 @@ PROFILE_BEGIN_SESSION("RDLPIM-Startup", "../analysis/RDLPIM-Startup.json");
 	connectionManagerObj->Init();
 	clientManagerObj->Init();
 	theRDL->Init("rtex10.exe");
+
 PROFILE_END_SESSION();
 
 

@@ -93,7 +93,63 @@ $(document).ready(function(){initNavTree('class_r_d_l.html',''); initResizable()
 <div class="title">RDL Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>A class to handle the interface between external code and the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a>'s runtime memory and execution. </p>
+<p>This class follows the singleton design pattern as there can only be one instance of an <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a> per machiene. An instantiated <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a> object needs to be initialised with the <a class="el" href="class_r_d_l.html#af3d1d50fcd55e4e0073a08844894b67f" title="This method is used to find the process ID of the RDL, required to gain access to the RDL&#39;s process m...">Init(const char* processName)</a> method. The <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a> Object maintains a list of variables within the <a class="el" href="class_data_base.html" title="The DataBase class forms the heart of the RDLPIM architecture, this singleton holds all data pushed i...">DataBase</a> instanec which it owns, it periodically updates these values within the <a class="el" href="class_data_base.html" title="The DataBase class forms the heart of the RDLPIM architecture, this singleton holds all data pushed i...">DataBase</a> envoking onChanged events which ultimately propogate the sending of subscription driven data packets to connected and subscribed clients. This behaviour is handled by the <a class="el" href="class_r_d_l.html#aecdd05c1f4997976da1c193fc91e3bac" title="Background worker function to be placed on its own thread.">worker()</a> method which should be placed on its own thread.</p>
+<h3><a class="anchor" id="autotoc_md9"></a>
+Example</h3>
+<div class="fragment"><div class="line"><span class="comment">// ********************** //</span></div>
+<div class="line"><span class="comment">//      Get and init      //</span></div>
+<div class="line"><span class="comment">// ********************** //</span></div>
+<div class="line"> </div>
+<div class="line"><span class="comment">//get an instance of the RDL singleton</span></div>
+<div class="line"><a class="code" href="class_r_d_l.html">RDL</a>* theRDL = <a class="code" href="class_r_d_l.html#aace2d8b7646d1511d3c7ba9639246bc3">RDL::Get</a>();</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">//initialise it</span></div>
+<div class="line">theRDL-&gt;<a class="code" href="class_r_d_l.html#af3d1d50fcd55e4e0073a08844894b67f">Init</a>(<span class="stringliteral">&quot;rtex10.exe&quot;</span>)</div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// ********************** //</span></div>
+<div class="line"><span class="comment">//  Start Worker Thread   //</span></div>
+<div class="line"><span class="comment">// ********************** //</span></div>
+<div class="line"><span class="keywordtype">bool</span> work = <span class="keyword">true</span>;</div>
+<div class="line">std::thread rdlManager(&amp;<a class="code" href="class_r_d_l.html#aecdd05c1f4997976da1c193fc91e3bac">RDL::worker</a>, theRDL, std::ref(work));</div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// ********************** //</span></div>
+<div class="line"><span class="comment">//      Write Data        //</span></div>
+<div class="line"><span class="comment">// ********************** //</span></div>
+<div class="line"> </div>
+<div class="line"><span class="comment">//variable and value to write to</span></div>
+<div class="line">std::string varname(<span class="stringliteral">&quot;th_temp_eff&quot;</span>);</div>
+<div class="line"><span class="keywordtype">double</span> value = 40.0;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">//Write to the RDL&#39;s runtime memory</span></div>
+<div class="line">theRDL-&gt;<a class="code" href="class_r_d_l.html#a6666bfb2a1e14c746ea59dd64ccc645e">Write</a>(varname, value);</div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// ********************** //</span></div>
+<div class="line"><span class="comment">//      Read Data         //</span></div>
+<div class="line"><span class="comment">// ********************** //</span></div>
+<div class="line"> </div>
+<div class="line"><a class="code" href="class_buffer.html">Buffer</a> readDataRaw;</div>
+<div class="line"><span class="keywordtype">double</span> readDouble;</div>
+<div class="line"> </div>
+<div class="line"><a class="code" href="classrdl_data.html">rdlData</a> <a class="code" href="job_8hpp.html#a1939e90743463fb34c8c571ec0590430a8d777f385d3dfec8815d20f7496026dc">data</a> = theRDL-&gt;<a class="code" href="class_r_d_l.html#a35cc412e0ac38aff65e480769363ef67">Read</a>(<span class="stringliteral">&quot;th_temp_eff&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">readDataRaw = <a class="code" href="job_8hpp.html#a1939e90743463fb34c8c571ec0590430a8d777f385d3dfec8815d20f7496026dc">data</a>.GetData();</div>
+<div class="line">readDouble = *(<span class="keywordtype">double</span>*)readDataRaw.<a class="code" href="class_buffer.html#a79b72f5f238e940e856a6bea070cc254">GetContents</a>();</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// ********************** //</span></div>
+<div class="line"><span class="comment">//      Exit              //</span></div>
+<div class="line"><span class="comment">// ********************** //</span></div>
+<div class="line"> </div>
+<div class="line">work = <span class="keyword">false</span>;</div>
+<div class="line">rdlManager.join();</div>
+</div><!-- fragment --><dl class="section warning"><dt>Warning</dt><dd>The <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a> object must be initialised with <a class="el" href="class_r_d_l.html#af3d1d50fcd55e4e0073a08844894b67f" title="This method is used to find the process ID of the RDL, required to gain access to the RDL&#39;s process m...">Init(const char* processName)</a> </dd></dl>
 
+<p class="definition">Definition at line <a class="el" href="_r_d_l_8hpp_source.html#l00080">80</a> of file <a class="el" href="_r_d_l_8hpp_source.html">RDL.hpp</a>.</p>
+</div>
 <p><code>#include &lt;<a class="el" href="_r_d_l_8hpp_source.html">RDL.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -101,52 +157,66 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1a16545f667bce0eb04defbfde92da47"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_r_d_l.html#a1a16545f667bce0eb04defbfde92da47">~RDL</a> ()</td></tr>
 <tr class="separator:a1a16545f667bce0eb04defbfde92da47"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aecdd05c1f4997976da1c193fc91e3bac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_r_d_l.html#aecdd05c1f4997976da1c193fc91e3bac">worker</a> (bool &amp;work)</td></tr>
+<tr class="memdesc:aecdd05c1f4997976da1c193fc91e3bac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Background worker function to be placed on its own thread.  <a href="class_r_d_l.html#aecdd05c1f4997976da1c193fc91e3bac">More...</a><br /></td></tr>
 <tr class="separator:aecdd05c1f4997976da1c193fc91e3bac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af3d1d50fcd55e4e0073a08844894b67f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_r_d_l.html#af3d1d50fcd55e4e0073a08844894b67f">Init</a> (const char *processName)</td></tr>
+<tr class="memdesc:af3d1d50fcd55e4e0073a08844894b67f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method is used to find the process ID of the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a>, required to gain access to the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a>'s process memory.  <a href="class_r_d_l.html#af3d1d50fcd55e4e0073a08844894b67f">More...</a><br /></td></tr>
 <tr class="separator:af3d1d50fcd55e4e0073a08844894b67f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa6838f9a012b2b7d5ae8f6849cc3773"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_r_d_l.html#afa6838f9a012b2b7d5ae8f6849cc3773">FindRuntimePointer</a> (char *varname)</td></tr>
+<tr class="memdesc:afa6838f9a012b2b7d5ae8f6849cc3773"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the runtime memory location of a variable managed by DBM, eg "th_temp_eff".  <a href="class_r_d_l.html#afa6838f9a012b2b7d5ae8f6849cc3773">More...</a><br /></td></tr>
 <tr class="separator:afa6838f9a012b2b7d5ae8f6849cc3773"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19c455bfb42c16af672411cdce79c338"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_r_d_l.html#a19c455bfb42c16af672411cdce79c338">RDL_Active</a> ()</td></tr>
+<tr class="memdesc:a19c455bfb42c16af672411cdce79c338"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the status of the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a>'s process id, if the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a> has launched this will return true.  <a href="class_r_d_l.html#a19c455bfb42c16af672411cdce79c338">More...</a><br /></td></tr>
 <tr class="separator:a19c455bfb42c16af672411cdce79c338"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a35cc412e0ac38aff65e480769363ef67"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrdl_data.html">rdlData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_r_d_l.html#a35cc412e0ac38aff65e480769363ef67">Read</a> (const char *varname)</td></tr>
+<tr class="memdesc:a35cc412e0ac38aff65e480769363ef67"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to get an <a class="el" href="classrdl_data.html" title="A RDL runtime data catcher object, will execute a DBM lookup to determine the &#39;RDL attributes&#39; of the...">rdlData</a> runtime object.  <a href="class_r_d_l.html#a35cc412e0ac38aff65e480769363ef67">More...</a><br /></td></tr>
 <tr class="separator:a35cc412e0ac38aff65e480769363ef67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa3a9b522caa3c36ead0ecbafee1b8324"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classrdl_data.html">rdlData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_r_d_l.html#aa3a9b522caa3c36ead0ecbafee1b8324">Read</a> (char *varname)</td></tr>
+<tr class="memdesc:aa3a9b522caa3c36ead0ecbafee1b8324"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to get an <a class="el" href="classrdl_data.html" title="A RDL runtime data catcher object, will execute a DBM lookup to determine the &#39;RDL attributes&#39; of the...">rdlData</a> runtime object.  <a href="class_r_d_l.html#aa3a9b522caa3c36ead0ecbafee1b8324">More...</a><br /></td></tr>
 <tr class="separator:aa3a9b522caa3c36ead0ecbafee1b8324"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6666bfb2a1e14c746ea59dd64ccc645e"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a6666bfb2a1e14c746ea59dd64ccc645e"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_r_d_l.html#a6666bfb2a1e14c746ea59dd64ccc645e">Write</a> (const std::string &amp;varName, T value)</td></tr>
+<tr class="memdesc:a6666bfb2a1e14c746ea59dd64ccc645e"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to write a primitive value into the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a>'s runtime memory, for example an bool int float or double.  <a href="class_r_d_l.html#a6666bfb2a1e14c746ea59dd64ccc645e">More...</a><br /></td></tr>
 <tr class="separator:a6666bfb2a1e14c746ea59dd64ccc645e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0fc515f4e8188ca9e44b35475984938d"><td class="memItemLeft" align="right" valign="top">template&lt;&gt; </td></tr>
 <tr class="memitem:a0fc515f4e8188ca9e44b35475984938d"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_r_d_l.html#a0fc515f4e8188ca9e44b35475984938d">Write</a> (const std::string &amp;varName, bool value)</td></tr>
+<tr class="memdesc:a0fc515f4e8188ca9e44b35475984938d"><td class="mdescLeft">&#160;</td><td class="mdescRight">specialised <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a> write template accounting for Fortan70 boolean true spec  <a href="class_r_d_l.html#a0fc515f4e8188ca9e44b35475984938d">More...</a><br /></td></tr>
 <tr class="separator:a0fc515f4e8188ca9e44b35475984938d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad87a808e6a4083dace41618571f8f962"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_r_d_l.html#ad87a808e6a4083dace41618571f8f962">Write</a> (const char *varName, char *<a class="el" href="job_8hpp.html#a1939e90743463fb34c8c571ec0590430a8d777f385d3dfec8815d20f7496026dc">data</a>, size_t size)</td></tr>
+<tr class="memdesc:ad87a808e6a4083dace41618571f8f962"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to write complex data structures to the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a> runtime memory.  <a href="class_r_d_l.html#ad87a808e6a4083dace41618571f8f962">More...</a><br /></td></tr>
 <tr class="separator:ad87a808e6a4083dace41618571f8f962"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a76b72fc38e762234dd955c5357f457a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_r_d_l.html#a76b72fc38e762234dd955c5357f457a5">Write</a> (const std::string &amp;varName, char *<a class="el" href="job_8hpp.html#a1939e90743463fb34c8c571ec0590430a8d777f385d3dfec8815d20f7496026dc">data</a>, size_t size)</td></tr>
+<tr class="memdesc:a76b72fc38e762234dd955c5357f457a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">std::string varname overload of <a class="el" href="class_r_d_l.html#ad87a808e6a4083dace41618571f8f962" title="A method to write complex data structures to the RDL runtime memory.">Write(const char* varName, char* data, size_t size)</a>;  <a href="class_r_d_l.html#a76b72fc38e762234dd955c5357f457a5">More...</a><br /></td></tr>
 <tr class="separator:a76b72fc38e762234dd955c5357f457a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a72be37d574278389e9d9b2ec6237dd37"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_r_d_l.html#a72be37d574278389e9d9b2ec6237dd37">Write</a> (const <a class="el" href="class_data_element.html">DataElement</a> &amp;<a class="el" href="job_8hpp.html#a1939e90743463fb34c8c571ec0590430a8d777f385d3dfec8815d20f7496026dc">data</a>)</td></tr>
+<tr class="memdesc:a72be37d574278389e9d9b2ec6237dd37"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to write the contents of a <a class="el" href="class_data_element.html" title="A class to handle the data transfer of complex and primitive objects into and out of the DataBase ins...">DataElement</a> object to the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a>'s runtime memory.  <a href="class_r_d_l.html#a72be37d574278389e9d9b2ec6237dd37">More...</a><br /></td></tr>
 <tr class="separator:a72be37d574278389e9d9b2ec6237dd37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a58c2296c09cca4c52a9d3ce0fec7e9a7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_r_d_l.html#a58c2296c09cca4c52a9d3ce0fec7e9a7">TrackVariable</a> (const <a class="el" href="classrdl_data.html">rdlData</a> &amp;varName)</td></tr>
+<tr class="memdesc:a58c2296c09cca4c52a9d3ce0fec7e9a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to add a variable to the by tracked for changes within the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a>'s runtime.  <a href="class_r_d_l.html#a58c2296c09cca4c52a9d3ce0fec7e9a7">More...</a><br /></td></tr>
 <tr class="separator:a58c2296c09cca4c52a9d3ce0fec7e9a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad11cf03ef5f7e445ebf820026baf26f6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_r_d_l.html#ad11cf03ef5f7e445ebf820026baf26f6">UntrackVariable</a> (const std::string &amp;varName)</td></tr>
+<tr class="memdesc:ad11cf03ef5f7e445ebf820026baf26f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to stop tracking a specific variable within the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a>, the <a class="el" href="class_data_base.html" title="The DataBase class forms the heart of the RDLPIM architecture, this singleton holds all data pushed i...">DataBase</a>'s copy will no longer be kept live.  <a href="class_r_d_l.html#ad11cf03ef5f7e445ebf820026baf26f6">More...</a><br /></td></tr>
 <tr class="separator:ad11cf03ef5f7e445ebf820026baf26f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:aace2d8b7646d1511d3c7ba9639246bc3"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_r_d_l.html">RDL</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_r_d_l.html#aace2d8b7646d1511d3c7ba9639246bc3">Get</a> ()</td></tr>
+<tr class="memdesc:aace2d8b7646d1511d3c7ba9639246bc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">A static method to instantiate if nessesary and return a raw pointer to an <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a> object.  <a href="class_r_d_l.html#aace2d8b7646d1511d3c7ba9639246bc3">More...</a><br /></td></tr>
 <tr class="separator:aace2d8b7646d1511d3c7ba9639246bc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a45839cb65457ec8c9b8cdccc59cbf30c"><td class="memItemLeft" align="right" valign="top">DWORD&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_r_d_l.html#a45839cb65457ec8c9b8cdccc59cbf30c">pid</a></td></tr>
+<tr class="memdesc:a45839cb65457ec8c9b8cdccc59cbf30c"><td class="mdescLeft">&#160;</td><td class="mdescRight">process ID of the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a>'s process  <a href="class_r_d_l.html#a45839cb65457ec8c9b8cdccc59cbf30c">More...</a><br /></td></tr>
 <tr class="separator:a45839cb65457ec8c9b8cdccc59cbf30c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7cc44bc9f5169919459fe1650961df58"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_core_8h.html#add5e90b302c31b74a46619f240214bcc">Ref</a>&lt; <a class="el" href="class_event_callback.html">EventCallback</a>&lt; const std::string &amp; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_r_d_l.html#a7cc44bc9f5169919459fe1650961df58">c_NewDataEntry</a></td></tr>
+<tr class="memdesc:a7cc44bc9f5169919459fe1650961df58"><td class="mdescLeft">&#160;</td><td class="mdescRight">on new entry to <a class="el" href="class_data_base.html" title="The DataBase class forms the heart of the RDLPIM architecture, this singleton holds all data pushed i...">DataBase</a> callback  <a href="class_r_d_l.html#a7cc44bc9f5169919459fe1650961df58">More...</a><br /></td></tr>
 <tr class="separator:a7cc44bc9f5169919459fe1650961df58"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a70c73b246d3413183a0aefa9f4955e5f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_core_8h.html#add5e90b302c31b74a46619f240214bcc">Ref</a>&lt; <a class="el" href="class_event_callback.html">EventCallback</a>&lt; const <a class="el" href="class_data_element.html">DataElement</a> &amp; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_r_d_l.html#a70c73b246d3413183a0aefa9f4955e5f">c_DB_ElementChanged</a></td></tr>
+<tr class="memdesc:a70c73b246d3413183a0aefa9f4955e5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">on <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a> owned data change within <a class="el" href="class_data_base.html" title="The DataBase class forms the heart of the RDLPIM architecture, this singleton holds all data pushed i...">DataBase</a> call back, handel pushed data from a connected client  <a href="class_r_d_l.html#a70c73b246d3413183a0aefa9f4955e5f">More...</a><br /></td></tr>
 <tr class="separator:a70c73b246d3413183a0aefa9f4955e5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="_r_d_l_8hpp_source.html#l00020">20</a> of file <a class="el" href="_r_d_l_8hpp_source.html">RDL.hpp</a>.</p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a1a16545f667bce0eb04defbfde92da47"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1a16545f667bce0eb04defbfde92da47">&#9670;&nbsp;</a></span>~RDL()</h2>
 
@@ -183,6 +253,15 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Return the runtime memory location of a variable managed by DBM, eg "th_temp_eff". </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">varname</td><td>variable name eg "th_temp_eff" </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>long ptr </dd></dl>
+
 <p class="definition">Definition at line <a class="el" href="_r_d_l_8cpp_source.html#l00171">171</a> of file <a class="el" href="_r_d_l_8cpp_source.html">RDL.cpp</a>.</p>
 
 </div>
@@ -210,6 +289,9 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>A static method to instantiate if nessesary and return a raw pointer to an <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a> object. </p>
+<dl class="section return"><dt>Returns</dt><dd>A raw pointer to an <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a> object </dd></dl>
+
 <p class="definition">Definition at line <a class="el" href="_r_d_l_8cpp_source.html#l00042">42</a> of file <a class="el" href="_r_d_l_8cpp_source.html">RDL.cpp</a>.</p>
 
 </div>
@@ -230,6 +312,14 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>This method is used to find the process ID of the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a>, required to gain access to the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a>'s process memory. </p>
+<p>The name of the process must be spcified here, it will likely be "rtex10.exe" but can be another Simexec executable. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">processName</td><td>Process name, eg "rtex10.exe" </td></tr>
+  </table>
+  </dd>
+</dl>
+
 <p class="definition">Definition at line <a class="el" href="_r_d_l_8cpp_source.html#l00163">163</a> of file <a class="el" href="_r_d_l_8cpp_source.html">RDL.cpp</a>.</p>
 
 </div>
@@ -248,6 +338,9 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Return the status of the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a>'s process id, if the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a> has launched this will return true. </p>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a> status </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_r_d_l_8cpp_source.html#l00208">208</a> of file <a class="el" href="_r_d_l_8cpp_source.html">RDL.cpp</a>.</p>
 
@@ -269,6 +362,15 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>A method to get an <a class="el" href="classrdl_data.html" title="A RDL runtime data catcher object, will execute a DBM lookup to determine the &#39;RDL attributes&#39; of the...">rdlData</a> runtime object. </p>
+<p>This will return an <a class="el" href="classrdl_data.html" title="A RDL runtime data catcher object, will execute a DBM lookup to determine the &#39;RDL attributes&#39; of the...">rdlData</a> object containing the data type, raw data, memory address. For a complete set of contents see <a class="el" href="classrdl_data.html" title="A RDL runtime data catcher object, will execute a DBM lookup to determine the &#39;RDL attributes&#39; of the...">rdlData</a> documentation. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">varname</td><td>variable name </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classrdl_data.html" title="A RDL runtime data catcher object, will execute a DBM lookup to determine the &#39;RDL attributes&#39; of the...">rdlData</a> opject (copy) </dd></dl>
+
 <p class="definition">Definition at line <a class="el" href="_r_d_l_8cpp_source.html#l00091">91</a> of file <a class="el" href="_r_d_l_8cpp_source.html">RDL.cpp</a>.</p>
 
 </div>
@@ -288,6 +390,15 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>A method to get an <a class="el" href="classrdl_data.html" title="A RDL runtime data catcher object, will execute a DBM lookup to determine the &#39;RDL attributes&#39; of the...">rdlData</a> runtime object. </p>
+<p>This will return an <a class="el" href="classrdl_data.html" title="A RDL runtime data catcher object, will execute a DBM lookup to determine the &#39;RDL attributes&#39; of the...">rdlData</a> object containing the data type, raw data, memory address. For a complete set of contents see <a class="el" href="classrdl_data.html" title="A RDL runtime data catcher object, will execute a DBM lookup to determine the &#39;RDL attributes&#39; of the...">rdlData</a> documentation. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">varname</td><td>variable name </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="classrdl_data.html" title="A RDL runtime data catcher object, will execute a DBM lookup to determine the &#39;RDL attributes&#39; of the...">rdlData</a> opject (copy) </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_r_d_l_8cpp_source.html#l00086">86</a> of file <a class="el" href="_r_d_l_8cpp_source.html">RDL.cpp</a>.</p>
 
@@ -309,6 +420,14 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>A method to add a variable to the by tracked for changes within the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a>'s runtime. </p>
+<p>Should a change be detected, the <a class="el" href="class_data_base.html" title="The DataBase class forms the heart of the RDLPIM architecture, this singleton holds all data pushed i...">DataBase</a> instance's copy will be made consistent. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">varName</td><td><a class="el" href="classrdl_data.html" title="A RDL runtime data catcher object, will execute a DBM lookup to determine the &#39;RDL attributes&#39; of the...">rdlData</a> refernce object </td></tr>
+  </table>
+  </dd>
+</dl>
+
 <p class="definition">Definition at line <a class="el" href="_r_d_l_8cpp_source.html#l00134">134</a> of file <a class="el" href="_r_d_l_8cpp_source.html">RDL.cpp</a>.</p>
 
 </div>
@@ -329,6 +448,14 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>A method to stop tracking a specific variable within the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a>, the <a class="el" href="class_data_base.html" title="The DataBase class forms the heart of the RDLPIM architecture, this singleton holds all data pushed i...">DataBase</a>'s copy will no longer be kept live. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">varName</td><td>name of variable within the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a> to stop tracking </td></tr>
+  </table>
+  </dd>
+</dl>
+
 <p class="definition">Definition at line <a class="el" href="_r_d_l_8cpp_source.html#l00148">148</a> of file <a class="el" href="_r_d_l_8cpp_source.html">RDL.cpp</a>.</p>
 
 </div>
@@ -348,6 +475,14 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Background worker function to be placed on its own thread. </p>
+<p>This function keeps data within a <a class="el" href="class_data_base.html" title="The DataBase class forms the heart of the RDLPIM architecture, this singleton holds all data pushed i...">DataBase</a> instance up to date if it is 'owned' by the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a>. This thread is joinable once the referenc argument bool&amp; work is false </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">work</td><td>status of execution. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p class="definition">Definition at line <a class="el" href="_r_d_l_8cpp_source.html#l00049">49</a> of file <a class="el" href="_r_d_l_8cpp_source.html">RDL.cpp</a>.</p>
 
@@ -385,6 +520,16 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>A method to write complex data structures to the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a> runtime memory. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">varName</td><td>name of variable within the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a> to write to </td></tr>
+    <tr><td class="paramname">data</td><td>a pointer to the data </td></tr>
+    <tr><td class="paramname">size</td><td>amount of data in bytes to write </td></tr>
+  </table>
+  </dd>
+</dl>
+
 <p class="definition">Definition at line <a class="el" href="_r_d_l_8cpp_source.html#l00096">96</a> of file <a class="el" href="_r_d_l_8cpp_source.html">RDL.cpp</a>.</p>
 
 </div>
@@ -404,6 +549,15 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>A method to write the contents of a <a class="el" href="class_data_element.html" title="A class to handle the data transfer of complex and primitive objects into and out of the DataBase ins...">DataElement</a> object to the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a>'s runtime memory. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>source data </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section warning"><dt>Warning</dt><dd>the variable name within the <a class="el" href="class_data_element.html" title="A class to handle the data transfer of complex and primitive objects into and out of the DataBase ins...">DataElement</a> object must be aligned with the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a>'s DBM </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_r_d_l_8cpp_source.html#l00115">115</a> of file <a class="el" href="_r_d_l_8cpp_source.html">RDL.cpp</a>.</p>
 
@@ -445,7 +599,16 @@ template&lt;&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_r_d_l_8hpp_source.html#l00065">65</a> of file <a class="el" href="_r_d_l_8hpp_source.html">RDL.hpp</a>.</p>
+<p>specialised <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a> write template accounting for Fortan70 boolean true spec </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">varName</td><td>name of variable within the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a> to write to </td></tr>
+    <tr><td class="paramname">value</td><td>value data </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_r_d_l_8hpp_source.html#l00152">152</a> of file <a class="el" href="_r_d_l_8hpp_source.html">RDL.hpp</a>.</p>
 
 </div>
 </div>
@@ -480,6 +643,16 @@ template&lt;&gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>std::string varname overload of <a class="el" href="class_r_d_l.html#ad87a808e6a4083dace41618571f8f962" title="A method to write complex data structures to the RDL runtime memory.">Write(const char* varName, char* data, size_t size)</a>; </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">varName</td><td>name of variable within the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a> to write to </td></tr>
+    <tr><td class="paramname">data</td><td>a pointer to the data </td></tr>
+    <tr><td class="paramname">size</td><td>amount of data in bytes to write </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p class="definition">Definition at line <a class="el" href="_r_d_l_8cpp_source.html#l00105">105</a> of file <a class="el" href="_r_d_l_8cpp_source.html">RDL.cpp</a>.</p>
 
@@ -521,7 +694,22 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_r_d_l_8hpp_source.html#l00049">49</a> of file <a class="el" href="_r_d_l_8hpp_source.html">RDL.hpp</a>.</p>
+<p>A method to write a primitive value into the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a>'s runtime memory, for example an bool int float or double. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Data type </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">varName</td><td>name of variable within the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a> to write to </td></tr>
+    <tr><td class="paramname">value</td><td>value data </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_r_d_l_8hpp_source.html#l00133">133</a> of file <a class="el" href="_r_d_l_8hpp_source.html">RDL.hpp</a>.</p>
 
 </div>
 </div>
@@ -538,7 +726,9 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_r_d_l_8hpp_source.html#l00097">97</a> of file <a class="el" href="_r_d_l_8hpp_source.html">RDL.hpp</a>.</p>
+<p>on <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a> owned data change within <a class="el" href="class_data_base.html" title="The DataBase class forms the heart of the RDLPIM architecture, this singleton holds all data pushed i...">DataBase</a> call back, handel pushed data from a connected client </p>
+
+<p class="definition">Definition at line <a class="el" href="_r_d_l_8hpp_source.html#l00201">201</a> of file <a class="el" href="_r_d_l_8hpp_source.html">RDL.hpp</a>.</p>
 
 </div>
 </div>
@@ -554,7 +744,9 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_r_d_l_8hpp_source.html#l00096">96</a> of file <a class="el" href="_r_d_l_8hpp_source.html">RDL.hpp</a>.</p>
+<p>on new entry to <a class="el" href="class_data_base.html" title="The DataBase class forms the heart of the RDLPIM architecture, this singleton holds all data pushed i...">DataBase</a> callback </p>
+
+<p class="definition">Definition at line <a class="el" href="_r_d_l_8hpp_source.html#l00200">200</a> of file <a class="el" href="_r_d_l_8hpp_source.html">RDL.hpp</a>.</p>
 
 </div>
 </div>
@@ -570,7 +762,9 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_r_d_l_8hpp_source.html#l00023">23</a> of file <a class="el" href="_r_d_l_8hpp_source.html">RDL.hpp</a>.</p>
+<p>process ID of the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a>'s process </p>
+
+<p class="definition">Definition at line <a class="el" href="_r_d_l_8hpp_source.html#l00083">83</a> of file <a class="el" href="_r_d_l_8hpp_source.html">RDL.hpp</a>.</p>
 
 </div>
 </div>
@@ -580,6 +774,16 @@ template&lt;typename T &gt; </div>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="aclass_r_d_l_html_a6666bfb2a1e14c746ea59dd64ccc645e"><div class="ttname"><a href="class_r_d_l.html#a6666bfb2a1e14c746ea59dd64ccc645e">RDL::Write</a></div><div class="ttdeci">void Write(const std::string &amp;varName, T value)</div><div class="ttdoc">A method to write a primitive value into the RDL's runtime memory, for example an bool int float or d...</div><div class="ttdef"><b>Definition:</b> <a href="_r_d_l_8hpp_source.html#l00133">RDL.hpp:133</a></div></div>
+<div class="ttc" id="aclass_r_d_l_html_af3d1d50fcd55e4e0073a08844894b67f"><div class="ttname"><a href="class_r_d_l.html#af3d1d50fcd55e4e0073a08844894b67f">RDL::Init</a></div><div class="ttdeci">void Init(const char *processName)</div><div class="ttdoc">This method is used to find the process ID of the RDL, required to gain access to the RDL's process m...</div><div class="ttdef"><b>Definition:</b> <a href="_r_d_l_8cpp_source.html#l00163">RDL.cpp:163</a></div></div>
+<div class="ttc" id="aclass_buffer_html"><div class="ttname"><a href="class_buffer.html">Buffer</a></div><div class="ttdoc">The Buffer class is a container to hold serialised data.</div><div class="ttdef"><b>Definition:</b> <a href="buffer_8hpp_source.html#l00031">buffer.hpp:31</a></div></div>
+<div class="ttc" id="aclass_r_d_l_html_a35cc412e0ac38aff65e480769363ef67"><div class="ttname"><a href="class_r_d_l.html#a35cc412e0ac38aff65e480769363ef67">RDL::Read</a></div><div class="ttdeci">rdlData Read(const char *varname)</div><div class="ttdoc">A method to get an rdlData runtime object.</div><div class="ttdef"><b>Definition:</b> <a href="_r_d_l_8cpp_source.html#l00086">RDL.cpp:86</a></div></div>
+<div class="ttc" id="ajob_8hpp_html_a1939e90743463fb34c8c571ec0590430a8d777f385d3dfec8815d20f7496026dc"><div class="ttname"><a href="job_8hpp.html#a1939e90743463fb34c8c571ec0590430a8d777f385d3dfec8815d20f7496026dc">Commands::data</a></div><div class="ttdeci">@ data</div></div>
+<div class="ttc" id="aclass_buffer_html_a79b72f5f238e940e856a6bea070cc254"><div class="ttname"><a href="class_buffer.html#a79b72f5f238e940e856a6bea070cc254">Buffer::GetContents</a></div><div class="ttdeci">const char * GetContents() const</div><div class="ttdoc">A method to return a const pointer to the Buffers contents.</div><div class="ttdef"><b>Definition:</b> <a href="buffer_8hpp_source.html#l00038">buffer.hpp:38</a></div></div>
+<div class="ttc" id="aclass_r_d_l_html_aecdd05c1f4997976da1c193fc91e3bac"><div class="ttname"><a href="class_r_d_l.html#aecdd05c1f4997976da1c193fc91e3bac">RDL::worker</a></div><div class="ttdeci">void worker(bool &amp;work)</div><div class="ttdoc">Background worker function to be placed on its own thread.</div><div class="ttdef"><b>Definition:</b> <a href="_r_d_l_8cpp_source.html#l00049">RDL.cpp:49</a></div></div>
+<div class="ttc" id="aclassrdl_data_html"><div class="ttname"><a href="classrdl_data.html">rdlData</a></div><div class="ttdoc">A RDL runtime data catcher object, will execute a DBM lookup to determine the 'RDL attributes' of the...</div><div class="ttdef"><b>Definition:</b> <a href="rdl_data_8hpp_source.html#l00038">rdlData.hpp:38</a></div></div>
+<div class="ttc" id="aclass_r_d_l_html_aace2d8b7646d1511d3c7ba9639246bc3"><div class="ttname"><a href="class_r_d_l.html#aace2d8b7646d1511d3c7ba9639246bc3">RDL::Get</a></div><div class="ttdeci">static RDL * Get()</div><div class="ttdoc">A static method to instantiate if nessesary and return a raw pointer to an RDL object.</div><div class="ttdef"><b>Definition:</b> <a href="_r_d_l_8cpp_source.html#l00042">RDL.cpp:42</a></div></div>
+<div class="ttc" id="aclass_r_d_l_html"><div class="ttname"><a href="class_r_d_l.html">RDL</a></div><div class="ttdoc">A class to handle the interface between external code and the RDL's runtime memory and execution.</div><div class="ttdef"><b>Definition:</b> <a href="_r_d_l_8hpp_source.html#l00080">RDL.hpp:80</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

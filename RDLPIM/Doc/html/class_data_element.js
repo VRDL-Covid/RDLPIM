@@ -10,7 +10,9 @@ var class_data_element =
     [ "DataElement", "class_data_element.html#a3b164f9d3f7292293c1e7caacba6ba75", null ],
     [ "DataElement", "class_data_element.html#aa2355e68be1d8ed6deae1708c6a8cddb", null ],
     [ "deserialise", "class_data_element.html#af32f7cca78a851bb3c56636f16cb0dd0", null ],
-    [ "GetName", "class_data_element.html#a07309729fec1c311edeea90360460d1b", null ],
+    [ "GetData", "class_data_element.html#abf43fee2283f9c48db867d89b4a6589e", null ],
+    [ "GetName", "class_data_element.html#a3e57590c5df8ef73bb7d272091fb84b6", null ],
+    [ "GetSize", "class_data_element.html#a423c5ee905f8bcb8f96dadce4d45151d", null ],
     [ "GetType", "class_data_element.html#aceb3a97a3a637826ebeb8c500d9fb759", null ],
     [ "operator=", "class_data_element.html#a79069a84c25a4c37c53c5c69ab473e1f", null ],
     [ "operator=", "class_data_element.html#aff9d2b62634e1eb3639b2a96456507dd", null ],
@@ -23,8 +25,5 @@ var class_data_element =
     [ "set", "class_data_element.html#ad789556c36ca4483a42017c6ae3a8867", null ],
     [ "set", "class_data_element.html#a285047bfdd9d0ccf98a4e0a529611d41", null ],
     [ "set", "class_data_element.html#a8d32599212797ce5b9cf77c1f8c7d56b", null ],
-    [ "m_Bytes", "class_data_element.html#adf7a2aa5861d75d83705d91b63e6a2ef", null ],
-    [ "m_data", "class_data_element.html#a1f4d7ab713b466a1d61e90dbc94cd6e1", null ],
-    [ "m_Type", "class_data_element.html#abe2146377e3bf23c3afbae00e6c85222", null ],
-    [ "m_VarName", "class_data_element.html#a04c68e8c7ed4dc4cc731ab655c2c352b", null ]
+    [ "SetType", "class_data_element.html#a1dde52816fb4d6a86c06ced5a9938674", null ]
 ];

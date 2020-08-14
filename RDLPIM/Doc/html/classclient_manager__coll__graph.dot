@@ -1,0 +1,7 @@
+digraph "clientManager"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{clientManager\n||+ Init()\l+ worker()\l+ GetNewClientEvent()\l+ GetClientDisconnectEvent()\l+ ~clientManager()\l+ Get()\l+ publishMessage()\l+ publishMessage()\l+ sendMessage()\l+ broadCast()\l+ AddClient()\l+ RemoveClient()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="A Class to manage connected Clients."];
+}

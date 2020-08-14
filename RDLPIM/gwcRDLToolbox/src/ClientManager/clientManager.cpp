@@ -144,7 +144,7 @@ bool clientManager::RemoveClient_impl(Ref<Client>& client)
 	data.append(" has disconnected");
 
 	reqHead.SetCommand(Commands::Info);
-	reqHead.SetSize(data.size);
+	reqHead.SetSize(data.GetSize());
 
 	outbuffer = reqHead.Serialise();
 	outbuffer.append(data);
@@ -179,5 +179,5 @@ clientManager::~clientManager()
 void clientManager::Init()
 {
 	PROFILE_FUNCTION();
-	connectionManager::Get()->onNewConnection.subscribe(BIND_EVENT_FN(clientManager::AddClient_impl));
+	connectionManager::Get()->GetNewConnectionEvent().subscribe(BIND_EVENT_FN(clientManager::AddClient_impl));
 }

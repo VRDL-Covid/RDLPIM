@@ -7,51 +7,49 @@
 // Description: A class to handle a single request string from a client formatting:
 //				"VarName=VarType=Bytes=Value"
 //				passed to request handle objects.
+
+
+/// @brief A class to handle the data transfer of complex and primitive objects into and out of the DataBase instance
+/// 
+/// the serialised format is as follows:
+/// 
+///   [char]=[char]=[int]=[char]
+/// 
+/// "VarName=VarType=Bytes=Value"
+/// 
+/// 
+/// Overloaded functions have been provided to allow primitives to be injected into DataElements readily
+/// ###Example
+/// ~~~~~~~~~~.cpp
+/// DataElement de("varName");
+/// double value;
+/// Buffer serialised;
+/// 
+/// value = 3.14159;
+/// de.set(value);
+/// 
+/// serialised = de.Serialise();
+/// 
+/// serialised.fullPrint();
+///	//				   {int = 8 bytes} 
+/// //"varName=double=\x08\x00\x00\x00={binary for 3.14159 as double}
+/// 
+/// 
+/// ~~~~~~~~~~
 class DataElement
 {
 private:
 	void sizeData(int sBytes);
-public:
+
 	//members
 	Buffer m_VarName;
 	Buffer m_Type;
 	int m_Bytes;
 	char* m_data;
+public:
 
-	//methods 
 
-	// Author: Guy Collins
-	// Date: 20/01/2020
-	// Description: Set methods overloaded to types required for trasnfer. 
-	void set(bool in); //bool
-	void set(int in); //bool
-	void set(float in); //bool
-	void set(double in); //bool
-	int set(char* in, int size); //blob
-	int set(Buffer* in); //bool
-	int set(const Buffer &in); //bool
-	void set(const rdlData& data); //bool
 
-	// Author: Guy Collins
-	// Date: 20/01/2020
-	// Description: Method to initialise the contents of a request packet from a correctly formatted character array 
-	//				"{VarName=VarType=Bytes=Value}"
-	int deserialise(const Buffer& in);
-
-	// Author: Guy Collins
-	// Date: 20/01/2020
-	// Description: Method to serialise the contents of a request packet into a correctly formatted character array 
-	//				"{VarName=VarType=Bytes=Value}"
-	Buffer Serialise()const;
-
-	//Author: Guy Collins
-	//Date 04/08/2020
-	const std::string GetName() const { return m_VarName.ToString(); }
-
-	//Author: Guy Collins
-	//Date: /30/07/2020
-	//A function to return the type as a string
-	const std::string GetType()const;
 	// Author: Guy Collins
 	// Date: 20/01/2020
 	// Description: Constructor and destructor methods, overloaded to initialise variable name from a string or buffer object.
@@ -63,18 +61,95 @@ public:
 	DataElement(const rdlData& var);
 	~DataElement();
 
-	//copy constructors
 
-	//copy constructor
+	/// @brief Set DataElement to contain boolean primitive
+	/// @param in value
+	void set(bool in);
+
+	/// @brief Set DataElement to contain integer primitive
+	/// @param in value
+	void set(int in); 
+
+	/// @brief Set DataElement to contain float primitive
+	/// @param in value
+	void set(float in);
+
+	/// @brief Set DataElement to contain double primitive
+	/// @param in value
+	void set(double in);
+
+	/// @brief Set DataElement to contain a blob/serialised datatype
+	/// @param in value
+	int set(char* in, int size); 
+
+	/// @brief Set DataElement to contain a blob/serialised datatype
+	/// @param in value
+	int set(Buffer* in); 
+
+	/// @brief Set DataElement to contain a blob/serialised datatype
+	/// @param in value
+	int set(const Buffer &in);
+
+	/// @brief Set DataElement to contain a RDL data type, type is deduced from rdlData object
+	/// @param data source data
+	void set(const rdlData& data); 
+
+	/// @brief A method to retrieve the name of the variable contained within the DataElement
+	/// @return Buffer representation of the name
+	const Buffer GetName() const { return m_VarName; }
+
+	/// @brief A method to retrieve the type of the variable contained within the DataElement
+	/// @return string representation of the type	
+	const std::string GetType()const;
+
+	/// @brief A method to retrieve the type of the variable contained within the DataElement
+	/// @return string representation of the type	
+	const int GetSize() const { return m_Bytes; }
+
+	/// @brief A method to return a copy of the raw data contained within the DataElement
+	/// @return raw binary as a char array
+	char* GetData() const { return m_data; }
+
+	/// @brief A method used to manually overider the data type stored within the DataElement
+	/// 
+	/// This is required to initialise a DataElement as 'INIT' for the RDL to populate
+	/// @param type Buffer representation of the type eg Buffer("INIT")
+	void SetType(const Buffer& type) { m_Type = type; }
+
+	/// @brief A method to deserialise back into a DataElement object
+	/// @param in serialised data
+	/// @return An integer of the number of components succesfully deserialised 1 name 2 name and type, 3 name type and size, 4 name type size and data.
+	int deserialise(const Buffer& in);
+
+	// Author: Guy Collins
+	// Date: 20/01/2020
+	// Description: Method to serialise the contents of a request packet into a correctly formatted character array 
+	//				"{VarName=VarType=Bytes=Value}"
+
+	/// @brief Method to serialise the contents of a request packet into a correctly formatted character array 
+	/// 
+	/// "{VarName=VarType=Bytes=Value}"
+	/// @warning serialisation will add { } top and tail to facilitate stacking of DataElements.
+	/// @return Buffer of serialised component
+	Buffer Serialise()const;
+
+	/// @brief Copy constructor
+	/// @param other RHS
 	DataElement(const DataElement& other);
 
-	//move Constructor
+	/// @brief Move constructor
+	/// @param other RHS
+	/// @return 
 	DataElement(DataElement&& other) noexcept;
 
-	//copy assignment overload
+	/// @brief Copy assignment operator overload
+	/// @param other RHS
+	/// @return DataElement reference
 	DataElement& operator=(const DataElement& other);
 
-	//move assigment overload
+	/// @brief Move assignment operator overload
+	/// @param other R-Value reference of DataElement object (temp object)
+	/// @return DataElement reference
 	DataElement& operator=(DataElement&& other) noexcept;
 
 };

@@ -1,74 +1,149 @@
 #pragma once
-// Author: Guy Collins
-// Date: 20/01/2020
-// Description: A class to contain buffer data to be sent via sockets
+/// @brief The Buffer class is a container to hold serialised data.
+/// 
+/// The primary use of the Buffer object is to hold serialised data which can be transfered by connectionObjects maintained between the connectionManager and clientManager. Buffer objects are useful for containing
+/// large volumes of machiene readable only data.  Utility functions have been included to allow the developer to compare the contents of Buffer objects and determing if they are the same or different.
+/// 
+/// Manipulation methods to append, prepend, process chunks and print to console beyond that which a std::string would permite by ignoring null termination convention.  
+/// 
+/// 
+/// ###Example
+/// ~~~~~~~~~~.cpp
+/// 
+/// Buffer buff1("test1");
+/// Buffer buff2("test2");
+/// 
+/// if(buff1 == buff2){
+///		std::cout << "This cannot happen" << std::endl;
+/// } else {
+///		std::cout << "This will always happen" << std::endl;
+/// }
+/// 
+/// DataElement someData;
+/// Buffer serialised;
+/// 
+/// serialised = someData.deserialise();
+/// 
+/// //print the binary equivalent of a DataElement including and nulls that may or may not exist.
+/// serialised.fullPrint();
+/// ~~~~~~~~~~
+
 class Buffer
 {
-private:
-
 
 public:
-	//members
-	char* contents;
-	int size;
+	
+	/// @brief A method to return a const pointer to the Buffers contents
+	/// @return Buffers raw contents
+	const char* GetContents() const { return contents; }
 
-	//methods
+	/// @brief A method to get the size of the data contained within the Buffer object
+	/// @return int size of contents
+	const int GetSize() const { return size; }
 
-	// Author: Guy Collins
-	// Date: 20/01/2020
-	// Description: A setter to set the contents of the buffer
-
+	/// @brief A method to store primitive types within a buffer object (int, float, double etc)
+	/// 
+	/// ###Example
+	/// ~~~~~~~~~.cpp
+	/// double myDouble = 3.14159;
+	/// 
+	/// Buffer serialisedDouble;
+	/// serialisedDouble.set(&myDouble,sizeof(double));
+	/// 
+	/// //Print the binary of a double.
+	/// serialisedDouble.fullPrint();
+	/// 
+	/// ~~~~~~~~~
+	/// @param src pointer to primitive
+	/// @param iSize size of the primitive
 	void set(void* src, int iSize);
+
+	/// @brief A method to store a const char* source into a Buffer object
+	/// 
+	/// This is primarily used to store R-value reference strings
+    /// ###Example
+	/// ~~~~~~~~~.cpp
+	/// double myDouble = 3.14159;
+	/// 
+	/// Buffer serialisedRvalueString;
+	/// serialisedRvalueString.set("my const char star");
+	/// 
+	/// //Print the binary of a double.
+	/// serialisedRvalueString.fullPrint();
+	/// 
+	/// ~~~~~~~~~
+	/// @param src 
 	void set(const char* src);
+
+	/// @brief Method to pass data held within a char array into a Buffer object
+	/// @warning depricated, use set(void* src, int iSize)
+	/// @param src source
+	/// @param iSize size of source array
 	void set(char* src, int iSize);
 
-	// Author: Guy Collins
-	// Date: 20/01/2020
-	// Description: methods to compare the contents of two buffers, returns the number of differences found.
-	static int diff(Buffer* buf1, Buffer* buf2);
-	static int diff(Buffer* buf1, const Buffer* buf2);
+	/// @brief A static method to determin the number of differences beween two buffers
+	/// 
+	/// A a difference is given if the lengeth of the buffers are difference, the differences are then counted over the range of the shortest buffer.
+	/// @param buf1 left hand side 
+	/// @param buf2 right hand side
+	/// @return the integer number of differences found
+	static int diff(const Buffer& buf1, const Buffer& buf2);
 
-	// Author: Guy Collins
-	// Date: 20/01/2020
-	// Description: Overloaded equality and inequality operators to allow inline boolean evaluation
+	/// @brief Equality operator overload
+	/// @param buf1 right hand side of equality
+	/// @return status of equality true if equal.
 	bool operator==(const Buffer& buf1);
-	bool operator!=(const Buffer& buf1);
-	friend std::ostream& operator<< (std::ostream& out, const Buffer& c);
 
-	//Author: Guy Collins
-	// Date: 28/01/2020
-	// Description: A method to append one buffer to another
+	/// @brief Inequality operator overload
+	/// @param buf1 right hand side of inequality
+	/// @return status of equality true if not equal.
+	bool operator!=(const Buffer& buf1);
+
+
+
+	/// @brief A method to append a buffer to this buffer
+	/// @param tail buffer data to append
 	void append(const Buffer& tail);
+
+	/// @brief A method to append a R value char array to this buffer
+	/// @param tail append source
 	void append(const char* tail);
 
-	//Author: Guy Collins
-	// Date: 28/01/2020
-	// Description: A method to append one buffer to another
+	/// @brief A method to prepent this buffer with another
+	/// @param head source data
 	void prepend(const Buffer& head);
+
+	/// @brief A method to prepend this buffer with an char array
+	/// @param head source data
 	void prepend(const char* head);
 
-	//Author: Guy Collins
-	//Date: 04/02/2020
-	//Method to null terminate the contents of a buffer.
+	/// @brief A method to null terminate the buffer, required for use with std::string like behaviour
 	void nullTerminate();
 
-	//Author:Guy Collins
-	//date: 04/02/2020
-	//method to fully print the contents of a buffer to the console for debugging, ignores null termination.
+	/// @brief Method to print the contents of a buffer to std::cout.
+	/// 
+	/// Unlike a std::string, this will not stop printing if a null char is encountered, instead it will print to the end of its buffer.
 	void fullPrint() const;
 
-	//Author:Guy Collins
-	//date: 07/02/2020
-	//Methods to remove characters from buffer arrays (number of bytes or upto and including a speration character.
+	/// @brief Method to remove N byts of data from the Buffers head
+	/// @param N Number of bytes
 	void stripHead(int N);
+
+	/// @brief A method to remove up to and including a char, for example a '{' char.
+	/// @param seperator delimiter
 	void stripHead(char seperator);
+
+	/// @brief A method to remove N bytes from the end of the Buffer object
+	/// @param N Number of bytes
 	void stripTail(int N);
+
+	/// @brief A method of striping data from the end of the Buffer object up to and including a delimiter, for example a '}' char.
+	/// @param seperator 
 	void stripTail(char seperator);
 
 
-	//Author:Guy Collins
-	//14/05/2020
-	//Method to convert buffer to a string
+	/// @brief A method of converting a string like Buffer contents to a std::string. Should only be used with human readable contents.
+	/// @return 
 	std::string ToString() const;
 
 	// Author: Guy Collinso
@@ -78,24 +153,59 @@ public:
 	Buffer(const char* string);
 	Buffer(char* src, int sSize);
 
-	//copy constructor
+	/// @brief Copy Constructor
+	/// @param other 
 	Buffer(const Buffer& other);
 
-	//copy assignment overload
+	/// @brief copy assignent overload
+	/// @param other RHS
+	/// @return 
 	Buffer& operator=(const Buffer& other);
 
-	//move operator
+	/// @brief move assignment overload
+	/// @param  RHS
+	/// @return 
 	Buffer& operator=(Buffer&&) noexcept;
 
-	//input overload
-	friend std::istream& operator>> (std::istream& in, Buffer& buf);
-	friend std::ostream& operator<< (std::ostream& out, Buffer& buf);
+	/// @brief std::ostream operator overload
+	/// @param out reference to the outstream
+	/// @param c const reference of Buffer to be streamed
+	/// @return ostream reference
+	friend std::ostream& operator<< (std::ostream& out, const Buffer& c);
 
+	/// @brief std::istream operator overload
+	/// @param in reference to the outstream
+	/// @param buf const reference of Buffer to be streamed
+	/// @return istream reference
+	friend std::istream& operator>> (std::istream& in, Buffer& buf);
+
+	/// @brief A method to return part of a serialised array of Buffer objects.
+	/// @warning This method is destructive, it 'pops' the Buffer part from the full serialised data
+	/// ###Example
+	/// ~~~~~~~~~~.cpp
+	/// Buffer array("{part1}{part2}");
+	/// 
+	/// buffer part1;
+	/// buffer part2;
+	/// 
+	/// part1 = array.PassChunk('{','}');
+	/// part2 = array.PassChunk('{','}');
+	/// 
+	/// //part1 contains "part1"
+	/// //part2 contains "part2"
+	/// //array contains ""
+	/// ~~~~~~~~~~
+	/// @param first 
+	/// @param second 
+	/// @return 
 	Buffer PassChunk(char first, char second);
-	Buffer PassChunk(char delimiter);
+
 
 	~Buffer();
 
+private:
+	char* contents;
+	int size;
 private:
 	void resizeContents(size_t newSize);
 };

@@ -165,25 +165,25 @@ void Buffer::set(char* src, int iSize)
 }
 
 //TODO:GWC - This is broken, needs to be derefferenced
-int Buffer::diff(Buffer* buf1, Buffer* buf2)
+int Buffer::diff(const Buffer& buf1, const Buffer& buf2)
 {
 	int size = 0;
 	int dif = 0;
 
-	if (buf1->size > buf2->size) {
-		size = buf2->size;
-		dif = buf1->size - buf2->size;
+	if (buf1.size > buf2.size) {
+		size = buf2.size;
+		dif = buf1.size - buf2.size;
 	}
 	else {
-		size = buf1->size;
-		dif = -buf1->size + buf2->size;
+		size = buf1.size;
+		dif = -buf1.size + buf2.size;
 	}
 
 	int i = 0;
 
 	for (int i = 0; i < size; i++) {
-		if (buf1->contents[i] != '\0' && buf2->contents[i] != '\0') {
-			if (buf1->contents[i] != buf2->contents[i]) {
+		if (buf1.contents[i] != '\0' && buf2.contents[i] != '\0') {
+			if (buf1.contents[i] != buf2.contents[i]) {
 				dif++;
 			}
 		}
@@ -192,39 +192,13 @@ int Buffer::diff(Buffer* buf1, Buffer* buf2)
 	return dif;
 }
 
-int Buffer::diff(Buffer* buf1, const Buffer* buf2)
-{
-	int size = 0;
-	int dif = 0;
-
-	if (buf1->size > buf2->size) {
-		size = buf2->size;
-		dif = buf1->size - buf2->size;
-	}
-	else {
-		size = buf1->size;
-		dif = -buf1->size + buf2->size;
-	}
-
-	int i = 0;
-
-	for (int i = 0; i < size; i++) {
-		if (buf1->contents[i] != '\0' && buf2->contents[i] != '\0') {
-			if (buf1->contents[i] != buf2->contents[i]) {
-				dif++;
-			}
-		}
-	}
-
-	return dif;
-}
 
 bool Buffer::operator==(const Buffer& buf1)
 {
 	if (size != buf1.size)
 		return false;
 
-	return(!diff(this, &buf1));
+	return(!diff(*this, buf1));
 }
 
 
@@ -233,7 +207,7 @@ bool Buffer::operator!=(const Buffer& buf1)
 	if (size != buf1.size)
 		return true;
 
-	return(diff(this, &buf1));
+	return(diff(*this, buf1));
 }
 
 std::ostream& operator<< (std::ostream& out, const Buffer& c)
@@ -527,14 +501,6 @@ std::istream& operator>> (std::istream& in, Buffer& buf)
 	return in;
 }
 
-std::ostream& operator << (std::ostream& out, Buffer& buf)
-{
-	for (int i = 0; i < buf.size; i++) {
-		out << buf.contents[i];
-	}
-
-	return out;
-}
 
 void Buffer::resizeContents(size_t newSize)
 {

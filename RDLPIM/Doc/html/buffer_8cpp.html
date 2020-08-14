@@ -101,42 +101,10 @@ Functions</h2></td></tr>
 <tr class="separator:ae1ad2c5c45b2f6e493898237025e6912"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b5c5a33d67d334a17a4982dcff3fbc9"><td class="memItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="buffer_8cpp.html#a9b5c5a33d67d334a17a4982dcff3fbc9">operator&gt;&gt;</a> (std::istream &amp;in, <a class="el" href="class_buffer.html">Buffer</a> &amp;buf)</td></tr>
 <tr class="separator:a9b5c5a33d67d334a17a4982dcff3fbc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ec69b1268304da457b12536fdc5e8fe"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="buffer_8cpp.html#a3ec69b1268304da457b12536fdc5e8fe">operator&lt;&lt;</a> (std::ostream &amp;out, <a class="el" href="class_buffer.html">Buffer</a> &amp;buf)</td></tr>
-<tr class="separator:a3ec69b1268304da457b12536fdc5e8fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a3ec69b1268304da457b12536fdc5e8fe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3ec69b1268304da457b12536fdc5e8fe">&#9670;&nbsp;</a></span>operator&lt;&lt;() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::ostream&amp; operator&lt;&lt; </td>
-          <td>(</td>
-          <td class="paramtype">std::ostream &amp;&#160;</td>
-          <td class="paramname"><em>out</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_buffer.html">Buffer</a> &amp;&#160;</td>
-          <td class="paramname"><em>buf</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00530">530</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
-
-</div>
-</div>
 <a id="ae1ad2c5c45b2f6e493898237025e6912"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae1ad2c5c45b2f6e493898237025e6912">&#9670;&nbsp;</a></span>operator&lt;&lt;() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1ad2c5c45b2f6e493898237025e6912">&#9670;&nbsp;</a></span>operator&lt;&lt;()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -160,8 +128,16 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">out</td><td>reference to the outstream </td></tr>
+    <tr><td class="paramname">c</td><td>const reference of <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> to be streamed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>ostream reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00239">239</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00213">213</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
 
 </div>
 </div>
@@ -190,8 +166,16 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">in</td><td>reference to the outstream </td></tr>
+    <tr><td class="paramname">buf</td><td>const reference of <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> to be streamed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>istream reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00522">522</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="buffer_8cpp_source.html#l00496">496</a> of file <a class="el" href="buffer_8cpp_source.html">buffer.cpp</a>.</p>
 
 </div>
 </div>

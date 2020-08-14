@@ -8,6 +8,5 @@ var class_event =
     [ "subscribe", "class_event.html#abd379378d4c18ff8bcbf9cfed0489d90", null ],
     [ "subscribePriority", "class_event.html#a16084fd95574bdb595fcdb44b9f1863c", null ],
     [ "subscribePriority", "class_event.html#a6bc3302d73836424822806e6389d5059", null ],
-    [ "unsubscribe", "class_event.html#a17d06a96cba946d9329673130256a744", null ],
-    [ "unsubscribe", "class_event.html#af3424aaa10f24e2aff49e46c7985c133", null ]
+    [ "unsubscribe", "class_event.html#a17d06a96cba946d9329673130256a744", null ]
 ];

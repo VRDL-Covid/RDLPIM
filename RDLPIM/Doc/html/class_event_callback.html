@@ -91,7 +91,21 @@ $(document).ready(function(){initNavTree('class_event_callback.html',''); initRe
 <div class="title">EventCallback&lt; T &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;typename ... T&gt;<br />
+class EventCallback&lt; T &gt;</h3>
 
+<p>The <a class="el" href="class_event_callback.html" title="The EventCallback class is a utility class to the Event system.">EventCallback</a> class is a utility class to the <a class="el" href="class_event.html" title="Custom event class.">Event</a> system. </p>
+<p>It is used to wrap a function which can then be traced.</p>
+<p><a class="el" href="class_event_callback.html" title="The EventCallback class is a utility class to the Event system.">EventCallback</a> referneces can be maintained and used to subscribe or unsubscribe callback functions to an event. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">...T</td><td>Signature of the bound callback function. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_event_callback_8h_source.html#l00027">27</a> of file <a class="el" href="_event_callback_8h_source.html">EventCallback.h</a>.</p>
+</div>
 <p><code>#include &lt;<a class="el" href="_event_callback_8h_source.html">EventCallback.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -99,23 +113,20 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8986822f6138fc7d815d0f49149f895c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_event_callback.html#a8986822f6138fc7d815d0f49149f895c">EventCallback</a> ()</td></tr>
 <tr class="separator:a8986822f6138fc7d815d0f49149f895c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3647ecea53a4721e7d58520ce51221e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_event_callback.html#ad3647ecea53a4721e7d58520ce51221e">SetCallback</a> (std::function&lt; bool(T...)&gt; callbackFunction)</td></tr>
+<tr class="memdesc:ad3647ecea53a4721e7d58520ce51221e"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to bind a function to the <a class="el" href="class_event_callback.html" title="The EventCallback class is a utility class to the Event system.">EventCallback</a> object.  <a href="class_event_callback.html#ad3647ecea53a4721e7d58520ce51221e">More...</a><br /></td></tr>
 <tr class="separator:ad3647ecea53a4721e7d58520ce51221e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a36cbfa0c73b4ca87c1c846a8e46eb70e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_event_callback.html#a36cbfa0c73b4ca87c1c846a8e46eb70e">EventCallback</a> (std::function&lt; bool(T...)&gt; callbackFunction)</td></tr>
 <tr class="separator:a36cbfa0c73b4ca87c1c846a8e46eb70e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4be3636b01dcd767915c3ecae934941a"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_event_callback.html#a4be3636b01dcd767915c3ecae934941a">~EventCallback</a> ()=default</td></tr>
 <tr class="separator:a4be3636b01dcd767915c3ecae934941a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a45d559b24b6c0de693ca2899d4855ee3"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_event_callback.html#a45d559b24b6c0de693ca2899d4855ee3">GetID</a> ()</td></tr>
-<tr class="separator:a45d559b24b6c0de693ca2899d4855ee3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba173aee930534e812e05dccba990fd6"><td class="memItemLeft" align="right" valign="top">const uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_event_callback.html#aba173aee930534e812e05dccba990fd6">GetID</a> () const</td></tr>
+<tr class="memdesc:aba173aee930534e812e05dccba990fd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to get the ID of the callback wrapper object.  <a href="class_event_callback.html#aba173aee930534e812e05dccba990fd6">More...</a><br /></td></tr>
+<tr class="separator:aba173aee930534e812e05dccba990fd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a977ff180135f428f37a3e07a93d3bfc1"><td class="memItemLeft" align="right" valign="top">std::function&lt; bool(T...)&gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_event_callback.html#a977ff180135f428f37a3e07a93d3bfc1">GetFunction</a> ()</td></tr>
+<tr class="memdesc:a977ff180135f428f37a3e07a93d3bfc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to return the function wrapped by the <a class="el" href="class_event_callback.html" title="The EventCallback class is a utility class to the Event system.">EventCallback</a> object.  <a href="class_event_callback.html#a977ff180135f428f37a3e07a93d3bfc1">More...</a><br /></td></tr>
 <tr class="separator:a977ff180135f428f37a3e07a93d3bfc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;typename ... T&gt;<br />
-class EventCallback&lt; T &gt;</h3>
-
-
-<p class="definition">Definition at line <a class="el" href="_event_callback_8h_source.html#l00021">21</a> of file <a class="el" href="_event_callback_8h_source.html">EventCallback.h</a>.</p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a8986822f6138fc7d815d0f49149f895c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8986822f6138fc7d815d0f49149f895c">&#9670;&nbsp;</a></span>EventCallback() <span class="overload">[1/2]</span></h2>
 
@@ -141,7 +152,7 @@ template&lt;typename ... T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_event_callback_8h_source.html#l00024">24</a> of file <a class="el" href="_event_callback_8h_source.html">EventCallback.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_event_callback_8h_source.html#l00030">30</a> of file <a class="el" href="_event_callback_8h_source.html">EventCallback.h</a>.</p>
 
 </div>
 </div>
@@ -171,7 +182,7 @@ template&lt;typename ... T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_event_callback_8h_source.html#l00034">34</a> of file <a class="el" href="_event_callback_8h_source.html">EventCallback.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_event_callback_8h_source.html#l00043">43</a> of file <a class="el" href="_event_callback_8h_source.html">EventCallback.h</a>.</p>
 
 </div>
 </div>
@@ -228,12 +239,15 @@ template&lt;typename ... T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_event_callback_8h_source.html#l00043">43</a> of file <a class="el" href="_event_callback_8h_source.html">EventCallback.h</a>.</p>
+<p>A method to return the function wrapped by the <a class="el" href="class_event_callback.html" title="The EventCallback class is a utility class to the Event system.">EventCallback</a> object. </p>
+<dl class="section return"><dt>Returns</dt><dd>std::function returning bool and varidiac arguments </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_event_callback_8h_source.html#l00057">57</a> of file <a class="el" href="_event_callback_8h_source.html">EventCallback.h</a>.</p>
 
 </div>
 </div>
-<a id="a45d559b24b6c0de693ca2899d4855ee3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a45d559b24b6c0de693ca2899d4855ee3">&#9670;&nbsp;</a></span>GetID()</h2>
+<a id="aba173aee930534e812e05dccba990fd6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba173aee930534e812e05dccba990fd6">&#9670;&nbsp;</a></span>GetID()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -244,10 +258,10 @@ template&lt;typename ... T&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t <a class="el" href="class_event_callback.html">EventCallback</a>&lt; T &gt;::GetID </td>
+          <td class="memname">const uint32_t <a class="el" href="class_event_callback.html">EventCallback</a>&lt; T &gt;::GetID </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -257,7 +271,10 @@ template&lt;typename ... T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_event_callback_8h_source.html#l00042">42</a> of file <a class="el" href="_event_callback_8h_source.html">EventCallback.h</a>.</p>
+<p>A method to get the ID of the callback wrapper object. </p>
+<dl class="section return"><dt>Returns</dt><dd>the ID </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_event_callback_8h_source.html#l00053">53</a> of file <a class="el" href="_event_callback_8h_source.html">EventCallback.h</a>.</p>
 
 </div>
 </div>
@@ -287,7 +304,16 @@ template&lt;typename ... T&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_event_callback_8h_source.html#l00029">29</a> of file <a class="el" href="_event_callback_8h_source.html">EventCallback.h</a>.</p>
+<p>A method to bind a function to the <a class="el" href="class_event_callback.html" title="The EventCallback class is a utility class to the Event system.">EventCallback</a> object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">callbackFunction</td><td>std::function returning bool </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section attention"><dt>Attention</dt><dd>See <a class="el" href="class_event.html" title="Custom event class.">Event</a> documentation and how the helper macros BIND_EVENT_FN and BIND_EVENT_FNO can be used to help bind functions </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_event_callback_8h_source.html#l00038">38</a> of file <a class="el" href="_event_callback_8h_source.html">EventCallback.h</a>.</p>
 
 </div>
 </div>

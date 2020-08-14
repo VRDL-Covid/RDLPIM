@@ -17,7 +17,7 @@ DataBase* DataBase::GetInstance()
 void DataBase::ModData(const DataElement& data)
 {
 	std::lock_guard<std::mutex> lock(m_DBAccess);
-	Buffer varname = data.m_VarName;
+	Buffer varname = data.GetName();
 
 	std::string varname_str = varname.ToString();
 
@@ -43,7 +43,7 @@ void DataBase::ModData(const DataElementArray& dataArr)
 	auto cpy = dataArr;
 
 	for (auto& element : cpy) {
-		Buffer varname = element->m_VarName;
+		Buffer varname = element->GetName();
 
 		std::string varname_str = varname.ToString();
 
@@ -72,6 +72,7 @@ DataElement DataBase::GetData(const std::string& varName)
 	auto DBE = m_Data[varName];
 	return m_Data[varName]->GetData();
 }
+
 
 bool DataBase::PointExists(const std::string& name)
 {

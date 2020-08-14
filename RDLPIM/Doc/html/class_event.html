@@ -91,7 +91,67 @@ $(document).ready(function(){initNavTree('class_event.html',''); initResizable()
 <div class="title">Event&lt; T &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;typename... T&gt;<br />
+class Event&lt; T &gt;</h3>
 
+<p>Custom event class. </p>
+<p>The <a class="el" href="class_event.html" title="Custom event class.">Event</a> class is a template class where the arguments provided to the template form the signature of the callback. A helper class <a class="el" href="class_event_callback.html" title="The EventCallback class is a utility class to the Event system.">EventCallback</a> has been provided to hold the callback function, this allows the callback to be unsubscribed as it is not possible within c++17/c++20 to determin iqeaulity between std::function(s)</p>
+<p>Helper Macros have been defined to easily bind class member function from within the class (BIND_EVENT_FN) or from outside the class BIND_EVENT_FNO</p>
+<h3><a class="anchor" id="autotoc_md8"></a>
+Example</h3>
+<div class="fragment"><div class="line"><a class="code" href="class_event.html">Event&lt;int,float,std::string&gt;</a> myEvent;</div>
+<div class="line"><a class="code" href="class_event_callback.html">EventCallback&lt;int,float,std::string&gt;</a> myCallback;</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">bool</span> myCallbackFunction(<span class="keywordtype">int</span> i, <span class="keywordtype">float</span> f, std::string s){</div>
+<div class="line">    std::count &lt;&lt; <span class="stringliteral">&quot;Event raised with int &quot;</span> &lt;&lt; i &lt;&lt; <span class="stringliteral">&quot; float &quot;</span> &lt;&lt; f &lt;&lt; <span class="stringliteral">&quot; std::string &quot;</span> &lt;&lt; s &lt;&lt; std::endl<span class="stringliteral">&quot;</span></div>
+<div class="line"><span class="stringliteral"></span> </div>
+<div class="line"><span class="stringliteral">    //return PROPAGATE_EVENT allow other callbacks to be executed</span></div>
+<div class="line"><span class="stringliteral">    return TERMINATE_EVENT; //prevent other callbacks from being executed.</span></div>
+<div class="line"><span class="stringliteral">}</span></div>
+<div class="line"><span class="stringliteral"></span> </div>
+<div class="line"><span class="stringliteral">myCallback.SetCallback(BIND_EVENT_FN(myCallbackFunction));</span></div>
+<div class="line"><span class="stringliteral"></span> </div>
+<div class="line"><span class="stringliteral">myEvent.subscribePriority(myCallback);</span></div>
+<div class="line"><span class="stringliteral"></span> </div>
+<div class="line"><span class="stringliteral">auto id =  myEvent.subscribe([](int i, float f, std::string s){&quot;</span>Labmda <span class="keyword">function</span> call back with<span class="stringliteral">&quot; &lt;&lt; i &lt;&lt; &quot;</span> <span class="keywordtype">float</span> <span class="stringliteral">&quot; &lt;&lt; f &lt;&lt; &quot;</span> std::string <span class="stringliteral">&quot; &lt;&lt; s &lt;&lt; std::endl&quot;</span>}); <span class="comment">//an EventCallback reference is returned which can be used to unsubscribe the callback</span></div>
+<div class="line"> </div>
+<div class="line">myEvent.<a class="code" href="class_event.html#a0c21ee25e3b29725833510ab42f2e51f">raiseEvent</a>(1,2.0f,std::string(<span class="stringliteral">&quot;hello world&quot;</span>));</div>
+<div class="line"><span class="comment">//only myCallback will be called</span></div>
+<div class="line"> </div>
+<div class="line">myEvent.<a class="code" href="class_event.html#a17d06a96cba946d9329673130256a744">unsubscribe</a>(myCallback);</div>
+<div class="line">myEvent.<a class="code" href="class_event.html#a0c21ee25e3b29725833510ab42f2e51f">raiseEvent</a>(1,2.0f,std::string(<span class="stringliteral">&quot;hello world&quot;</span>));</div>
+<div class="line"><span class="comment">//only the lambda will be called</span></div>
+<div class="line"> </div>
+<div class="line">myEvent.<a class="code" href="class_event.html#a17d06a96cba946d9329673130256a744">unsubscribe</a>(<span class="keywordtype">id</span>);</div>
+<div class="line">myEvent.<a class="code" href="class_event.html#a0c21ee25e3b29725833510ab42f2e51f">raiseEvent</a>(1,2.0f,std::string(<span class="stringliteral">&quot;hello world&quot;</span>));</div>
+<div class="line"><span class="comment">//nothing will be called</span></div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// ******************** //</span></div>
+<div class="line"><span class="comment">//      Macro Use       //</span></div>
+<div class="line"><span class="comment">// ******************** //</span></div>
+<div class="line"><span class="keyword">class </span>myClass {</div>
+<div class="line">    myClass() = <span class="keywordflow">default</span>;</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordtype">bool</span> callback(<span class="keywordtype">int</span> i, <span class="keywordtype">float</span> f, std::string s){</div>
+<div class="line">        <span class="stringliteral">&quot;Class member unction call ack with&quot;</span> &lt;&lt; i &lt;&lt; <span class="stringliteral">&quot; float &quot;</span> &lt;&lt; f &lt;&lt; <span class="stringliteral">&quot; std::string &quot;</span> &lt;&lt; s &lt;&lt; std::endl<span class="stringliteral">&quot;</span></div>
+<div class="line"><span class="stringliteral">    }</span></div>
+<div class="line"><span class="stringliteral"></span> </div>
+<div class="line"><span class="stringliteral">}</span></div>
+<div class="line"><span class="stringliteral"></span> </div>
+<div class="line"><span class="stringliteral">myClass exampleObj;</span></div>
+<div class="line"><span class="stringliteral"></span> </div>
+<div class="line"><span class="stringliteral">auto classCallbackID = myEvent.subscribe(BIND_EVENT_FNO(myClass::callback, exampleObj));</span></div>
+</div><!-- fragment --><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">...T</td><td>signature of the callback function, must return bool</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section warning"><dt>Warning</dt><dd><a class="el" href="class_event.html" title="Custom event class.">Event</a> callbacks must always return bool </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_event_8h_source.html#l00072">72</a> of file <a class="el" href="_event_8h_source.html">Event.h</a>.</p>
+</div>
 <p><code>#include &lt;<a class="el" href="_event_8h_source.html">Event.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -101,29 +161,27 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aab957c1e41909b500c4e551b0ffc559e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_event.html#aab957c1e41909b500c4e551b0ffc559e">~Event</a> ()=default</td></tr>
 <tr class="separator:aab957c1e41909b500c4e551b0ffc559e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a258c3ba1def825ab58c416ac52708ae7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_event.html#a258c3ba1def825ab58c416ac52708ae7">subscribe</a> (const <a class="el" href="_core_8h.html#add5e90b302c31b74a46619f240214bcc">Ref</a>&lt; <a class="el" href="class_event_callback.html">EventCallback</a>&lt; T... &gt;&gt; &amp;callback) const</td></tr>
+<tr class="memdesc:a258c3ba1def825ab58c416ac52708ae7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to subscrive an <a class="el" href="class_event_callback.html" title="The EventCallback class is a utility class to the Event system.">EventCallback</a> object to a method.  <a href="class_event.html#a258c3ba1def825ab58c416ac52708ae7">More...</a><br /></td></tr>
 <tr class="separator:a258c3ba1def825ab58c416ac52708ae7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abd379378d4c18ff8bcbf9cfed0489d90"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_core_8h.html#add5e90b302c31b74a46619f240214bcc">Ref</a>&lt; <a class="el" href="class_event_callback.html">EventCallback</a>&lt; T... &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_event.html#abd379378d4c18ff8bcbf9cfed0489d90">subscribe</a> (std::function&lt; bool(T...)&gt; callbackFN) const</td></tr>
+<tr class="memdesc:abd379378d4c18ff8bcbf9cfed0489d90"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to subscribe a std::function as a callback to the event.  <a href="class_event.html#abd379378d4c18ff8bcbf9cfed0489d90">More...</a><br /></td></tr>
 <tr class="separator:abd379378d4c18ff8bcbf9cfed0489d90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a16084fd95574bdb595fcdb44b9f1863c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_event.html#a16084fd95574bdb595fcdb44b9f1863c">subscribePriority</a> (const <a class="el" href="_core_8h.html#add5e90b302c31b74a46619f240214bcc">Ref</a>&lt; <a class="el" href="class_event_callback.html">EventCallback</a>&lt; T... &gt;&gt; &amp;callback) const</td></tr>
+<tr class="memdesc:a16084fd95574bdb595fcdb44b9f1863c"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to subscribe a priority callback.  <a href="class_event.html#a16084fd95574bdb595fcdb44b9f1863c">More...</a><br /></td></tr>
 <tr class="separator:a16084fd95574bdb595fcdb44b9f1863c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6bc3302d73836424822806e6389d5059"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_core_8h.html#add5e90b302c31b74a46619f240214bcc">Ref</a>&lt; <a class="el" href="class_event_callback.html">EventCallback</a>&lt; T... &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_event.html#a6bc3302d73836424822806e6389d5059">subscribePriority</a> (std::function&lt; bool(T...)&gt; callbackFN) const</td></tr>
+<tr class="memdesc:a6bc3302d73836424822806e6389d5059"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to subscribe a priority callback.  <a href="class_event.html#a6bc3302d73836424822806e6389d5059">More...</a><br /></td></tr>
 <tr class="separator:a6bc3302d73836424822806e6389d5059"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17d06a96cba946d9329673130256a744"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_event.html#a17d06a96cba946d9329673130256a744">unsubscribe</a> (const <a class="el" href="_core_8h.html#add5e90b302c31b74a46619f240214bcc">Ref</a>&lt; <a class="el" href="class_event_callback.html">EventCallback</a>&lt; T... &gt;&gt; &amp;callback) const</td></tr>
+<tr class="memdesc:a17d06a96cba946d9329673130256a744"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to unsubscribe a callback.  <a href="class_event.html#a17d06a96cba946d9329673130256a744">More...</a><br /></td></tr>
 <tr class="separator:a17d06a96cba946d9329673130256a744"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af3424aaa10f24e2aff49e46c7985c133"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_event.html#af3424aaa10f24e2aff49e46c7985c133">unsubscribe</a> (const uint32_t &amp;id) const</td></tr>
-<tr class="separator:af3424aaa10f24e2aff49e46c7985c133"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0c21ee25e3b29725833510ab42f2e51f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_event.html#a0c21ee25e3b29725833510ab42f2e51f">raiseEvent</a> (T &amp;... mArgs) const</td></tr>
+<tr class="memdesc:a0c21ee25e3b29725833510ab42f2e51f"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to raise the event.  <a href="class_event.html#a0c21ee25e3b29725833510ab42f2e51f">More...</a><br /></td></tr>
 <tr class="separator:a0c21ee25e3b29725833510ab42f2e51f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b0582b5c0e463f91553959969e6f051"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_event.html#a9b0582b5c0e463f91553959969e6f051">operator=</a> (const <a class="el" href="class_event.html">Event</a>&lt; T... &gt; &amp;D)=delete</td></tr>
 <tr class="separator:a9b0582b5c0e463f91553959969e6f051"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;typename... T&gt;<br />
-class Event&lt; T &gt;</h3>
-
-
-<p class="definition">Definition at line <a class="el" href="_event_8h_source.html#l00014">14</a> of file <a class="el" href="_event_8h_source.html">Event.h</a>.</p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="abad1a7ecf416fa5e2b2f91eb31ea6b0b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abad1a7ecf416fa5e2b2f91eb31ea6b0b">&#9670;&nbsp;</a></span>Event()</h2>
 
@@ -225,7 +283,21 @@ template&lt;typename... T&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_event_8h_source.html#l00096">96</a> of file <a class="el" href="_event_8h_source.html">Event.h</a>.</p>
+<p>A method to raise the event. </p>
+<p>All subscribed callbacks will be invokde starting with priority callbacks. If a callback returns false then future callbacks will not be invoked, allowing priority callbacks to terminate the propigation of the event. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">...T</td><td>Signature of the callbacks </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">...mArgs</td><td>Arguments to be passed to the callback functions. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_event_8h_source.html#l00175">175</a> of file <a class="el" href="_event_8h_source.html">Event.h</a>.</p>
 
 </div>
 </div>
@@ -247,7 +319,21 @@ template&lt;typename... T&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_event_8h_source.html#l00040">40</a> of file <a class="el" href="_event_8h_source.html">Event.h</a>.</p>
+<p>Method to subscrive an <a class="el" href="class_event_callback.html" title="The EventCallback class is a utility class to the Event system.">EventCallback</a> object to a method. </p>
+<p>These callbacks will be called after those subscribed using <a class="el" href="class_event.html#a16084fd95574bdb595fcdb44b9f1863c" title="A method to subscribe a priority callback.">subscribePriority()</a> overloads </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">...T</td><td>Signature of the callback </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">callback</td><td><a class="el" href="class_event_callback.html" title="The EventCallback class is a utility class to the Event system.">EventCallback</a> wrapper object </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_event_8h_source.html#l00102">102</a> of file <a class="el" href="_event_8h_source.html">Event.h</a>.</p>
 
 </div>
 </div>
@@ -269,7 +355,22 @@ template&lt;typename... T&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_event_8h_source.html#l00047">47</a> of file <a class="el" href="_event_8h_source.html">Event.h</a>.</p>
+<p>A method to subscribe a std::function as a callback to the event. </p>
+<p>/// These callbacks will be called after those subscribed using <a class="el" href="class_event.html#a16084fd95574bdb595fcdb44b9f1863c" title="A method to subscribe a priority callback.">subscribePriority()</a> overloads </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">...T</td><td>Signature of the callback </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">callbackFN</td><td>a std::function which returns bool </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to the <a class="el" href="class_event_callback.html" title="The EventCallback class is a utility class to the Event system.">EventCallback</a> object, this can be used to unsubscribe the callback. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_event_8h_source.html#l00115">115</a> of file <a class="el" href="_event_8h_source.html">Event.h</a>.</p>
 
 </div>
 </div>
@@ -291,7 +392,21 @@ template&lt;typename... T&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_event_8h_source.html#l00057">57</a> of file <a class="el" href="_event_8h_source.html">Event.h</a>.</p>
+<p>A method to subscribe a priority callback. </p>
+<p>priorit callbacks are called before regular callbacks </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">...T</td><td>Signature of the callback </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">callback</td><td><a class="el" href="class_event_callback.html" title="The EventCallback class is a utility class to the Event system.">EventCallback</a> wrapper object </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_event_8h_source.html#l00130">130</a> of file <a class="el" href="_event_8h_source.html">Event.h</a>.</p>
 
 </div>
 </div>
@@ -313,12 +428,27 @@ template&lt;typename... T&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_event_8h_source.html#l00064">64</a> of file <a class="el" href="_event_8h_source.html">Event.h</a>.</p>
+<p>A method to subscribe a priority callback. </p>
+<p>priorit callbacks are called before regular callbacks </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">...T</td><td>callback signature </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">callbackFN</td><td>std::function returning bool </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to the <a class="el" href="class_event_callback.html" title="The EventCallback class is a utility class to the Event system.">EventCallback</a> object, this can be used to unsubscribe the callback. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_event_8h_source.html#l00143">143</a> of file <a class="el" href="_event_8h_source.html">Event.h</a>.</p>
 
 </div>
 </div>
 <a id="a17d06a96cba946d9329673130256a744"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a17d06a96cba946d9329673130256a744">&#9670;&nbsp;</a></span>unsubscribe() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a17d06a96cba946d9329673130256a744">&#9670;&nbsp;</a></span>unsubscribe()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -335,29 +465,21 @@ template&lt;typename... T&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_event_8h_source.html#l00074">74</a> of file <a class="el" href="_event_8h_source.html">Event.h</a>.</p>
+<p>A method to unsubscribe a callback. </p>
+<p>This method can unsubscribe regular callbacks and priority callbacks </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">...T</td><td>The signature of the callback </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">callback</td><td>a reference to the <a class="el" href="class_event_callback.html" title="The EventCallback class is a utility class to the Event system.">EventCallback</a> object </td></tr>
+  </table>
+  </dd>
+</dl>
 
-</div>
-</div>
-<a id="af3424aaa10f24e2aff49e46c7985c133"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af3424aaa10f24e2aff49e46c7985c133">&#9670;&nbsp;</a></span>unsubscribe() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename... T&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="class_event.html">Event</a>&lt; T &gt;::unsubscribe </td>
-          <td>(</td>
-          <td class="paramtype">const uint32_t &amp;&#160;</td>
-          <td class="paramname"><em>id</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="_event_8h_source.html#l00085">85</a> of file <a class="el" href="_event_8h_source.html">Event.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_event_8h_source.html#l00159">159</a> of file <a class="el" href="_event_8h_source.html">Event.h</a>.</p>
 
 </div>
 </div>
@@ -366,6 +488,10 @@ template&lt;typename... T&gt; </div>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="aclass_event_html"><div class="ttname"><a href="class_event.html">Event</a></div><div class="ttdoc">Custom event class.</div><div class="ttdef"><b>Definition:</b> <a href="_event_8h_source.html#l00072">Event.h:72</a></div></div>
+<div class="ttc" id="aclass_event_html_a0c21ee25e3b29725833510ab42f2e51f"><div class="ttname"><a href="class_event.html#a0c21ee25e3b29725833510ab42f2e51f">Event::raiseEvent</a></div><div class="ttdeci">void raiseEvent(T &amp;... mArgs) const</div><div class="ttdoc">A method to raise the event.</div><div class="ttdef"><b>Definition:</b> <a href="_event_8h_source.html#l00175">Event.h:175</a></div></div>
+<div class="ttc" id="aclass_event_callback_html"><div class="ttname"><a href="class_event_callback.html">EventCallback</a></div><div class="ttdoc">The EventCallback class is a utility class to the Event system.</div><div class="ttdef"><b>Definition:</b> <a href="_event_callback_8h_source.html#l00027">EventCallback.h:27</a></div></div>
+<div class="ttc" id="aclass_event_html_a17d06a96cba946d9329673130256a744"><div class="ttname"><a href="class_event.html#a17d06a96cba946d9329673130256a744">Event::unsubscribe</a></div><div class="ttdeci">void unsubscribe(const Ref&lt; EventCallback&lt; T... &gt;&gt; &amp;callback) const</div><div class="ttdoc">A method to unsubscribe a callback.</div><div class="ttdef"><b>Definition:</b> <a href="_event_8h_source.html#l00159">Event.h:159</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
