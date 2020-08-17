@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.UIElements;
+using System.Text;
 
 public class RDLPIM_Controller : MonoBehaviour
 {
@@ -14,11 +11,11 @@ public class RDLPIM_Controller : MonoBehaviour
     public byte[] recBuff;
     public int m_bytes;
 
-    public delegate void ChatRecievedHandler(object source, string message);
-    public event ChatRecievedHandler ChatRecieved;
-
     public delegate void InfoRecievedHandler(object source, string message);
     public event InfoRecievedHandler InfoRecieved;
+
+    public delegate void ChatRecievedHandler(object source, string message);
+    public event ChatRecievedHandler ChatRecieved;
 
     public delegate void DataRecievedHandler(object source, byte[] data);
     public event DataRecievedHandler DataRecieved;
@@ -74,13 +71,18 @@ public class RDLPIM_Controller : MonoBehaviour
             DataRecieved(this, e.Data);
         } else
         {
-            Debug.Log("recieved Function:" + functionCode + " with " + bytes + " of data.");
+            Debug.Log("Unhandled Function:" + functionCode + " recieved containing " + bytes + " of data.");
         }
     }
 
     public void onRDLPIM_Disconnect(object source, EventArgs e)
     {
         Debug.Log("Lost Connection to the RDLPIM");
+    }
+
+    public void SendChat(string message)
+    {
+        RDL.Send(header.Generate(RDLPIM_FucntionCode.chat, Encoding.ASCII.GetBytes(message)));
     }
 
     public void RetryConnection()

@@ -60,6 +60,9 @@
     <Compile Include="Assets\code\RDLPIM_Include\RDLPIM_Client.cs" />
     <Compile Include="Assets\code\ExampleConnection\ChatHandler.cs" />
     <Compile Include="Assets\code\ExampleConnection\InfoHandler.cs" />
+    <Compile Include="Assets\code\RDLPIM_Include\DataElement.cs" />
+    <Compile Include="Assets\code\ExampleConnection\header.cs" />
+    <Compile Include="Assets\code\ExampleConnection\ChatSender.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
