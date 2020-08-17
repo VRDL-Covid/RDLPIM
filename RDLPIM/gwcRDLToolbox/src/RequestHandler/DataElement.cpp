@@ -264,7 +264,7 @@ int DataElement::deserialise(const Buffer& in)
 	//get number of bytes
 	typeSize++;
 	memcpy(&m_Bytes, &(incpy.GetContents()[nameSize + typeSize]), sizeof(int));
-	typeSize += 5;
+	typeSize += 4;
 
 	sizeData(m_Bytes);
 	memcpy(m_data, &(incpy.GetContents()[nameSize + typeSize]), m_Bytes);
@@ -305,7 +305,6 @@ Buffer DataElement::Serialise() const
 
 	//build data
 	Buffer dataData(m_data, m_Bytes);
-	output.append("=");
 	output.append(dataData);
 
 	output.prepend("{");

@@ -94,8 +94,8 @@ $(document).ready(function(){initNavTree('class_data_element.html',''); initResi
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A class to handle the data transfer of complex and primitive objects into and out of the <a class="el" href="class_data_base.html" title="The DataBase class forms the heart of the RDLPIM architecture, this singleton holds all data pushed i...">DataBase</a> instance. </p>
 <p>the serialised format is as follows:</p>
-<p>[char]=[char]=[int]=[char]</p>
-<p>"VarName=VarType=Bytes=Value"</p>
+<p>[char]=[char]=[int][char]</p>
+<p>"VarName=VarType=Bytes Value" (no space delimeter between Bytes and Value since Bytes is always 4Bytes in size and describes the length of Value)</p>
 <p>Overloaded functions have been provided to allow primitives to be injected into DataElements readily </p>
 <h3><a class="anchor" id="autotoc_md10"></a>
 Example</h3>
@@ -353,7 +353,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00337">337</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00336">336</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
 
 </div>
 </div>
@@ -391,7 +391,7 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd><br  />
  </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00351">351</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00350">350</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
 
 </div>
 </div>
@@ -535,7 +535,7 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>string representation of the type <br  />
  </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00392">392</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00391">391</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
 
 </div>
 </div>
@@ -564,7 +564,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_data_element.html" title="A class to handle the data transfer of complex and primitive objects into and out of the DataBase ins...">DataElement</a> reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00364">364</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00363">363</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
 
 </div>
 </div>
@@ -601,7 +601,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_data_element.html" title="A class to handle the data transfer of complex and primitive objects into and out of the DataBase ins...">DataElement</a> reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00379">379</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00378">378</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
 
 </div>
 </div>
@@ -904,7 +904,7 @@ Public Member Functions</h2></td></tr>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclass_buffer_html_a31ae3980abdb9a603ac8c181bd36bd7e"><div class="ttname"><a href="class_buffer.html#a31ae3980abdb9a603ac8c181bd36bd7e">Buffer::fullPrint</a></div><div class="ttdeci">void fullPrint() const</div><div class="ttdoc">Method to print the contents of a buffer to std::cout.</div><div class="ttdef"><b>Definition:</b> <a href="buffer_8cpp_source.html#l00378">buffer.cpp:378</a></div></div>
+<div class="ttc" id="aclass_buffer_html_a31ae3980abdb9a603ac8c181bd36bd7e"><div class="ttname"><a href="class_buffer.html#a31ae3980abdb9a603ac8c181bd36bd7e">Buffer::fullPrint</a></div><div class="ttdeci">void fullPrint() const</div><div class="ttdoc">Method to print the contents of a buffer to std::cout.</div><div class="ttdef"><b>Definition:</b> <a href="buffer_8cpp_source.html#l00384">buffer.cpp:384</a></div></div>
 <div class="ttc" id="aclass_buffer_html_a78e5e071c3c53cd032e3fab145567e78"><div class="ttname"><a href="class_buffer.html#a78e5e071c3c53cd032e3fab145567e78">Buffer::set</a></div><div class="ttdeci">void set(void *src, int iSize)</div><div class="ttdoc">A method to store primitive types within a buffer object (int, float, double etc)</div><div class="ttdef"><b>Definition:</b> <a href="buffer_8cpp_source.html#l00108">buffer.cpp:108</a></div></div>
 <div class="ttc" id="aclass_buffer_html"><div class="ttname"><a href="class_buffer.html">Buffer</a></div><div class="ttdoc">The Buffer class is a container to hold serialised data.</div><div class="ttdef"><b>Definition:</b> <a href="buffer_8hpp_source.html#l00031">buffer.hpp:31</a></div></div>
 <div class="ttc" id="aclass_data_element_html"><div class="ttname"><a href="class_data_element.html">DataElement</a></div><div class="ttdoc">A class to handle the data transfer of complex and primitive objects into and out of the DataBase ins...</div><div class="ttdef"><b>Definition:</b> <a href="_data_element_8hpp_source.html#l00039">DataElement.hpp:39</a></div></div>

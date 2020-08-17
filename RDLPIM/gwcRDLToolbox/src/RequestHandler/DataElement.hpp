@@ -13,10 +13,10 @@
 /// 
 /// the serialised format is as follows:
 /// 
-///   [char]=[char]=[int]=[char]
+///   [char]=[char]=[int][char]
 /// 
-/// "VarName=VarType=Bytes=Value"
-/// 
+/// "VarName=VarType=Bytes Value"
+/// (no space delimeter between Bytes and Value since Bytes is always 4Bytes in size and describes the length of Value)
 /// 
 /// Overloaded functions have been provided to allow primitives to be injected into DataElements readily
 /// ###Example
@@ -31,8 +31,8 @@
 /// serialised = de.Serialise();
 /// 
 /// serialised.fullPrint();
-///	//				   {int = 8 bytes} 
-/// //"varName=double=\x08\x00\x00\x00={binary for 3.14159 as double}
+///	//				  { int = 8 bytes } {     binary for 3.14159 as double    }
+/// //"varName=double=\x08\x00\x00\x00  \x40 \x09 \x21 \xF9 \xF0 \x1B \x86 \x6E
 /// 
 /// 
 /// ~~~~~~~~~~

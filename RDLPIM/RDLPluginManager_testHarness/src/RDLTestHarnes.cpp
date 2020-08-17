@@ -146,7 +146,6 @@ void SentUnSubInt(Buffer& outBuffer, bool* send, std::mutex& sockSend)
 	*send = true;
 }
 
-
 void SentSubInt(Buffer& outBuffer, bool* send, std::mutex& sockSend)
 {
 	//get variable name
@@ -177,7 +176,6 @@ void SentSubInt(Buffer& outBuffer, bool* send, std::mutex& sockSend)
 	outBuffer.append(data);
 	*send = true;
 }
-
 
 void sender(Buffer& outBuff, bool* send, std::mutex& sockSend)
 {

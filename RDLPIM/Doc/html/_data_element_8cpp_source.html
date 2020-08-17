@@ -354,7 +354,7 @@ $(document).ready(function(){initNavTree('_data_element_8cpp_source.html',''); i
 <div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    <span class="comment">//get number of bytes</span></div>
 <div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    typeSize++;</div>
 <div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    memcpy(&amp;m_Bytes, &amp;(incpy.<a class="code" href="class_buffer.html#a79b72f5f238e940e856a6bea070cc254">GetContents</a>()[nameSize + typeSize]), <span class="keyword">sizeof</span>(<span class="keywordtype">int</span>));</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    typeSize += 5;</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    typeSize += 4;</div>
 <div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160; </div>
 <div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    sizeData(m_Bytes);</div>
 <div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    memcpy(m_data, &amp;(incpy.<a class="code" href="class_buffer.html#a79b72f5f238e940e856a6bea070cc254">GetContents</a>()[nameSize + typeSize]), m_Bytes);</div>
@@ -395,107 +395,106 @@ $(document).ready(function(){initNavTree('_data_element_8cpp_source.html',''); i
 <div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160; </div>
 <div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;    <span class="comment">//build data</span></div>
 <div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    <a class="code" href="class_buffer.html">Buffer</a> dataData(m_data, m_Bytes);</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;    output.<a class="code" href="class_buffer.html#a3d9dc934771421cc98150c6b1f65b73c">append</a>(<span class="stringliteral">&quot;=&quot;</span>);</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;    output.<a class="code" href="class_buffer.html#a3d9dc934771421cc98150c6b1f65b73c">append</a>(dataData);</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160; </div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;    output.<a class="code" href="class_buffer.html#a228899405fffc3391d2f8d26c3a5e441">prepend</a>(<span class="stringliteral">&quot;{&quot;</span>);</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;    output.<a class="code" href="class_buffer.html#a3d9dc934771421cc98150c6b1f65b73c">append</a>(<span class="stringliteral">&quot;}&quot;</span>);</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160; </div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;    free(temp);</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160; </div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;    <span class="keywordflow">return</span> output;</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;}</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;    output.<a class="code" href="class_buffer.html#a3d9dc934771421cc98150c6b1f65b73c">append</a>(dataData);</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160; </div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;    output.<a class="code" href="class_buffer.html#a228899405fffc3391d2f8d26c3a5e441">prepend</a>(<span class="stringliteral">&quot;{&quot;</span>);</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;    output.<a class="code" href="class_buffer.html#a3d9dc934771421cc98150c6b1f65b73c">append</a>(<span class="stringliteral">&quot;}&quot;</span>);</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160; </div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;    free(temp);</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160; </div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;    <span class="keywordflow">return</span> output;</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;}</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160; </div>
 <div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160; </div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160; </div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;<span class="keywordtype">void</span> DataElement::sizeData(<span class="keywordtype">int</span> sBytes){</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;    <span class="keywordflow">if</span> (m_data == <span class="keyword">nullptr</span>) {</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        m_data = (<span class="keywordtype">char</span>*)malloc(sBytes);</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    }</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;    <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;        <span class="keywordtype">void</span>* ptr = realloc(m_data, sBytes);</div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160; </div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;        <span class="keywordflow">if</span> (ptr != <span class="keyword">nullptr</span>)</div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;            m_data = (<span class="keywordtype">char</span>*)ptr;</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;        <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;            puts(<span class="stringliteral">&quot;insufficient system memory... exiting&quot;</span>);</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;            exit(1);</div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;        }</div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;    }</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;}</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160; </div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;<span class="comment">//copy constructors</span></div>
-<div class="line"><a name="l00337"></a><span class="lineno"><a class="line" href="class_data_element.html#a3b164f9d3f7292293c1e7caacba6ba75">  337</a></span>&#160;<a class="code" href="class_data_element.html#a3c64ad4cd65725d1d2b23809f0a26c9f">DataElement::DataElement</a>(<span class="keyword">const</span> <a class="code" href="class_data_element.html">DataElement</a>&amp; other)</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;{</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;    m_VarName = other.m_VarName;</div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;    m_Type = other.m_Type;</div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;    m_Bytes = other.m_Bytes;</div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160; </div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;    m_data = (<span class="keywordtype">char</span>*) malloc(m_Bytes);</div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160; </div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; m_Bytes; i++) {</div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;        m_data[i] = other.m_data[i];</div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;    }</div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;}</div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160; </div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;<span class="comment">//move constructors</span></div>
-<div class="line"><a name="l00351"></a><span class="lineno"><a class="line" href="class_data_element.html#aa2355e68be1d8ed6deae1708c6a8cddb">  351</a></span>&#160;<a class="code" href="class_data_element.html#a3c64ad4cd65725d1d2b23809f0a26c9f">DataElement::DataElement</a>(<a class="code" href="class_data_element.html">DataElement</a>&amp;&amp; other) noexcept</div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;{</div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;    m_VarName = std::move(other.m_VarName);</div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;    m_Type = std::move(other.m_Type);</div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;    m_Bytes = std::move(other.m_Bytes);</div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160; </div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;    m_data = other.m_data;</div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160; </div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;    other.m_data = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160; </div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;}</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;<span class="keywordtype">void</span> DataElement::sizeData(<span class="keywordtype">int</span> sBytes){</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;    <span class="keywordflow">if</span> (m_data == <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;        m_data = (<span class="keywordtype">char</span>*)malloc(sBytes);</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;    }</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;        <span class="keywordtype">void</span>* ptr = realloc(m_data, sBytes);</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160; </div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;        <span class="keywordflow">if</span> (ptr != <span class="keyword">nullptr</span>)</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;            m_data = (<span class="keywordtype">char</span>*)ptr;</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;        <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;            puts(<span class="stringliteral">&quot;insufficient system memory... exiting&quot;</span>);</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;            exit(1);</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;        }</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;    }</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;}</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160; </div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;<span class="comment">//copy constructors</span></div>
+<div class="line"><a name="l00336"></a><span class="lineno"><a class="line" href="class_data_element.html#a3b164f9d3f7292293c1e7caacba6ba75">  336</a></span>&#160;<a class="code" href="class_data_element.html#a3c64ad4cd65725d1d2b23809f0a26c9f">DataElement::DataElement</a>(<span class="keyword">const</span> <a class="code" href="class_data_element.html">DataElement</a>&amp; other)</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;{</div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;    m_VarName = other.m_VarName;</div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;    m_Type = other.m_Type;</div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;    m_Bytes = other.m_Bytes;</div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160; </div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;    m_data = (<span class="keywordtype">char</span>*) malloc(m_Bytes);</div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160; </div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; m_Bytes; i++) {</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;        m_data[i] = other.m_data[i];</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;    }</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;}</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160; </div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;<span class="comment">//move constructors</span></div>
+<div class="line"><a name="l00350"></a><span class="lineno"><a class="line" href="class_data_element.html#aa2355e68be1d8ed6deae1708c6a8cddb">  350</a></span>&#160;<a class="code" href="class_data_element.html#a3c64ad4cd65725d1d2b23809f0a26c9f">DataElement::DataElement</a>(<a class="code" href="class_data_element.html">DataElement</a>&amp;&amp; other) noexcept</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;{</div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;    m_VarName = std::move(other.m_VarName);</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;    m_Type = std::move(other.m_Type);</div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;    m_Bytes = std::move(other.m_Bytes);</div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160; </div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;    m_data = other.m_data;</div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160; </div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;    other.m_data = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160; </div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;}</div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160; </div>
 <div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160; </div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160; </div>
-<div class="line"><a name="l00364"></a><span class="lineno"><a class="line" href="class_data_element.html#a79069a84c25a4c37c53c5c69ab473e1f">  364</a></span>&#160;<a class="code" href="class_data_element.html">DataElement</a>&amp; <a class="code" href="class_data_element.html#a79069a84c25a4c37c53c5c69ab473e1f">DataElement::operator=</a>(<span class="keyword">const</span> <a class="code" href="class_data_element.html">DataElement</a>&amp; other)</div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;{</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;    m_VarName = other.m_VarName;</div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;    m_Type = other.m_Type;</div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;    m_Bytes = other.m_Bytes;</div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160; </div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;    m_data = (<span class="keywordtype">char</span>*)malloc(m_Bytes);</div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160; </div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; m_Bytes; i++) {</div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;        m_data[i] = other.m_data[i];</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;    }</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160; </div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;}</div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160; </div>
-<div class="line"><a name="l00379"></a><span class="lineno"><a class="line" href="class_data_element.html#aff9d2b62634e1eb3639b2a96456507dd">  379</a></span>&#160;<a class="code" href="class_data_element.html">DataElement</a>&amp; <a class="code" href="class_data_element.html#a79069a84c25a4c37c53c5c69ab473e1f">DataElement::operator=</a>(<a class="code" href="class_data_element.html">DataElement</a>&amp;&amp; other) noexcept</div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;{</div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;    m_VarName = std::move(other.m_VarName);</div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;    m_Type =    std::move(other.m_Type);</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;    m_Bytes =   std::move(other.m_Bytes);</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160; </div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;    m_data = other.m_data;</div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160; </div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;    other.m_data = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160; </div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;}</div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160; </div>
-<div class="line"><a name="l00392"></a><span class="lineno"><a class="line" href="class_data_element.html#aceb3a97a3a637826ebeb8c500d9fb759">  392</a></span>&#160;<span class="keyword">const</span> std::string <a class="code" href="class_data_element.html#aceb3a97a3a637826ebeb8c500d9fb759">DataElement::GetType</a>()<span class="keyword"> const</span></div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;    <span class="keywordflow">return</span> m_Type.<a class="code" href="class_buffer.html#af6a671e548bcb07e9ad933f841701884">ToString</a>();</div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;}</div>
+<div class="line"><a name="l00363"></a><span class="lineno"><a class="line" href="class_data_element.html#a79069a84c25a4c37c53c5c69ab473e1f">  363</a></span>&#160;<a class="code" href="class_data_element.html">DataElement</a>&amp; <a class="code" href="class_data_element.html#a79069a84c25a4c37c53c5c69ab473e1f">DataElement::operator=</a>(<span class="keyword">const</span> <a class="code" href="class_data_element.html">DataElement</a>&amp; other)</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;{</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;    m_VarName = other.m_VarName;</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;    m_Type = other.m_Type;</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;    m_Bytes = other.m_Bytes;</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160; </div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;    m_data = (<span class="keywordtype">char</span>*)malloc(m_Bytes);</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160; </div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; m_Bytes; i++) {</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;        m_data[i] = other.m_data[i];</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;    }</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160; </div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;}</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160; </div>
+<div class="line"><a name="l00378"></a><span class="lineno"><a class="line" href="class_data_element.html#aff9d2b62634e1eb3639b2a96456507dd">  378</a></span>&#160;<a class="code" href="class_data_element.html">DataElement</a>&amp; <a class="code" href="class_data_element.html#a79069a84c25a4c37c53c5c69ab473e1f">DataElement::operator=</a>(<a class="code" href="class_data_element.html">DataElement</a>&amp;&amp; other) noexcept</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;{</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;    m_VarName = std::move(other.m_VarName);</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;    m_Type =    std::move(other.m_Type);</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;    m_Bytes =   std::move(other.m_Bytes);</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160; </div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;    m_data = other.m_data;</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160; </div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;    other.m_data = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160; </div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;}</div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160; </div>
+<div class="line"><a name="l00391"></a><span class="lineno"><a class="line" href="class_data_element.html#aceb3a97a3a637826ebeb8c500d9fb759">  391</a></span>&#160;<span class="keyword">const</span> std::string <a class="code" href="class_data_element.html#aceb3a97a3a637826ebeb8c500d9fb759">DataElement::GetType</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;    <span class="keywordflow">return</span> m_Type.<a class="code" href="class_buffer.html#af6a671e548bcb07e9ad933f841701884">ToString</a>();</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclass_buffer_html_af8ebc5241683654e942612fc4d992a2a"><div class="ttname"><a href="class_buffer.html#af8ebc5241683654e942612fc4d992a2a">Buffer::GetSize</a></div><div class="ttdeci">const int GetSize() const</div><div class="ttdoc">A method to get the size of the data contained within the Buffer object.</div><div class="ttdef"><b>Definition:</b> <a href="buffer_8hpp_source.html#l00042">buffer.hpp:42</a></div></div>
 <div class="ttc" id="aclassrdl_data_html_a80f0b50e832c45e0df8e436a97e379d8"><div class="ttname"><a href="classrdl_data.html#a80f0b50e832c45e0df8e436a97e379d8">rdlData::bytes</a></div><div class="ttdeci">int bytes</div><div class="ttdoc">size of data</div><div class="ttdef"><b>Definition:</b> <a href="rdl_data_8hpp_source.html#l00057">rdlData.hpp:57</a></div></div>
 <div class="ttc" id="a_data_element_8hpp_html"><div class="ttname"><a href="_data_element_8hpp.html">DataElement.hpp</a></div></div>
 <div class="ttc" id="aclassrdl_data_html_aa0118876ef2ae50fb92d320e17d23464"><div class="ttname"><a href="classrdl_data.html#aa0118876ef2ae50fb92d320e17d23464">rdlData::name</a></div><div class="ttdeci">char name[S3_STRLEN]</div><div class="ttdoc">RDL variable name.</div><div class="ttdef"><b>Definition:</b> <a href="rdl_data_8hpp_source.html#l00045">rdlData.hpp:45</a></div></div>
-<div class="ttc" id="aclass_buffer_html_a3d9dc934771421cc98150c6b1f65b73c"><div class="ttname"><a href="class_buffer.html#a3d9dc934771421cc98150c6b1f65b73c">Buffer::append</a></div><div class="ttdeci">void append(const Buffer &amp;tail)</div><div class="ttdoc">A method to append a buffer to this buffer.</div><div class="ttdef"><b>Definition:</b> <a href="buffer_8cpp_source.html#l00222">buffer.cpp:222</a></div></div>
+<div class="ttc" id="aclass_buffer_html_a3d9dc934771421cc98150c6b1f65b73c"><div class="ttname"><a href="class_buffer.html#a3d9dc934771421cc98150c6b1f65b73c">Buffer::append</a></div><div class="ttdeci">void append(const Buffer &amp;tail)</div><div class="ttdoc">A method to append a buffer to this buffer.</div><div class="ttdef"><b>Definition:</b> <a href="buffer_8cpp_source.html#l00228">buffer.cpp:228</a></div></div>
 <div class="ttc" id="aunionconvertable_html"><div class="ttname"><a href="unionconvertable.html">convertable</a></div><div class="ttdef"><b>Definition:</b> <a href="_data_element_8cpp_source.html#l00005">DataElement.cpp:5</a></div></div>
 <div class="ttc" id="aclass_data_element_html_aab9a69f9f0e5959fe17843c4d537f273"><div class="ttname"><a href="class_data_element.html#aab9a69f9f0e5959fe17843c4d537f273">DataElement::~DataElement</a></div><div class="ttdeci">~DataElement()</div><div class="ttdef"><b>Definition:</b> <a href="_data_element_8cpp_source.html#l00090">DataElement.cpp:90</a></div></div>
-<div class="ttc" id="aclass_data_element_html_aceb3a97a3a637826ebeb8c500d9fb759"><div class="ttname"><a href="class_data_element.html#aceb3a97a3a637826ebeb8c500d9fb759">DataElement::GetType</a></div><div class="ttdeci">const std::string GetType() const</div><div class="ttdoc">A method to retrieve the type of the variable contained within the DataElement.</div><div class="ttdef"><b>Definition:</b> <a href="_data_element_8cpp_source.html#l00392">DataElement.cpp:392</a></div></div>
+<div class="ttc" id="aclass_data_element_html_aceb3a97a3a637826ebeb8c500d9fb759"><div class="ttname"><a href="class_data_element.html#aceb3a97a3a637826ebeb8c500d9fb759">DataElement::GetType</a></div><div class="ttdeci">const std::string GetType() const</div><div class="ttdoc">A method to retrieve the type of the variable contained within the DataElement.</div><div class="ttdef"><b>Definition:</b> <a href="_data_element_8cpp_source.html#l00391">DataElement.cpp:391</a></div></div>
 <div class="ttc" id="aclassrdl_data_html_a8c496307c5b3a56f8c1f5109cc989ee9"><div class="ttname"><a href="classrdl_data.html#a8c496307c5b3a56f8c1f5109cc989ee9">rdlData::ctype</a></div><div class="ttdeci">char ctype[S3_STRLEN]</div><div class="ttdoc">DataType.</div><div class="ttdef"><b>Definition:</b> <a href="rdl_data_8hpp_source.html#l00056">rdlData.hpp:56</a></div></div>
 <div class="ttc" id="aclass_data_element_html_ae7de6070b1354aa3ddae3c87101370f9"><div class="ttname"><a href="class_data_element.html#ae7de6070b1354aa3ddae3c87101370f9">DataElement::Serialise</a></div><div class="ttdeci">Buffer Serialise() const</div><div class="ttdoc">Method to serialise the contents of a request packet into a correctly formatted character array.</div><div class="ttdef"><b>Definition:</b> <a href="_data_element_8cpp_source.html#l00279">DataElement.cpp:279</a></div></div>
-<div class="ttc" id="aclass_buffer_html_a228899405fffc3391d2f8d26c3a5e441"><div class="ttname"><a href="class_buffer.html#a228899405fffc3391d2f8d26c3a5e441">Buffer::prepend</a></div><div class="ttdeci">void prepend(const Buffer &amp;head)</div><div class="ttdoc">A method to prepent this buffer with another.</div><div class="ttdef"><b>Definition:</b> <a href="buffer_8cpp_source.html#l00288">buffer.cpp:288</a></div></div>
+<div class="ttc" id="aclass_buffer_html_a228899405fffc3391d2f8d26c3a5e441"><div class="ttname"><a href="class_buffer.html#a228899405fffc3391d2f8d26c3a5e441">Buffer::prepend</a></div><div class="ttdeci">void prepend(const Buffer &amp;head)</div><div class="ttdoc">A method to prepent this buffer with another.</div><div class="ttdef"><b>Definition:</b> <a href="buffer_8cpp_source.html#l00294">buffer.cpp:294</a></div></div>
 <div class="ttc" id="aunionconvertable_html_a9419fcfc6169b934c9f7943e3f4bb8a0"><div class="ttname"><a href="unionconvertable.html#a9419fcfc6169b934c9f7943e3f4bb8a0">convertable::Float</a></div><div class="ttdeci">float Float</div><div class="ttdef"><b>Definition:</b> <a href="_data_element_8cpp_source.html#l00008">DataElement.cpp:8</a></div></div>
 <div class="ttc" id="aunionconvertable_html_ad45ab57e0cd6fd084dc6eb98ea2fcf6b"><div class="ttname"><a href="unionconvertable.html#ad45ab57e0cd6fd084dc6eb98ea2fcf6b">convertable::Bool</a></div><div class="ttdeci">bool Bool</div><div class="ttdef"><b>Definition:</b> <a href="_data_element_8cpp_source.html#l00010">DataElement.cpp:10</a></div></div>
 <div class="ttc" id="aclass_buffer_html_a78e5e071c3c53cd032e3fab145567e78"><div class="ttname"><a href="class_buffer.html#a78e5e071c3c53cd032e3fab145567e78">Buffer::set</a></div><div class="ttdeci">void set(void *src, int iSize)</div><div class="ttdoc">A method to store primitive types within a buffer object (int, float, double etc)</div><div class="ttdef"><b>Definition:</b> <a href="buffer_8cpp_source.html#l00108">buffer.cpp:108</a></div></div>
@@ -506,13 +505,13 @@ $(document).ready(function(){initNavTree('_data_element_8cpp_source.html',''); i
 <div class="ttc" id="aclass_data_element_html_a3c64ad4cd65725d1d2b23809f0a26c9f"><div class="ttname"><a href="class_data_element.html#a3c64ad4cd65725d1d2b23809f0a26c9f">DataElement::DataElement</a></div><div class="ttdeci">DataElement()</div><div class="ttdef"><b>Definition:</b> <a href="_data_element_8cpp_source.html#l00013">DataElement.cpp:13</a></div></div>
 <div class="ttc" id="aclass_buffer_html_a79b72f5f238e940e856a6bea070cc254"><div class="ttname"><a href="class_buffer.html#a79b72f5f238e940e856a6bea070cc254">Buffer::GetContents</a></div><div class="ttdeci">const char * GetContents() const</div><div class="ttdoc">A method to return a const pointer to the Buffers contents.</div><div class="ttdef"><b>Definition:</b> <a href="buffer_8hpp_source.html#l00038">buffer.hpp:38</a></div></div>
 <div class="ttc" id="aclassrdl_data_html"><div class="ttname"><a href="classrdl_data.html">rdlData</a></div><div class="ttdoc">A RDL runtime data catcher object, will execute a DBM lookup to determine the 'RDL attributes' of the...</div><div class="ttdef"><b>Definition:</b> <a href="rdl_data_8hpp_source.html#l00038">rdlData.hpp:38</a></div></div>
-<div class="ttc" id="aclass_data_element_html_a79069a84c25a4c37c53c5c69ab473e1f"><div class="ttname"><a href="class_data_element.html#a79069a84c25a4c37c53c5c69ab473e1f">DataElement::operator=</a></div><div class="ttdeci">DataElement &amp; operator=(const DataElement &amp;other)</div><div class="ttdoc">Copy assignment operator overload.</div><div class="ttdef"><b>Definition:</b> <a href="_data_element_8cpp_source.html#l00364">DataElement.cpp:364</a></div></div>
+<div class="ttc" id="aclass_data_element_html_a79069a84c25a4c37c53c5c69ab473e1f"><div class="ttname"><a href="class_data_element.html#a79069a84c25a4c37c53c5c69ab473e1f">DataElement::operator=</a></div><div class="ttdeci">DataElement &amp; operator=(const DataElement &amp;other)</div><div class="ttdoc">Copy assignment operator overload.</div><div class="ttdef"><b>Definition:</b> <a href="_data_element_8cpp_source.html#l00363">DataElement.cpp:363</a></div></div>
 <div class="ttc" id="aclass_data_element_html_af32f7cca78a851bb3c56636f16cb0dd0"><div class="ttname"><a href="class_data_element.html#af32f7cca78a851bb3c56636f16cb0dd0">DataElement::deserialise</a></div><div class="ttdeci">int deserialise(const Buffer &amp;in)</div><div class="ttdoc">A method to deserialise back into a DataElement object.</div><div class="ttdef"><b>Definition:</b> <a href="_data_element_8cpp_source.html#l00195">DataElement.cpp:195</a></div></div>
 <div class="ttc" id="aclassrdl_data_html_ac789ea804e4d70c392723034c8853d3a"><div class="ttname"><a href="classrdl_data.html#ac789ea804e4d70c392723034c8853d3a">rdlData::data</a></div><div class="ttdeci">char * data</div><div class="ttdoc">contents of realtime memory location at last read() execution</div><div class="ttdef"><b>Definition:</b> <a href="rdl_data_8hpp_source.html#l00067">rdlData.hpp:67</a></div></div>
 <div class="ttc" id="aunionconvertable_html_af4c4cc71b0ea55a52c08ed42e154ff74"><div class="ttname"><a href="unionconvertable.html#af4c4cc71b0ea55a52c08ed42e154ff74">convertable::Char</a></div><div class="ttdeci">char Char[8]</div><div class="ttdef"><b>Definition:</b> <a href="_data_element_8cpp_source.html#l00006">DataElement.cpp:6</a></div></div>
 <div class="ttc" id="aclass_data_element_html"><div class="ttname"><a href="class_data_element.html">DataElement</a></div><div class="ttdoc">A class to handle the data transfer of complex and primitive objects into and out of the DataBase ins...</div><div class="ttdef"><b>Definition:</b> <a href="_data_element_8hpp_source.html#l00039">DataElement.hpp:39</a></div></div>
-<div class="ttc" id="aclass_buffer_html_af6a671e548bcb07e9ad933f841701884"><div class="ttname"><a href="class_buffer.html#af6a671e548bcb07e9ad933f841701884">Buffer::ToString</a></div><div class="ttdeci">std::string ToString() const</div><div class="ttdoc">A method of converting a string like Buffer contents to a std::string.</div><div class="ttdef"><b>Definition:</b> <a href="buffer_8cpp_source.html#l00463">buffer.cpp:463</a></div></div>
-<div class="ttc" id="aclass_buffer_html_a4611e63dd17bd7d50d489cc5197d049c"><div class="ttname"><a href="class_buffer.html#a4611e63dd17bd7d50d489cc5197d049c">Buffer::nullTerminate</a></div><div class="ttdeci">void nullTerminate()</div><div class="ttdoc">A method to null terminate the buffer, required for use with std::string like behaviour.</div><div class="ttdef"><b>Definition:</b> <a href="buffer_8cpp_source.html#l00353">buffer.cpp:353</a></div></div>
+<div class="ttc" id="aclass_buffer_html_af6a671e548bcb07e9ad933f841701884"><div class="ttname"><a href="class_buffer.html#af6a671e548bcb07e9ad933f841701884">Buffer::ToString</a></div><div class="ttdeci">std::string ToString() const</div><div class="ttdoc">A method of converting a string like Buffer contents to a std::string.</div><div class="ttdef"><b>Definition:</b> <a href="buffer_8cpp_source.html#l00469">buffer.cpp:469</a></div></div>
+<div class="ttc" id="aclass_buffer_html_a4611e63dd17bd7d50d489cc5197d049c"><div class="ttname"><a href="class_buffer.html#a4611e63dd17bd7d50d489cc5197d049c">Buffer::nullTerminate</a></div><div class="ttdeci">void nullTerminate()</div><div class="ttdoc">A method to null terminate the buffer, required for use with std::string like behaviour.</div><div class="ttdef"><b>Definition:</b> <a href="buffer_8cpp_source.html#l00359">buffer.cpp:359</a></div></div>
 <div class="ttc" id="aclass_data_element_html_a0aff60b8d13106c9ca74d8662a749a72"><div class="ttname"><a href="class_data_element.html#a0aff60b8d13106c9ca74d8662a749a72">DataElement::set</a></div><div class="ttdeci">void set(bool in)</div><div class="ttdoc">Set DataElement to contain boolean primitive.</div><div class="ttdef"><b>Definition:</b> <a href="_data_element_8cpp_source.html#l00098">DataElement.cpp:98</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
