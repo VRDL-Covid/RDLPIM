@@ -24,7 +24,7 @@ Buffer Buffer::PassChunk(char first, char second)
 		}
 			
 	}
-
+	//TODO catch "{}" as an error
 	bytes = end - start + 1;
 
 	char* temp = (char*)malloc(bytes);
@@ -110,19 +110,25 @@ void Buffer::set(void* src, int iSize)
 	//redefine the size of the buffer
 	size = iSize;
 
-	char* temp = (char*)malloc(size);
-	memcpy(temp, src, size);
+	if (size > 0) {
+
+		char* temp = (char*)malloc(size);
+		memcpy(temp, src, size);
 
 
-	//resize the memory allocated to the contents buffer
-	resizeContents(size);
+		//resize the memory allocated to the contents buffer
+		resizeContents(size);
 
-	//copy the contents of the src to the contents buffer
-	for (int i = 0; i < size; i++) {
-		contents[i] = temp[i];
+		//copy the contents of the src to the contents buffer
+		for (int i = 0; i < size; i++) {
+			contents[i] = temp[i];
+		}
+	free(temp);
+	}
+	else {
+		set("");
 	}
 
-	free(temp);
 }
 
 void Buffer::set(const char* src)
