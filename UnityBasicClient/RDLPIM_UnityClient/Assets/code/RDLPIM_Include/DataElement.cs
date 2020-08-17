@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
+﻿using System;
+using System.Text;
 
 public class DataElement
 {
@@ -82,6 +80,29 @@ public class DataElement
             }
         }
         #endregion
+    }
+
+    public DataElement(string Varname)
+    {
+        m_varname = Varname;
+    }
+
+    public byte[] SerialiseName()
+    {
+        byte[] varname = Encoding.ASCII.GetBytes(m_varname) ;
+        byte[] ret = new byte[varname.Length + 2];
+
+        ret[0] = (byte)'{';
+
+        for(int i = 0; i< varname.Length; i++)
+        {
+            ret[i + 1] = varname[i];
+        }
+
+        ret[ret.Length - 1] = (byte)'}';
+
+        return ret;
+
     }
 
 

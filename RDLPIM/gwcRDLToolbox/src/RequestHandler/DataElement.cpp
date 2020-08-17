@@ -85,8 +85,6 @@ DataElement::DataElement(const rdlData& var)
 	}
 }
 
-
-
 DataElement::~DataElement()
 {
 	if (m_data != nullptr) {

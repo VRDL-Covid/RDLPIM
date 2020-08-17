@@ -284,8 +284,9 @@ public class RDLPIM_Client
         }
         catch (Exception e)
         {
+            Debug.Log(e.ToString());
             RDLcoupled = false;
-            client = null;
+            //client = null;
             OnConnectionLost();
         }
     }
@@ -293,21 +294,20 @@ public class RDLPIM_Client
     public void Send(byte[] data)
     {
         // Begin sending the data to the remote device.  
-        client.BeginSend(data, 0, data.Length, 0,
-            new AsyncCallback(SendCallback), client);
+        if (client != null)
+        {
+            client.BeginSend(data, 0, data.Length, 0, new AsyncCallback(SendCallback), client);
+            sendDone.WaitOne();
+        }
     }
 
     private void SendCallback(IAsyncResult ar)
     {
         try
         {
-            // Retrieve the socket from the state object.  
-            Socket client = (Socket)ar.AsyncState;
-
             // Complete sending the data to the remote device.  
             int bytesSent = client.EndSend(ar);
-            Debug.Log("Sent " + bytesSent + " bytes to RDLPIM");
-            
+
            // Signal that all bytes have been sent.  
            sendDone.Set();
         }
