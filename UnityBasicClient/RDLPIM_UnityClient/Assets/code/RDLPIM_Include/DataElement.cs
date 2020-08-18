@@ -118,6 +118,67 @@ public class DataElement
 
     }
 
+
+    public void Set(bool value)
+    {
+        m_DataType = "bool";
+        m_bytes = sizeof(bool);
+        m_data = BitConverter.GetBytes(value);
+    }
+
+    public void Set(int value)
+    {
+        m_DataType = "int";
+        m_bytes = sizeof(int);
+        m_data = BitConverter.GetBytes(value);
+    }
+
+    public void Set(float value)
+    {
+        m_DataType = "float";
+        m_bytes = sizeof(float);
+        m_data = BitConverter.GetBytes(value);
+    }
+
+    public void Set(double value)
+    {
+        m_DataType = "double";
+        m_bytes = sizeof(double);
+        m_data = BitConverter.GetBytes(value);
+    }
+
+    public void Set(byte[] value)
+    {
+        m_DataType = "blob";
+        m_bytes = value.Length;
+        m_data = value;
+    }
+
+
+    public byte[] Serialise()
+    {
+        byte[] top = new byte[1];
+        byte[] tail = new byte[1];
+        byte[] equ = new byte[1];
+
+        top[0] = (byte)'{';
+        tail[0] = (byte)'}';
+        equ[0] = (byte)'=';
+        
+        byte[] ret = new byte[0];
+        
+        ret = Append(ret, top);
+        ret = Append(ret, Encoding.ASCII.GetBytes(m_varname));
+        ret = Append(ret, equ);
+        ret = Append(ret, Encoding.ASCII.GetBytes(m_DataType));
+        ret = Append(ret, equ);
+        ret = Append(ret, BitConverter.GetBytes(m_bytes));
+        ret = Append(ret, GetData());
+        ret = Append(ret, tail);
+
+        return ret;
+    }
+
     public static List<DataElement> DeserialiseArray(byte[] serialised)
     {
         List<DataElement> ret = new List<DataElement>();
@@ -168,6 +229,24 @@ public class DataElement
         }
 
         return ret;
-    } 
+    }
 
+
+    byte[] Append(byte[] dst, byte[] src)
+    {
+
+        byte[] ret = new byte[dst.Length + src.Length];
+
+        for (int i = 0; i < dst.Length; i++)
+        {
+            ret[i] = dst[i];
+        }
+
+        for (int i = 0; i < src.Length; i++)
+        {
+            ret[dst.Length + i] = src[i];
+        }
+
+        return ret;
+    }
 }

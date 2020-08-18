@@ -10,7 +10,8 @@ public class dataHandler : MonoBehaviour
 
     public RDLPIM_Controller rdlController;
     public InputField varName;
-    public InputField value;
+    public InputField output;
+    public InputField input;
     public string valueMSG;
 
     dataHandler()
@@ -30,7 +31,7 @@ public class dataHandler : MonoBehaviour
 
     public void Update()
     {
-        value.text = valueMSG;
+        output.text = valueMSG;
     }
 
     public string GetVarname() { return varName.text; }
@@ -50,6 +51,54 @@ public class dataHandler : MonoBehaviour
         rdlController.SendPull(reqs);
     }
 
+    public void SendPushes()
+    {
+        List<DataElement> reqs = new List<DataElement>();
+        DataElement Temp;
+        foreach (dataHandler item in dataHandlers)
+        {
+            if (item.GetVarname() != "" && item.output.text != "")
+            {
+                Temp = new DataElement(item.GetVarname());
+                Temp.Set(double.Parse(item.input.text));
+                reqs.Add(Temp);
+            }
+        }
+
+        rdlController.SendPush(reqs);
+    }
+
+    public void SendSubscribes()
+    {
+        List<DataElement> reqs = new List<DataElement>();
+
+        foreach (dataHandler item in dataHandlers)
+        {
+            if (item.GetVarname() != "")
+            {
+                reqs.Add(new DataElement(item.GetVarname()));
+            }
+        }
+
+        rdlController.SendSubscribe(reqs);
+    }
+
+    public void SendUnsubscribes()
+    {
+        List<DataElement> reqs = new List<DataElement>();
+
+        foreach (dataHandler item in dataHandlers)
+        {
+            if (item.GetVarname() != "")
+            {
+                reqs.Add(new DataElement(item.GetVarname()));
+            }
+        }
+
+        rdlController.SendUnsubscribe(reqs);
+    }
+
+
     protected void onNewData(object source, List<DataElement> newData)
     {
         foreach(DataElement element in newData)
@@ -63,7 +112,7 @@ public class dataHandler : MonoBehaviour
 
                 if (element.GetType() == "double")
                 {
-                    valueMSG = BitConverter.ToInt32(element.GetData(), 0).ToString();
+                    valueMSG = BitConverter.ToDouble(element.GetData(), 0).ToString();
                 }
 
                 if (element.GetType() == "bool")

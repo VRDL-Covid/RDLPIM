@@ -221,8 +221,6 @@ public class RDLPIM_Client
     }
 
 
-    //privateMethods
-
     private void ConnectCallback(IAsyncResult ar)
     {
         try
@@ -266,27 +264,11 @@ public class RDLPIM_Client
             }
             else
             {
-                // All the data has arrived; put it in response.  
-                //if (state.sb.Length > 1)
-                //{
-                //    response = state.sb.ToString(); 
-                //}
-            // Signal that all bytes have been received.  
-            
                 receiveDone.Set();
             }
 
-        // TODO - raise event.
-
             OnDataRecieved();
-        //}
-        // catch (Exception e)
-        //{ 
-        //    Debug.Log(e.ToString());
-        //    RDLcoupled = false;
-        //    //client = null;
-        //    OnConnectionLost();
-        //}
+
     }
 
     public void Send(byte[] data)

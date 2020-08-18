@@ -98,7 +98,6 @@ public class RDLPIM_Controller : MonoBehaviour
         }
 
         return ret;
-
     }
 
     public void SendChat(string message)
@@ -119,6 +118,47 @@ public class RDLPIM_Controller : MonoBehaviour
         RDL.Send(header.Generate(RDLPIM_FucntionCode.pull, data));
 
     }
+
+    public void SendPush(List<DataElement> elements)
+    {
+        byte[] data = new byte[0];
+
+        foreach (DataElement item in elements)
+        {
+            data = Append(data, item.Serialise());
+        }
+
+        RDL.Send(header.Generate(RDLPIM_FucntionCode.push, data));
+
+    }
+
+    public void SendSubscribe(List<DataElement> elements)
+    {
+        byte[] data = new byte[0];
+
+        foreach (DataElement item in elements)
+        {
+            data = Append(data, item.SerialiseName());
+        }
+
+        RDL.Send(header.Generate(RDLPIM_FucntionCode.subscribe, data));
+
+    }
+
+    public void SendUnsubscribe(List<DataElement> elements)
+    {
+        byte[] data = new byte[0];
+
+        foreach (DataElement item in elements)
+        {
+            data = Append(data, item.SerialiseName());
+        }
+
+        RDL.Send(header.Generate(RDLPIM_FucntionCode.unsubscribe, data));
+
+    }
+
+
 
     public void RetryConnection()
     {
