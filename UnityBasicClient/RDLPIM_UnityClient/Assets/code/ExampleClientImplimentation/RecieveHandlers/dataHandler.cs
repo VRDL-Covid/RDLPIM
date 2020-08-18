@@ -51,6 +51,21 @@ public class dataHandler : MonoBehaviour
         rdlController.SendPull(reqs);
     }
 
+    public void SendScreenData()
+    {
+        List<DataElement> request = new List<DataElement>();
+
+        DataElement touch1 = new DataElement("ys_blah_inp");
+
+        touch1.Set(true);
+
+        request.Add(touch1);
+
+        rdlController.SendPush(request);
+    
+    }
+
+
     public void SendPushes()
     {
         List<DataElement> reqs = new List<DataElement>();

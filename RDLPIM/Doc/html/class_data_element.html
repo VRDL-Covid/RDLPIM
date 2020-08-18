@@ -109,8 +109,8 @@ Example</h3>
 <div class="line">serialised = de.Serialise();</div>
 <div class="line"> </div>
 <div class="line">serialised.<a class="code" href="class_buffer.html#a31ae3980abdb9a603ac8c181bd36bd7e">fullPrint</a>();</div>
-<div class="line"><span class="comment">//                 {int = 8 bytes} </span></div>
-<div class="line"><span class="comment">//&quot;varName=double=\x08\x00\x00\x00={binary for 3.14159 as double}</span></div>
+<div class="line"><span class="comment">//                { int = 8 bytes } {     binary for 3.14159 as double    }</span></div>
+<div class="line"><span class="comment">//&quot;varName=double=\x08\x00\x00\x00  \x40 \x09 \x21 \xF9 \xF0 \x1B \x86 \x6E</span></div>
 </div><!-- fragment --> 
 <p class="definition">Definition at line <a class="el" href="_data_element_8hpp_source.html#l00039">39</a> of file <a class="el" href="_data_element_8hpp_source.html">DataElement.hpp</a>.</p>
 </div>
@@ -325,7 +325,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00090">90</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00088">88</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
 
 </div>
 </div>
@@ -353,7 +353,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00336">336</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00334">334</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
 
 </div>
 </div>
@@ -391,7 +391,7 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd><br  />
  </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00350">350</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00348">348</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
 
 </div>
 </div>
@@ -421,7 +421,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>An integer of the number of components succesfully deserialised 1 name 2 name and type, 3 name type and size, 4 name type size and data. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00195">195</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00193">193</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
 
 </div>
 </div>
@@ -535,7 +535,7 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>string representation of the type <br  />
  </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00391">391</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00389">389</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
 
 </div>
 </div>
@@ -564,7 +564,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_data_element.html" title="A class to handle the data transfer of complex and primitive objects into and out of the DataBase ins...">DataElement</a> reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00363">363</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00361">361</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
 
 </div>
 </div>
@@ -601,7 +601,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_data_element.html" title="A class to handle the data transfer of complex and primitive objects into and out of the DataBase ins...">DataElement</a> reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00378">378</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00376">376</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
 
 </div>
 </div>
@@ -624,7 +624,7 @@ Public Member Functions</h2></td></tr>
 <p>"{VarName=VarType=Bytes=Value}" </p><dl class="section warning"><dt>Warning</dt><dd>serialisation will add { } top and tail to facilitate stacking of DataElements. </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> of serialised component </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00279">279</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00277">277</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
 
 </div>
 </div>
@@ -652,7 +652,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00098">98</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00096">96</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
 
 </div>
 </div>
@@ -680,7 +680,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00138">138</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00136">136</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
 
 </div>
 </div>
@@ -718,7 +718,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00126">126</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00124">124</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
 
 </div>
 </div>
@@ -746,7 +746,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00150">150</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00148">148</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
 
 </div>
 </div>
@@ -774,7 +774,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00162">162</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00160">160</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
 
 </div>
 </div>
@@ -802,7 +802,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00119">119</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00117">117</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
 
 </div>
 </div>
@@ -830,7 +830,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00112">112</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00110">110</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
 
 </div>
 </div>
@@ -858,7 +858,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00105">105</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00103">103</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
 
 </div>
 </div>
