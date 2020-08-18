@@ -12,7 +12,7 @@ public class StateObject
     // Client socket.  
     public Socket workSocket = null;
     // Size of receive buffer.  
-    public const int BufferSize = 2048;
+    public const int BufferSize = 4096;
     // Receive buffer.  
     public byte[] buffer = new byte[BufferSize];
     // Received data string.  
@@ -51,7 +51,7 @@ public class RDLPIM_Client
 
     private static RDLPIM_Client s_Instance = null;
     private Socket client = null;
-    public byte[] recBuff = new byte[2048];
+    public byte[] recBuff = new byte[4096];
     public int bytes = 0;
     private String response = String.Empty;
     
@@ -247,8 +247,7 @@ public class RDLPIM_Client
 
     private void ReceiveCallback(IAsyncResult ar)
     {
-        try
-        {
+       
             // Retrieve the state object and the client socket
             // from the asynchronous state object.  
             StateObject state = (StateObject)ar.AsyncState;
@@ -261,34 +260,33 @@ public class RDLPIM_Client
             if (bytesRead > 0)
             {
                 // There might be more data, so store the data received so far.  
-                state.sb.Append(Encoding.ASCII.GetString(recBuff, 0, bytesRead));
-
                 // Get the rest of the data.  
-                client.BeginReceive(recBuff, 0, StateObject.BufferSize, 0,
+                client.BeginReceive(recBuff, bytes, recBuff.Length-bytes, 0,
                     new AsyncCallback(ReceiveCallback), state);
             }
             else
             {
                 // All the data has arrived; put it in response.  
-                if (state.sb.Length > 1)
-                {
-                    response = state.sb.ToString(); 
-                }
-                // Signal that all bytes have been received.  
-              
+                //if (state.sb.Length > 1)
+                //{
+                //    response = state.sb.ToString(); 
+                //}
+            // Signal that all bytes have been received.  
+            
                 receiveDone.Set();
             }
 
-            // TODO - raise event.
+        // TODO - raise event.
+
             OnDataRecieved();
-        }
-        catch (Exception e)
-        {
-            Debug.Log(e.ToString());
-            RDLcoupled = false;
-            //client = null;
-            OnConnectionLost();
-        }
+        //}
+        // catch (Exception e)
+        //{ 
+        //    Debug.Log(e.ToString());
+        //    RDLcoupled = false;
+        //    //client = null;
+        //    OnConnectionLost();
+        //}
     }
 
     public void Send(byte[] data)

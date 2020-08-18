@@ -18,7 +18,7 @@ public class RDLPIM_Controller : MonoBehaviour
     public delegate void ChatRecievedHandler(object source, string message);
     public event ChatRecievedHandler ChatRecieved;
 
-    public delegate void DataRecievedHandler(object source, byte[] data);
+    public delegate void DataRecievedHandler(object source, List<DataElement> data);
     public event DataRecievedHandler DataRecieved;
 
     // Start is called before the first frame update
@@ -69,7 +69,10 @@ public class RDLPIM_Controller : MonoBehaviour
         else if (functionCode == RDLPIM_FucntionCode.data)
         {
             Debug.Log("recieved Data");
-            DataRecieved(this, e.Data);
+            List<DataElement> data = DataElement.DeserialiseArray(e.Data);
+
+            DataRecieved(this, data);
+            
         } else
         {
             Debug.Log("Unhandled Function:" + functionCode + " recieved containing " + bytes + " of data.");

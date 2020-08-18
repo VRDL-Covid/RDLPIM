@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
 public class DataElement
@@ -35,7 +36,8 @@ public class DataElement
         {
             varname[j] = serialised[j + 1];
         }
-        offset = it++;
+        it++;
+        offset = it;
         it = 0;
 
         m_varname = System.Text.Encoding.Default.GetString(varname);
@@ -54,7 +56,8 @@ public class DataElement
         {
             dataType[j] = serialised[j + offset];
         }
-        offset = it++;
+        it++;
+        offset += it;
         it = 0;
 
         m_DataType = System.Text.Encoding.Default.GetString(dataType);
@@ -87,6 +90,16 @@ public class DataElement
         m_varname = Varname;
     }
 
+    public DataElement()
+    {
+        
+    }
+
+
+    public string GetName() { return m_varname; }
+    public string GetType() { return m_DataType; }
+
+    public byte[] GetData() { return m_data; }
     public byte[] SerialiseName()
     {
         byte[] varname = Encoding.ASCII.GetBytes(m_varname) ;
@@ -105,18 +118,56 @@ public class DataElement
 
     }
 
-
-    public byte[] Serialise()
+    public static List<DataElement> DeserialiseArray(byte[] serialised)
     {
-        int size = m_varname.Length + m_DataType.Length + 4 + m_bytes + 2;
-        byte[] serialised = new byte[size];
+        List<DataElement> ret = new List<DataElement>();
 
-        serialised[0] = (byte)'{';
+        int nextStart;
+        int nextEnd = -1;
+        int sizeOfNext = 0;
+        byte[] temp;
+        while (nextEnd <= serialised.Length)
+        {
+            //get next starting positino (last end +1
+            nextStart = nextEnd + 1;
+            
+            //if outside the serialised data then finished so break loop
+            if (nextStart >= serialised.Length)
+                break;
 
+            //serach for next packet incase of padding
+            while ((serialised[nextStart] != '{') && nextStart <= serialised.Length)
+            {
+                nextStart++;
+            }
 
+            //next end has to be after then next start
+            nextEnd = nextStart+1;
 
+            //hunt for end of packet
+            while ((serialised[nextEnd] != '}') && nextEnd <= serialised.Length)
+            {
+                nextEnd++;
+            }
 
-        return serialised;
-    }
+            //allocate memory for chunk
+            sizeOfNext = (nextEnd - nextStart) + 1;
+            temp = new byte[sizeOfNext];
+
+            //copy chunk
+            for(int i = nextStart; i<(nextStart+sizeOfNext); i++)
+            {
+                temp[i-nextStart] = serialised[i];
+            }
+
+            DataElement element = new DataElement();
+
+            element.Deserialise(temp);
+
+            ret.Add(element);
+        }
+
+        return ret;
+    } 
 
 }
