@@ -17,6 +17,7 @@ Buffer Buffer::PassChunk(char first, char second)
 	}
 
 	//find second delimiter
+	
 	for (int i = start + 1; i < size; i++) {
 		if (contents[i] == second) {
 			end = i;
@@ -24,7 +25,8 @@ Buffer Buffer::PassChunk(char first, char second)
 		}
 			
 	}
-	//TODO catch "{}" as an error
+
+
 	bytes = end - start + 1;
 
 	char* temp = (char*)malloc(bytes);

@@ -206,10 +206,22 @@ public class DataElement
             nextEnd = nextStart+1;
 
             //hunt for end of packet
-            while ((serialised[nextEnd] != '}') && nextEnd <= serialised.Length)
+            int equCount = 0;
+            int it = 0;
+
+            while (equCount < 2)
             {
-                nextEnd++;
+                ++it;
+
+                if (serialised[nextStart + it] == '=')
+                {
+                    ++equCount;
+                }
             }
+
+            int remBytes = BitConverter.ToInt32(serialised, nextStart + it + 1);
+
+            nextEnd = nextStart + it + 5 + remBytes;
 
             //allocate memory for chunk
             sizeOfNext = (nextEnd - nextStart) + 1;

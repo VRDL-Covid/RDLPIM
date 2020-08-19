@@ -14,6 +14,8 @@ public:
 	/// @param rawInput Buffer object containing serialised data.
 	void Deserialise(const Buffer& rawInput);
 
+	Buffer GetSerialisedDataElement(Buffer& rawInput);
+
 	/// @brief Serialise a DataElementArray object into a Buffer
 	/// @return Buffer of serialised data
 	Buffer Serialise();
