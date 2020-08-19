@@ -84,7 +84,54 @@ void SendPushInt(Buffer& outBuffer, bool* send, std::mutex& sockSend)
 	*send = true;
 }
 
-void SendPullInt(Buffer& outBuffer, bool* send, std::mutex& sockSend)
+
+void SendPushDouble(Buffer& outBuffer, bool* send, std::mutex& sockSend)
+{
+	//get variable name
+	Buffer name;
+	Buffer data;
+	RequestHeader reqHeader;
+	double value;
+
+
+	std::vector<std::shared_ptr<DataElement>> requests;
+
+	//get  test input stack
+	std::cout << "set name = '!' to end pushInt stack" << std::endl << std::endl;
+	std::cout << "variable Name:" << std::endl;
+	std::cin >> name;
+	while (name != "!") {
+
+		//get value
+		std::cout << "Value:" << std::endl;
+		std::cin >> value;
+
+		auto request = std::make_shared<DataElement>(name);
+		request->set(value);
+		requests.emplace_back(request);
+
+		std::cout << "variable Name:" << std::endl;
+		std::cin >> name;
+	}
+
+
+	//build data package
+	for (auto element : requests) {
+		data.append(element->Serialise());
+	}
+
+	//build header packet
+	reqHeader.SetCommand(Commands::push);
+	reqHeader.SetSize(data.GetSize());
+
+	std::lock_guard<std::mutex> lock(sockSend);
+
+	outBuffer = reqHeader.Serialise();
+	outBuffer.append(data);
+	*send = true;
+}
+
+void SendPull(Buffer& outBuffer, bool* send, std::mutex& sockSend)
 {
 	//get variable name
 	Buffer name;
@@ -188,9 +235,10 @@ void sender(Buffer& outBuff, bool* send, std::mutex& sockSend)
 			std::cout << "Select a command" << std::endl;
 			std::cout << "1) Chat/string test" << std::endl;
 			std::cout << "2) push Int Stack" << std::endl;
-			std::cout << "3) pull Int Stack" << std::endl;
-			std::cout << "4) Subscribe Int Stack" << std::endl;
-			std::cout << "5) Unsubscribe Int Stack" << std::endl;
+			std::cout << "3) push Double Stack" << std::endl;
+			std::cout << "4) pull Stack" << std::endl;
+			std::cout << "5) Subscribe Int Stack" << std::endl;
+			std::cout << "6) Unsubscribe Int Stack" << std::endl;
 		}
 
 
@@ -200,9 +248,10 @@ void sender(Buffer& outBuff, bool* send, std::mutex& sockSend)
 		{
 		case 1: {std::cin.clear();sendChatMSGs(outBuff, send, sockSend); break; }
 		case 2: {std::cin.clear();SendPushInt(outBuff, send, sockSend); break; }
-		case 3: {std::cin.clear();SendPullInt(outBuff, send, sockSend); break; }
-		case 4: {std::cin.clear();SentSubInt(outBuff, send, sockSend); break; }
-		case 5: {std::cin.clear();SentUnSubInt(outBuff, send, sockSend); break; }
+		case 3: {std::cin.clear();SendPushDouble(outBuff, send, sockSend); break; }
+		case 4: {std::cin.clear();SendPull(outBuff, send, sockSend); break; }
+		case 5: {std::cin.clear();SentSubInt(outBuff, send, sockSend); break; }
+		case 6: {std::cin.clear();SentUnSubInt(outBuff, send, sockSend); break; }
 		}
 		
 

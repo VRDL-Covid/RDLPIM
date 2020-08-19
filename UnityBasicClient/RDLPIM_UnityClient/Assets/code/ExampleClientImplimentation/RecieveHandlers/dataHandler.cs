@@ -73,7 +73,7 @@ public class dataHandler : MonoBehaviour
         DataElement Temp;
         foreach (dataHandler item in dataHandlers)
         {
-            if (item.GetVarname() != "" && item.output.text != "")
+            if (item.GetVarname() != "" && item.input.text != "")
             {
                 Temp = new DataElement(item.GetVarname());
                 Temp.Set(double.Parse(item.input.text));
