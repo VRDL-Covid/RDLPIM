@@ -8,7 +8,7 @@ public class dataHandler : MonoBehaviour
 {
     public static List<dataHandler> dataHandlers = new List<dataHandler>();
 
-    public RDLPIM_Controller rdlController;
+    RDLPIM_Controller rdlController;
     public InputField varName;
     public InputField output;
     public InputField input;
@@ -26,6 +26,7 @@ public class dataHandler : MonoBehaviour
 
     public void Start()
     {
+        rdlController = RDLPIM_Controller.Instance;
         rdlController.DataRecieved += onNewData;
     }
 

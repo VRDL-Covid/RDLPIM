@@ -21,6 +21,23 @@ public class RDLPIM_Controller : MonoBehaviour
     public delegate void DataRecievedHandler(object source, List<DataElement> data);
     public event DataRecievedHandler DataRecieved;
 
+
+    private static RDLPIM_Controller s_Instance = null;
+    public static RDLPIM_Controller Instance { get { return s_Instance; } }
+
+    private void Awake()
+    {
+        if (s_Instance != null && s_Instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            s_Instance = this;
+        }
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {

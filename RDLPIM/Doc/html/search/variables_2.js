@@ -1,12 +1,6 @@
 var searchData=
 [
-  ['c_5fdb_5felementchanged_569',['c_DB_ElementChanged',['../class_r_d_l.html#a70c73b246d3413183a0aefa9f4955e5f',1,'RDL']]],
-  ['c_5fnewdataentry_570',['c_NewDataEntry',['../class_r_d_l.html#a7cc44bc9f5169919459fe1650961df58',1,'RDL']]],
-  ['char_571',['Char',['../unionconvertable.html#af4c4cc71b0ea55a52c08ed42e154ff74',1,'convertable']]],
-  ['connected_572',['connected',['../class_client.html#ac422e506234fc7ae7b4a60af74413f61',1,'Client::connected()'],['../classconnection_object.html#a4aec5d613693733aa6b801712d85789d',1,'connectionObject::connected()']]],
-  ['connection_573',['connection',['../class_client.html#a73635089a05ee3fb01638e5baa89c00c',1,'Client::connection()'],['../classtest_client.html#a4932a6c27b818f77b107a2310abfdea1',1,'testClient::connection()']]],
-  ['cons_574',['cons',['../struct_m_o_d_t_a_b.html#a15fe044e51cab719d59eb68aa3e4e35f',1,'MODTAB']]],
-  ['contract_575',['CONTRACT',['../_l_i_c_e_n_s_e_8txt.html#a15294d498c93cced7d5ca0577fba0ded',1,'LICENSE.txt']]],
-  ['coutmutex_576',['coutMutex',['../_r_d_l_test_harnes_8cpp.html#a905a79f9a43243b3e3d967dc1f52b612',1,'RDLTestHarnes.cpp']]],
-  ['ctype_577',['ctype',['../classrdl_data.html#a8c496307c5b3a56f8c1f5109cc989ee9',1,'rdlData']]]
+  ['base_572',['base',['../struct_g_l_o_b_a_l___t_a_b_l_e.html#acf530ba6ece9bb1a1417b41d1fdcd896',1,'GLOBAL_TABLE']]],
+  ['bool_573',['Bool',['../unionconvertable.html#ad45ab57e0cd6fd084dc6eb98ea2fcf6b',1,'convertable']]],
+  ['bytes_574',['bytes',['../classrdl_data.html#a80f0b50e832c45e0df8e436a97e379d8',1,'rdlData']]]
 ];

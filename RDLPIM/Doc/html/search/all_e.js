@@ -1,14 +1,8 @@
 var searchData=
 [
-  ['off_178',['off',['../_r_d_l_8hpp.html#aa8df4166084b06f1e80d3510e5dcf7e1',1,'RDL.hpp']]],
-  ['offset_179',['offset',['../classrdl_data.html#a206097fbbd7ef71b4c2af648d9a6e5d0',1,'rdlData::offset()'],['../rdl_data_8hpp.html#a4174e380379043c08ab5e62a614660dc',1,'offset():&#160;rdlData.hpp']]],
-  ['on_180',['on',['../_r_d_l_8hpp.html#a42cc7dae7a40abcb545fc41730fa1476',1,'RDL.hpp']]],
-  ['onclientconnectcallback_181',['onClientConnectCallback',['../classrequest_handler.html#a93f63b0f426d03f53b83719e0ee8c754',1,'requestHandler']]],
-  ['onclientdisconnectcallback_182',['onClientDisconnectCallback',['../classrequest_handler.html#ac1220af8e12c839f0c4d350123c9afdb',1,'requestHandler']]],
-  ['onelementchangecallback_183',['OnElementChangeCallback',['../class_subscriptions.html#a79384c2d19b1b54c9781598a75d891ba',1,'Subscriptions']]],
-  ['operator_21_3d_184',['operator!=',['../class_buffer.html#aec030e2820f75dacf6c36bcef512430b',1,'Buffer']]],
-  ['operator_3c_3c_185',['operator&lt;&lt;',['../class_buffer.html#ae1ad2c5c45b2f6e493898237025e6912',1,'Buffer::operator&lt;&lt;()'],['../buffer_8cpp.html#ae1ad2c5c45b2f6e493898237025e6912',1,'operator&lt;&lt;():&#160;buffer.cpp']]],
-  ['operator_3d_186',['operator=',['../class_buffer.html#aa47ec59c6964b1b4dc616a397e6e6968',1,'Buffer::operator=(const Buffer &amp;other)'],['../class_buffer.html#a5f17992243d414b9c9411e46e9ba30fc',1,'Buffer::operator=(Buffer &amp;&amp;) noexcept'],['../class_event.html#a9b0582b5c0e463f91553959969e6f051',1,'Event::operator=()'],['../class_data_element_array.html#a84bb4e60814ebc34d8d3c3e23f8c4c0b',1,'DataElementArray::operator=(DataElementArray &amp;&amp;other)'],['../class_data_element_array.html#a3823f22af306a15762aa5b26f930939e',1,'DataElementArray::operator=(const DataElementArray &amp;other)'],['../class_data_element.html#a79069a84c25a4c37c53c5c69ab473e1f',1,'DataElement::operator=(const DataElement &amp;other)'],['../class_data_element.html#aff9d2b62634e1eb3639b2a96456507dd',1,'DataElement::operator=(DataElement &amp;&amp;other) noexcept']]],
-  ['operator_3d_3d_187',['operator==',['../class_buffer.html#ab25a5779a447b80eab4895181aaa5ac7',1,'Buffer']]],
-  ['operator_3e_3e_188',['operator&gt;&gt;',['../class_buffer.html#a9b5c5a33d67d334a17a4982dcff3fbc9',1,'Buffer::operator&gt;&gt;()'],['../buffer_8cpp.html#a9b5c5a33d67d334a17a4982dcff3fbc9',1,'operator&gt;&gt;():&#160;buffer.cpp']]]
+  ['name_176',['Name',['../struct_profile_result.html#a9556a713c3ea482b8010b310051425e5',1,'ProfileResult::Name()'],['../struct_instrumentation_session.html#a55f8e703e659450f8c94a4a016e5c336',1,'InstrumentationSession::Name()'],['../classrdl_data.html#aa0118876ef2ae50fb92d320e17d23464',1,'rdlData::name()'],['../struct_g_l_o_b_a_l___t_a_b_l_e.html#ab5d575625f50e0d75866c3715555003e',1,'GLOBAL_TABLE::name()']]],
+  ['nojobs_177',['noJobs',['../classrequest_handler.html#a175b9f925a1dc4c52f36cb773233c94e',1,'requestHandler']]],
+  ['none_178',['None',['../job_8hpp.html#a1939e90743463fb34c8c571ec0590430a6adf97f83acf6453d4a6a4b1070f3754',1,'job.hpp']]],
+  ['notice_179',['notice',['../_l_i_c_e_n_s_e_8txt.html#ad84854b8f84dfa8d5d1d983b443bec92',1,'LICENSE.txt']]],
+  ['nullterminate_180',['nullTerminate',['../class_buffer.html#a4611e63dd17bd7d50d489cc5197d049c',1,'Buffer']]]
 ];

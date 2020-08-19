@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['global_590',['global',['../classrdl_data.html#a59731245d86a0605fd7824a973dbc814',1,'rdlData::global()'],['../rdl_data_8hpp.html#a233c70ff28cb037900ed22ac4ebeab5b',1,'global():&#160;rdlData.hpp']]]
+  ['float_594',['Float',['../unionconvertable.html#a9419fcfc6169b934c9f7943e3f4bb8a0',1,'convertable']]],
+  ['fmt_595',['fmt',['../classrdl_data.html#a796f5aef661fcc1aeea2f477b703adea',1,'rdlData::fmt()'],['../rdl_data_8hpp.html#a78c178fcad013addc92015e5e12ab0e1',1,'fmt():&#160;rdlData.hpp']]]
 ];

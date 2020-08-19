@@ -4,11 +4,12 @@ using UnityEngine.UI;
 
 public class ChatSender : MonoBehaviour
 {
-    public RDLPIM_Controller rdlController;
+    
     public InputField source;
 
     public void Send()
     {
+        RDLPIM_Controller rdlController = RDLPIM_Controller.Instance;
         rdlController.SendChat(source.text);
     }
 }

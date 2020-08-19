@@ -5,13 +5,14 @@ using UnityEngine.UI;
 
 public class InfoHandler : MonoBehaviour
 {
-    public RDLPIM_Controller rdlController;
+    private RDLPIM_Controller rdlController;
     public Text textbox;
     private string msg = "nothing recieved";
     private bool dirty = false;
     // Start is called before the first frame update
     void Start()
     {
+        rdlController = RDLPIM_Controller.Instance;
         rdlController.InfoRecieved += onRawTextRecieved;
     }
 

@@ -1,24 +1,9 @@
 var searchData=
 [
-  ['_7ebuffer_303',['~Buffer',['../class_buffer.html#a59b8743e4a5f731bdd0c4185c9ef263b',1,'Buffer']]],
-  ['_7eclient_304',['~Client',['../class_client.html#a840e519ca781888cbd54181572ebe3a7',1,'Client']]],
-  ['_7eclientmanager_305',['~clientManager',['../classclient_manager.html#aa342c44aa689d2651733eb5f3e9200b0',1,'clientManager']]],
-  ['_7econnectionmanager_306',['~connectionManager',['../classconnection_manager.html#aac7c7f7ef9eb1182ba0716e5f77ef8e7',1,'connectionManager']]],
-  ['_7econnectionobject_307',['~connectionObject',['../classconnection_object.html#a7fde270b3301b8bedc7c18e9f06d57e0',1,'connectionObject']]],
-  ['_7edatabase_308',['~DataBase',['../class_data_base.html#a533f39bc554708cfb3ef37bfe061ea53',1,'DataBase']]],
-  ['_7edataelement_309',['~DataElement',['../class_data_element.html#aab9a69f9f0e5959fe17843c4d537f273',1,'DataElement']]],
-  ['_7edataelementarray_310',['~DataElementArray',['../class_data_element_array.html#a88b211645d72a3356e4afc3ecb07790f',1,'DataElementArray']]],
-  ['_7edbelement_311',['~DBElement',['../class_d_b_element.html#a448c1ab409fd8bf4bae01ca4649caec5',1,'DBElement']]],
-  ['_7eevent_312',['~Event',['../class_event.html#aab957c1e41909b500c4e551b0ffc559e',1,'Event']]],
-  ['_7eeventcallback_313',['~EventCallback',['../class_event_callback.html#a4be3636b01dcd767915c3ecae934941a',1,'EventCallback']]],
-  ['_7eieventcallback_314',['~IEventCallback',['../class_i_event_callback.html#acddf3ef68be83a7624d7618ce5ea88ea',1,'IEventCallback']]],
-  ['_7einstrumentationtimer_315',['~InstrumentationTimer',['../class_instrumentation_timer.html#a16d4d0333bd9bdbdfe0341ff07f26a3b',1,'InstrumentationTimer']]],
-  ['_7ejob_316',['~job',['../classjob.html#a9d736078ab717304757ed7368b257da3',1,'job']]],
-  ['_7eportpool_317',['~portPool',['../classport_pool.html#ac0a73d97d9e6b03b977e274bd595358d',1,'portPool']]],
-  ['_7erdl_318',['~RDL',['../class_r_d_l.html#a1a16545f667bce0eb04defbfde92da47',1,'RDL']]],
-  ['_7erdldata_319',['~rdlData',['../classrdl_data.html#a4efde23d652bcf603fc3a4f86a7690ee',1,'rdlData']]],
-  ['_7erequesthandler_320',['~requestHandler',['../classrequest_handler.html#a71f6c24b6100f35bc6f5474f21e9eec4',1,'requestHandler']]],
-  ['_7erequestheader_321',['~RequestHeader',['../class_request_header.html#a59dff4a1f833466af8f7f7c3c1fabe04',1,'RequestHeader']]],
-  ['_7esubscriptions_322',['~Subscriptions',['../class_subscriptions.html#af0c1571322a603439436c52be2721a6c',1,'Subscriptions']]],
-  ['_7etestclient_323',['~testClient',['../classtest_client.html#ae708ab04d7f8fa4ba6f575e906a977e4',1,'testClient']]]
+  ['warranties_301',['WARRANTIES',['../_l_i_c_e_n_s_e_8txt.html#a7035247d6e766e703af09ba2c85caabc',1,'LICENSE.txt']]],
+  ['worker_302',['worker',['../classclient_manager.html#aad7266a1685fb69675fc5c2cd29c54e3',1,'clientManager::worker()'],['../classconnection_manager.html#a4c9f37a1fd2143659695256a318c9889',1,'connectionManager::worker()'],['../class_r_d_l.html#aecdd05c1f4997976da1c193fc91e3bac',1,'RDL::worker()'],['../classrequest_handler.html#a2cdb42981f7588298c1b0d5fa9ca9f64',1,'requestHandler::worker()']]],
+  ['write_303',['write',['../classrdl_data.html#a030dddae8eeb466afdbd40ea95cad962',1,'rdlData::write()'],['../class_r_d_l.html#a6666bfb2a1e14c746ea59dd64ccc645e',1,'RDL::Write(const std::string &amp;varName, T value)'],['../class_r_d_l.html#a0fc515f4e8188ca9e44b35475984938d',1,'RDL::Write(const std::string &amp;varName, bool value)'],['../class_r_d_l.html#ad87a808e6a4083dace41618571f8f962',1,'RDL::Write(const char *varName, char *data, size_t size)'],['../class_r_d_l.html#a76b72fc38e762234dd955c5357f457a5',1,'RDL::Write(const std::string &amp;varName, char *data, size_t size)'],['../class_r_d_l.html#a72be37d574278389e9d9b2ec6237dd37',1,'RDL::Write(const DataElement &amp;data)']]],
+  ['writefooter_304',['WriteFooter',['../class_instrumentor.html#abfad2bc18ce8b43e0cbcf638bb46ad42',1,'Instrumentor']]],
+  ['writeheader_305',['WriteHeader',['../class_instrumentor.html#ae350ccbaff03d4becd25376c42ac2102',1,'Instrumentor']]],
+  ['writeprofile_306',['WriteProfile',['../class_instrumentor.html#a2b81aaa1e75f7707826cfba5d1319ae9',1,'Instrumentor']]]
 ];

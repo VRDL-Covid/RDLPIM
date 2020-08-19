@@ -1,10 +1,12 @@
 var searchData=
 [
-  ['data_578',['data',['../classrdl_data.html#ac789ea804e4d70c392723034c8853d3a',1,'rdlData']]],
-  ['date_579',['date',['../classrdl_data.html#a60f04c45bb98bd199e30eacb00a98062',1,'rdlData::date()'],['../rdl_data_8hpp.html#a2f25bbc1866e3f2a6b5d48d23eefb3fd',1,'date():&#160;rdlData.hpp']]],
-  ['dimen_580',['dimen',['../classrdl_data.html#a95eee9ac6cefe707c862ffadc3feeb3f',1,'rdlData::dimen()'],['../rdl_data_8hpp.html#a741d94989fcbd7a9e79edb4148f2c092',1,'dimen():&#160;rdlData.hpp']]],
-  ['direct_581',['DIRECT',['../_l_i_c_e_n_s_e_8txt.html#aebe35ea91993afa501c56b7d5ee9ef2c',1,'LICENSE.txt']]],
-  ['double_582',['Double',['../unionconvertable.html#ad008625d7c4837ea82dfd787e2cb3399',1,'convertable']]],
-  ['dummy_583',['dummy',['../struct_m_o_d_t_a_b.html#aee80f6e2a7b3ee620b56466d71ad4023',1,'MODTAB']]],
-  ['dval_584',['dval',['../classrdl_data.html#ae97721b90839e4d5a3977e1a5de21b20',1,'rdlData::dval()'],['../rdl_data_8hpp.html#a912ea5ac0f2c8a0525dda15ef7ba0a1c',1,'dval():&#160;rdlData.hpp']]]
+  ['c_5fdb_5felementchanged_575',['c_DB_ElementChanged',['../class_r_d_l.html#a70c73b246d3413183a0aefa9f4955e5f',1,'RDL']]],
+  ['c_5fnewdataentry_576',['c_NewDataEntry',['../class_r_d_l.html#a7cc44bc9f5169919459fe1650961df58',1,'RDL']]],
+  ['char_577',['Char',['../unionconvertable.html#af4c4cc71b0ea55a52c08ed42e154ff74',1,'convertable']]],
+  ['connected_578',['connected',['../class_client.html#ac422e506234fc7ae7b4a60af74413f61',1,'Client::connected()'],['../classconnection_object.html#a4aec5d613693733aa6b801712d85789d',1,'connectionObject::connected()']]],
+  ['connection_579',['connection',['../class_client.html#a73635089a05ee3fb01638e5baa89c00c',1,'Client::connection()'],['../classtest_client.html#a4932a6c27b818f77b107a2310abfdea1',1,'testClient::connection()']]],
+  ['cons_580',['cons',['../struct_m_o_d_t_a_b.html#a15fe044e51cab719d59eb68aa3e4e35f',1,'MODTAB']]],
+  ['contract_581',['CONTRACT',['../_l_i_c_e_n_s_e_8txt.html#a15294d498c93cced7d5ca0577fba0ded',1,'LICENSE.txt']]],
+  ['coutmutex_582',['coutMutex',['../_r_d_l_test_harnes_8cpp.html#a905a79f9a43243b3e3d967dc1f52b612',1,'RDLTestHarnes.cpp']]],
+  ['ctype_583',['ctype',['../classrdl_data.html#a8c496307c5b3a56f8c1f5109cc989ee9',1,'rdlData']]]
 ];

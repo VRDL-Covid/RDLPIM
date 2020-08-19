@@ -23,6 +23,13 @@ for the JavaScript code in this file
 var NAVTREE =
 [
   [ "RDLPIM", "index.html", [
+    [ "RDLPIM User Guide", "index.html", [
+      [ "Introduction", "index.html#intro_sec", null ],
+      [ "Installation", "index.html#install_sec", [
+        [ "Step 1: Opening the box", "index.html#step1", null ]
+      ] ]
+    ] ],
+    [ "API User's Guide", "_r_p_l_p_i_m.html", null ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
@@ -50,8 +57,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_core_8h.html",
-"classconnection_manager.html#a811cfa8e6ffa9945da84cc54a9f1c05f",
-"socket_connection_8cpp_source.html"
+"classconnection_manager.html#a7207798578f022b7e77edb6642a8634a",
+"s3_includes_8hpp.html#a1cebc5d011566cca2d4d613414f6181c"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

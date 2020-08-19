@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['_5f_5fdeclspec_0',['__declspec',['../rdl_data_8hpp.html#a1923f1aa87837bb822b779162d602454',1,'rdlData.hpp']]],
-  ['_5f_5fet_1',['__ET',['../rdl_data_8hpp.html#a081fe33bccc4cede50f864c230ca6071',1,'rdlData.hpp']]]
+  ['á_0',['á',['../_main_page_8doc.html#ad970636f8c2c335c3a68f70a054f9ace',1,'MainPage.doc']]]
 ];

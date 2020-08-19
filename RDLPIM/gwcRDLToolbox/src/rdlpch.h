@@ -22,3 +22,28 @@
 
 //ifDebug
 #include"Debugging/Profiling/Instrumentor.h"
+
+/*! \mainpage RDLPIM User Guide
+ *
+ * \section intro_sec Introduction
+ *
+ * This is the introduction. <!-- @ref RPLPIM API User's Guide -->
+ *
+ * \section install_sec Installation
+ *
+ * \subsection step1 Step 1: Opening the box
+ *
+ * etc...
+ */
+
+ /*! @page RPLPIM API User's Guide
+
+ @par Table of Contents
+
+ - @ref users_guide
+    - @ref Introduction
+    - @ref api_overview
+    - @ref Unity Implimentation
+
+
+ */

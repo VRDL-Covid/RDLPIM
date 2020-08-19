@@ -1,11 +1,9 @@
 var searchData=
 [
-  ['s_621',['s',['../classrdl_data.html#a52e98bceb72602fbe03e0de097a280fa',1,'rdlData']]],
-  ['s_5freadprocesslock_622',['s_readProcessLock',['../classrdl_data.html#a0c1e2ca9bfbf4cbee091eb7501b48fea',1,'rdlData']]],
-  ['sdesc_623',['sdesc',['../classrdl_data.html#a4ab8268c0cfeba21e655fd6c4f0bb5f4',1,'rdlData::sdesc()'],['../rdl_data_8hpp.html#a9cb97525d4c57833cdd6209b8f1448d2',1,'sdesc():&#160;rdlData.hpp']]],
-  ['size_624',['size',['../struct_g_l_o_b_a_l___t_a_b_l_e.html#a2a1c72dc0071ca2471ee8e360f41a68f',1,'GLOBAL_TABLE']]],
-  ['special_625',['SPECIAL',['../_l_i_c_e_n_s_e_8txt.html#af6fc09f83a7bb192cd18b8e2bfb04d42',1,'LICENSE.txt']]],
-  ['start_626',['Start',['../struct_profile_result.html#ae4eb86f9180b8e39cb6e8faeeffd8416',1,'ProfileResult']]],
-  ['status_627',['status',['../classport_status.html#aac91684bdcc7b0777a8bfa1fe1dd607e',1,'portStatus']]],
-  ['sys_5fid_628',['sys_id',['../classrdl_data.html#a336f3e386fc7cd4c677de44d23518bf4',1,'rdlData::sys_id()'],['../rdl_data_8hpp.html#aaab2465c227572032c9e7b0ec5780032',1,'sys_id():&#160;rdlData.hpp']]]
+  ['pid_621',['pid',['../class_r_d_l.html#a45839cb65457ec8c9b8cdccc59cbf30c',1,'RDL::pid()'],['../classrdl_data.html#aa4442af29a5fe5052bccfb3e3d22f70f',1,'rdlData::pid()']]],
+  ['pool_622',['pool',['../classport_pool.html#a3b61597051ae977993883ce32232c015',1,'portPool']]],
+  ['port_623',['port',['../classport_status.html#a28c7babab6155161dcc90fa315ed164f',1,'portStatus::port()'],['../classtest_client.html#a7488c47f98af7ce0830727fb92566e57',1,'testClient::port()']]],
+  ['prec_624',['prec',['../rdl_data_8hpp.html#a4aa1ed79ca504406d0b990357aedcc62',1,'rdlData.hpp']]],
+  ['propagate_5fevent_625',['PROPAGATE_EVENT',['../_event_8h.html#ae485cd73ad6520a3edcbad3f64511669',1,'Event.h']]],
+  ['ptr_626',['ptr',['../classrdl_data.html#ad5fd40ccb141254978c53261863505c1',1,'rdlData']]]
 ];
