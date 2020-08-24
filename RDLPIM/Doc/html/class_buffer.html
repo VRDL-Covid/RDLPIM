@@ -98,7 +98,7 @@ $(document).ready(function(){initNavTree('class_buffer.html',''); initResizable(
 <p>The primary use of the <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> object is to hold serialised data which can be transfered by connectionObjects maintained between the <a class="el" href="classconnection_manager.html" title="The connectionManager class handles incoming connection request attempts and manages the hand shake.">connectionManager</a> and <a class="el" href="classclient_manager.html" title="A Class to manage connected Clients.">clientManager</a>. <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> objects are useful for containing large volumes of machiene readable only data. Utility functions have been included to allow the developer to compare the contents of <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> objects and determing if they are the same or different.</p>
 <p>Manipulation methods to append, prepend, process chunks and print to console beyond that which a std::string would permite by ignoring null termination convention. <br  />
 </p>
-<h3><a class="anchor" id="autotoc_md4"></a>
+<h3><a class="anchor" id="autotoc_md5"></a>
 Example</h3>
 <div class="fragment"><div class="line"><a class="code" href="class_buffer.html">Buffer</a> buff1(<span class="stringliteral">&quot;test1&quot;</span>);</div>
 <div class="line"><a class="code" href="class_buffer.html">Buffer</a> buff2(<span class="stringliteral">&quot;test2&quot;</span>);</div>
@@ -693,7 +693,7 @@ Friends</h2></td></tr>
 
 <p>A method to return part of a serialised array of <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> objects. </p>
 <dl class="section warning"><dt>Warning</dt><dd>This method is destructive, it 'pops' the <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> part from the full serialised data </dd></dl>
-<h3><a class="anchor" id="autotoc_md7"></a>
+<h3><a class="anchor" id="autotoc_md8"></a>
 Example</h3>
 <div class="fragment"><div class="line"><a class="code" href="class_buffer.html">Buffer</a> array(<span class="stringliteral">&quot;{part1}{part2}&quot;</span>);</div>
 <div class="line"> </div>
@@ -834,7 +834,7 @@ Example</h3>
 
 <p>A method to store a const char* source into a <a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> object. </p>
 <p>This is primarily used to store R-value reference strings </p>
-<h3><a class="anchor" id="autotoc_md6"></a>
+<h3><a class="anchor" id="autotoc_md7"></a>
 Example</h3>
 <div class="fragment"><div class="line"><span class="keywordtype">double</span> myDouble = 3.14159;</div>
 <div class="line"> </div>
@@ -882,7 +882,7 @@ Example</h3>
 </div><div class="memdoc">
 
 <p>A method to store primitive types within a buffer object (int, float, double etc) </p>
-<h3><a class="anchor" id="autotoc_md5"></a>
+<h3><a class="anchor" id="autotoc_md6"></a>
 Example</h3>
 <div class="fragment"><div class="line"><span class="keywordtype">double</span> myDouble = 3.14159;</div>
 <div class="line"> </div>

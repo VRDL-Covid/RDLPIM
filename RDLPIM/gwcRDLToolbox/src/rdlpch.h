@@ -23,6 +23,9 @@
 //ifDebug
 #include"Debugging/Profiling/Instrumentor.h"
 
+
+
+
 /*! \mainpage RDLPIM User Guide
  *
  * \section intro_sec Introduction
@@ -182,4 +185,17 @@ The RDLPIM will then open a listening asynchronous TCP socket of the specified p
 
 
 ~~~~~~~~~~~~
+
+
+
+\subsection APICommands API Commands/Functions
+
+A client is able to Push, Pull, Subscribe and Unsubscribe from data stored within the RDLPIM/RDL,  The client does not need to make a destinction between whether the data requested exists on the RDLPIM or RDL runtime, this is handled by the RDLPIM. 
+In addition to the data manipulating requests, function codes denoting a data packet, server info and inter-client chat also exist.  This section of the documentation attempts to explain in detail how to build these packets from the ground up, and what
+helper classes exist to help you serialise and deserialise messages to and from the RDLPIM.
+
+##Push
+
+The Push data request code is used to push data onto the RDLPIM.  If the RDLPIM recognises that this data exists within the RDL, it is also pushed live into the RDL allowing for realtime interaction with the simulation. 
+
 */

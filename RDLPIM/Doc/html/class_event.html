@@ -98,7 +98,7 @@ class Event&lt; T &gt;</h3>
 <p>Custom event class. </p>
 <p>The <a class="el" href="class_event.html" title="Custom event class.">Event</a> class is a template class where the arguments provided to the template form the signature of the callback. A helper class <a class="el" href="class_event_callback.html" title="The EventCallback class is a utility class to the Event system.">EventCallback</a> has been provided to hold the callback function, this allows the callback to be unsubscribed as it is not possible within c++17/c++20 to determin iqeaulity between std::function(s)</p>
 <p>Helper Macros have been defined to easily bind class member function from within the class (BIND_EVENT_FN) or from outside the class BIND_EVENT_FNO</p>
-<h3><a class="anchor" id="autotoc_md8"></a>
+<h3><a class="anchor" id="autotoc_md9"></a>
 Example</h3>
 <div class="fragment"><div class="line"><a class="code" href="class_event.html">Event&lt;int,float,std::string&gt;</a> myEvent;</div>
 <div class="line"><a class="code" href="class_event_callback.html">EventCallback&lt;int,float,std::string&gt;</a> myCallback;</div>

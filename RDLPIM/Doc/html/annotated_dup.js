@@ -2,10 +2,12 @@ var annotated_dup =
 [
     [ "API Introduction", "_a_p_i_u_g.html#apiIntro", null ],
     [ "Requst Connection and Handshake", "_a_p_i_u_g.html#apiConnection", [
-      [ "What is the RDLPIM?", "index.html#autotoc_md10", null ],
-      [ "Deserialised:", "_a_p_i_u_g.html#autotoc_md11", null ],
-      [ "Example", "_a_p_i_u_g.html#autotoc_md12", null ]
+      [ "What is the RDLPIM?", "index.html#autotoc_md11", null ],
+      [ "Deserialised:", "_a_p_i_u_g.html#autotoc_md12", null ],
+      [ "Example", "_a_p_i_u_g.html#autotoc_md13", null ]
     ] ],
+    [ "API Commands/Functions", "_a_p_i_u_g.html#APICommands", null ],
+    [ "Push", "_a_p_i_u_g.html#autotoc_md14", null ],
     [ "Buffer", "class_buffer.html", "class_buffer" ],
     [ "Client", "class_client.html", "class_client" ],
     [ "clientManager", "classclient_manager.html", "classclient_manager" ],

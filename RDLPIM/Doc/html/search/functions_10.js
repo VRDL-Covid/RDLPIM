@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['send_506',['Send',['../class_client.html#a4c0632c56820371c233128e1400ff3e8',1,'Client::Send()'],['../classconnection_object.html#a4a03e36c5a6e842249992edcc6835e3c',1,'connectionObject::Send(char *out, int size)'],['../classconnection_object.html#aa1706587e11910a8e04110a3f7996d88',1,'connectionObject::Send(const Buffer &amp;inp)'],['../classconnection_object.html#a4d1c4557cc8f0b0c37e5c8b3741cf64e',1,'connectionObject::Send(const char *out)'],['../classrdlpim_client.html#acc72d315de0270a48fb7bc8f925e196a',1,'rdlpimClient::Send()']]],
+  ['send_506',['Send',['../class_client.html#a4c0632c56820371c233128e1400ff3e8',1,'Client::Send()'],['../classrdlpim_client.html#acc72d315de0270a48fb7bc8f925e196a',1,'rdlpimClient::Send()'],['../classconnection_object.html#a4a03e36c5a6e842249992edcc6835e3c',1,'connectionObject::Send(char *out, int size)'],['../classconnection_object.html#aa1706587e11910a8e04110a3f7996d88',1,'connectionObject::Send(const Buffer &amp;inp)'],['../classconnection_object.html#a4d1c4557cc8f0b0c37e5c8b3741cf64e',1,'connectionObject::Send(const char *out)']]],
   ['sendchatmsgs_507',['sendChatMSGs',['../_r_d_l_test_harnes_8cpp.html#a7f36eeb38113ac757f5289bc17ea08e0',1,'RDLTestHarnes.cpp']]],
   ['sender_508',['sender',['../_r_d_l_test_harnes_8cpp.html#a243d5b3207528b8e3ad84585f4340462',1,'RDLTestHarnes.cpp']]],
   ['sendmessage_509',['sendMessage',['../classclient_manager.html#a964f999d4c779a5771976d62e97cf9f6',1,'clientManager']]],
