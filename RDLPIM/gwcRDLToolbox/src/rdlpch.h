@@ -52,14 +52,14 @@
  * 
  * Phone:07534262038
  * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
  * \section install_sec Compilation and Installation
  *
- * 
- * 
- * 
- * 
- * 
- * 
  * \subsection step1 Step 1: Obtaining the Source Files
  *
  * Source files for the RDLPIM (V1.0) can be downloaded <a href="source.zip">here</a>
@@ -91,6 +91,8 @@
  * Once the "generateProjects.bat" has been configured, execute it by double clicking it. A visual studio solution file should now exist next to the "generateProjects.bat" file. Double click this to open.
  * 
  * 
+ * 
+ * 
  * \subsection compiling Step3 : Compiling
  * 
  * The visual studio has several solution configurations to compile the RDLPIM for either the end user or developer.  The table below outlines the available configurations and who they are intended for.
@@ -106,6 +108,9 @@
  * 
  * Once you have selected the desired solution configuration, press Ctrl+Shift+B or go to Build-> Build Solution in order to build the binaries.
  * 
+ * 
+ * 
+ * 
  * \subsection running Step3 : Execution
  * 
  * The RDLPIM requires access to DLLs provided by the GSE suite inorder to determine the runtime location of variables within the RDL.  In order for the RDLPIM to be executed, a GSE "S:" drive will need to be
@@ -114,10 +119,12 @@
  * At this stage you will be greeted with a welcome message deatiling the version of the RDLPIM being executed and its status.
  * 
  * \warning
- * For convenience and home testing during the Covid crisis, the required DLLs will be copied next to the binary upon building, for onsite us, delete these DLLs to enure the correct ones are referenced via the S: drive.
+ * For convenience and home testing during the Covid crisis, the required DLLs will be copied next to the binary upon building, for onsite use, delete these DLLs to enure the correct ones are referenced via the S: drive.
  */
 
- /*! \page APIUG API User's Guide
+
+
+ /*! \page APIUG Client API User's Guide
 
  \par Table of Contents
 
@@ -127,6 +134,52 @@
     - \ref Unity Implimentation
 
 
-\subsection apiIntro "API Introduction"
-    hello there!
- */
+\subsection apiIntro API Introduction
+    Connections and requests made to the RDLPIM are done so by a custom API.  This section of the documentation provides a detailed description of how to build connection and request packets, as well as
+    pointing to helper classes which will make this easier for a developer developing a client.
+
+\subsection apiConnection Requst Connection and Handshake
+
+The RDLPIM exposes a synchronous/blocking TCP listener socket on port 8000.  Once a client makes a connection to this socket, the RDLPIM will serve the client with connection details and close the connection.
+The format of the connection details packet is as follows
+
+[Function Word]=[Port]=[Client ID]
+
+[**char\***]=        [**int**]  =        [**int**]
+
+CONNECT={0x41}{0x1f}{0x00}{0x00}={0xe8}{0x03}{0x00}{0x00}
+
+###Deserialised:
+
+Function = Connect
+
+Port = 8001
+
+ClientID = 1000
+
+
+The RDLPIM will then open a listening asynchronous TCP socket of the specified port for the client to reconnect and bind to.  A helper class has been provided for c++ application (rdlpimClient) an example of its initialisation has been provided below.
+
+###Example
+
+~~~~~~~~~~~~.cpp
+    rdlpimClient client1("127.0.0.1", 8000);
+    client1.connectToRDLPIM();
+    Buffer recieved;
+
+
+    bool SomethingToSend;
+    while (true) {
+
+		if (client1.CanRead()) {
+            client1.Recieve(&recieved);
+        }
+
+        if(SomethingToSend && client1.CanSend(){
+            client1.Send("some message");
+        }
+    }
+
+
+~~~~~~~~~~~~
+*/

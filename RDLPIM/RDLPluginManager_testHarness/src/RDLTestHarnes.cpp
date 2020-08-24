@@ -1,6 +1,4 @@
 #include "gwcRDLToolBox.h"
-#include"testClient.hpp"
-
 
 std::mutex coutMutex;
 
@@ -276,11 +274,9 @@ int testHarness()
 	std::mutex sockSend;
 
 	//testClient client1("127.0.0.1", 8000);
-	testClient client1("127.0.0.1", 8000);
-	client1.getConnectionData();
-	client1.connection.setPort(client1.port);
+	rdlpimClient client1("127.0.0.1", 8000);
+	client1.connectToRDLPIM();
 
-	client1.connection.connectToServer();
 
 	Buffer inBuff;
 	Buffer outBuff;
@@ -288,17 +284,17 @@ int testHarness()
 	bool toSend = false;
 	bool* toSendPtr = &toSend;
 
-	testClient* clPtr = &client1;
+	rdlpimClient* clPtr = &client1;
 
 	std::thread senderThread(sender, std::ref(outBuff), toSendPtr, std::ref(sockSend));
 
 	while (true) {
 
-		if (client1.connection.canRead()) {
+		if (client1.CanRead()) {
 			RequestHeader reqHead;
 
 			//recieve header and data
-			client1.connection.recieve(&inBuff);
+			client1.Recieve(&inBuff);
 			
 			//process header
 			reqHead.ProcessHeader(inBuff);
@@ -342,10 +338,10 @@ int testHarness()
 		}
 		else {
 
-			if (toSend && client1.connection.canSend()) {
+			if (toSend && client1.CanSend()) {
 				
 				std::lock_guard<std::mutex> lock(sockSend);
-				client1.connection.Send(outBuff);
+				client1.Send(outBuff);
 				toSend = false;
 
 			}

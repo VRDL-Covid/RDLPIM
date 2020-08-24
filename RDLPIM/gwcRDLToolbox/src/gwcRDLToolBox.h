@@ -18,3 +18,6 @@
 
 //basic events system ripped from gwcEngine.
 #include"Core/Event.h"
+
+//RDLPIM Client helper class
+#include"ConnectionManager/RDLPIM_Client.hpp"
