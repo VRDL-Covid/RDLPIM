@@ -1,9 +1,0 @@
-digraph "DataElement"
-{
- // LATEX_PDF_SIZE
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  Node1 [label="{DataElement\n|+ m_Bytes\l+ m_data\l|+ set()\l+ set()\l+ set()\l+ set()\l+ set()\l+ set()\l+ set()\l+ set()\l+ deserialise()\l+ Serialise()\land 13 more...\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
-  Node2 -> Node1 [color="grey25",fontsize="10",style="solid",label=" +m_VarName\n+m_Type" ,arrowhead="odiamond",fontname="Helvetica"];
-  Node2 [label="{Buffer\n|+ contents\l+ size\l|+ set()\l+ set()\l+ set()\l+ operator==()\l+ operator!=()\l+ append()\l+ append()\l+ prepend()\l+ prepend()\l+ nullTerminate()\land 15 more...\l+ diff()\l+ diff()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_buffer.html",tooltip=" "];
-}

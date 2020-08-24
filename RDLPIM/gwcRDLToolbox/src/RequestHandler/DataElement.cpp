@@ -63,6 +63,8 @@ DataElement::DataElement(const rdlData& var)
 	//set type
 	m_Type.set(var.ctype);
 
+	m_data = nullptr;
+
 	if (!strncmp(var.ctype, "L", 1) && var.bytes == 1) {
 		m_Type.set("bool");
 	}

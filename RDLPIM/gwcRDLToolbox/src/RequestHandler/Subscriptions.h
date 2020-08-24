@@ -20,8 +20,9 @@ public:
 		std::lock_guard<std::mutex> lock(m_accessLock);
 		for (auto it = m_SubscribedPoints.begin(); it != m_SubscribedPoints.end(); it++) {
 			if (*it == name) {
-				m_SubscribedPoints.erase(it);
-				break;
+				it = m_SubscribedPoints.erase(it);
+				//break
+				it--;
 			}
 		}
 

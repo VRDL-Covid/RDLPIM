@@ -4,6 +4,8 @@
 // this is required in order to determine the memory allocation during
 // run time of the RDL.
 
+
+ //TODO - In work, add pragmas here and deleted local DLLs
 DWORD rdlData::pid = -1;
 
 std::mutex rdlData::s_readProcessLock;

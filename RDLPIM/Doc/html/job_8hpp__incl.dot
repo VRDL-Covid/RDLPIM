@@ -1,9 +1,0 @@
-digraph "C:/Users/gwc59/OneDrive/Desktop/RDLPIM/RDLPIM/gwcRDLToolbox/src/RequestHandler/job.hpp"
-{
- // LATEX_PDF_SIZE
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  Node1 [label="C:/Users/gwc59/OneDrive\l/Desktop/RDLPIM/RDLPIM\l/gwcRDLToolbox/src/RequestHandler\l/job.hpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
-  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node2 [label="Core/buffer.hpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$buffer_8hpp.html",tooltip=" "];
-}
