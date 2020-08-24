@@ -13,6 +13,16 @@ PROFILE_BEGIN_SESSION("RDLPIM-Startup", "../analysis/RDLPIM-Startup.json");
 	//Initialisation
 	////////////////////////////////
 	//clean up any mess left behind
+
+	std::cout << "#######################################################" << std::endl;
+	std::cout << "#                                                     #" << std::endl;
+	std::cout << "#                   RDLPIM - v1.0                     #" << std::endl;
+	std::cout << "#     Author:Guy Collins                              #" << std::endl;
+	std::cout << "#     Date:24/08/2020                                 #" << std::endl;
+	std::cout << "#                                                     #" << std::endl;
+	std::cout << "#######################################################" << std::endl;
+	std::cout << "                                                       " << std::endl;
+
 	WSACleanup();
 
 	//Thread state Variable
@@ -42,6 +52,8 @@ PROFILE_BEGIN_SESSION("RDLPIM-Runtime", "../analysis/RDLPIM-Runtime.json");
 	std::thread connectionManagerThread(&connectionManager::worker, connectionManagerObj, std::ref(work));
 	std::thread clientManagerThread(&clientManager::worker, clientManagerObj, std::ref(work));
 	std::thread reqFactoryThread(&requestHandler::worker, reqFactory, std::ref(work));
+
+	std::cout << "Ready for connections...                             " << std::endl;
 
 	while (exit != '!') {
 		std::cin >> exit;
