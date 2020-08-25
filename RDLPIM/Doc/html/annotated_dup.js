@@ -7,7 +7,14 @@ var annotated_dup =
       [ "Example", "_a_p_i_u_g.html#autotoc_md13", null ]
     ] ],
     [ "API Commands/Functions", "_a_p_i_u_g.html#APICommands", null ],
-    [ "Push", "_a_p_i_u_g.html#autotoc_md14", null ],
+    [ "API Command - Pull Data", "_a_p_i_u_g.html#apiPull", [
+      [ "Example with helper classes from gwcRDLToolbox (C++)", "_a_p_i_u_g.html#autotoc_md15", null ],
+      [ "Example with helper classes from Providied Example Unity Project (C#)", "_a_p_i_u_g.html#autotoc_md16", null ]
+    ] ],
+    [ "API Command - Push Data", "_a_p_i_u_g.html#apiPush", [
+      [ "Example with helper classes from gwcRDLToolbox (C++)", "_a_p_i_u_g.html#autotoc_md19", null ],
+      [ "Example with helper classes from Providied Example Unity Project (C#)", "_a_p_i_u_g.html#autotoc_md20", null ]
+    ] ],
     [ "Buffer", "class_buffer.html", "class_buffer" ],
     [ "Client", "class_client.html", "class_client" ],
     [ "clientManager", "classclient_manager.html", "classclient_manager" ],

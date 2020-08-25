@@ -17,6 +17,7 @@ var class_data_element =
     [ "operator=", "class_data_element.html#a79069a84c25a4c37c53c5c69ab473e1f", null ],
     [ "operator=", "class_data_element.html#aff9d2b62634e1eb3639b2a96456507dd", null ],
     [ "Serialise", "class_data_element.html#ae7de6070b1354aa3ddae3c87101370f9", null ],
+    [ "SerialiseName", "class_data_element.html#a1f40b3760388601454f63cfdc8ba5bdb", null ],
     [ "set", "class_data_element.html#a0aff60b8d13106c9ca74d8662a749a72", null ],
     [ "set", "class_data_element.html#a8d78d787466685dd07a1deb4bc0483c5", null ],
     [ "set", "class_data_element.html#af4f0ac3f33f45a3a22dd420c78fb761c", null ],

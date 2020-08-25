@@ -27,6 +27,17 @@ void RequestHeader::SetSize(const uint32_t& bytes)
 	m_bytes = bytes;
 }
 
+Buffer RequestHeader::SetData(const Buffer& data)
+{
+	Buffer ret;
+
+	m_bytes = data.GetSize();
+
+	ret = Serialise();
+	ret.append(data);
+	return ret;
+}
+
 void RequestHeader::ProcessHeader(Buffer& data)
 {
 	Deserialise(data);

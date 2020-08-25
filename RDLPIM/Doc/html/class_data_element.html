@@ -94,10 +94,10 @@ $(document).ready(function(){initNavTree('class_data_element.html',''); initResi
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A class to handle the data transfer of complex and primitive objects into and out of the <a class="el" href="class_data_base.html" title="The DataBase class forms the heart of the RDLPIM architecture, this singleton holds all data pushed i...">DataBase</a> instance. </p>
 <p>the serialised format is as follows:</p>
-<p>[char]=[char]=[int][char]</p>
-<p>"VarName=VarType=Bytes Value" (no space delimeter between Bytes and Value since Bytes is always 4Bytes in size and describes the length of Value)</p>
+<p>{[char]=[char]=[int][char]}</p>
+<p>"{VarName=VarType=Bytes Value}" (no space delimeter between Bytes and Value since Bytes is always 4Bytes in size and describes the length of Value)</p>
 <p>Overloaded functions have been provided to allow primitives to be injected into DataElements readily </p>
-<h3><a class="anchor" id="autotoc_md15"></a>
+<h3><a class="anchor" id="autotoc_md21"></a>
 Example</h3>
 <div class="fragment"><div class="line"><a class="code" href="class_data_element.html">DataElement</a> de(<span class="stringliteral">&quot;varName&quot;</span>);</div>
 <div class="line"><span class="keywordtype">double</span> value;</div>
@@ -109,8 +109,8 @@ Example</h3>
 <div class="line">serialised = de.Serialise();</div>
 <div class="line"> </div>
 <div class="line">serialised.<a class="code" href="class_buffer.html#a31ae3980abdb9a603ac8c181bd36bd7e">fullPrint</a>();</div>
-<div class="line"><span class="comment">//                { int = 8 bytes } {     binary for 3.14159 as double    }</span></div>
-<div class="line"><span class="comment">//&quot;varName=double=\x08\x00\x00\x00  \x40 \x09 \x21 \xF9 \xF0 \x1B \x86 \x6E</span></div>
+<div class="line"><span class="comment">//                { int = 8 bytes    } {     binary for 3.14159 as double      }</span></div>
+<div class="line"><span class="comment">//&quot;{varName=double=0x08 0x00 0x00 0x00   0x40 0x09 0x21 0xF9 0xF0 0x1B 0x86 0x6E}&quot;</span></div>
 </div><!-- fragment --> 
 <p class="definition">Definition at line <a class="el" href="_data_element_8hpp_source.html#l00039">39</a> of file <a class="el" href="_data_element_8hpp_source.html">DataElement.hpp</a>.</p>
 </div>
@@ -174,6 +174,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af32f7cca78a851bb3c56636f16cb0dd0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_data_element.html#af32f7cca78a851bb3c56636f16cb0dd0">deserialise</a> (const <a class="el" href="class_buffer.html">Buffer</a> &amp;in)</td></tr>
 <tr class="memdesc:af32f7cca78a851bb3c56636f16cb0dd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">A method to deserialise back into a <a class="el" href="class_data_element.html" title="A class to handle the data transfer of complex and primitive objects into and out of the DataBase ins...">DataElement</a> object.  <a href="class_data_element.html#af32f7cca78a851bb3c56636f16cb0dd0">More...</a><br /></td></tr>
 <tr class="separator:af32f7cca78a851bb3c56636f16cb0dd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f40b3760388601454f63cfdc8ba5bdb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_buffer.html">Buffer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_data_element.html#a1f40b3760388601454f63cfdc8ba5bdb">SerialiseName</a> ()</td></tr>
+<tr class="memdesc:a1f40b3760388601454f63cfdc8ba5bdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to return the name of the variable compatible with a pull data stack '{varName}'.  <a href="class_data_element.html#a1f40b3760388601454f63cfdc8ba5bdb">More...</a><br /></td></tr>
+<tr class="separator:a1f40b3760388601454f63cfdc8ba5bdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7de6070b1354aa3ddae3c87101370f9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_buffer.html">Buffer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_data_element.html#ae7de6070b1354aa3ddae3c87101370f9">Serialise</a> () const</td></tr>
 <tr class="memdesc:ae7de6070b1354aa3ddae3c87101370f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to serialise the contents of a request packet into a correctly formatted character array.  <a href="class_data_element.html#ae7de6070b1354aa3ddae3c87101370f9">More...</a><br /></td></tr>
 <tr class="separator:ae7de6070b1354aa3ddae3c87101370f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -353,7 +356,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00336">336</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00347">347</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
 
 </div>
 </div>
@@ -391,7 +394,7 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd><br  />
  </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00350">350</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00361">361</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
 
 </div>
 </div>
@@ -535,7 +538,7 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>string representation of the type <br  />
  </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00391">391</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00402">402</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
 
 </div>
 </div>
@@ -564,7 +567,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_data_element.html" title="A class to handle the data transfer of complex and primitive objects into and out of the DataBase ins...">DataElement</a> reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00363">363</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00374">374</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
 
 </div>
 </div>
@@ -601,7 +604,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_data_element.html" title="A class to handle the data transfer of complex and primitive objects into and out of the DataBase ins...">DataElement</a> reference </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00378">378</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00389">389</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
 
 </div>
 </div>
@@ -625,6 +628,28 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> of serialised component </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00279">279</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a1f40b3760388601454f63cfdc8ba5bdb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f40b3760388601454f63cfdc8ba5bdb">&#9670;&nbsp;</a></span>SerialiseName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_buffer.html">Buffer</a> DataElement::SerialiseName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Method to return the name of the variable compatible with a pull data stack '{varName}'. </p>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_buffer.html" title="The Buffer class is a container to hold serialised data.">Buffer</a> of serialised name </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_data_element_8cpp_source.html#l00319">319</a> of file <a class="el" href="_data_element_8cpp_source.html">DataElement.cpp</a>.</p>
 
 </div>
 </div>

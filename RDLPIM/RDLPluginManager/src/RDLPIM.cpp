@@ -73,8 +73,6 @@ PROFILE_END_SESSION();
 	return 0;
 }
 
-
-
 int main()
 {
 	return exePluginManager();

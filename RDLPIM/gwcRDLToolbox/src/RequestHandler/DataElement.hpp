@@ -13,9 +13,9 @@
 /// 
 /// the serialised format is as follows:
 /// 
-///   [char]=[char]=[int][char]
+///   {[char]=[char]=[int][char]}
 /// 
-/// "VarName=VarType=Bytes Value"
+/// "{VarName=VarType=Bytes Value}"
 /// (no space delimeter between Bytes and Value since Bytes is always 4Bytes in size and describes the length of Value)
 /// 
 /// Overloaded functions have been provided to allow primitives to be injected into DataElements readily
@@ -31,8 +31,8 @@
 /// serialised = de.Serialise();
 /// 
 /// serialised.fullPrint();
-///	//				  { int = 8 bytes } {     binary for 3.14159 as double    }
-/// //"varName=double=\x08\x00\x00\x00  \x40 \x09 \x21 \xF9 \xF0 \x1B \x86 \x6E
+///	//				  { int = 8 bytes    } {     binary for 3.14159 as double      }
+/// //"{varName=double=0x08 0x00 0x00 0x00   0x40 0x09 0x21 0xF9 0xF0 0x1B 0x86 0x6E}"
 /// 
 /// 
 /// ~~~~~~~~~~
@@ -121,6 +121,10 @@ public:
 	/// @return An integer of the number of components succesfully deserialised 1 name 2 name and type, 3 name type and size, 4 name type size and data.
 	int deserialise(const Buffer& in);
 
+	/// @brief Method to return the name of the variable compatible with a pull data stack '{varName}'
+	/// @return Buffer of serialised name
+	Buffer SerialiseName();
+	
 	// Author: Guy Collins
 	// Date: 20/01/2020
 	// Description: Method to serialise the contents of a request packet into a correctly formatted character array 

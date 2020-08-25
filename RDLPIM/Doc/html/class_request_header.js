@@ -7,5 +7,6 @@ var class_request_header =
     [ "ProcessHeader", "class_request_header.html#a33cf15bc9b7a1b2ab2761d7c4dde984c", null ],
     [ "Serialise", "class_request_header.html#ad46c74b5a9c34bdd8b3f2974b8cc8cde", null ],
     [ "SetCommand", "class_request_header.html#a2fb4cbedd116028d7d1bf1cd4b2db31b", null ],
+    [ "SetData", "class_request_header.html#a057383eed9149f947db84522aadea8eb", null ],
     [ "SetSize", "class_request_header.html#af88f0806cf5b35a065b2e9083bc25e42", null ]
 ];

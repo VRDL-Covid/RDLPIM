@@ -316,6 +316,17 @@ Buffer DataElement::Serialise() const
 }
 
 
+Buffer DataElement::SerialiseName()
+{
+	Buffer ret;
+
+	ret = GetName();
+	ret.append("}");
+	ret.prepend("{");
+
+	return ret;
+}
+
 void DataElement::sizeData(int sBytes){
 	if (m_data == nullptr) {
 		m_data = (char*)malloc(sBytes);

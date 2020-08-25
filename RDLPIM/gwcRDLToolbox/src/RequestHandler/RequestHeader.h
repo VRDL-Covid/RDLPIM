@@ -14,6 +14,7 @@ public:
 
 	void SetCommand(const Commands& command);
 	void SetSize(const uint32_t& bytes);
+	Buffer SetData(const Buffer& data);
 
 	void ProcessHeader(Buffer& data);
 
