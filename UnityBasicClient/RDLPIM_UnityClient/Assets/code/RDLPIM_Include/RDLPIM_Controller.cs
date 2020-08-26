@@ -35,12 +35,7 @@ public class RDLPIM_Controller : MonoBehaviour
         {
             s_Instance = this;
         }
-    }
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
         RDL = RDLPIM_Client.GetInstance();
 
         //subscribe to data recieved event
@@ -53,6 +48,13 @@ public class RDLPIM_Controller : MonoBehaviour
 
         //RDLPIM handshake
         RDL.InitiConnection();
+    }
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
     }
 
     // Update is called once per frame
