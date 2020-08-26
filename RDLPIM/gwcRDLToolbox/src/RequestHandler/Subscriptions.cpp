@@ -13,3 +13,10 @@ bool Subscriptions::BuildDataBuffer(const DataElement& element)
 	m_isMarked = true;
 	return PROPAGATE_EVENT;
 }
+
+Subscriptions::~Subscriptions()
+{
+	for(std::string varName:m_SubscribedPoints){
+		DataBase::GetInstance()->GetEntry(varName)->GetOnChangedEvent().unsubscribe(OnElementChangeCallback);
+	}
+}

@@ -56,6 +56,7 @@ private:
 
 	std::vector<Ref<job>> m_jobs;
 	std::mutex m_jobQueMutex;
+	std::mutex m_subscriptionsLock;
 
 };
 

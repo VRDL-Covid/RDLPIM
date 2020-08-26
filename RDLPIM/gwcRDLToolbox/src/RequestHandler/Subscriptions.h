@@ -6,7 +6,7 @@ class Subscriptions
 public:
 	Subscriptions();
 
-	~Subscriptions() = default;
+	~Subscriptions();
 
 	void AddVar(const std::string& name)
 	{

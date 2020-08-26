@@ -73,6 +73,8 @@ void requestHandler::processSubscriptions()
 	RequestHeader reqHead;
 	reqHead.SetCommand(Commands::data);
 	Buffer OutBuf;
+	std::lock_guard<std::mutex> lock(m_subscriptionsLock);
+
 
 	for (auto& sub : m_Subscriptions) {
 		int ID = sub.first;
@@ -305,6 +307,7 @@ requestHandler::~requestHandler()
 
 bool requestHandler::ClientDisconnectedHandler(const Ref<Client>& client)
 {
+	std::lock_guard<std::mutex> lock(m_subscriptionsLock);
 	m_Subscriptions.erase(client->GetID());
 
 	return PROPAGATE_EVENT;
