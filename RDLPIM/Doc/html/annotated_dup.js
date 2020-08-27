@@ -3,23 +3,48 @@ var annotated_dup =
     [ "API Introduction", "_a_p_i_u_g.html#apiIntro", null ],
     [ "Requst Connection and Handshake", "_a_p_i_u_g.html#apiConnection", [
       [ "What is the RDLPIM?", "index.html#autotoc_md11", null ],
-      [ "Deserialised:", "_a_p_i_u_g.html#autotoc_md12", null ],
-      [ "Example", "_a_p_i_u_g.html#autotoc_md13", null ]
+      [ "Deserialised:", "_a_p_i_u_g.html#autotoc_md12", [
+        [ "Example", "_a_p_i_u_g.html#autotoc_md13", null ]
+      ] ]
     ] ],
-    [ "API Commands/Functions", "_a_p_i_u_g.html#APICommands", null ],
-    [ "API Command - Pull Data", "_a_p_i_u_g.html#apiPull", [
-      [ "Example with helper classes from gwcRDLToolbox (C++)", "_a_p_i_u_g.html#autotoc_md15", null ],
-      [ "Example with helper classes from Providied Example Unity Project (C#)", "_a_p_i_u_g.html#autotoc_md16", null ]
+    [ "Client Side Request Commands", "_a_p_i_u_g.html#APICommands", [
+      [ "API Command - Pull Data", "_a_p_i_u_g.html#apiPull", [
+        [ "Example Pull Request Packet", "_a_p_i_u_g.html#autotoc_md14", null ],
+        [ "Example with helper classes from gwcRDLToolbox (C++)", "_a_p_i_u_g.html#autotoc_md15", null ],
+        [ "Example with helper classes from Providied Example Unity Project (C#)", "_a_p_i_u_g.html#autotoc_md16", null ]
+      ] ],
+      [ "API Command - Push Data", "_a_p_i_u_g.html#apiPush", [
+        [ "Serialised DataElement", "_a_p_i_u_g.html#autotoc_md17", null ],
+        [ "Example Push Request Packet", "_a_p_i_u_g.html#autotoc_md18", null ],
+        [ "Example with helper classes from gwcRDLToolbox (C++)", "_a_p_i_u_g.html#autotoc_md19", null ],
+        [ "Example with helper classes from Providied Example Unity Project (C#)", "_a_p_i_u_g.html#autotoc_md20", null ]
+      ] ],
+      [ "API Command - Subscribe Data", "_a_p_i_u_g.html#apiSubscribe", [
+        [ "Example Subscribe Request Packet", "_a_p_i_u_g.html#autotoc_md21", null ],
+        [ "Example with helper classes from gwcRDLToolbox (C++)", "_a_p_i_u_g.html#autotoc_md22", null ],
+        [ "Example with helper classes from Providied Example Unity Project (C#)", "_a_p_i_u_g.html#autotoc_md23", null ]
+      ] ],
+      [ "API Command - Unsubscribe Data", "_a_p_i_u_g.html#apiUnsubscribe", [
+        [ "Example Unsubscribe Request Packet", "_a_p_i_u_g.html#autotoc_md24", null ],
+        [ "Example with helper classes from gwcRDLToolbox (C++)", "_a_p_i_u_g.html#autotoc_md25", null ],
+        [ "Example with helper classes from Providied Example Unity Project (C#)", "_a_p_i_u_g.html#autotoc_md26", null ]
+      ] ]
     ] ],
-    [ "API Command - Push Data", "_a_p_i_u_g.html#apiPush", [
-      [ "Example with helper classes from gwcRDLToolbox (C++)", "_a_p_i_u_g.html#autotoc_md19", null ],
-      [ "Example with helper classes from Providied Example Unity Project (C#)", "_a_p_i_u_g.html#autotoc_md20", null ]
+    [ "API Command - ASCII Chat", "_a_p_i_u_g.html#apiChat", null ],
+    [ "API Command - VOIP Data", "_a_p_i_u_g.html#apiVOIP", null ],
+    [ "Client Side Recieved Commands", "_a_p_i_u_g.html#apiRecieved", [
+      [ "API Command - Recieved Data Packet", "_a_p_i_u_g.html#apiData", [
+        [ "Example Chat Request Packet", "_a_p_i_u_g.html#autotoc_md27", null ],
+        [ "Example with helper classes from gwcRDLToolbox (C++)", "_a_p_i_u_g.html#autotoc_md28", null ],
+        [ "Example with helper classes from Providied Example Unity Project (C#)", "_a_p_i_u_g.html#autotoc_md29", null ],
+        [ "Serialised DataElement", "_a_p_i_u_g.html#autotoc_md30", null ],
+        [ "Example Recieved Data Packet", "_a_p_i_u_g.html#autotoc_md31", null ],
+        [ "Example with helper classes from gwcRDLToolbox (C++)", "_a_p_i_u_g.html#autotoc_md32", null ],
+        [ "Example with helper classes from Providied Example Unity Project (C#)", "_a_p_i_u_g.html#autotoc_md33", null ]
+      ] ],
+      [ "API Command - RDLPIM Server Info", "_a_p_i_u_g.html#apiInfo", null ],
+      [ "API Command - Error Packet", "_a_p_i_u_g.html#apiErrr", null ]
     ] ],
-    [ "API Command - Subscribe Data", "_a_p_i_u_g.html#apiSubscribe", [
-      [ "Example with helper classes from gwcRDLToolbox (C++)", "_a_p_i_u_g.html#autotoc_md22", null ],
-      [ "Example with helper classes from Providied Example Unity Project (C#)", "_a_p_i_u_g.html#autotoc_md23", null ]
-    ] ],
-    [ "API Command - Data Packet", "_a_p_i_u_g.html#apiData", null ],
     [ "Buffer", "class_buffer.html", "class_buffer" ],
     [ "Client", "class_client.html", "class_client" ],
     [ "clientManager", "classclient_manager.html", "classclient_manager" ],

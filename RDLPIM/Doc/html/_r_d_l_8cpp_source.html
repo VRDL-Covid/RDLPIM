@@ -241,128 +241,130 @@ $(document).ready(function(){initNavTree('_r_d_l_8cpp_source.html',''); initResi
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keyword">auto</span>&amp; DB_entry = <a class="code" href="class_data_base.html#aebd27d27eddd3fba3d24fbc7f6223c19">DataBase::GetInstance</a>()-&gt;<a class="code" href="class_data_base.html#a00c0ecc482cdc9be99645851202fc3fd">GetEntry</a>(varName);</div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    DB_entry-&gt;GetOnChangedEvent().unsubscribe(<a class="code" href="class_r_d_l.html#a70c73b246d3413183a0aefa9f4955e5f">c_DB_ElementChanged</a>);</div>
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160; </div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = m_trackedVars.begin(); it != m_trackedVars.end(); it++) {</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = m_trackedVars.begin(); it != m_trackedVars.end();) {</div>
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        <span class="keywordflow">if</span> (it-&gt;first == varName) {</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            m_trackedVars.erase(it);</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        }</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    }</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;}</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160; </div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160; </div>
-<div class="line"><a name="l00163"></a><span class="lineno"><a class="line" href="class_r_d_l.html#af3d1d50fcd55e4e0073a08844894b67f">  163</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_r_d_l.html#af3d1d50fcd55e4e0073a08844894b67f">RDL::Init</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* processName)</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;{</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <a class="code" href="class_r_d_l.html#a45839cb65457ec8c9b8cdccc59cbf30c">pid</a> = <a class="code" href="_r_d_l_8cpp.html#aba91e0ca973681b1942857f7e53f04bf">GetPID</a>(processName);</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;}</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160; </div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;<span class="comment">// plcGetVarAddress:</span></div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;<span class="comment">// input as character array</span></div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;<span class="comment">// Function:  Return the runtime memory location of a variable managed by DBM, eg &quot;th_temp_eff&quot;</span></div>
-<div class="line"><a name="l00171"></a><span class="lineno"><a class="line" href="class_r_d_l.html#afa6838f9a012b2b7d5ae8f6849cc3773">  171</a></span>&#160;<span class="keywordtype">long</span> <a class="code" href="class_r_d_l.html#afa6838f9a012b2b7d5ae8f6849cc3773">RDL::FindRuntimePointer</a>(<span class="keywordtype">char</span>* varname) {</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <span class="keywordtype">char</span> name[<a class="code" href="s3_includes_8hpp.html#a292040b8b6bdea74f1d959a2a6274bab">S3_STRLEN</a>];</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="keywordtype">char</span> <a class="code" href="rdl_data_8hpp.html#a233c70ff28cb037900ed22ac4ebeab5b">global</a>[<a class="code" href="s3_includes_8hpp.html#a292040b8b6bdea74f1d959a2a6274bab">S3_STRLEN</a>];</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="rdl_data_8hpp.html#a4174e380379043c08ab5e62a614660dc">offset</a>;</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    <span class="keywordtype">char</span> ctype;</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    <span class="keywordtype">int</span> iprec = 0;</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    <span class="keywordtype">int</span> level = 1;         <span class="comment">//send 1 for ods only lookup</span></div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="rdl_data_8hpp.html#a741d94989fcbd7a9e79edb4148f2c092">dimen</a>[7] = { 0,0,0,0,0,0,0 };</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="rdl_data_8hpp.html#a4c787e14fdf8d8bc4215e7e2d8ff75d6">lreq</a> = 2;        <span class="comment">// #define UO_LEV  2</span></div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    <span class="keywordtype">int</span> iResult;</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160; </div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    sprintf_s(name, <a class="code" href="s3_includes_8hpp.html#a292040b8b6bdea74f1d959a2a6274bab">S3_STRLEN</a>, <span class="stringliteral">&quot;%s&quot;</span>, varname);</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            it = m_trackedVars.erase(it);</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        }</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            it++;</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        }</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    }</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;}</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160; </div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160; </div>
+<div class="line"><a name="l00165"></a><span class="lineno"><a class="line" href="class_r_d_l.html#af3d1d50fcd55e4e0073a08844894b67f">  165</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="class_r_d_l.html#af3d1d50fcd55e4e0073a08844894b67f">RDL::Init</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* processName)</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;{</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <a class="code" href="class_r_d_l.html#a45839cb65457ec8c9b8cdccc59cbf30c">pid</a> = <a class="code" href="_r_d_l_8cpp.html#aba91e0ca973681b1942857f7e53f04bf">GetPID</a>(processName);</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;}</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160; </div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;<span class="comment">// plcGetVarAddress:</span></div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;<span class="comment">// input as character array</span></div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="comment">// Function:  Return the runtime memory location of a variable managed by DBM, eg &quot;th_temp_eff&quot;</span></div>
+<div class="line"><a name="l00173"></a><span class="lineno"><a class="line" href="class_r_d_l.html#afa6838f9a012b2b7d5ae8f6849cc3773">  173</a></span>&#160;<span class="keywordtype">long</span> <a class="code" href="class_r_d_l.html#afa6838f9a012b2b7d5ae8f6849cc3773">RDL::FindRuntimePointer</a>(<span class="keywordtype">char</span>* varname) {</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    <span class="keywordtype">char</span> name[<a class="code" href="s3_includes_8hpp.html#a292040b8b6bdea74f1d959a2a6274bab">S3_STRLEN</a>];</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    <span class="keywordtype">char</span> <a class="code" href="rdl_data_8hpp.html#a233c70ff28cb037900ed22ac4ebeab5b">global</a>[<a class="code" href="s3_includes_8hpp.html#a292040b8b6bdea74f1d959a2a6274bab">S3_STRLEN</a>];</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="rdl_data_8hpp.html#a4174e380379043c08ab5e62a614660dc">offset</a>;</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    <span class="keywordtype">char</span> ctype;</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <span class="keywordtype">int</span> iprec = 0;</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    <span class="keywordtype">int</span> level = 1;         <span class="comment">//send 1 for ods only lookup</span></div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="rdl_data_8hpp.html#a741d94989fcbd7a9e79edb4148f2c092">dimen</a>[7] = { 0,0,0,0,0,0,0 };</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    <span class="keywordtype">int</span> <a class="code" href="rdl_data_8hpp.html#a4c787e14fdf8d8bc4215e7e2d8ff75d6">lreq</a> = 2;        <span class="comment">// #define UO_LEV  2</span></div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    <span class="keywordtype">int</span> iResult;</div>
 <div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160; </div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    <span class="comment">// Find Global memory block (eg &quot;global_v&quot;) in which varname (eg &quot;th_temp_eff&quot;) is stored</span></div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    <span class="comment">// Find the offset from the runtime base memory location of the global memory block</span></div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    <span class="comment">//TODO - GWC, do i really want to mdd_open every plcGetVar address call put these in the constructor/destructor and test onsite!</span></div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    iResult = mdd_open(0);</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <span class="keywordflow">if</span> (iResult == 0) printf(<span class="stringliteral">&quot;MST_XFER : mdd_open=%d\n&quot;</span>, iResult);</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    iResult = DbmPidNew(0, name, <a class="code" href="rdl_data_8hpp.html#a4c787e14fdf8d8bc4215e7e2d8ff75d6">lreq</a>, 0, <a class="code" href="rdl_data_8hpp.html#a233c70ff28cb037900ed22ac4ebeab5b">global</a>, &amp;<a class="code" href="rdl_data_8hpp.html#a4174e380379043c08ab5e62a614660dc">offset</a>, &amp;ctype, &amp;iprec, <a class="code" href="rdl_data_8hpp.html#a741d94989fcbd7a9e79edb4148f2c092">dimen</a>, 0, 0, 0, &amp;level, 0, 0, 0, 0, 0, 0);</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160; </div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    <span class="keywordflow">if</span> (iResult == <a class="code" href="s3_includes_8hpp.html#a1cebc5d011566cca2d4d613414f6181c">DBM_PID_ERROR</a>) {</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        printf(<span class="stringliteral">&quot;WARNING::Variable %s not in dbm.\n&quot;</span>, name);</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    }</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160; </div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    <span class="comment">// Pointer arithmetic to return the runtime location within the memory (RAM) that the input</span></div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    <span class="comment">// variable is stored at.</span></div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; number_shared_globals; i++) {</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;        <span class="keywordflow">if</span> (_stricmp(<a class="code" href="rdl_data_8hpp.html#a233c70ff28cb037900ed22ac4ebeab5b">global</a>, share_global_table[i].name) == 0) {</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;            <span class="keywordtype">long</span> result = (long)share_global_table[i].base + <a class="code" href="rdl_data_8hpp.html#a4174e380379043c08ab5e62a614660dc">offset</a>;</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;            <span class="keywordflow">return</span> result;</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;        }</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    }</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    mdd_close(3);</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;}</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160; </div>
-<div class="line"><a name="l00208"></a><span class="lineno"><a class="line" href="class_r_d_l.html#a19c455bfb42c16af672411cdce79c338">  208</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_r_d_l.html#a19c455bfb42c16af672411cdce79c338">RDL::RDL_Active</a>()</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;{</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="class_r_d_l.html#a45839cb65457ec8c9b8cdccc59cbf30c">pid</a> == 0)</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160; </div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    HANDLE process = OpenProcess(SYNCHRONIZE, FALSE, <a class="code" href="class_r_d_l.html#a45839cb65457ec8c9b8cdccc59cbf30c">pid</a>);</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    DWORD ret = WaitForSingleObject(process, 0);</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    CloseHandle(process);</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    <span class="keywordflow">return</span> ret == WAIT_TIMEOUT;</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;}</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160; </div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;<span class="keywordtype">bool</span> RDL::OnNewVariableHandler(<span class="keyword">const</span> std::string&amp; varName)</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;{</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    <span class="keyword">auto</span>&amp; DB_entry = <a class="code" href="class_data_base.html#aebd27d27eddd3fba3d24fbc7f6223c19">DataBase::GetInstance</a>()-&gt;<a class="code" href="class_data_base.html#a00c0ecc482cdc9be99645851202fc3fd">GetEntry</a>(varName);</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    </div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="class_r_d_l.html#a19c455bfb42c16af672411cdce79c338">RDL_Active</a>()) {</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        <a class="code" href="classrdl_data.html">rdlData</a> tmp(varName.c_str());</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        <span class="keywordflow">if</span> (std::string(tmp.ctype) != std::string(<span class="stringliteral">&quot;ERR-NFND&quot;</span>)) { <span class="comment">// if RDL owns it</span></div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;            DB_entry-&gt;SetRDLOwned(<span class="keyword">true</span>);</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;            <span class="keywordflow">if</span> (DB_entry-&gt;GetData().GetType() == std::string(<span class="stringliteral">&quot;INIT&quot;</span>)) { <span class="comment">//if doesnt contain data (un-initialised subscribe)</span></div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;                DB_entry-&gt;SetData(tmp);</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;            }</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;            <span class="keywordflow">else</span> {                                                      <span class="comment">//if contains data RDL data push</span></div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;                <span class="comment">//set RDL to data</span></div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;                <span class="keyword">auto</span>&amp; element = DB_entry-&gt;GetData();</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;                <a class="code" href="class_r_d_l.html#a6666bfb2a1e14c746ea59dd64ccc645e">Write</a>(element);</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;            }</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;            <a class="code" href="class_r_d_l.html#a58c2296c09cca4c52a9d3ce0fec7e9a7">TrackVariable</a>(tmp);</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;        }</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        <span class="keywordflow">else</span> { <span class="comment">//If RDL doesnt own it</span></div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;            <span class="keywordflow">if</span> (DB_entry-&gt;GetData().GetType() == std::string(<span class="stringliteral">&quot;INIT&quot;</span>)) { <span class="comment">//last chance initialise failed</span></div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;                DB_entry-&gt;SetData(tmp); <span class="comment">//set to err not found</span></div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;            }</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;        }</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    }</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;        <span class="keywordflow">if</span> (DB_entry-&gt;GetData().GetType() == std::string(<span class="stringliteral">&quot;INIT&quot;</span>)) { <span class="comment">//if doesnt contain data (un-initialised subscribe)</span></div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;            <a class="code" href="class_data_element.html">DataElement</a> errData(varName);</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;            DB_entry-&gt;SetData(errData);</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;        }</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    }</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    </div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="_event_8h.html#ae485cd73ad6520a3edcbad3f64511669">PROPAGATE_EVENT</a>;</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;}</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160; </div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;<span class="keywordtype">bool</span> RDL::OnDataElementChanged(<span class="keyword">const</span> <a class="code" href="class_data_element.html">DataElement</a>&amp; data)</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;{</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160; </div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;    <a class="code" href="class_r_d_l.html#a6666bfb2a1e14c746ea59dd64ccc645e">Write</a>(<a class="code" href="job_8hpp.html#a1939e90743463fb34c8c571ec0590430a8d777f385d3dfec8815d20f7496026dc">data</a>);</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="_event_8h.html#ae485cd73ad6520a3edcbad3f64511669">PROPAGATE_EVENT</a>;</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;}</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160; </div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160; </div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;<span class="comment">//Private implimentations</span></div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;RDL::RDL()</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;{</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    <span class="comment">//initialise RDL process ID</span></div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    <a class="code" href="class_r_d_l.html#a45839cb65457ec8c9b8cdccc59cbf30c">pid</a> = 0;</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160; </div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    <span class="comment">//subscribe to new data elements in the RDLPIM database.</span></div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    <a class="code" href="class_r_d_l.html#a7cc44bc9f5169919459fe1650961df58">c_NewDataEntry</a> = CreateRef&lt;EventCallback&lt;const std::string&amp;&gt;&gt;();</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    <a class="code" href="class_r_d_l.html#a7cc44bc9f5169919459fe1650961df58">c_NewDataEntry</a>-&gt;SetCallback(<a class="code" href="_event_8h.html#aab6d8678a269133584543156046bb443">BIND_EVENT_FN</a>(RDL::OnNewVariableHandler));</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    <a class="code" href="class_data_base.html#aebd27d27eddd3fba3d24fbc7f6223c19">DataBase::GetInstance</a>()-&gt;<a class="code" href="class_data_base.html#a0c28cdaf013a062a1c57939c0d92ccfc">GetOnNewEntry</a>().<a class="code" href="class_event.html#a258c3ba1def825ab58c416ac52708ae7">subscribe</a>(<a class="code" href="class_r_d_l.html#a7cc44bc9f5169919459fe1650961df58">c_NewDataEntry</a>);</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160; </div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    <span class="comment">//build on DataElementChanged callback object</span></div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    <a class="code" href="class_r_d_l.html#a70c73b246d3413183a0aefa9f4955e5f">c_DB_ElementChanged</a> = CreateRef&lt;EventCallback&lt;const DataElement&amp;&gt;&gt;();</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;    <a class="code" href="class_r_d_l.html#a70c73b246d3413183a0aefa9f4955e5f">c_DB_ElementChanged</a>-&gt;SetCallback(<a class="code" href="_event_8h.html#aab6d8678a269133584543156046bb443">BIND_EVENT_FN</a>(RDL::OnDataElementChanged));</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;}</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    sprintf_s(name, <a class="code" href="s3_includes_8hpp.html#a292040b8b6bdea74f1d959a2a6274bab">S3_STRLEN</a>, <span class="stringliteral">&quot;%s&quot;</span>, varname);</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160; </div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    <span class="comment">// Find Global memory block (eg &quot;global_v&quot;) in which varname (eg &quot;th_temp_eff&quot;) is stored</span></div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    <span class="comment">// Find the offset from the runtime base memory location of the global memory block</span></div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <span class="comment">//TODO - GWC, do i really want to mdd_open every plcGetVar address call put these in the constructor/destructor and test onsite!</span></div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    iResult = mdd_open(0);</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <span class="keywordflow">if</span> (iResult == 0) printf(<span class="stringliteral">&quot;MST_XFER : mdd_open=%d\n&quot;</span>, iResult);</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    iResult = DbmPidNew(0, name, <a class="code" href="rdl_data_8hpp.html#a4c787e14fdf8d8bc4215e7e2d8ff75d6">lreq</a>, 0, <a class="code" href="rdl_data_8hpp.html#a233c70ff28cb037900ed22ac4ebeab5b">global</a>, &amp;<a class="code" href="rdl_data_8hpp.html#a4174e380379043c08ab5e62a614660dc">offset</a>, &amp;ctype, &amp;iprec, <a class="code" href="rdl_data_8hpp.html#a741d94989fcbd7a9e79edb4148f2c092">dimen</a>, 0, 0, 0, &amp;level, 0, 0, 0, 0, 0, 0);</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160; </div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <span class="keywordflow">if</span> (iResult == <a class="code" href="s3_includes_8hpp.html#a1cebc5d011566cca2d4d613414f6181c">DBM_PID_ERROR</a>) {</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        printf(<span class="stringliteral">&quot;WARNING::Variable %s not in dbm.\n&quot;</span>, name);</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    }</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160; </div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <span class="comment">// Pointer arithmetic to return the runtime location within the memory (RAM) that the input</span></div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    <span class="comment">// variable is stored at.</span></div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; number_shared_globals; i++) {</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;        <span class="keywordflow">if</span> (_stricmp(<a class="code" href="rdl_data_8hpp.html#a233c70ff28cb037900ed22ac4ebeab5b">global</a>, share_global_table[i].name) == 0) {</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;            <span class="keywordtype">long</span> result = (long)share_global_table[i].base + <a class="code" href="rdl_data_8hpp.html#a4174e380379043c08ab5e62a614660dc">offset</a>;</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;            <span class="keywordflow">return</span> result;</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;        }</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    }</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    mdd_close(3);</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;}</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160; </div>
+<div class="line"><a name="l00210"></a><span class="lineno"><a class="line" href="class_r_d_l.html#a19c455bfb42c16af672411cdce79c338">  210</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="class_r_d_l.html#a19c455bfb42c16af672411cdce79c338">RDL::RDL_Active</a>()</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;{</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="class_r_d_l.html#a45839cb65457ec8c9b8cdccc59cbf30c">pid</a> == 0)</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160; </div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    HANDLE process = OpenProcess(SYNCHRONIZE, FALSE, <a class="code" href="class_r_d_l.html#a45839cb65457ec8c9b8cdccc59cbf30c">pid</a>);</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    DWORD ret = WaitForSingleObject(process, 0);</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    CloseHandle(process);</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    <span class="keywordflow">return</span> ret == WAIT_TIMEOUT;</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;}</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160; </div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;<span class="keywordtype">bool</span> RDL::OnNewVariableHandler(<span class="keyword">const</span> std::string&amp; varName)</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;{</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    <span class="keyword">auto</span>&amp; DB_entry = <a class="code" href="class_data_base.html#aebd27d27eddd3fba3d24fbc7f6223c19">DataBase::GetInstance</a>()-&gt;<a class="code" href="class_data_base.html#a00c0ecc482cdc9be99645851202fc3fd">GetEntry</a>(varName);</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    </div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="class_r_d_l.html#a19c455bfb42c16af672411cdce79c338">RDL_Active</a>()) {</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        <a class="code" href="classrdl_data.html">rdlData</a> tmp(varName.c_str());</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;        <span class="keywordflow">if</span> (std::string(tmp.ctype) != std::string(<span class="stringliteral">&quot;ERR-NFND&quot;</span>)) { <span class="comment">// if RDL owns it</span></div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;            DB_entry-&gt;SetRDLOwned(<span class="keyword">true</span>);</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;            <span class="keywordflow">if</span> (DB_entry-&gt;GetData().GetType() == std::string(<span class="stringliteral">&quot;INIT&quot;</span>)) { <span class="comment">//if doesnt contain data (un-initialised subscribe)</span></div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;                DB_entry-&gt;SetData(tmp);</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;            }</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;            <span class="keywordflow">else</span> {                                                      <span class="comment">//if contains data RDL data push</span></div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;                <span class="comment">//set RDL to data</span></div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;                <span class="keyword">auto</span>&amp; element = DB_entry-&gt;GetData();</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;                <a class="code" href="class_r_d_l.html#a6666bfb2a1e14c746ea59dd64ccc645e">Write</a>(element);</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;            }</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;            <a class="code" href="class_r_d_l.html#a58c2296c09cca4c52a9d3ce0fec7e9a7">TrackVariable</a>(tmp);</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;        }</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        <span class="keywordflow">else</span> { <span class="comment">//If RDL doesnt own it</span></div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;            <span class="keywordflow">if</span> (DB_entry-&gt;GetData().GetType() == std::string(<span class="stringliteral">&quot;INIT&quot;</span>)) { <span class="comment">//last chance initialise failed</span></div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;                DB_entry-&gt;SetData(tmp); <span class="comment">//set to err not found</span></div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;            }</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;        }</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    }</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;        <span class="keywordflow">if</span> (DB_entry-&gt;GetData().GetType() == std::string(<span class="stringliteral">&quot;INIT&quot;</span>)) { <span class="comment">//if doesnt contain data (un-initialised subscribe)</span></div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;            <a class="code" href="class_data_element.html">DataElement</a> errData(varName);</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;            DB_entry-&gt;SetData(errData);</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;        }</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    }</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;    </div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="_event_8h.html#ae485cd73ad6520a3edcbad3f64511669">PROPAGATE_EVENT</a>;</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;}</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160; </div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;<span class="keywordtype">bool</span> RDL::OnDataElementChanged(<span class="keyword">const</span> <a class="code" href="class_data_element.html">DataElement</a>&amp; data)</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;{</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160; </div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    <a class="code" href="class_r_d_l.html#a6666bfb2a1e14c746ea59dd64ccc645e">Write</a>(<a class="code" href="job_8hpp.html#a1939e90743463fb34c8c571ec0590430a8d777f385d3dfec8815d20f7496026dc">data</a>);</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="_event_8h.html#ae485cd73ad6520a3edcbad3f64511669">PROPAGATE_EVENT</a>;</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;}</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160; </div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160; </div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;<span class="comment">//Private implimentations</span></div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;RDL::RDL()</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;{</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    <span class="comment">//initialise RDL process ID</span></div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    <a class="code" href="class_r_d_l.html#a45839cb65457ec8c9b8cdccc59cbf30c">pid</a> = 0;</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160; </div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    <span class="comment">//subscribe to new data elements in the RDLPIM database.</span></div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    <a class="code" href="class_r_d_l.html#a7cc44bc9f5169919459fe1650961df58">c_NewDataEntry</a> = CreateRef&lt;EventCallback&lt;const std::string&amp;&gt;&gt;();</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;    <a class="code" href="class_r_d_l.html#a7cc44bc9f5169919459fe1650961df58">c_NewDataEntry</a>-&gt;SetCallback(<a class="code" href="_event_8h.html#aab6d8678a269133584543156046bb443">BIND_EVENT_FN</a>(RDL::OnNewVariableHandler));</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    <a class="code" href="class_data_base.html#aebd27d27eddd3fba3d24fbc7f6223c19">DataBase::GetInstance</a>()-&gt;<a class="code" href="class_data_base.html#a0c28cdaf013a062a1c57939c0d92ccfc">GetOnNewEntry</a>().<a class="code" href="class_event.html#a258c3ba1def825ab58c416ac52708ae7">subscribe</a>(<a class="code" href="class_r_d_l.html#a7cc44bc9f5169919459fe1650961df58">c_NewDataEntry</a>);</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160; </div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;    <span class="comment">//build on DataElementChanged callback object</span></div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    <a class="code" href="class_r_d_l.html#a70c73b246d3413183a0aefa9f4955e5f">c_DB_ElementChanged</a> = CreateRef&lt;EventCallback&lt;const DataElement&amp;&gt;&gt;();</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;    <a class="code" href="class_r_d_l.html#a70c73b246d3413183a0aefa9f4955e5f">c_DB_ElementChanged</a>-&gt;SetCallback(<a class="code" href="_event_8h.html#aab6d8678a269133584543156046bb443">BIND_EVENT_FN</a>(RDL::OnDataElementChanged));</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclassrdl_data_html_a80f0b50e832c45e0df8e436a97e379d8"><div class="ttname"><a href="classrdl_data.html#a80f0b50e832c45e0df8e436a97e379d8">rdlData::bytes</a></div><div class="ttdeci">int bytes</div><div class="ttdoc">size of data</div><div class="ttdef"><b>Definition:</b> <a href="rdl_data_8hpp_source.html#l00057">rdlData.hpp:57</a></div></div>
@@ -370,14 +372,14 @@ $(document).ready(function(){initNavTree('_r_d_l_8cpp_source.html',''); initResi
 <div class="ttc" id="aclass_data_element_array_html_a12fccaeafd1784b32dfc94654e4d0833"><div class="ttname"><a href="class_data_element_array.html#a12fccaeafd1784b32dfc94654e4d0833">DataElementArray::AddElement</a></div><div class="ttdeci">void AddElement(const DataElement &amp;element)</div><div class="ttdoc">A method to append a DataElement object to the DataElement array stored within this object.</div><div class="ttdef"><b>Definition:</b> <a href="data_array_8hpp_source.html#l00034">dataArray.hpp:34</a></div></div>
 <div class="ttc" id="aclass_r_d_l_html_a6666bfb2a1e14c746ea59dd64ccc645e"><div class="ttname"><a href="class_r_d_l.html#a6666bfb2a1e14c746ea59dd64ccc645e">RDL::Write</a></div><div class="ttdeci">void Write(const std::string &amp;varName, T value)</div><div class="ttdoc">A method to write a primitive value into the RDL's runtime memory, for example an bool int float or d...</div><div class="ttdef"><b>Definition:</b> <a href="_r_d_l_8hpp_source.html#l00133">RDL.hpp:133</a></div></div>
 <div class="ttc" id="aclass_r_d_l_html_a7cc44bc9f5169919459fe1650961df58"><div class="ttname"><a href="class_r_d_l.html#a7cc44bc9f5169919459fe1650961df58">RDL::c_NewDataEntry</a></div><div class="ttdeci">Ref&lt; EventCallback&lt; const std::string &amp; &gt; &gt; c_NewDataEntry</div><div class="ttdoc">on new entry to DataBase callback</div><div class="ttdef"><b>Definition:</b> <a href="_r_d_l_8hpp_source.html#l00200">RDL.hpp:200</a></div></div>
-<div class="ttc" id="aclass_r_d_l_html_a19c455bfb42c16af672411cdce79c338"><div class="ttname"><a href="class_r_d_l.html#a19c455bfb42c16af672411cdce79c338">RDL::RDL_Active</a></div><div class="ttdeci">bool RDL_Active()</div><div class="ttdoc">Return the status of the RDL's process id, if the RDL has launched this will return true.</div><div class="ttdef"><b>Definition:</b> <a href="_r_d_l_8cpp_source.html#l00208">RDL.cpp:208</a></div></div>
+<div class="ttc" id="aclass_r_d_l_html_a19c455bfb42c16af672411cdce79c338"><div class="ttname"><a href="class_r_d_l.html#a19c455bfb42c16af672411cdce79c338">RDL::RDL_Active</a></div><div class="ttdeci">bool RDL_Active()</div><div class="ttdoc">Return the status of the RDL's process id, if the RDL has launched this will return true.</div><div class="ttdef"><b>Definition:</b> <a href="_r_d_l_8cpp_source.html#l00210">RDL.cpp:210</a></div></div>
 <div class="ttc" id="a_event_8h_html_aab6d8678a269133584543156046bb443"><div class="ttname"><a href="_event_8h.html#aab6d8678a269133584543156046bb443">BIND_EVENT_FN</a></div><div class="ttdeci">#define BIND_EVENT_FN(fn)</div><div class="ttdef"><b>Definition:</b> <a href="_event_8h_source.html#l00005">Event.h:5</a></div></div>
 <div class="ttc" id="aclassrdl_data_html_aca537c82593f97450699cff0fc26a6fa"><div class="ttname"><a href="classrdl_data.html#aca537c82593f97450699cff0fc26a6fa">rdlData::init</a></div><div class="ttdeci">void init(const Buffer &amp;vName)</div><div class="ttdoc">A method to initialise and couple the rdlData object to the RDL process.</div><div class="ttdef"><b>Definition:</b> <a href="rdl_data_8cpp_source.html#l00230">rdlData.cpp:230</a></div></div>
-<div class="ttc" id="aclass_r_d_l_html_afa6838f9a012b2b7d5ae8f6849cc3773"><div class="ttname"><a href="class_r_d_l.html#afa6838f9a012b2b7d5ae8f6849cc3773">RDL::FindRuntimePointer</a></div><div class="ttdeci">long FindRuntimePointer(char *varname)</div><div class="ttdoc">Return the runtime memory location of a variable managed by DBM, eg &quot;th_temp_eff&quot;.</div><div class="ttdef"><b>Definition:</b> <a href="_r_d_l_8cpp_source.html#l00171">RDL.cpp:171</a></div></div>
+<div class="ttc" id="aclass_r_d_l_html_afa6838f9a012b2b7d5ae8f6849cc3773"><div class="ttname"><a href="class_r_d_l.html#afa6838f9a012b2b7d5ae8f6849cc3773">RDL::FindRuntimePointer</a></div><div class="ttdeci">long FindRuntimePointer(char *varname)</div><div class="ttdoc">Return the runtime memory location of a variable managed by DBM, eg &quot;th_temp_eff&quot;.</div><div class="ttdef"><b>Definition:</b> <a href="_r_d_l_8cpp_source.html#l00173">RDL.cpp:173</a></div></div>
 <div class="ttc" id="ardl_data_8hpp_html_a233c70ff28cb037900ed22ac4ebeab5b"><div class="ttname"><a href="rdl_data_8hpp.html#a233c70ff28cb037900ed22ac4ebeab5b">global</a></div><div class="ttdeci">char int char char * global</div><div class="ttdef"><b>Definition:</b> <a href="rdl_data_8hpp_source.html#l00025">rdlData.hpp:25</a></div></div>
 <div class="ttc" id="aclass_data_base_html_a0c28cdaf013a062a1c57939c0d92ccfc"><div class="ttname"><a href="class_data_base.html#a0c28cdaf013a062a1c57939c0d92ccfc">DataBase::GetOnNewEntry</a></div><div class="ttdeci">Event&lt; const std::string &amp; &gt; &amp; GetOnNewEntry()</div><div class="ttdoc">A method to get a constant reference to the onNewEntry event.</div><div class="ttdef"><b>Definition:</b> <a href="_data_base_8h_source.html#l00055">DataBase.h:55</a></div></div>
 <div class="ttc" id="aclass_r_d_l_html_ad11cf03ef5f7e445ebf820026baf26f6"><div class="ttname"><a href="class_r_d_l.html#ad11cf03ef5f7e445ebf820026baf26f6">RDL::UntrackVariable</a></div><div class="ttdeci">void UntrackVariable(const std::string &amp;varName)</div><div class="ttdoc">A method to stop tracking a specific variable within the RDL, the DataBase's copy will no longer be k...</div><div class="ttdef"><b>Definition:</b> <a href="_r_d_l_8cpp_source.html#l00148">RDL.cpp:148</a></div></div>
-<div class="ttc" id="aclass_r_d_l_html_af3d1d50fcd55e4e0073a08844894b67f"><div class="ttname"><a href="class_r_d_l.html#af3d1d50fcd55e4e0073a08844894b67f">RDL::Init</a></div><div class="ttdeci">void Init(const char *processName)</div><div class="ttdoc">This method is used to find the process ID of the RDL, required to gain access to the RDL's process m...</div><div class="ttdef"><b>Definition:</b> <a href="_r_d_l_8cpp_source.html#l00163">RDL.cpp:163</a></div></div>
+<div class="ttc" id="aclass_r_d_l_html_af3d1d50fcd55e4e0073a08844894b67f"><div class="ttname"><a href="class_r_d_l.html#af3d1d50fcd55e4e0073a08844894b67f">RDL::Init</a></div><div class="ttdeci">void Init(const char *processName)</div><div class="ttdoc">This method is used to find the process ID of the RDL, required to gain access to the RDL's process m...</div><div class="ttdef"><b>Definition:</b> <a href="_r_d_l_8cpp_source.html#l00165">RDL.cpp:165</a></div></div>
 <div class="ttc" id="aclass_r_d_l_html_a58c2296c09cca4c52a9d3ce0fec7e9a7"><div class="ttname"><a href="class_r_d_l.html#a58c2296c09cca4c52a9d3ce0fec7e9a7">RDL::TrackVariable</a></div><div class="ttdeci">void TrackVariable(const rdlData &amp;varName)</div><div class="ttdoc">A method to add a variable to the by tracked for changes within the RDL's runtime.</div><div class="ttdef"><b>Definition:</b> <a href="_r_d_l_8cpp_source.html#l00134">RDL.cpp:134</a></div></div>
 <div class="ttc" id="aclassrdl_data_html_a0c09bcbf9635be4457eb23cc5ffd47aa"><div class="ttname"><a href="classrdl_data.html#a0c09bcbf9635be4457eb23cc5ffd47aa">rdlData::GetData</a></div><div class="ttdeci">Buffer GetData()</div><div class="ttdoc">A method to return a copy of the RDL's process memory as a Buffer object.</div><div class="ttdef"><b>Definition:</b> <a href="rdl_data_8cpp_source.html#l00315">rdlData.cpp:315</a></div></div>
 <div class="ttc" id="a_r_d_l_8cpp_html_aba91e0ca973681b1942857f7e53f04bf"><div class="ttname"><a href="_r_d_l_8cpp.html#aba91e0ca973681b1942857f7e53f04bf">GetPID</a></div><div class="ttdeci">DWORD GetPID(const std::string &amp;processName)</div><div class="ttdef"><b>Definition:</b> <a href="_r_d_l_8cpp_source.html#l00006">RDL.cpp:6</a></div></div>

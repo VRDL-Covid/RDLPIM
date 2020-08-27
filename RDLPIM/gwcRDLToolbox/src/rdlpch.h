@@ -131,16 +131,24 @@
  \par Table of Contents
 
  - \ref APIUG
-    - \ref apiIntro "API Introductin"
+    - \ref apiIntro "API Introduction"
     - \ref apiConnection "API Connection and Handshake"
+    - \ref APICommands "Client Side Request Commands"
         - \ref apiPull "Pull Data"
         - \ref apiPush "Push Data"
         - \ref apiSubscribe "Subscribe Data"
         - \ref apiUnsubscribe "Unsubscribe Data"
+        - \ref apiChat "ASCII Chat"
+    - \ref apiRecieved "Client Side Recieved Commands"
+        - \ref apiData "Received Data"
+        - \ref apiInfo "Server Info"
+        - \ref apiError "Error Packets"
+
+
 
 
 \subsection apiIntro API Introduction
-    Connections and requests made to the RDLPIM are done so by a custom API.  This section of the documentation provides a detailed description of how to build connection and request packets, as well as
+    Connections and requests made to the RDLPIM are done so via the RDLPIM's custom API.  This section of the documentation provides a detailed description of how to build connection and request packets, as well as
     pointing to helper classes which will make this easier for a developer developing a client.
 
 \subsection apiConnection Requst Connection and Handshake
@@ -165,7 +173,7 @@ ClientID = 1000
 
 The RDLPIM will then open a listening asynchronous TCP socket of the specified port for the client to reconnect and bind to.  A helper class has been provided for c++ application (rdlpimClient) an example of its initialisation has been provided below.
 
-###Example
+####Example
 
 ~~~~~~~~~~~~.cpp
     rdlpimClient client1("127.0.0.1", 8000);
@@ -177,7 +185,7 @@ The RDLPIM will then open a listening asynchronous TCP socket of the specified p
     while (true) {
 
 		if (client1.CanRead()) {
-            client1.Recieve(&recieved);
+            client1.Recieve(recieved);
         }
 
         if(SomethingToSend && client1.CanSend(){
@@ -187,8 +195,7 @@ The RDLPIM will then open a listening asynchronous TCP socket of the specified p
 ~~~~~~~~~~~~
 
 
-
-\subsection APICommands API Commands/Functions
+\subsection APICommands Client Side Request Commands
 
 A client is able to Push, Pull, Subscribe and Unsubscribe from data stored within the RDLPIM/RDL,  The client does not need to make a destinction between whether the data requested exists on the RDLPIM or RDL runtime, this is handled by the RDLPIM. 
 In addition to the data manipulating requests, function codes denoting a data packet, server info and inter-client chat also exist.  
@@ -198,7 +205,7 @@ All requests made to the RDLPIM are done so via an Asynchronous TCP socket, nego
 Request packets start with an 8byte header, the first 4 bytes are the int32 represnetation of the \ref Commands "function code" for example pull = 4 = 0x04 0x00 0x00 0x00.  
 The next 4 bytes is the int32 representation of the length in bytes of the remaining data within the request packet. Please see below for detailed examples of how to build request packets and how to deserialise their result.
 
-\subsection apiPull API Command - Pull Data
+\subsubsection apiPull API Command - Pull Data
 
 The Pull data request code is used to Pull data from the RDLPIM, the value of the pull request code as of RDLPIM V1.0 is (Int32)4 (0x04 0x00 0x00 0x00) and forms the first 4 bytes of the request header packer. The next 4 bytes is the int32 representation of the length in bytes of the request data.
 The request data contains the variable names you wish to pull from the RDLPIM, multiple variables can be stacked by encapsulating them with curly braces, curly braces are therefore illegal characters 
@@ -229,7 +236,7 @@ If the request the RDLPIM will return a message with a header command code of Co
 
 Below are examples of how to use the helper classes available within the gwcRDLToolbox and example unity project to build a pull request and deserialise the recieve.
 
-### Example with helper classes from gwcRDLToolbox (C++)
+#### Example with helper classes from gwcRDLToolbox (C++)
 
 ~~~~~~~~~~~~~~~~~.cpp
 #include gwcRDLToolBox.h
@@ -271,7 +278,7 @@ int main(){
 	//Recieve the return
 	while (responce.GetSize() < 1) {
 		if (client.CanRead()) {
-			client.Recieve(&responce);
+			client.Recieve(responce);
 		}
 	}
 
@@ -292,7 +299,7 @@ int main(){
 
 ~~~~~~~~~~~~~~~~~
 
-### Example with helper classes from Providied Example Unity Project (C#)
+#### Example with helper classes from Providied Example Unity Project (C#)
 see <a href="unityClient.zip">Example Unity Project.</a>
 
 ~~~~~~~~~~~~~~~~~~~~~~~.cs
@@ -300,10 +307,10 @@ see <a href="unityClient.zip">Example Unity Project.</a>
 class PullRequest{
 
 	//get instance to the provided RDLPIM interface singleton
-    private RDLPIM_Controller rdlController
+    private RDLPIM_Controller rdlController;
 
 	//Container to store recieved RDLPIM data within
-	public List<DataElemet> dataRecieved;
+	public List<DataElement> dataRecieved;
 
 
 	//Constructor to initialise the reference to the RDLPIM interface
@@ -314,6 +321,13 @@ class PullRequest{
         rdlController = RDLPIM_Controller.Instance;
         rdlController.DataRecieved += onNewData;
     }
+
+	//It is important to unsubscribe call back on the event the object get destroyed (scene change or object deleted from scene) failure to do so will
+	//raise errors at runtime and reduce frame rate
+	public void OnDestroy
+	{
+		rdlController.DataRecieved -= onNewData;
+	}
 
 
 	//Method to send multiple pull requests, 
@@ -342,7 +356,7 @@ class PullRequest{
 
 
 
-\subsection apiPush API Command - Push Data
+\subsubsection apiPush API Command - Push Data
 The Push data request code is used to push data into the RDLPIM.  Upon recipt of a Push data request, the RDLPIM will firstly check to 
 see if a reference to the data exists within the RDLs runtime memory.  If it does, the data will be safely pushed into the RDL at runtime
 allowing a client to interact with the simulation.  If a reference does not exist within the RDL, the data will be stored in the DataBase internal
@@ -380,7 +394,7 @@ serialise to:
 
  Below are examples of how to use the helper classes available within the gwcRDLToolbox and example unity project to build push requests and send them to the RDLPIM.
 
-### Example with helper classes from gwcRDLToolbox (C++)
+#### Example with helper classes from gwcRDLToolbox (C++)
 
 ~~~~~~~~~~~~~~~~~.cpp
 #include gwcRDLToolBox.h
@@ -416,7 +430,7 @@ int main(){
 
 ~~~~~~~~~~~~~~~~~
 
-### Example with helper classes from Providied Example Unity Project (C#)
+#### Example with helper classes from Providied Example Unity Project (C#)
 see <a href="unityClient.zip">Example Unity Project.</a>
 
 ~~~~~~~~~~~~~~~~~~~~~~~.cs
@@ -424,7 +438,7 @@ see <a href="unityClient.zip">Example Unity Project.</a>
 class PushRequest{
 
 	//get instance to the provided RDLPIM interface singleton
-	private RDLPIM_Controller rdlController
+	private RDLPIM_Controller rdlController;
 
 	//Constructor to initialise the reference to the RDLPIM interface
 	PushRequest()
@@ -455,7 +469,7 @@ class PushRequest{
 
 
 
-\subsection apiSubscribe API Command - Subscribe Data
+\subsubsection apiSubscribe API Command - Subscribe Data
 The Subscribe data request code is used to passively recieve data from the RDLPIM once it has changed. Upon recieving a Subscribe data request, the RDLPIM will initialy try to discover this data from within its own DataBase, if this fails it will look for it within the RDL.  
 If the Data exists within either, the client will be served the data at the time of making the subscribe request via a \ref apiData "Data packet".  Subsequently, any change detected to a subscibed data source will trigger updates to be passively sent to the client without the
 need for polling.  If a requested variable is not found, a DataElement will be served to the client of type 'ERR-NFND', the client will however be subscribed to this variable should a source become available at a later time.  To unsubscribe from a data request, please supply
@@ -479,7 +493,7 @@ please contact the lead developer (Guy Collins [see \ref RDLPIM "main page" for 
  * **Length(bytes)**|4||||4||||13|||||||||||||
 
 
-\warning **1)** Function code/command code values are likely to change through time as the RDLPIM is extended. It is therefore recommended that the enumerator class \ref Commands is exported to generate concurant request codes ed Commands::pull. 
+\warning **1)** Function code/command code values are likely to change through time as the RDLPIM is extended. It is therefore recommended that the enumerator class \ref Commands is exported to generate concurant request codes ed Commands::subscribe. 
 
 
 \warning **2)** '{' and '}' are illegal characters for a variable name
@@ -488,7 +502,7 @@ please contact the lead developer (Guy Collins [see \ref RDLPIM "main page" for 
 
 Below are examples of how to use the helper classes available within the gwcRDLToolbox and example unity project to build a subscribe request and deserialise the recieved data.
 
-### Example with helper classes from gwcRDLToolbox (C++)
+#### Example with helper classes from gwcRDLToolbox (C++)
 
 ~~~~~~~~~~~~~~~~~.cpp
 #include gwcRDLToolBox.h
@@ -530,7 +544,7 @@ int main(){
 	//Recieve the updates and print them
 	while (true) {
 		if (client.CanRead()) {
-			client.Recieve(&responce);
+			client.Recieve(responce);
 
 			//Deserialse the header and strip it from the responce so you are left with the raw data
 			subscribeReq.ProcessHeader(responce);
@@ -551,7 +565,7 @@ int main(){
 
 ~~~~~~~~~~~~~~~~~
 
-### Example with helper classes from Providied Example Unity Project (C#)
+#### Example with helper classes from Providied Example Unity Project (C#)
 see <a href="unityClient.zip">Example Unity Project.</a>
 
 ~~~~~~~~~~~~~~~~~~~~~~~.cs
@@ -559,10 +573,10 @@ see <a href="unityClient.zip">Example Unity Project.</a>
 class SubscribeRequest{
 
 	//get instance to the provided RDLPIM interface singleton
-	private RDLPIM_Controller rdlController
+	private RDLPIM_Controller rdlController;
 
 	//Container to store recieved RDLPIM data within
-	public List<DataElemet> dataRecieved;
+	public List<DataElement> dataRecieved;
 
 
 	//Constructor to initialise the reference to the RDLPIM interface
@@ -572,6 +586,13 @@ class SubscribeRequest{
 	{
 		rdlController = RDLPIM_Controller.Instance;
 		rdlController.DataRecieved += onNewData;
+	}
+
+	//It is important to unsubscribe call back on the event the object get destroyed (scene change or object deleted from scene) failure to do so will 
+	//raise errors at runtime and reduce frame rate
+	public void OnDestroy
+	{
+		rdlController.DataRecieved -= onNewData;
 	}
 
 
@@ -605,11 +626,339 @@ class SubscribeRequest{
 
 
 
+\subsubsection apiUnsubscribe API Command - Unsubscribe Data
+The Unsubscribe data request code is used to unsubscribe from any \ref apiSubscribe "subscriptions" made to the RDLPIM . Upon recieving a Unsubscribe data request, the RDLPIM will terminate any \ref apiData "Data" packets being sent to a client following the event of data change.
+
+\warning There is no responce from the RDLPIM to aknowledge the unsubscription request, the client will simply no longer recieve packets from the subscription.  This is a concious design decision to improve the realtime performance of the RDLPIM, should you require that the RDLPIM
+provides positive feedback to an Unsubscribe request, please let the lead developer know and or raise an issue on the <a href="https://github.com/VRDL-Covid/RDLPIM/issues">RDLPIM's GitHub issues page.</a>
+
+The first 4 bytes of a Subscribe request is the value of the unsubscribe request code, as of RDLPIM V1.0 is (Int32)6 (0x06 0x00 0x00 0x00). The next 4 bytes is the int32 representation of the length in bytes of the request data. For an unsubscribe request packet 
+the request data contains the variable names you wish to unsubscribe from the RDLPIM, multiple variables can be stacked by encapsulating them with curly braces, curly braces are therefore illegal characters for a variable name
+
+
+ The Table below shows a simple subscribe request architecture in raw bytes.
+
+####Example Unsubscribe Request Packet
+ * byte | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8 | 9 |10 |11 | 12| 13| 14| 15| 16| 17| 18| 19| 20
+ * -----|:----:|----|----|----|:----:|----|----|----|:---:|---|---|---|---|---|---|---|---|---|---|---|---
+ * **Description**|Function Code||||Size of Request Data||||Request Data|||||||||||||
+ * **Hex/Char**|0x06|0x00|0x00|0x00|0x0D|0x00|0x00|0x00|'{'|'t'|'h'|'_'|'t'|'e'|'m'|'p'|'_'|'e'|'f'|'f'|'}'
+ * **Human Readable**|6||||13||||{th_temp_eff}|||||||||||||
+ * **Length(bytes)**|4||||4||||13|||||||||||||
+
+
+\warning **1)** Function code/command code values are likely to change through time as the RDLPIM is extended. It is therefore recommended that the enumerator class \ref Commands is exported to generate concurant request codes ed Commands::unsubscribe.
+
+
+\warning **2)** '{' and '}' are illegal characters for a variable name
+
+
+
+Below are examples of how to use the helper classes available within the gwcRDLToolbox and example unity project to build an usubscribe request 
+
+#### Example with helper classes from gwcRDLToolbox (C++)
+
+~~~~~~~~~~~~~~~~~.cpp
+#include gwcRDLToolBox.h
+
+
+int main(){
+	//Connect to the RDLPIM
+	rdlpimClient client("127.0.0.1", 8000);
+	client.connectToRDLPIM();
+
+	//Buffer to store request packet for sending
+	Buffer requestPacket;
+
+	//Helper class to build the header packet
+	RequestHeader unsubscribeReq;
+
+	//a DataElement to store the data returned from the RDLPIM
+	DataElement reqVariable("th_temp_eff");
+
+	//build the header packet
+	//set the command
+	unsubscribeReq.SetCommand(Commands::unsubscribe);
+	//set the data size
+	requestPacket = unsubscribeReq.SetData(reqVariable.SerialiseName());
+
+
+	//Send the request
+	if (client.CanSend())
+	{
+		client.Send(requestPacket);
+	}
+}
+
+~~~~~~~~~~~~~~~~~
+
+#### Example with helper classes from Providied Example Unity Project (C#)
+see <a href="unityClient.zip">Example Unity Project.</a>
+
+~~~~~~~~~~~~~~~~~~~~~~~.cs
+
+class UnsubscribeRequest{
+
+	//get instance to the provided RDLPIM interface singleton
+	private RDLPIM_Controller rdlController;
+
+	//Container to store recieved RDLPIM data within
+	public List<DataElement> dataRecieved;
+
+
+	//Constructor to initialise the reference to the RDLPIM interface
+	UnsubscribeRequest()
+	{
+		rdlController = RDLPIM_Controller.Instance;
+	}
+
+
+	//Method to send multiple Unsubscribe requests,
+	//variables names are passed as a list of strings
+	public void SendUnsubscribes(List<string> vars)
+	{
+		List<DataElement> reqs = new List<DataElement>();
+		foreach (string varname in vars)
+		{
+			reqs.Add(new DataElement(varname));
+		}
+
+		rdlController.SendUnsubscribe(reqs);
+	}
+}
+~~~~~~~~~~~~~~~~~~~~~~~
+
+
+\subsection apiChat API Command - ASCII Chat
+
+The RDLPIM is currently able to broadcast messages from one connected client to the remainder of the connected clients.  This behaviour is achieved by sending a Chat request packet.  As with all client side request functions, the first 4 bytes of the request is the function
+code value for a chat request (int32)2 (0x02 0x00 0x00 0x00). The next 4 bytes is the length, in bytes, of the request data. The request data forms the character array which is the message to be sent.
+
+ The Table below shows the architecture of a simple chat request packet in raw bytes.
+####Example Chat Request Packet
+ * byte | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8 | 9 |10 |11 | 12| 13| 14| 15| 16| 17| 18| 19
+ * -----|:----:|----|----|----|:----:|----|----|----|:---:|---|---|---|---|---|---|---|---|---|---|---
+ * **Description**|Function Code||||Size of Request Data||||Request Data||||||||||||
+ * **Hex/Char**|0x02|0x00|0x00|0x00|0x0C|0x00|0x00|0x00|'H'|'e'|'l'|'l'|'o'|''|'W'|'o'|'r'|'l'|'d'|'!'
+ * **Human Readable**|2||||12||||Hello World!||||||||||||
+ * **Length(bytes)**|4||||4||||12||||||||||||
+ 
+The message recieved by a client has the same form as the request packet, so any chat messages received by a client from the RDLPIM will have the same header structure.
+
+Below are examples of how to use the helper classes available within the gwcRDLToolbox and example unity project to **Send** and **Recieve** Chat messages
+
+#### Example with helper classes from gwcRDLToolbox (C++)
+
+~~~~~~~~~~~~~~~~~.cpp
+#include gwcRDLToolBox.h
+
+int main(){
+	//Connect to the RDLPIM
+	rdlpimClient client("127.0.0.1", 8000);
+	client.connectToRDLPIM();
+
+	//Buffer to store message for sending and recieve messages to
+	Buffer message;
+	message.set("Hello World!");
+
+	//Helper class to build the header packet
+	RequestHeader chatReq;
+
+	//build the header packet
+	//set the command
+	chatReq.SetCommand(Commands::chat);
+	//set the data size
+	message = chatReq.SetData(message);
+
+
+	//Broadcast a single Chat message
+	if (client.CanSend()) {
+		client.Send(message);
+	}
+
+	// listen for incoming chat for ever!
+	while (true) {
+		//receive incoming from RDLPIM
+		if (client.CanRead())
+		{
+			client.Recieve(message);
+
+			//Process the header so the type of recieved can be deduced
+			chatReq.ProcessHeader(message);
+
+			//if recieved chat, print the message to the console
+			if (chatReq.GetCommand() == Commands::chat) {
+				std::cout << message << std::endl;
+			}
+		}
+	}
+}
+
+~~~~~~~~~~~~~~~~~
+
+#### Example with helper classes from Providied Example Unity Project (C#)
+see <a href="unityClient.zip">Example Unity Project.</a>
+
+~~~~~~~~~~~~~~~~~~~~~~~.cs
+
+class Chat{
+
+	//get instance to the provided RDLPIM interface singleton
+	private RDLPIM_Controller rdlController;
+
+	//Constructor to initialise the reference to the RDLPIM interface and subscribe to the incoming chat data event provided
+	Chat()
+	{
+		rdlController = RDLPIM_Controller.Instance;
+		rdlController.ChatRecieved += onChatRecieved;
+	}
+	
+	//unsubscribe on destroyed/finalised
+	~Chat()
+	{
+		rdlController.ChatRecieved -= onChatRecieved;
+	}
+
+	//When chat recieved, write it to the console, callback to rdlController.ChatRecieved provided in example project include folder
+	protected void onChatRecieved(object source, string message)
+	{
+		Console.Write(message)
+	}
+
+	//Method to broadcast chat to clients connected to the RDLPIM
+	public void BroadcastChat(string message)
+	{
+		rdlController.SendChat(message);
+	}
+
+}
+~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+\subsection apiVOIP API Command - VOIP Data
+
+\warning This is a place holder for RDLPIM VOIP integration (see Matthew Stanwell for update) **DO NOT USE**
+
+
+
+\subsection apiRecieved Client Side Recieved Commands
+
+\subsubsection apiData API Command - Recieved Data Packet
+When data is served to a client (as a responce to a \ref apiPull "Pull" or \ref apiSubscribe "Subscribe") it is done so in the form of a **Data Packet**.  The first 4 byts of the packet will be the \ref Commands "function code / Command Code" for a data packet.  
+As of RDLPIM v1.0 this is (int32)1 (0x01 0x00 0x00 0x00).  The next 4 bytes represents the length, in bytes (int32 format), of the total data served to the client, this could be multiple variables stored within the RDLPIM.  
+The data served is in the form of a chain of serialised DataElemets, each data element is containerised by open and closed curly brackets '{ }'. A DataElement contains two key words, the variable name and its type, these key words are delimited by an '=' character.
+After the second '=' character, the next 4 bytes is the length in bytes (int32 format) of the raw data contained within the DataElement, the remainder of the DataElement is the raw data in binary format.  A DataElement can therefore represent any digital data format, a hint to its
+type should be included within the 'Type' partition of the DataElement.
+
+Lets consider a simple example of a DataElement containing a variable called 'pi', of type 'Double', and value 3.14159. This DataElement wouldserialise to:
+
+####Serialised DataElement
+ * byte        | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8 | 9 |10 |11  |  12|  13|  14|  15|  16|  17|  18|  19|  20|  21|  22|  23
+ * -----       |:----:|:----:|----|:----:|:----:|----|----|----|---|---|:---:|:----:|----|----|----|:----:|----|----|----|----|----|----|----|:----:
+ * **Description**|Start DataElement Delimiter|VarName||Varname Delimiter|Type||||||Type Delimiter|DataSize||||Data in Binary||||||||End DataElement Delimiter|
+ * **Hex/Char**|'{' |'p' |'i' |'=' |'d' |'o' |'u' |'b' |'l'|'e'|'='|0x08|0x00|0x00|0x00|0x40|0x09|0x21|0xF9|0xF0|0x1B|0x86|0x6E|'}'
+ * **Human Readable**|{|pi||=|double||||||=|8||||(double)3.14159||||||||}|
+ 
+ If the RDLPIM were to serve this data alone to a client, below represents the full data packet recived. Please note however that multiple DataElements can be stacked within this packet.
+
+ ####Example Recieved Data Packet
+ * byte       | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8 | 9 |10 |11  |  12|  13|  14|  15|  16|  17|  18|  19|  20|  21|  22|  23|  24|  25|  26|  27|  28|  29|  30|  31
+ *        -----|:----:|:----:|:----:|:----:|:----:|----|:----:|:----:|:---:|---|:---:|:----:|----|----|----|:----:|----|----|----|----|----|----|----|:----:|----|----|----|----|----|----|----|----
+ * **Description**|Function Code||||Size of Request Data||||Request Data||||||||||||||||||||||||
+ * **Hex/Char**|0x01|0x00|0x00|0x00|0x18|0x00|0x00|0x00|'{' |'p' |'i' |'=' |'d' |'o' |'u' |'b' |'l'|'e'|'='|0x08|0x00|0x00|0x00|0x40|0x09|0x21|0xF9|0xF0|0x1B|0x86|0x6E|'}'
+ * **Human Readable**|1||||24||||DataElement Serialised||||||||||||||||||||||||
+ * **Length bytes**|4||||4||||24||||||||||||||||||||||||
+
+Below are examples of how to use the helper classes available within the gwcRDLToolbox and example unity project to Recieve data packets from the RDLPIM and deserialise them
+#### Example with helper classes from gwcRDLToolbox (C++)
+
+~~~~~~~~~~~~~~~~~.cpp
+#include gwcRDLToolBox.h
+
+int main(){
+	//Connect to the RDLPIM
+	rdlpimClient client("127.0.0.1", 8000);
+	client.connectToRDLPIM();
+
+	//Buffer to store message for sending and recieve messages to
+	Buffer recieved;
+
+	//Helper class to build the header packet
+	RequestHeader reqHeader;
+
+	// listen for incoming data for ever!
+	while (true) {
+		//receive incoming from RDLPIM
+		if (client.CanRead())
+		{
+			client.Recieve(recieved);
+			//Process the header so the type of recieved can be deduced
+			reqHeader.ProcessHeader(recieved);
+
+			//if recieved chat, print the message to the console
+			if (reqHeader.GetCommand() == Commands::data) {
+
+				//Deserialise the data into an array of DataElements (DataElementArray)
+				DataElementArray dataArray;
+				dataArray.Deserialise(recieved);
+
+				//print out name and type to console
+				for (auto element : dataArray) {
+					std::cout << element->GetName() << "of type " << element->GetType();
+				}
+			}
+		}
+	}
+}
+
+~~~~~~~~~~~~~~~~~
+
+#### Example with helper classes from Providied Example Unity Project (C#)
+see <a href="unityClient.zip">Example Unity Project.</a>
+
+~~~~~~~~~~~~~~~~~~~~~~~.cs
+
+class Data
+{
+	//get instance to the provided RDLPIM interface singleton
+	private RDLPIM_Controller rdlController;
+
+	//Constructor to initialise the reference to the RDLPIM interface and subscribe to the incoming data event provided
+	Data()
+	{
+		rdlController = RDLPIM_Controller.Instance;
+		rdlController.DataRecieved += onDataRecieved;
+	}
+
+	//unsubscribe on destroyed/finalised
+	~Data()
+	{
+		rdlController.DataRecieved -= onDataRecieved;
+	}
+
+	//When data recieved, write its name and type to the console, callback to rdlController.onDataRecieved provided in example project include folder
+	protected void onDataRecieved(object source, List<DataElement> data)
+	{
+		foreach (DataElement element in data)
+		{
+			Console.Write(element.GetName() + "of type:" + data.GetType());
+		}
+	}
+}
+~~~~~~~~~~~~~~~~~~~~~~~
 
 
 
 
+\subsubsection apiInfo API Command - RDLPIM Server Info
+The RDLPIM will serve clients information about the status of the RDLPIM and its clients, these messages will be served to the client as an Info packet. Server info packets
+can be handelled identically to \ref apiChat "Chat" messages.  The only notable difference is that the \ref Commands "function / command code" is (int32)8 (0x08 0x00 0x00 0x00). The data contained within 
+Info packets is a human readable string containing server/client status information
 
-\subsection apiData API Command - Data Packet
+\subsubsection apiErrr API Command - Error Packet
+The RDLPIM will serve clients error information should a fault occur, for example incorrectly formatted request packet, these messages will be served to the client as an Error packet. Server Error packets
+can be handelled identically to \ref apiChat "Chat" messages.  The only notable difference is that the \ref Commands "function / command code" is (int32)9 (0x09 0x00 0x00 0x00). The data contained within 
+Error packets is a human readable string containing information regarding the fault condition.
 */
 

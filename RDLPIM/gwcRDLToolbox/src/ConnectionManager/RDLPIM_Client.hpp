@@ -49,6 +49,7 @@ public:
 	/// @param buff pointer to a buffer to store the response in
 	/// @return number of bytes recieved
 	int Recieve(Buffer* buff);
+	int Recieve(Buffer& buff);
 
 
 	/// @brief A method to send data such as a request packet to the RDLPIM

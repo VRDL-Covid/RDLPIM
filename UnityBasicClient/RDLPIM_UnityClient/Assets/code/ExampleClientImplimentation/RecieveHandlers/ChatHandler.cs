@@ -12,7 +12,7 @@ public class ChatHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rdlController.ChatRecieved += onRawTextRecieved;
+        rdlController.ChatRecieved += onChatRecieved;
     }
 
     // Update is called once per frame
@@ -26,7 +26,7 @@ public class ChatHandler : MonoBehaviour
         
     }
 
-    protected void onRawTextRecieved(object source, string message)
+    protected void onChatRecieved(object source, string message)
     {
         msg = message;
         dirty = true;
@@ -34,6 +34,6 @@ public class ChatHandler : MonoBehaviour
 
     private void OnDestroy()
     {
-        rdlController.ChatRecieved -= onRawTextRecieved;
+        rdlController.ChatRecieved -= onChatRecieved;
     }
 }

@@ -92,6 +92,12 @@ int rdlpimClient::Recieve(Buffer* buff)
 	return connection.recieve(buff);
 }
 
+int rdlpimClient::Recieve(Buffer& buff)
+{
+	return connection.recieve(buff);
+}
+
+
 int rdlpimClient::Send(const Buffer& buff)
 {
 	return connection.Send(buff);

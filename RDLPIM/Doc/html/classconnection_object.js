@@ -12,6 +12,7 @@ var classconnection_object =
     [ "closeSocket", "classconnection_object.html#aeed65a6acaa427e799ab2bb1efbd5c9c", null ],
     [ "connectToServer", "classconnection_object.html#a34414d2c0e42e74c96c7d464578f77a6", null ],
     [ "init", "classconnection_object.html#ae800f3217fa33618f8a5faff117b3ed5", null ],
+    [ "recieve", "classconnection_object.html#a7d9aef27413f3e51044257a061b1ed1e", null ],
     [ "recieve", "classconnection_object.html#a361bba252472df14a5d466f95f58d280", null ],
     [ "recieve", "classconnection_object.html#a9d9cd3c30599d6c396d149bc8c4c00df", null ],
     [ "Send", "classconnection_object.html#a4a03e36c5a6e842249992edcc6835e3c", null ],

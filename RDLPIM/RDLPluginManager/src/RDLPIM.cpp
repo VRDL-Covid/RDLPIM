@@ -77,3 +77,40 @@ int main()
 {
 	return exePluginManager();
 }
+
+int Doc()
+{
+	//Connect to the RDLPIM
+	rdlpimClient client("127.0.0.1", 8000);
+	client.connectToRDLPIM();
+
+	//Buffer to store message for sending and recieve messages to
+	Buffer recieved;
+
+	//Helper class to build the header packet
+	RequestHeader reqHeader;
+
+	// listen for incoming data for ever!
+	while (true) {
+		//receive incoming from RDLPIM
+		if (client.CanRead())
+		{
+			client.Recieve(recieved);
+			//Process the header so the type of recieved can be deduced
+			reqHeader.ProcessHeader(recieved);
+
+			//if recieved chat, print the message to the console
+			if (reqHeader.GetCommand() == Commands::data) {
+				
+				//Deserialise the data into an array of DataElements (DataElementArray)
+				DataElementArray dataArray;
+				dataArray.Deserialise(recieved);
+
+				//print out name and type to console
+				for (auto element : dataArray) {
+					std::cout << element->GetName() << "of type " << element->GetType();
+				}
+			}
+		}
+	}
+}

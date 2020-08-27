@@ -205,6 +205,35 @@ int connectionObject::recieve(Buffer *buff)
 	return bytesRec;
 }
 
+int connectionObject::recieve(Buffer& buff)
+{
+	std::lock_guard<std::mutex> lock(m_IOLock);
+	//////////////////
+	//while loop recv
+	if (clientSocket == INVALID_SOCKET) {
+		std::cerr << "unable to send, invalid socket being used.  WSA Error: " << WSAGetLastError() << std::endl;
+		return 0;
+	}
+
+	char temp[MAXBUFFER];
+
+	memset(temp, '\0', sizeof(temp));
+
+	//wait for client to send data.
+	int bytesRec = recv(clientSocket, temp, MAXBUFFER, 0);
+	if (bytesRec == SOCKET_ERROR) {
+		std::cerr << "Error in reciving from client... quiting" << std::endl;
+		return -1;
+	}
+
+	//TODO:GWC add in error checking 
+	//send(clientSocket, temp, bytesRec, 0);
+
+	buff.set(temp, bytesRec);
+
+	return bytesRec;
+}
+
 int connectionObject::Send(char* out, int size)
 {
 	std::lock_guard<std::mutex> lock(m_IOLock);
