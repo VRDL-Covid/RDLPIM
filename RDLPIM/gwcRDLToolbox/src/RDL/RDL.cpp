@@ -151,10 +151,12 @@ void RDL::UntrackVariable(const std::string& varName)
 	auto& DB_entry = DataBase::GetInstance()->GetEntry(varName);
 	DB_entry->GetOnChangedEvent().unsubscribe(c_DB_ElementChanged);
 
-	for (auto it = m_trackedVars.begin(); it != m_trackedVars.end(); it++) {
+	for (auto it = m_trackedVars.begin(); it != m_trackedVars.end();) {
 		if (it->first == varName) {
-			m_trackedVars.erase(it);
-			break;
+			it = m_trackedVars.erase(it);
+		}
+		else {
+			it++;
 		}
 	}
 }

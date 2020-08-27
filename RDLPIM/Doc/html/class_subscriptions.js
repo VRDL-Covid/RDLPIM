@@ -1,7 +1,7 @@
 var class_subscriptions =
 [
     [ "Subscriptions", "class_subscriptions.html#a4cecee1312b0848033336bd5ccd44072", null ],
-    [ "~Subscriptions", "class_subscriptions.html#af0c1571322a603439436c52be2721a6c", null ],
+    [ "~Subscriptions", "class_subscriptions.html#afc7a00b74e4242d9c409bc00acf62d9e", null ],
     [ "AddVar", "class_subscriptions.html#a2fe9dbbbcf3397eb0c9969dec27c6728", null ],
     [ "BuildDataBuffer", "class_subscriptions.html#ad4ed5a2da42e6e41ac3520c51cf8b90c", null ],
     [ "Clear", "class_subscriptions.html#a17f9c4d187629e6adad6fb08d027a40f", null ],

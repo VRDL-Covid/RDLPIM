@@ -135,6 +135,8 @@
     - \ref apiConnection "API Connection and Handshake"
         - \ref apiPull "Pull Data"
         - \ref apiPush "Push Data"
+        - \ref apiSubscribe "Subscribe Data"
+        - \ref apiUnsubscribe "Unsubscribe Data"
 
 
 \subsection apiIntro API Introduction
@@ -202,7 +204,7 @@ The Pull data request code is used to Pull data from the RDLPIM, the value of th
 The request data contains the variable names you wish to pull from the RDLPIM, multiple variables can be stacked by encapsulating them with curly braces, curly braces are therefore illegal characters 
 for a variable name
 
-The Table below shows a simple pull request architecture for  in raw bytes.
+The Table below shows a simple pull request architecture in raw bytes.
 
 ####Example Pull Request Packet
  * byte | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8 | 9 |10 |11 | 12| 13| 14| 15| 16| 17| 18| 19| 20
@@ -449,4 +451,165 @@ class PushRequest{
 	}
 }
 ~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+\subsection apiSubscribe API Command - Subscribe Data
+The Subscribe data request code is used to passively recieve data from the RDLPIM once it has changed. Upon recieving a Subscribe data request, the RDLPIM will initialy try to discover this data from within its own DataBase, if this fails it will look for it within the RDL.  
+If the Data exists within either, the client will be served the data at the time of making the subscribe request via a \ref apiData "Data packet".  Subsequently, any change detected to a subscibed data source will trigger updates to be passively sent to the client without the
+need for polling.  If a requested variable is not found, a DataElement will be served to the client of type 'ERR-NFND', the client will however be subscribed to this variable should a source become available at a later time.  To unsubscribe from a data request, please supply
+the RDLPIM with an \ref apiUnsubscribe "unsubscribe" request packet.
+
+The first 4 bytes of a Subscribe request is the value of the subscribe request code, as of RDLPIM V1.0 is (Int32)5 (0x05 0x00 0x00 0x00). The next 4 bytes is the int32 representation of the length in bytes of the request data. For a subscribe request packet. 
+The request data contains the variable names you wish to subscribe to from the RDLPIM, multiple variables can be stacked by encapsulating them with curly braces, curly braces are therefore illegal characters for a variable name
+
+\warning Data subscribed to that exists within the RDL will be scanned for changes at a rate of 10Hz.  An improvement has been logged within the <a href="https://github.com/VRDL-Covid/RDLPIM/issues">RDLPIM's GitHub issues page.</a>, if you require a different rate or a variable rate
+please contact the lead developer (Guy Collins [see \ref RDLPIM "main page" for contact details]).
+
+
+ The Table below shows a simple subscribe request architecture in raw bytes.
+
+####Example Subscribe Request Packet
+ * byte | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8 | 9 |10 |11 | 12| 13| 14| 15| 16| 17| 18| 19| 20
+ * -----|:----:|----|----|----|:----:|----|----|----|:---:|---|---|---|---|---|---|---|---|---|---|---|---
+ * **Description**|Function Code||||Size of Request Data||||Request Data|||||||||||||
+ * **Hex/Char**|0x05|0x00|0x00|0x00|0x0D|0x00|0x00|0x00|'{'|'t'|'h'|'_'|'t'|'e'|'m'|'p'|'_'|'e'|'f'|'f'|'}'
+ * **Human Readable**|5||||13||||{th_temp_eff}|||||||||||||
+ * **Length(bytes)**|4||||4||||13|||||||||||||
+
+
+\warning **1)** Function code/command code values are likely to change through time as the RDLPIM is extended. It is therefore recommended that the enumerator class \ref Commands is exported to generate concurant request codes ed Commands::pull. 
+
+
+\warning **2)** '{' and '}' are illegal characters for a variable name
+
+
+
+Below are examples of how to use the helper classes available within the gwcRDLToolbox and example unity project to build a subscribe request and deserialise the recieved data.
+
+### Example with helper classes from gwcRDLToolbox (C++)
+
+~~~~~~~~~~~~~~~~~.cpp
+#include gwcRDLToolBox.h
+
+
+int main(){
+	//Connect to the RDLPIM
+	rdlpimClient client("127.0.0.1", 8000);
+	client.connectToRDLPIM();
+
+	//Buffer to store request packet for sending
+	Buffer requestPacket;
+
+	//Buffer to store the return from RDLPIM
+	Buffer responce;
+
+	//Helper class to build the header packet
+	RequestHeader subscribeReq;
+
+	//a DataElement to store the data returned from the RDLPIM
+	DataElement reqVariable("th_temp_eff");
+
+	//Array of DataElements to be recieved from the RDLPIM
+	DataElementArray dataRecieved;
+
+	//build the header packet
+	//set the command
+	subscribeReq.SetCommand(Commands::subscribe);
+	//set the data size
+	requestPacket = subscribeReq.SetData(reqVariable.SerialiseName());
+
+
+	//Send the request
+	if (client.CanSend())
+	{
+		client.Send(requestPacket);
+	}
+
+	//Recieve the updates and print them
+	while (true) {
+		if (client.CanRead()) {
+			client.Recieve(&responce);
+
+			//Deserialse the header and strip it from the responce so you are left with the raw data
+			subscribeReq.ProcessHeader(responce);
+
+			//if recieved data from RDLPIM, deserialise it
+			if (subscribeReq.GetCommand() == Commands::data) {
+				//deserialise data to a DataElement so its size and data are easily accessable.
+				dataRecieved.Deserialise(responce);
+			}
+
+			//print out variables recieved and their types
+			for(auto element : dataRecieved){
+				std::cout << element.GetName() << "is type " << element.GetType() << std::endl;
+			}
+		}
+	}
+}
+
+~~~~~~~~~~~~~~~~~
+
+### Example with helper classes from Providied Example Unity Project (C#)
+see <a href="unityClient.zip">Example Unity Project.</a>
+
+~~~~~~~~~~~~~~~~~~~~~~~.cs
+
+class SubscribeRequest{
+
+	//get instance to the provided RDLPIM interface singleton
+	private RDLPIM_Controller rdlController
+
+	//Container to store recieved RDLPIM data within
+	public List<DataElemet> dataRecieved;
+
+
+	//Constructor to initialise the reference to the RDLPIM interface
+	// and subscribe to the event raised upon recieving new data. This event passes the data recieved in the form
+	// of a list of DataElements
+	SubscribeRequest()
+	{
+		rdlController = RDLPIM_Controller.Instance;
+		rdlController.DataRecieved += onNewData;
+	}
+
+
+	//Method to send multiple Subscribe requests,
+	//variables names are passed as a list of strings
+	public void SendSubscribes(List<string> vars)
+	{
+		List<DataElement> reqs = new List<DataElement>();
+		foreach(string varname in vars){
+			reqs.Add(new DataElement(varname));
+		}
+
+		rdlController.SendSubscribe(reqs);
+	}
+
+
+	//Callback for the onDataRecieved event on the RDLPIM interface class (RDLPIM_Controller)
+	// This method simply copies the received data into this instance of the SubscribeRequest class
+	protected void onNewData(object source, List<DataElement> newData)
+	{
+		dataRecieved = newData;
+	}
+}
+~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection apiData API Command - Data Packet
 */
+

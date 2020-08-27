@@ -95,6 +95,8 @@ $(document).ready(function(){initNavTree('_a_p_i_u_g.html',''); initResizable();
 <li><a class="el" href="_a_p_i_u_g.html#apiConnection">API Connection and Handshake</a><ul>
 <li><a class="el" href="_a_p_i_u_g.html#apiPull">Pull Data</a></li>
 <li><a class="el" href="_a_p_i_u_g.html#apiPush">Push Data</a></li>
+<li><a class="el" href="_a_p_i_u_g.html#apiSubscribe">Subscribe Data</a></li>
+<li>Unsubscribe Data</li>
 </ul>
 </li>
 </ul>
@@ -143,7 +145,7 @@ API Commands/Functions</h2>
 <h2><a class="anchor" id="apiPull"></a>
 API Command - Pull Data</h2>
 <p>The Pull data request code is used to Pull data from the RDLPIM, the value of the pull request code as of RDLPIM V1.0 is (Int32)4 (0x04 0x00 0x00 0x00) and forms the first 4 bytes of the request header packer. The next 4 bytes is the int32 representation of the length in bytes of the request data. The request data contains the variable names you wish to pull from the RDLPIM, multiple variables can be stacked by encapsulating them with curly braces, curly braces are therefore illegal characters for a variable name</p>
-<p>The Table below shows a simple pull request architecture for in raw bytes.</p>
+<p>The Table below shows a simple pull request architecture in raw bytes.</p>
 <h4><a class="anchor" id="autotoc_md14"></a>
 Example Pull Request Packet</h4>
 <table class="markdownTable">
@@ -162,7 +164,7 @@ Example Pull Request Packet</h4>
 <dd>
 <b>2)</b> '{' and '}' are illegal characters for a variable name</dd></dl>
 <p>Upon recieveing a pull request the RDLPIM will preferentially look for the data requested within its internal <a class="el" href="class_data_base.html" title="The DataBase class forms the heart of the RDLPIM architecture, this singleton holds all data pushed i...">DataBase</a>, failing this, it will check the RDLs runtime memory.</p>
-<p>The return to the client is a Data packet containing an array of serialised <a class="el" href="class_data_element.html">DataElements</a>, this can be deserialised using the DataElemenArray helper class in c++ or within c# (see <a href="unityClient.zip">Example Unity Project.</a> ) DataElement.DeserialiseArray((byte[])rawData) to produce a List&lt;DataElement&gt;. If the RDLPIM is unable to find the request a <a class="el" href="class_data_element.html" title="A class to handle the data transfer of complex and primitive objects into and out of the DataBase ins...">DataElement</a> will be returned in a Data packet of type 'ERR-NFND'. <br  />
+<p>The return to the client is a <a class="el" href="_a_p_i_u_g.html#apiData">Data</a> packet containing an array of serialised <a class="el" href="class_data_element.html">DataElements</a>, this can be deserialised using the DataElemenArray helper class in c++ or within c# (see <a href="unityClient.zip">Example Unity Project.</a> ) DataElement.DeserialiseArray((byte[])rawData) to produce a List&lt;DataElement&gt;. If the RDLPIM is unable to find the request a <a class="el" href="class_data_element.html" title="A class to handle the data transfer of complex and primitive objects into and out of the DataBase ins...">DataElement</a> will be returned in a <a class="el" href="_a_p_i_u_g.html#apiData">Data</a> packet of type 'ERR-NFND'. <br  />
  If the request the RDLPIM will return a message with a header command code of <a class="el" href="job_8hpp.html#a1939e90743463fb34c8c571ec0590430acb5e100e5a9a3e7f6d1fd97512215282">Commands::error</a> (int32 9 as of RDLPIM v1.0)</p>
 <p>Below are examples of how to use the helper classes available within the gwcRDLToolbox and example unity project to build a pull request and deserialise the recieve.</p>
 <h3><a class="anchor" id="autotoc_md15"></a>
@@ -364,7 +366,135 @@ Example with helper classes from Providied Example Unity Project (C#)</h3>
 <div class="line">        rdlController.SendPush(reqs);</div>
 <div class="line">    }</div>
 <div class="line">}</div>
-</div><!-- fragment --> </div></div><!-- contents -->
+</div><!-- fragment --><h2><a class="anchor" id="apiSubscribe"></a>
+API Command - Subscribe Data</h2>
+<p>The Subscribe data request code is used to passively recieve data from the RDLPIM once it has changed. Upon recieving a Subscribe data request, the RDLPIM will initialy try to discover this data from within its own <a class="el" href="class_data_base.html" title="The DataBase class forms the heart of the RDLPIM architecture, this singleton holds all data pushed i...">DataBase</a>, if this fails it will look for it within the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a>. <br  />
+ If the Data exists within either, the client will be served the data at the time of making the subscribe request via a <a class="el" href="_a_p_i_u_g.html#apiData">Data packet</a>. Subsequently, any change detected to a subscibed data source will trigger updates to be passively sent to the client without the need for polling. If a requested variable is not found, a <a class="el" href="class_data_element.html" title="A class to handle the data transfer of complex and primitive objects into and out of the DataBase ins...">DataElement</a> will be served to the client of type 'ERR-NFND', the client will however be subscribed to this variable should a source become available at a later time. To unsubscribe from a data request, please supply the RDLPIM with an unsubscribe request packet.</p>
+<p>The first 4 bytes of a Subscribe request is the value of the subscribe request code, as of RDLPIM V1.0 is (Int32)5 (0x05 0x00 0x00 0x00). The next 4 bytes is the int32 representation of the length in bytes of the request data. For a subscribe request packet. The request data contains the variable names you wish to subscribe to from the RDLPIM, multiple variables can be stacked by encapsulating them with curly braces, curly braces are therefore illegal characters for a variable name</p>
+<dl class="section warning"><dt>Warning</dt><dd>Data subscribed to that exists within the <a class="el" href="class_r_d_l.html" title="A class to handle the interface between external code and the RDL&#39;s runtime memory and execution.">RDL</a> will be scanned for changes at a rate of 10Hz. An improvement has been logged within the <a href="https://github.com/VRDL-Covid/RDLPIM/issues">RDLPIM's GitHub issues page.</a>, if you require a different rate or a variable rate please contact the lead developer (Guy Collins [see main page for contact details]).</dd></dl>
+<p>The Table below shows a simple subscribe request architecture in raw bytes.</p>
+<h4><a class="anchor" id="autotoc_md21"></a>
+Example Subscribe Request Packet</h4>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">byte </th><th class="markdownTableHeadCenter">0 </th><th class="markdownTableHeadNone">1 </th><th class="markdownTableHeadNone">2 </th><th class="markdownTableHeadNone">3 </th><th class="markdownTableHeadCenter">4 </th><th class="markdownTableHeadNone">5 </th><th class="markdownTableHeadNone">6 </th><th class="markdownTableHeadNone">7 </th><th class="markdownTableHeadCenter">8 </th><th class="markdownTableHeadNone">9 </th><th class="markdownTableHeadNone">10 </th><th class="markdownTableHeadNone">11 </th><th class="markdownTableHeadNone">12 </th><th class="markdownTableHeadNone">13 </th><th class="markdownTableHeadNone">14 </th><th class="markdownTableHeadNone">15 </th><th class="markdownTableHeadNone">16 </th><th class="markdownTableHeadNone">17 </th><th class="markdownTableHeadNone">18 </th><th class="markdownTableHeadNone">19 </th><th class="markdownTableHeadNone">20  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>Description</b> </td><td class="markdownTableBodyCenter" colspan="4">Function Code </td><td class="markdownTableBodyCenter" colspan="4">Size of Request Data </td><td class="markdownTableBodyCenter" colspan="13">Request Data  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>Hex/Char</b> </td><td class="markdownTableBodyCenter">0x05 </td><td class="markdownTableBodyNone">0x00 </td><td class="markdownTableBodyNone">0x00 </td><td class="markdownTableBodyNone">0x00 </td><td class="markdownTableBodyCenter">0x0D </td><td class="markdownTableBodyNone">0x00 </td><td class="markdownTableBodyNone">0x00 </td><td class="markdownTableBodyNone">0x00 </td><td class="markdownTableBodyCenter">'{' </td><td class="markdownTableBodyNone">'t' </td><td class="markdownTableBodyNone">'h' </td><td class="markdownTableBodyNone">'_' </td><td class="markdownTableBodyNone">'t' </td><td class="markdownTableBodyNone">'e' </td><td class="markdownTableBodyNone">'m' </td><td class="markdownTableBodyNone">'p' </td><td class="markdownTableBodyNone">'_' </td><td class="markdownTableBodyNone">'e' </td><td class="markdownTableBodyNone">'f' </td><td class="markdownTableBodyNone">'f' </td><td class="markdownTableBodyNone">'}'  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>Human Readable</b> </td><td class="markdownTableBodyCenter" colspan="4">5 </td><td class="markdownTableBodyCenter" colspan="4">13 </td><td class="markdownTableBodyCenter" colspan="13">{th_temp_eff}  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>Length(bytes)</b> </td><td class="markdownTableBodyCenter" colspan="4">4 </td><td class="markdownTableBodyCenter" colspan="4">4 </td><td class="markdownTableBodyCenter" colspan="13">13  </td></tr>
+</table>
+<dl class="section warning"><dt>Warning</dt><dd><b>1)</b> Function code/command code values are likely to change through time as the RDLPIM is extended. It is therefore recommended that the enumerator class <a class="el" href="job_8hpp.html#a1939e90743463fb34c8c571ec0590430">Commands</a> is exported to generate concurant request codes ed <a class="el" href="job_8hpp.html#a1939e90743463fb34c8c571ec0590430af43dff9a0dc54f0643d0c6d7971635f0">Commands::pull</a>.</dd>
+<dd>
+<b>2)</b> '{' and '}' are illegal characters for a variable name</dd></dl>
+<p>Below are examples of how to use the helper classes available within the gwcRDLToolbox and example unity project to build a subscribe request and deserialise the recieved data.</p>
+<h3><a class="anchor" id="autotoc_md22"></a>
+Example with helper classes from gwcRDLToolbox (C++)</h3>
+<div class="fragment"><div class="line"><span class="preprocessor">#include gwcRDLToolBox.h</span></div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> <a class="code" href="_r_d_l_p_i_m_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a>(){</div>
+<div class="line">    <span class="comment">//Connect to the RDLPIM</span></div>
+<div class="line">    <a class="code" href="classrdlpim_client.html">rdlpimClient</a> client(<span class="stringliteral">&quot;127.0.0.1&quot;</span>, 8000);</div>
+<div class="line">    client.connectToRDLPIM();</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">//Buffer to store request packet for sending</span></div>
+<div class="line">    <a class="code" href="class_buffer.html">Buffer</a> requestPacket;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">//Buffer to store the return from RDLPIM</span></div>
+<div class="line">    <a class="code" href="class_buffer.html">Buffer</a> responce;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">//Helper class to build the header packet</span></div>
+<div class="line">    <a class="code" href="class_request_header.html">RequestHeader</a> subscribeReq;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">//a DataElement to store the data returned from the RDLPIM</span></div>
+<div class="line">    <a class="code" href="class_data_element.html">DataElement</a> reqVariable(<span class="stringliteral">&quot;th_temp_eff&quot;</span>);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">//Array of DataElements to be recieved from the RDLPIM</span></div>
+<div class="line">    <a class="code" href="class_data_element_array.html">DataElementArray</a> dataRecieved;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">//build the header packet</span></div>
+<div class="line">    <span class="comment">//set the command</span></div>
+<div class="line">    subscribeReq.<a class="code" href="class_request_header.html#a2fb4cbedd116028d7d1bf1cd4b2db31b">SetCommand</a>(<a class="code" href="job_8hpp.html#a1939e90743463fb34c8c571ec0590430a4f893ee24950069dd823e083338a456d">Commands::subscribe</a>);</div>
+<div class="line">    <span class="comment">//set the data size</span></div>
+<div class="line">    requestPacket = subscribeReq.<a class="code" href="class_request_header.html#a057383eed9149f947db84522aadea8eb">SetData</a>(reqVariable.SerialiseName());</div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">//Send the request</span></div>
+<div class="line">    <span class="keywordflow">if</span> (client.CanSend())</div>
+<div class="line">    {</div>
+<div class="line">        client.Send(requestPacket);</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">//Recieve the updates and print them</span></div>
+<div class="line">    <span class="keywordflow">while</span> (<span class="keyword">true</span>) {</div>
+<div class="line">        <span class="keywordflow">if</span> (client.CanRead()) {</div>
+<div class="line">            client.Recieve(&amp;responce);</div>
+<div class="line"> </div>
+<div class="line">            <span class="comment">//Deserialse the header and strip it from the responce so you are left with the raw data</span></div>
+<div class="line">            subscribeReq.<a class="code" href="class_request_header.html#a33cf15bc9b7a1b2ab2761d7c4dde984c">ProcessHeader</a>(responce);</div>
+<div class="line"> </div>
+<div class="line">            <span class="comment">//if recieved data from RDLPIM, deserialise it</span></div>
+<div class="line">            <span class="keywordflow">if</span> (subscribeReq.<a class="code" href="class_request_header.html#aae3f863139f885801828cf5109493670">GetCommand</a>() == <a class="code" href="job_8hpp.html#a1939e90743463fb34c8c571ec0590430a8d777f385d3dfec8815d20f7496026dc">Commands::data</a>) {</div>
+<div class="line">                <span class="comment">//deserialise data to a DataElement so its size and data are easily accessable.</span></div>
+<div class="line">                dataRecieved.<a class="code" href="class_data_element_array.html#a54a97e3420181a8a437290362f3f5555">Deserialise</a>(responce);</div>
+<div class="line">            }</div>
+<div class="line"> </div>
+<div class="line">            <span class="comment">//print out variables recieved and their types</span></div>
+<div class="line">            <span class="keywordflow">for</span>(<span class="keyword">auto</span> element : dataRecieved){</div>
+<div class="line">                std::cout &lt;&lt; element.GetName() &lt;&lt; <span class="stringliteral">&quot;is type &quot;</span> &lt;&lt; element.GetType() &lt;&lt; std::endl;</div>
+<div class="line">            }</div>
+<div class="line">        }</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md23"></a>
+Example with helper classes from Providied Example Unity Project (C#)</h3>
+<p>see <a href="unityClient.zip">Example Unity Project.</a></p>
+<div class="fragment"><div class="line"><span class="keyword">class </span>SubscribeRequest{</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">//get instance to the provided RDLPIM interface singleton</span></div>
+<div class="line">    <span class="keyword">private</span> RDLPIM_Controller rdlController</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">//Container to store recieved RDLPIM data within</span></div>
+<div class="line">    <span class="keyword">public</span> List&lt;DataElemet&gt; dataRecieved;</div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">//Constructor to initialise the reference to the RDLPIM interface</span></div>
+<div class="line">    <span class="comment">// and subscribe to the event raised upon recieving new data. This event passes the data recieved in the form</span></div>
+<div class="line">    <span class="comment">// of a list of DataElements</span></div>
+<div class="line">    SubscribeRequest()</div>
+<div class="line">    {</div>
+<div class="line">        rdlController = RDLPIM_Controller.Instance;</div>
+<div class="line">        rdlController.DataRecieved += onNewData;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">//Method to send multiple Subscribe requests,</span></div>
+<div class="line">    <span class="comment">//variables names are passed as a list of strings</span></div>
+<div class="line">    <span class="keyword">public</span> <span class="keywordtype">void</span> SendSubscribes(List&lt;string&gt; vars)</div>
+<div class="line">    {</div>
+<div class="line">        List&lt;DataElement&gt; reqs = <span class="keyword">new</span> List&lt;DataElement&gt;();</div>
+<div class="line">        <span class="keywordflow">foreach</span>(<span class="keywordtype">string</span> varname <span class="keywordflow">in</span> vars){</div>
+<div class="line">            reqs.Add(<span class="keyword">new</span> <a class="code" href="class_data_element.html">DataElement</a>(varname));</div>
+<div class="line">        }</div>
+<div class="line"> </div>
+<div class="line">        rdlController.SendSubscribe(reqs);</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">//Callback for the onDataRecieved event on the RDLPIM interface class (RDLPIM_Controller)</span></div>
+<div class="line">    <span class="comment">// This method simply copies the received data into this instance of the SubscribeRequest class</span></div>
+<div class="line">    <span class="keyword">protected</span> <span class="keywordtype">void</span> onNewData(<span class="keywordtype">object</span> source, List&lt;DataElement&gt; newData)</div>
+<div class="line">    {</div>
+<div class="line">        dataRecieved = newData;</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+</div><!-- fragment --><h2><a class="anchor" id="apiData"></a>
+API Command - Data Packet</h2>
+</div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclass_buffer_html_af8ebc5241683654e942612fc4d992a2a"><div class="ttname"><a href="class_buffer.html#af8ebc5241683654e942612fc4d992a2a">Buffer::GetSize</a></div><div class="ttdeci">const int GetSize() const</div><div class="ttdoc">A method to get the size of the data contained within the Buffer object.</div><div class="ttdef"><b>Definition:</b> <a href="buffer_8hpp_source.html#l00042">buffer.hpp:42</a></div></div>
@@ -374,11 +504,12 @@ Example with helper classes from Providied Example Unity Project (C#)</h3>
 <div class="ttc" id="ajob_8hpp_html_a1939e90743463fb34c8c571ec0590430af43dff9a0dc54f0643d0c6d7971635f0"><div class="ttname"><a href="job_8hpp.html#a1939e90743463fb34c8c571ec0590430af43dff9a0dc54f0643d0c6d7971635f0">Commands::pull</a></div><div class="ttdeci">@ pull</div></div>
 <div class="ttc" id="aclassrdlpim_client_html"><div class="ttname"><a href="classrdlpim_client.html">rdlpimClient</a></div><div class="ttdoc">A class to handle a client connection to the RDLPIM.</div><div class="ttdef"><b>Definition:</b> <a href="_r_d_l_p_i_m___client_8hpp_source.html#l00030">RDLPIM_Client.hpp:30</a></div></div>
 <div class="ttc" id="aclass_buffer_html"><div class="ttname"><a href="class_buffer.html">Buffer</a></div><div class="ttdoc">The Buffer class is a container to hold serialised data.</div><div class="ttdef"><b>Definition:</b> <a href="buffer_8hpp_source.html#l00031">buffer.hpp:31</a></div></div>
-<div class="ttc" id="a_r_d_l_p_i_m_8cpp_html_ae66f6b31b5ad750f1fe042a706a4e3d4"><div class="ttname"><a href="_r_d_l_p_i_m_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a></div><div class="ttdeci">int main()</div><div class="ttdef"><b>Definition:</b> <a href="_r_d_l_p_i_m_8cpp_source.html#l00105">RDLPIM.cpp:105</a></div></div>
+<div class="ttc" id="a_r_d_l_p_i_m_8cpp_html_ae66f6b31b5ad750f1fe042a706a4e3d4"><div class="ttname"><a href="_r_d_l_p_i_m_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a></div><div class="ttdeci">int main()</div><div class="ttdef"><b>Definition:</b> <a href="_r_d_l_p_i_m_8cpp_source.html#l00076">RDLPIM.cpp:76</a></div></div>
 <div class="ttc" id="ajob_8hpp_html_a1939e90743463fb34c8c571ec0590430a8d777f385d3dfec8815d20f7496026dc"><div class="ttname"><a href="job_8hpp.html#a1939e90743463fb34c8c571ec0590430a8d777f385d3dfec8815d20f7496026dc">Commands::data</a></div><div class="ttdeci">@ data</div></div>
 <div class="ttc" id="aclass_request_header_html"><div class="ttname"><a href="class_request_header.html">RequestHeader</a></div><div class="ttdef"><b>Definition:</b> <a href="_request_header_8h_source.html#l00005">RequestHeader.h:5</a></div></div>
 <div class="ttc" id="aclass_request_header_html_a2fb4cbedd116028d7d1bf1cd4b2db31b"><div class="ttname"><a href="class_request_header.html#a2fb4cbedd116028d7d1bf1cd4b2db31b">RequestHeader::SetCommand</a></div><div class="ttdeci">void SetCommand(const Commands &amp;command)</div><div class="ttdef"><b>Definition:</b> <a href="_request_header_8cpp_source.html#l00020">RequestHeader.cpp:20</a></div></div>
 <div class="ttc" id="aclass_data_element_array_html"><div class="ttname"><a href="class_data_element_array.html">DataElementArray</a></div><div class="ttdoc">A container class to serialise and deserialise an array of DataElements to. Required by the DataBase:...</div><div class="ttdef"><b>Definition:</b> <a href="data_array_8hpp_source.html#l00006">dataArray.hpp:6</a></div></div>
+<div class="ttc" id="ajob_8hpp_html_a1939e90743463fb34c8c571ec0590430a4f893ee24950069dd823e083338a456d"><div class="ttname"><a href="job_8hpp.html#a1939e90743463fb34c8c571ec0590430a4f893ee24950069dd823e083338a456d">Commands::subscribe</a></div><div class="ttdeci">@ subscribe</div></div>
 <div class="ttc" id="aclass_data_element_html"><div class="ttname"><a href="class_data_element.html">DataElement</a></div><div class="ttdoc">A class to handle the data transfer of complex and primitive objects into and out of the DataBase ins...</div><div class="ttdef"><b>Definition:</b> <a href="_data_element_8hpp_source.html#l00039">DataElement.hpp:39</a></div></div>
 <div class="ttc" id="aclass_request_header_html_a33cf15bc9b7a1b2ab2761d7c4dde984c"><div class="ttname"><a href="class_request_header.html#a33cf15bc9b7a1b2ab2761d7c4dde984c">RequestHeader::ProcessHeader</a></div><div class="ttdeci">void ProcessHeader(Buffer &amp;data)</div><div class="ttdef"><b>Definition:</b> <a href="_request_header_8cpp_source.html#l00041">RequestHeader.cpp:41</a></div></div>
 <div class="ttc" id="ajob_8hpp_html_a1939e90743463fb34c8c571ec0590430a21a361d96e3e13f5f109748c2a9d2434"><div class="ttname"><a href="job_8hpp.html#a1939e90743463fb34c8c571ec0590430a21a361d96e3e13f5f109748c2a9d2434">Commands::push</a></div><div class="ttdeci">@ push</div></div>

@@ -15,6 +15,11 @@ var annotated_dup =
       [ "Example with helper classes from gwcRDLToolbox (C++)", "_a_p_i_u_g.html#autotoc_md19", null ],
       [ "Example with helper classes from Providied Example Unity Project (C#)", "_a_p_i_u_g.html#autotoc_md20", null ]
     ] ],
+    [ "API Command - Subscribe Data", "_a_p_i_u_g.html#apiSubscribe", [
+      [ "Example with helper classes from gwcRDLToolbox (C++)", "_a_p_i_u_g.html#autotoc_md22", null ],
+      [ "Example with helper classes from Providied Example Unity Project (C#)", "_a_p_i_u_g.html#autotoc_md23", null ]
+    ] ],
+    [ "API Command - Data Packet", "_a_p_i_u_g.html#apiData", null ],
     [ "Buffer", "class_buffer.html", "class_buffer" ],
     [ "Client", "class_client.html", "class_client" ],
     [ "clientManager", "classclient_manager.html", "classclient_manager" ],

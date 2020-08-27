@@ -18,11 +18,13 @@ public:
 	void RemVar(const std::string& name)
 	{
 		std::lock_guard<std::mutex> lock(m_accessLock);
-		for (auto it = m_SubscribedPoints.begin(); it != m_SubscribedPoints.end(); it++) {
+		for (auto it = m_SubscribedPoints.begin(); it != m_SubscribedPoints.end();) {
 			if (*it == name) {
 				it = m_SubscribedPoints.erase(it);
 				//break
-				it--;
+			}
+			else {
+				it++;
 			}
 		}
 
