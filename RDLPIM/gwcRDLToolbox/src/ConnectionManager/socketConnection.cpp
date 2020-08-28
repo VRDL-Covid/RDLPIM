@@ -162,7 +162,7 @@ int connectionObject::recieve(char* out, int size)
 	memset(out, '\0', size);
 
 	//wait for client to send data.
-	int bytesRec = recv(clientSocket, out, MAXBUFFER, 0);
+	int bytesRec = recv(clientSocket, out, size, 0);
 	if (bytesRec == SOCKET_ERROR) {
 		std::cerr << "Error in reciving from client: WSA Error:" << WSAGetLastError() << std::endl;
 		closesocket(clientSocket);
@@ -237,8 +237,7 @@ int connectionObject::recieve(Buffer& buff)
 int connectionObject::Send(char* out, int size)
 {
 	std::lock_guard<std::mutex> lock(m_IOLock);
-	char _buff[MAXBUFFER];
-	memset(_buff, '\0', MAXBUFFER);
+
 	int bytes;
 
 	if (clientSocket != INVALID_SOCKET) {
@@ -264,8 +263,6 @@ int connectionObject::Send(const char* out)
 {
 	std::lock_guard<std::mutex> lock(m_IOLock);
 	int size = strlen(out);
-	char _buff[MAXBUFFER];
-	memset(_buff, '\0', MAXBUFFER);
 	int bytes;
 
 	if (clientSocket != INVALID_SOCKET) {
@@ -289,9 +286,6 @@ int connectionObject::Send(const char* out)
 int connectionObject::Send(const Buffer &inp)
 {
 	std::lock_guard<std::mutex> lock(m_IOLock);
-	char _buff[MAXBUFFER];
-	memset(_buff, '\0', MAXBUFFER);
-
 
 	if (clientSocket != INVALID_SOCKET) {
 		return send(clientSocket, inp.GetContents(), inp.GetSize(), 0);

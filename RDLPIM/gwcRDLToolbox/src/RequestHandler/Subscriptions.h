@@ -21,6 +21,7 @@ public:
 		for (auto it = m_SubscribedPoints.begin(); it != m_SubscribedPoints.end();) {
 			if (*it == name) {
 				it = m_SubscribedPoints.erase(it);
+				DataBase::GetInstance()->GetEntry(name)->GetOnChangedEvent().unsubscribe(OnElementChangeCallback);
 				//break
 			}
 			else {
@@ -28,7 +29,6 @@ public:
 			}
 		}
 
-		DataBase::GetInstance()->GetEntry(name)->GetOnChangedEvent().unsubscribe(OnElementChangeCallback);
 	}
 
 	Buffer GetOutData() { return m_DataBuffer;}

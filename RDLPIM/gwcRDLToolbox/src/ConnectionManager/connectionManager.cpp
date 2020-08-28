@@ -84,15 +84,6 @@ void connectionManager::worker(bool& work)
 		listener.init();
 		connectToClient();
 		//todo:gwc - send welcom message?
-		//processingClient->connection.Send("########################################################\n");
-		//processingClient->connection.Send("#                    RDL PLUGIN MANAGER                #\n");
-		//processingClient->connection.Send("#                    ==================                #\n");
-		//processingClient->connection.Send("#    Author:Guy Collins                                #\n");
-		//processingClient->connection.Send("#    Date:29/01/2020                                   #\n");
-		//processingClient->connection.Send("#    Version:0.1WIP                                    #\n");
-		//processingClient->connection.Send("#                                                      #\n");
-		//processingClient->connection.Send("########################################################\n");
-
 	}
 }
 
