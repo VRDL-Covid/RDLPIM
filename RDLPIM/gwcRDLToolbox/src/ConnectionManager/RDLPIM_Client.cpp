@@ -86,12 +86,6 @@ bool rdlpimClient::CanSend()
 	return connection.canSend();
 }
 
-
-int rdlpimClient::Recieve(Buffer* buff)
-{
-	return connection.recieve(buff);
-}
-
 int rdlpimClient::Recieve(Buffer& buff)
 {
 	return connection.recieve(buff);

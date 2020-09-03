@@ -77,7 +77,6 @@ public:
 	/// @return number of bytes recieved
 	/// @warning This method is blocking, upgrade the connection to nonblocking with setNonBlocking(true) and check for incoming before making the read to prevent a block with canRead().
 	/// 
-	int recieve(Buffer* buff);
 	int recieve(Buffer& buff);
 
 	/// @brief A method to Send data to connected endpoint

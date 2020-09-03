@@ -119,7 +119,7 @@ private:
 	/// @param client The client to be tested
 	/// @param output a pointer to a buffer within which to store any incoming data
 	/// @return the number of bytes recieved. 0 for nothing, -1 for an invalid connection
-	int checkForIncoming(Ref<Client> client, Buffer* output);
+	int checkForIncoming(Ref<Client> client, Buffer& output);
 
 	clientManager();
 	static clientManager* s_Instance;

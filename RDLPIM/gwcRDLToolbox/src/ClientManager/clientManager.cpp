@@ -26,7 +26,7 @@ void clientManager::worker(bool& work)
 		std::vector<Ref<Client>>::iterator it = clientsCPY.begin();
 
 		for (it; it != clientsCPY.end(); it++) {
-			if (!((bytes = checkForIncoming(*it, &inbuff)) >= 0)) {
+			if (!((bytes = checkForIncoming(*it, inbuff)) >= 0)) {
 
 				RemoveClient_impl(*it);
 					break;
@@ -53,7 +53,7 @@ void clientManager::worker(bool& work)
 }
 
 
-int clientManager::checkForIncoming(Ref<Client> client, Buffer* output)
+int clientManager::checkForIncoming(Ref<Client> client, Buffer& output)
 {
 	PROFILE_FUNCTION();
 	int bytes = 0;
