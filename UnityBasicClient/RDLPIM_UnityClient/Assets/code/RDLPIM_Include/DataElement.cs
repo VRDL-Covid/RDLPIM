@@ -179,6 +179,11 @@ public class DataElement
         return ret;
     }
 
+    void SetType(string typeName)
+    {
+        m_DataType = typeName;
+    }
+
     public static List<DataElement> DeserialiseArray(byte[] serialised)
     {
         List<DataElement> ret = new List<DataElement>();
