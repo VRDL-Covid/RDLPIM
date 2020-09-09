@@ -51,7 +51,7 @@ public class RDLPIM_Client
 
     private static RDLPIM_Client s_Instance = null;
     private Socket client = null;
-    public byte[] recBuff = new byte[4096];
+    public byte[] recBuff = new byte[4*1024];
     public int bytes = 0;
     private String response = String.Empty;
     
@@ -103,6 +103,7 @@ public class RDLPIM_Client
             }
         }
     }
+
     public void InitiConnection()
     {
         // Connect to a remote device.  
@@ -242,41 +243,94 @@ public class RDLPIM_Client
             Console.WriteLine(e.ToString());
         }
     }
+    byte[] Append(byte[] dst, byte[] src)
+    {
 
+        byte[] ret = new byte[dst.Length + src.Length];
+
+        for (int i = 0; i < dst.Length; i++)
+        {
+            ret[i] = dst[i];
+        }
+
+        for (int i = 0; i < src.Length; i++)
+        {
+            ret[dst.Length + i] = src[i];
+        }
+
+        return ret;
+    }
     private void ReceiveCallback(IAsyncResult ar)
     {
-       
-            // Retrieve the state object and the client socket
-            // from the asynchronous state object.  
-            StateObject state = (StateObject)ar.AsyncState;
-            //Socket client = state.workSocket;
 
-            // Read data from the remote device.  
-            int bytesRead = client.EndReceive(ar);
-            bytes += bytesRead;
-            
-            if (bytesRead > 0)
-            {
-                // There might be more data, so store the data received so far.  
-                // Get the rest of the data.  
-                client.BeginReceive(recBuff, bytes, recBuff.Length-bytes, 0,
-                    new AsyncCallback(ReceiveCallback), state);
-            }
-            else
-            {
-                receiveDone.Set();
-            }
+        // Retrieve the state object and the client socket
+        // from the asynchronous state object.  
+        StateObject state = (StateObject)ar.AsyncState;
+        //Socket client = state.workSocket;
 
-            OnDataRecieved();
+        // Read data from the remote device.  
+        int bytesRead = client.EndReceive(ar);
+        bytes += bytesRead;
+
+        if (bytesRead > 0)
+        {
+            // There might be more data, so store the data received so far.  
+            // Get the rest of the data.  
+            client.BeginReceive(recBuff, bytes, recBuff.Length - bytes, 0,
+                new AsyncCallback(ReceiveCallback), state);
+        }
+        else
+        {
+            receiveDone.Set();
+        }
+
+        OnDataRecieved();
 
     }
 
     public void Send(byte[] data)
     {
+        int MAXBUFFER = 32;
+        int partialSize;
         // Begin sending the data to the remote device.  
         if (client != null)
         {
-            client.BeginSend(data, 0, data.Length, 0, new AsyncCallback(SendCallback), client);
+
+            int bytesRemaining = data.Length+4;
+            int bytesSent = 0;
+            byte[] bytesToSend = BitConverter.GetBytes(bytesRemaining);
+            
+            
+            //addheader
+            byte[] dataToSend = new byte[bytesRemaining];
+
+            for(int i = 0; i<4; i++)
+            {
+                dataToSend[i] = bytesToSend[i];
+            }
+
+            for (int i = 0; i < data.Length; i++)
+            {
+                dataToSend[i+4] = data[i];
+            }
+
+            while(bytesRemaining > 0)
+            {
+                if (bytesRemaining >= MAXBUFFER)
+                {
+                    partialSize = MAXBUFFER;
+                } else
+                {
+                    partialSize = bytesRemaining;
+                }
+
+                client.BeginSend(dataToSend, bytesSent, partialSize, 0, new AsyncCallback(SendCallback), client);
+
+                bytesRemaining -= partialSize;
+                bytesSent += partialSize;
+            }
+
+            
             sendDone.WaitOne();
         }
     }

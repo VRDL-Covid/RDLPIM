@@ -8,19 +8,27 @@ void rdlpimClient::connectToRDLPIM()
 
 	connection.connectToServer();
 
-	char tempBuff[MAXBUFFER];
-	char connectDetails[MAXBUFFER];
-	memset(tempBuff, '\0', MAXBUFFER);
-	memset(connectDetails, '\0', MAXBUFFER);
+	char tempBuff[1024];
+	char connectDetails[1024];
+	memset(tempBuff, '\0', 1024);
+	memset(connectDetails, '\0', 1024);
 
 	if (!connection.canRead()) {
 		Sleep(CONNECT_TIMEOUT);
 	}
 	if (connection.canRead()) {
 		//recieve raw data;
-		if (!connection.recieve(tempBuff, MAXBUFFER)) {
+		if (!connection.recieve(tempBuff, 1024)) {
 			std::cerr << "Could not connect to remote host" << std::endl;
 			return;
+		}
+		Buffer rec;
+		rec.set(tempBuff, 1024);
+		rec.stripHead(4);
+		
+
+		for (int i = 0; i < rec.GetSize(); i++) {
+			tempBuff[i] = rec.GetContents()[i];
 		}
 
 		int i = 0;
@@ -33,7 +41,7 @@ void rdlpimClient::connectToRDLPIM()
 		i++;
 
 		if (!strcmp(connectDetails, "ERROR")) {
-			memset(connectDetails, '\0', MAXBUFFER);
+			memset(connectDetails, '\0', 1024);
 			while (tempBuff[i + k] != '\0') {
 
 				connectDetails[i] = tempBuff[i + k];
@@ -47,7 +55,7 @@ void rdlpimClient::connectToRDLPIM()
 
 		if (!strcmp(connectDetails, "CONNECT")) {
 			//deserialise port data
-			memset(connectDetails, '\0', MAXBUFFER);
+			memset(connectDetails, '\0', 1024);
 			for (int j = 0; j < 4; j++) {
 				connectDetails[j] = tempBuff[i];
 				i++;
@@ -56,7 +64,7 @@ void rdlpimClient::connectToRDLPIM()
 			memcpy(&port, connectDetails, sizeof(port));
 
 			//deserialise ID data
-			memset(connectDetails, '\0', MAXBUFFER);
+			memset(connectDetails, '\0', 1024);
 			for (int j = 0; j < 4; j++) {
 				connectDetails[j] = tempBuff[i];
 				i++;
