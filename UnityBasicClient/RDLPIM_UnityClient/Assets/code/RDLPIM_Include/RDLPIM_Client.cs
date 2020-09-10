@@ -92,7 +92,7 @@ public class RDLPIM_Client
                 bytes = 0;
                 // Begin receiving the data from the remote device.  
 
-                client.BeginReceive(recBuff, 0, StateObject.BufferSize, 0,
+                client.BeginReceive(state.buffer, 0, state.buffer.Length, 0,
                     new AsyncCallback(ReceiveCallback), state);
             }
             catch (Exception e)
@@ -274,9 +274,13 @@ public class RDLPIM_Client
 
         if (bytesRead > 0)
         {
+            if(bytes > 0.5f* state.buffer.Length)
+            {
+                Array.Resize(ref state.buffer, state.buffer.Length * 2);
+            }
             // There might be more data, so store the data received so far.  
             // Get the rest of the data.  
-            client.BeginReceive(recBuff, bytes, recBuff.Length - bytes, 0,
+            client.BeginReceive(state.buffer, bytes, state.buffer.Length - bytes, 0,
                 new AsyncCallback(ReceiveCallback), state);
         }
         else
@@ -284,6 +288,16 @@ public class RDLPIM_Client
             receiveDone.Set();
         }
 
+        int size = BitConverter.ToInt32(state.buffer, 0);
+        byte[] headerRemoved = new byte[size];
+
+
+        for(int i  = 4; i< size+4; i++)
+        {
+            headerRemoved[i - 4] = state.buffer[i];
+        }
+
+        recBuff = headerRemoved;
         OnDataRecieved();
 
     }
