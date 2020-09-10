@@ -186,19 +186,23 @@ int connectionObject::recieve(Buffer& buff)
 		return 0;
 	}
 
-	char temp[1024];
 	int bytesRecieved = 0;
 	int partialBytes;
 	u_long incoming;
-
-	memset(temp, '\0', sizeof(temp));
+	char* temp = nullptr;
 
 	//wait for client to send data.
 	ioctlsocket(clientSocket, FIONREAD, &incoming);
+	
+	temp = (char*)malloc(incoming);
+	memset(temp, '\0', incoming);
+
+
 	partialBytes = recv(clientSocket, temp, incoming, 0);
 
 	if (partialBytes == SOCKET_ERROR) {
 		std::cerr << "Error in reciving from client... quiting" << std::endl;
+		free(temp);
 		return -1;
 	}
 
@@ -224,13 +228,23 @@ int connectionObject::recieve(Buffer& buff)
 		}
 		else {
 			if (incoming > 0) {
+				temp = (char*)realloc(temp,incoming);
+				memset(temp, '\0', incoming);
+
 				partialBytes = recv(clientSocket, temp, incoming, 0);
-				buff.append(Buffer(temp, partialBytes));
-				bytesRecieved += partialBytes;
+				if (partialBytes != SOCKET_ERROR) {
+					buff.append(Buffer(temp, partialBytes));
+					bytesRecieved += partialBytes;
+				}
+				else {
+					buff.set("");
+					free(temp);
+					return -1;
+				}
 			}
 		}
 	}
-
+	free(temp);
 	return bytesRecieved;
 }
 
