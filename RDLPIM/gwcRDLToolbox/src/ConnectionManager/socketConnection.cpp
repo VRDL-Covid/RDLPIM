@@ -183,7 +183,7 @@ int connectionObject::recieve(Buffer& buff)
 	//while loop recv
 	if (clientSocket == INVALID_SOCKET) {
 		std::cerr << "unable to send, invalid socket being used.  WSA Error: " << WSAGetLastError() << std::endl;
-		return 0;
+		return -1;
 	}
 
 	int bytesRecieved = 0;
