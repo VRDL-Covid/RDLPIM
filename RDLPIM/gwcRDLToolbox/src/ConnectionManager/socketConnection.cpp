@@ -176,35 +176,6 @@ int connectionObject::recieve(char* out, int size)
 	return bytesRec;
 }
 
-int connectionObject::recieve(Buffer *buff)
-{
-	std::lock_guard<std::mutex> lock(m_IOLock);
-	//////////////////
-	//while loop recv
-	if (clientSocket == INVALID_SOCKET) {
-		std::cerr << "unable to send, invalid socket being used.  WSA Error: " << WSAGetLastError() << std::endl;
-		return 0;
-	}
-
-	char temp[MAXBUFFER];
-
-	memset(temp, '\0', sizeof(temp));
-
-	//wait for client to send data.
-	int bytesRec = recv(clientSocket, temp, MAXBUFFER, 0);
-	if (bytesRec == SOCKET_ERROR) {
-		std::cerr << "Error in reciving from client... quiting" << std::endl;
-		return -1;
-	}
-
-	//TODO:GWC add in error checking 
-	//send(clientSocket, temp, bytesRec, 0);
-
-	buff->set(temp, bytesRec);
-
-	return bytesRec;
-}
-
 int connectionObject::recieve(Buffer& buff)
 {
 	std::lock_guard<std::mutex> lock(m_IOLock);
@@ -212,26 +183,69 @@ int connectionObject::recieve(Buffer& buff)
 	//while loop recv
 	if (clientSocket == INVALID_SOCKET) {
 		std::cerr << "unable to send, invalid socket being used.  WSA Error: " << WSAGetLastError() << std::endl;
-		return 0;
-	}
-
-	char temp[MAXBUFFER];
-
-	memset(temp, '\0', sizeof(temp));
-
-	//wait for client to send data.
-	int bytesRec = recv(clientSocket, temp, MAXBUFFER, 0);
-	if (bytesRec == SOCKET_ERROR) {
-		std::cerr << "Error in reciving from client... quiting" << std::endl;
 		return -1;
 	}
 
-	//TODO:GWC add in error checking 
-	//send(clientSocket, temp, bytesRec, 0);
+	int bytesRecieved = 0;
+	int partialBytes;
+	u_long incoming;
+	char* temp = nullptr;
 
-	buff.set(temp, bytesRec);
+	//wait for client to send data.
+	ioctlsocket(clientSocket, FIONREAD, &incoming);
+	
+	temp = (char*)malloc(incoming);
+	memset(temp, '\0', incoming);
 
-	return bytesRec;
+
+	partialBytes = recv(clientSocket, temp, incoming, 0);
+
+	if (partialBytes == SOCKET_ERROR) {
+		std::cerr << "Error in reciving from client... quiting" << std::endl;
+		free(temp);
+		return -1;
+	}
+
+	int bytesExpected = *(int*)&temp[0];
+	bytesRecieved += partialBytes;
+
+	buff.set(temp, partialBytes);
+	buff.stripHead(4);
+
+	while (bytesRecieved < bytesExpected) {
+		int iResult = ioctlsocket(clientSocket, FIONREAD, &incoming);
+
+		if (iResult) {
+			switch (iResult) {
+				case WSANOTINITIALISED: std::cout << "WSANOTINITIALISED" << std::endl; break;
+				case WSAENETDOWN: std::cout << "WSAENETDOWN" << std::endl; break;
+				case WSAEINPROGRESS: std::cout << "WSAEINPROGRESS" << std::endl; break;
+				case WSAENOTSOCK: std::cout << "WSAENOTSOCK" << std::endl; break;
+				case WSAEFAULT: std::cout << "WSAEFAULT" << std::endl; break;
+				case WSAEINVAL: std::cout << "WSAEINVAL" << std::endl; break;
+				default:  std::cout << iResult << std::endl; break;
+			}
+		}
+		else {
+			if (incoming > 0) {
+				temp = (char*)realloc(temp,incoming);
+				memset(temp, '\0', incoming);
+
+				partialBytes = recv(clientSocket, temp, incoming, 0);
+				if (partialBytes != SOCKET_ERROR) {
+					buff.append(Buffer(temp, partialBytes));
+					bytesRecieved += partialBytes;
+				}
+				else {
+					buff.set("");
+					free(temp);
+					return -1;
+				}
+			}
+		}
+	}
+	free(temp);
+	return bytesRecieved;
 }
 
 int connectionObject::Send(char* out, int size)
@@ -242,13 +256,6 @@ int connectionObject::Send(char* out, int size)
 
 	if (clientSocket != INVALID_SOCKET) {
 		bytes = send(clientSocket, out, size, 0);
-		//TODO:GWC add in error checking
-		//recv(clientSocket, _buff, MAXBUFFER, 0);
-		//
-		//if (strcmp(out, _buff)) {
-		//	printf("Error message from server: %s\n", _buff);
-		//	return -1;
-		//}
 	}
 	else {
 		printf("Connection not valid to send message\n");
@@ -267,13 +274,6 @@ int connectionObject::Send(const char* out)
 
 	if (clientSocket != INVALID_SOCKET) {
 		bytes = send(clientSocket, out, size, 0);
-		//TODO:GWC add in error checking
-		//recv(clientSocket, _buff, MAXBUFFER, 0);
-		//
-		//if (strcmp(out, _buff)) {
-		//	printf("Error message from server: %s\n", _buff);
-		//	return -1;
-		//}
 	}
 	else {
 		printf("Connection not valid to send message\n");
@@ -287,15 +287,35 @@ int connectionObject::Send(const Buffer &inp)
 {
 	std::lock_guard<std::mutex> lock(m_IOLock);
 
-	if (clientSocket != INVALID_SOCKET) {
-		return send(clientSocket, inp.GetContents(), inp.GetSize(), 0);
-	}
-	else {
-		printf("Connection not valid to send message\n");
-		return 0;
-	}
+	Buffer toSend = inp;
 
-	return 0;
+	Buffer header;
+	int bytesRemaining = inp.GetSize()+sizeof(int);
+	header.set(&bytesRemaining, sizeof(int));
+	toSend.prepend(header);
+	int bytesSent = 0;
+	int partialSize;
+
+	while (bytesRemaining > 0) {
+
+		if (bytesRemaining >= MAXBUFFER) {
+			partialSize = MAXBUFFER;
+		}
+		else {
+			partialSize = bytesRemaining;
+		}
+
+		if (clientSocket != INVALID_SOCKET) {
+			partialSize = send(clientSocket, &toSend.GetContents()[bytesSent], partialSize, 0);
+			bytesRemaining -= partialSize;
+			bytesSent += partialSize;
+		}
+		else {
+			printf("Connection not valid to send message\n");
+			return 0;
+		}
+	}
+	return bytesSent;
 }
 
 
@@ -340,6 +360,7 @@ bool connectionObject::canRead()
 	clientFD.fd = clientSocket;
 	clientFD.events = POLLRDNORM;
 	clientFD.revents = 0;
+	
 
 	int ret = WSAPoll(&clientFD, 1, CONNECT_TIMEOUT);
 

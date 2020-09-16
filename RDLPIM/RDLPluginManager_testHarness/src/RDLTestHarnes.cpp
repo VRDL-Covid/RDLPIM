@@ -294,7 +294,7 @@ int testHarness()
 			RequestHeader reqHead;
 
 			//recieve header and data
-			client1.Recieve(&inBuff);
+			client1.Recieve(inBuff);
 			
 			//process header
 			reqHead.ProcessHeader(inBuff);

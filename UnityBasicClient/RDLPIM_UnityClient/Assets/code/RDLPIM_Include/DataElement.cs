@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Schema;
 
 public class DataElement
 {
@@ -145,6 +146,13 @@ public class DataElement
         m_DataType = "double";
         m_bytes = sizeof(double);
         m_data = BitConverter.GetBytes(value);
+    }
+
+    public void Set(String value)
+    {
+        m_DataType = "string";
+        m_data = Encoding.ASCII.GetBytes(value);
+        m_bytes = m_data.Length;
     }
 
     public void Set(byte[] value)
