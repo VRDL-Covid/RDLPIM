@@ -17,6 +17,8 @@ public class StateObject
     public byte[] buffer = new byte[BufferSize];
     // Received data string.  
     public StringBuilder sb = new StringBuilder();
+
+    public int bytes = 0;
 }
 
 
@@ -51,8 +53,7 @@ public class RDLPIM_Client
 
     private static RDLPIM_Client s_Instance = null;
     private Socket client = null;
-    public byte[] recBuff = new byte[4*1024];
-    public int bytes = 0;
+    //public byte[] recBuff = new byte[4*1024];
     private String response = String.Empty;
     
     // ManualResetEvent instances signal completion.  
@@ -70,7 +71,7 @@ public class RDLPIM_Client
 
     public void SetPort(int p) { RDLPIM_port = p; }
     public void SetIP(string ip) { RDLPIM_IP = ip; }
-    public byte[] GetLastMessage() { return recBuff; }
+    //public byte[] GetLastMessage() { return recBuff; }
     public static RDLPIM_Client GetInstance()
     {
         if (s_Instance == null)
@@ -89,7 +90,6 @@ public class RDLPIM_Client
                 // Create the state object.  
                 StateObject state = new StateObject();
                 state.workSocket = client;
-                bytes = 0;
                 // Begin receiving the data from the remote device.  
 
                 client.BeginReceive(state.buffer, 0, state.buffer.Length, 0,
@@ -187,26 +187,26 @@ public class RDLPIM_Client
         InitiConnection();
     }
 
-    protected virtual void OnDataRecieved()
+    protected virtual void OnDataRecieved(int iBytes, byte[] data)
     {
         //split multiple recieved mesages
-        int t_bytes = this.bytes;
+        int t_bytes = iBytes;
         int offset = 0;
 
 
-        while((offset+ BitConverter.ToInt32(recBuff, 4 + offset)) < t_bytes)
+        while((offset+ BitConverter.ToInt32(data, 4 + offset)) < t_bytes)
         {
-            int partSize =  BitConverter.ToInt32(recBuff, 4);
+            int partSize =  BitConverter.ToInt32(data, 4);
             byte[] partialData = new byte[partSize];
 
             for (int i = 0; i < partSize; i++)
             {
-                partialData[i] = recBuff[offset + 8 + i];
+                partialData[i] = data[offset + 8 + i];
             }
 
             if (DataRecieved != null)
             {
-                DataRecieved(this, new DataRecievedEventArgs { Data = partialData, bytes = partSize, FucntionCode = (RDLPIM_FucntionCode)BitConverter.ToInt32(recBuff, offset) });
+                DataRecieved(this, new DataRecievedEventArgs { Data = partialData, bytes = partSize, FucntionCode = (RDLPIM_FucntionCode)BitConverter.ToInt32(data, offset) });
             }
 
             offset += partSize+8;
@@ -270,17 +270,17 @@ public class RDLPIM_Client
 
         // Read data from the remote device.  
         int bytesRead = client.EndReceive(ar);
-        bytes += bytesRead;
+        state.bytes += bytesRead;
 
         if (bytesRead > 0)
         {
-            if(bytes > 0.5f* state.buffer.Length)
+            if(state.bytes > 0.5f* state.buffer.Length)
             {
                 Array.Resize(ref state.buffer, state.buffer.Length * 2);
             }
             // There might be more data, so store the data received so far.  
             // Get the rest of the data.  
-            client.BeginReceive(state.buffer, bytes, state.buffer.Length - bytes, 0,
+            client.BeginReceive(state.buffer, state.bytes, state.buffer.Length - state.bytes, 0,
                 new AsyncCallback(ReceiveCallback), state);
         }
         else
@@ -297,8 +297,8 @@ public class RDLPIM_Client
             headerRemoved[i - 4] = state.buffer[i];
         }
 
-        recBuff = headerRemoved;
-        OnDataRecieved();
+        //recBuff = headerRemoved;
+        OnDataRecieved(state.bytes,headerRemoved);
 
     }
 
