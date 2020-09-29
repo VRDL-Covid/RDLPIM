@@ -12,7 +12,7 @@ public class InfoHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rdlController = RDLPIM_Controller.Instance;
+        rdlController = RDLPIM_Controller.GetInstance();
         rdlController.InfoRecieved += onRawTextRecieved;
     }
 

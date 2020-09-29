@@ -9,7 +9,7 @@ public class ChatSender : MonoBehaviour
 
     public void Send()
     {
-        RDLPIM_Controller rdlController = RDLPIM_Controller.Instance;
+        RDLPIM_Controller rdlController = RDLPIM_Controller.GetInstance();
         rdlController.SendChat(source.text);
     }
 }

@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Text;
 using UnityEngine;
+using TMPro;
 
 // State object for receiving data from remote device.  
 
@@ -54,6 +55,8 @@ public class RDLPIM_Client
 
     private static RDLPIM_Client s_Instance = null;
     private Socket client = null;
+    private bool reading = false;
+
     //public byte[] recBuff = new byte[4*1024];
     private String response = String.Empty;
     
@@ -263,41 +266,47 @@ public class RDLPIM_Client
 
         return ret;
     }
-    private void ReceiveCallback(IAsyncResult ar)
-    {
-        try
-        {
-            // Retrieve the state object and the client socket
-            // from the asynchronous state object.  
-            StateObject state = (StateObject)ar.AsyncState;
-            //Socket client = state.workSocket;
 
-            // Read data from the remote device.  
-            int bytesRead = client.EndReceive(ar);
-            state.bytes += bytesRead;
 
-            if (bytesRead > 0)
-            {
-                if (state.bytes > 0.5f * state.buffer.Length)
-                {
-                    Array.Resize(ref state.buffer, state.buffer.Length * 2);
-                }
+     private void ReceiveCallback(IAsyncResult ar)
+     {
+         try
+         {
+             // Retrieve the state object and the client socket
+             // from the asynchronous state object.  
+             StateObject state = (StateObject)ar.AsyncState;
+             //Socket client = state.workSocket;
+
+             // Read data from the remote device.  
+             int bytesRead = client.EndReceive(ar);
+             state.bytes += bytesRead;
+
+             if (bytesRead > 0)
+             {
+                 if (state.bytes > 0.5f * state.buffer.Length)
+                 {
+                     Array.Resize(ref state.buffer, state.buffer.Length * 2);
+                 }
                 // There might be more data, so store the data received so far.  
                 // Get the rest of the data.  
-                client.BeginReceive(state.buffer, state.bytes, state.buffer.Length - state.bytes, 0, new AsyncCallback(ReceiveCallback), state);
-            }
-            else
-            {
-                receiveDone.Set();
-            }
-                OnDataRecieved(state.bytes, state.buffer);
+                if (client.Available > 0)
+                {
+                    client.BeginReceive(state.buffer, state.bytes, state.buffer.Length - state.bytes, 0, new AsyncCallback(ReceiveCallback), state);
+                } else
+                {
+                    receiveDone.Set();
+                    OnDataRecieved(state.bytes, state.buffer);
+                }
+             }
 
-        } catch (Exception e)
-        {
-            Debug.Log("ReceiveCallback(IAsyncResult ar) - " + e.ToString());
-        }
 
-    }
+         } catch (Exception e)
+         {
+             Debug.Log("ReceiveCallback(IAsyncResult ar) - " + e.ToString());
+         }
+
+     }
+     
 
     public void Send(byte[] data)
     {

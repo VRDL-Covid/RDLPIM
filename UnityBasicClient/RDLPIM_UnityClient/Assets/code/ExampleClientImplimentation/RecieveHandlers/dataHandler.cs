@@ -26,7 +26,7 @@ public class dataHandler : MonoBehaviour
 
     public void Start()
     {
-        rdlController = RDLPIM_Controller.Instance;
+        rdlController = RDLPIM_Controller.GetInstance();
         rdlController.DataRecieved += onNewData;
     }
 
@@ -50,20 +50,6 @@ public class dataHandler : MonoBehaviour
         }
 
         rdlController.SendPull(reqs);
-    }
-
-    public void SendScreenData()
-    {
-        List<DataElement> request = new List<DataElement>();
-
-        DataElement touch1 = new DataElement("ys_blah_inp");
-
-        touch1.Set(true);
-
-        request.Add(touch1);
-
-        rdlController.SendPush(request);
-    
     }
 
 

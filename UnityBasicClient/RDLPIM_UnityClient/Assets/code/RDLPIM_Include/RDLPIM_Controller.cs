@@ -23,7 +23,17 @@ public class RDLPIM_Controller : MonoBehaviour
 
 
     private static RDLPIM_Controller s_Instance = null;
-    public static RDLPIM_Controller Instance { get { return s_Instance; } }
+   
+    public static RDLPIM_Controller GetInstance()
+    {
+        if (s_Instance == null)
+        {
+            s_Instance = new RDLPIM_Controller();
+        }
+        return s_Instance;
+    }
+
+
 
     private void Awake()
     {
