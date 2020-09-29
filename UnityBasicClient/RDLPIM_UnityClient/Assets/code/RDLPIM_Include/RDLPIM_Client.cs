@@ -9,16 +9,17 @@ using UnityEngine;
 
 public class StateObject
 {
-    // Client socket.  
-    public Socket workSocket = null;
+
     // Size of receive buffer.  
-    public const int BufferSize = 4096;
+    public const int BufferSize = 4096*2;
     // Receive buffer.  
     public byte[] buffer = new byte[BufferSize];
-    // Received data string.  
-    public StringBuilder sb = new StringBuilder();
 
     public int bytes = 0;
+
+    public int recursionLevel = 0;
+
+    public bool finished = false;
 }
 
 
@@ -89,7 +90,6 @@ public class RDLPIM_Client
             {
                 // Create the state object.  
                 StateObject state = new StateObject();
-                state.workSocket = client;
                 // Begin receiving the data from the remote device.  
 
                 client.BeginReceive(state.buffer, 0, state.buffer.Length, 0,
@@ -97,6 +97,7 @@ public class RDLPIM_Client
             }
             catch (Exception e)
             {
+                Debug.Log("RDLPIM_Client::Recieve() - " + e.ToString());
                 client = null;
                 RDLcoupled = false;
                 OnConnectionLost();
@@ -193,23 +194,25 @@ public class RDLPIM_Client
         int t_bytes = iBytes;
         int offset = 0;
 
+        int totalProcessed = 0;
 
-        while((offset+ BitConverter.ToInt32(data, 4 + offset)) < t_bytes)
+        while(totalProcessed < t_bytes)
         {
-            int partSize =  BitConverter.ToInt32(data, 4);
+            int partSize =  BitConverter.ToInt32(data, offset+8);
             byte[] partialData = new byte[partSize];
 
             for (int i = 0; i < partSize; i++)
             {
-                partialData[i] = data[offset + 8 + i];
+                partialData[i] = data[offset + i+12];
             }
 
             if (DataRecieved != null)
             {
-                DataRecieved(this, new DataRecievedEventArgs { Data = partialData, bytes = partSize, FucntionCode = (RDLPIM_FucntionCode)BitConverter.ToInt32(data, offset) });
+                DataRecieved(this, new DataRecievedEventArgs { Data = partialData, bytes = partSize, FucntionCode = (RDLPIM_FucntionCode)BitConverter.ToInt32(data, offset+4) });
             }
 
-            offset += partSize+8;
+            offset += (partSize+12);
+            totalProcessed += (12 + partSize);
         }
     }
 
@@ -262,43 +265,37 @@ public class RDLPIM_Client
     }
     private void ReceiveCallback(IAsyncResult ar)
     {
-
-        // Retrieve the state object and the client socket
-        // from the asynchronous state object.  
-        StateObject state = (StateObject)ar.AsyncState;
-        //Socket client = state.workSocket;
-
-        // Read data from the remote device.  
-        int bytesRead = client.EndReceive(ar);
-        state.bytes += bytesRead;
-
-        if (bytesRead > 0)
+        try
         {
-            if(state.bytes > 0.5f* state.buffer.Length)
+            // Retrieve the state object and the client socket
+            // from the asynchronous state object.  
+            StateObject state = (StateObject)ar.AsyncState;
+            //Socket client = state.workSocket;
+
+            // Read data from the remote device.  
+            int bytesRead = client.EndReceive(ar);
+            state.bytes += bytesRead;
+
+            if (bytesRead > 0)
             {
-                Array.Resize(ref state.buffer, state.buffer.Length * 2);
+                if (state.bytes > 0.5f * state.buffer.Length)
+                {
+                    Array.Resize(ref state.buffer, state.buffer.Length * 2);
+                }
+                // There might be more data, so store the data received so far.  
+                // Get the rest of the data.  
+                client.BeginReceive(state.buffer, state.bytes, state.buffer.Length - state.bytes, 0, new AsyncCallback(ReceiveCallback), state);
             }
-            // There might be more data, so store the data received so far.  
-            // Get the rest of the data.  
-            client.BeginReceive(state.buffer, state.bytes, state.buffer.Length - state.bytes, 0,
-                new AsyncCallback(ReceiveCallback), state);
-        }
-        else
+            else
+            {
+                receiveDone.Set();
+            }
+                OnDataRecieved(state.bytes, state.buffer);
+
+        } catch (Exception e)
         {
-            receiveDone.Set();
+            Debug.Log("ReceiveCallback(IAsyncResult ar) - " + e.ToString());
         }
-
-        int size = BitConverter.ToInt32(state.buffer, 0);
-        byte[] headerRemoved = new byte[size];
-
-
-        for(int i  = 4; i< size+4; i++)
-        {
-            headerRemoved[i - 4] = state.buffer[i];
-        }
-
-        //recBuff = headerRemoved;
-        OnDataRecieved(state.bytes,headerRemoved);
 
     }
 
